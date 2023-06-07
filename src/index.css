@@ -1,8 +1,31 @@
+@font-face {
+  font-family: 'Inter-Light';
+  font-style: normal;
+  font-weight: normal;
+  src: url('./fonts/static/Inter-Light.ttf');
+}
+
+
+@font-face {
+  font-family: 'Inter-Medium';
+  font-style: normal;
+  font-weight: normal;
+  src: url('./fonts/static/Inter-Medium.ttf');
+}
+
+
+@font-face {
+  font-family: 'Bold';
+  font-style: bold;
+  font-weight: bold;
+  src: url('./fonts/static/Inter-Bold.ttf');
+}
+
+
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter-Regular', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Stack, Card, Typography, Box, TextField, Button } from "@mui/material";
 import CloseSharpIcon from '@mui/icons-material/CloseSharp';
 import TelegramIcon from '@mui/icons-material/Telegram';
@@ -19,7 +19,19 @@ const Chatbot = () => {
     const [loaded, setLoaded] = useState(false);
     const [disableBtn, setDisableBtn] = useState(false);
     const [inputValue, setInputValue] = useState('');
+    const scrollRef = useRef(null);
+    
+    const generateRandomNumber = () => {
+        const randomNumber = Math.floor(1000000000 + Math.random() * 9000000000); // Generate a random number between 1,000,000,000 and 9,999,999,999
+        return (randomNumber); // You can remove this line if you don't want to display the number in the console
+      }
+      let generateNum = generateRandomNumber();
+
+
+    const [randStr, setRandStr] = useState(generateNum);
+    // let randStr = generateRandomNumber();
   
+    // setRandStr(generateNum);
 
     const toggleChatbot = () => {
         setIsChatbotOpen(!isChatbotOpen);
@@ -30,13 +42,18 @@ const Chatbot = () => {
     // const handleChange = (event:any) => {
     //     setMessage(event.target.value);
     //   };
+
     
-    const sendMessage = (msg:string)=>{
+    const sendMessage = (msg:string, msgObj:any)=>{
         let obj = {
             "text":msg,
             "sent":true
-        }        
+        }  
+        console.log(msgObj);
+        // let oldObj =  msgObj;  
+        msgObj['hideBtns'] = true; 
         setMessagesList(prevArray => [...prevArray, obj]);
+        dataToPass.message = msg;
           getTableData();
 
     }
@@ -50,18 +67,14 @@ const Chatbot = () => {
             "sent":true
         }        
         setMessagesList(prevArray => [...prevArray, obj]);
+        dataToPass.message = event.target.value;
           getTableData();
         //   setUpdated(message);
         }
       };
 
-      const generateRandomNumber = () => {
-        const randomNumber = Math.floor(1000000000 + Math.random() * 9000000000); // Generate a random number between 1,000,000,000 and 9,999,999,999
-        return (randomNumber); // You can remove this line if you don't want to display the number in the console
-      }
       
     let checkUseEffectLoad=false;
-    let randStr = generateRandomNumber();
     let dataToPass = {
         "sender": randStr,
         "message": "/restart"
@@ -70,18 +83,43 @@ const Chatbot = () => {
     
   const getTableData = () => {
     // alert(randStr);
-    if(loaded){
-        dataToPass.message = "/job_screening"
-    }
     setInputValue('');
     apiService.sendMessage(dataToPass).then((response: any) => {
-      // setTeamLeads(response.data);
-      console.log(response.data[0]);
-      const newObject = response.data[0];
-      newObject.sent = false;
-     setMessagesList(prevArray => [...prevArray, newObject]);
-     setDisableBtn((newObject.buttons && newObject.buttons.length) ? true : false);
-     
+        if(!response.error){
+            if(response.data && response.data.length){
+              response.data.map((obj:any) => {
+                //   console.log(response.data[0]);
+                  const newObject = obj;
+                  newObject.sent = false;
+                  newObject.hideBtns = (newObject.buttons && newObject.buttons.length) ? false : true
+                 setMessagesList(prevArray => [...prevArray, newObject]);
+      
+              })
+              console.log(messagesList);
+              if(response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length){
+                setDisableBtn((response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) ? true : false);
+                
+              } else {
+                setDisableBtn((response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) ? false : false);
+
+              }
+              console.log(scrollRef);
+              if (scrollRef.current) {
+                  // scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+                }
+          //    setDisableBtn((newObject.buttons && newObject.buttons.length) ? true : false);
+             
+      
+            } else {
+              if(checkUseEffectLoad){
+                  dataToPass.message = "/job_screening";
+                  checkUseEffectLoad = false;
+                  getTableData();
+      
+              }
+            }
+
+        }
     })
   }
   React.useEffect(() => {
@@ -119,7 +157,7 @@ const Chatbot = () => {
                     display: !isChatbotOpen ? 'none' : 'block',
                     position: 'absolute',
                     top: '50%',
-                    right: '100px',
+                    right: '80px',
                     transform: 'translateY(-50%)',
                     zIndex: 1,
                     boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)'
@@ -167,7 +205,7 @@ const Chatbot = () => {
                     </Box>
                 </Stack>
 
-                <Stack
+                <Stack ref={scrollRef}
                     sx={{
                         height: '59vh', backgroundColor: '#ffffff', overflowY: 'scroll',
                     }} >
@@ -194,17 +232,16 @@ const Chatbot = () => {
                                     </>
                                     
                                     <>
-                                        {msgObj.buttons ? 
-                                        (<>
-                                            <Stack direction='row' spacing={2} mt={1}>
-                                                <Button variant="outlined" onClick={() => sendMessage('Yes')} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', width: '80px', ml: 2.5 }}>
-                                                    Yes
+                                        {(msgObj.buttons && msgObj.buttons.length && !msgObj.hideBtns) ? 
+                                        (
+                                            <Stack  direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} ml={3}>
+                                            {msgObj.buttons.map((btnObj:any) => (
+                                                <Button variant="outlined" onClick={() => sendMessage(btnObj.payload, msgObj)} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', width: 'auto' }}>
+                                                {btnObj.title}
                                                 </Button>
-                                                <Button variant="outlined" onClick={() => sendMessage('No')} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', width: '80px' }}>
-                                                    No
-                                                </Button>
+                                            ))}
                                             </Stack>
-                                        </>) : 
+                                        ) : 
                                         (<></>)}
                                     </>
                                 </>

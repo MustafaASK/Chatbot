@@ -4,12 +4,12 @@ import CloseSharpIcon from '@mui/icons-material/CloseSharp';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import InputAdornment from '@mui/material/InputAdornment';
 import AttachFileRoundedIcon from '@mui/icons-material/AttachFileRounded';
-import ReactScrolableFeed from 'react-scrollable-feed'
+import ReactScrolableFeed from 'react-scrollable-feed';
 
 
 import c from '../Rectangle 99@2x.svg';
 import c1 from '../Rectangle 99@2x-1.png'
-
+import profileIcon from '../profile.jpg';
 import Chatbotlogo from '../Rectangle 98@2x.svg';
 import apiService from "../shared/api/apiService";
 
@@ -157,7 +157,7 @@ const Chatbot = () => {
                     borderBottomLeftRadius: '15px',
                     // display: isChatbotOpen ? 'block' : 'none',
                     position: 'absolute',
-                    top: '60%',
+                    top: '45%',
                     zIndex: 4,
                     boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
                     right: '80px',
@@ -213,7 +213,7 @@ const Chatbot = () => {
                 <Stack ref={scrollRef}
                     id='content-container'
                     sx={{
-                        backgroundColor: '#ffffff', overflowY: 'scroll', maxHeight: '250px', minHeight: '150px', mb: '5px'
+                        backgroundColor: '#ffffff', overflowY: 'scroll', maxHeight: '380px', minHeight: '380px', mb: '5px'
                     }} >
                     <ReactScrolableFeed >
                         {messagesList.map((msgObj) => (
@@ -259,7 +259,7 @@ const Chatbot = () => {
                                         <Stack direction='row' spacing={0.5} mr={1}>
                                             <Stack sx=
                                                 {{
-                                                    backgroundColor: '#146EF6', borderRadius: '5px', p: 0.5, width: '49px', height: '31px', display: 'flex', flexDirection: 'row', justifyContent: 'center'
+                                                    backgroundColor: '#146EF6', borderRadius: '5px', p: 0.5, height: '31px', display: 'flex', flexDirection: 'row', justifyContent: 'center'
                                                 }}
 
                                             >
@@ -269,7 +269,7 @@ const Chatbot = () => {
                                             </Stack>
 
                                             <Stack>
-                                                <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
+                                                <img src={profileIcon} style={{ height: '30px', width: '30px' }} alt="chatbot" />
                                             </Stack>
                                         </Stack>
                                     </Stack>

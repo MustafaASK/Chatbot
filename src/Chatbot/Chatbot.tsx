@@ -202,7 +202,7 @@ const Chatbot = () => {
                         <Typography
                             sx={{ color: '#ffffff', fontSize: '17px', fontWeight: 700 }}
                         >
-                            Accuick <Box component='span' sx={{ fontWeight: 400 }}>SmartBot</Box>
+                            CXninja <Box component='span' sx={{ fontWeight: 400 }}>SmartBot</Box>
                         </Typography>
                     </Stack>
                     <Box component='div' onClick={toggleChatbot} >

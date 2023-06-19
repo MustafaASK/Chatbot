@@ -1,6 +1,7 @@
 {
   "name": "chatbot",
   "version": "0.1.0",
+  "homepage": "http://52.34.40.39:8900/cxninja-bot2/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.0",
@@ -26,6 +27,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "start-dev": "env-cmd -f .env react-scripts start",
+    "build-dev": "env-cmd -f .env react-scripts build",
+    "start-qa": "env-cmd qa react-scripts start",
+    "build-qa": "env-cmd qa react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

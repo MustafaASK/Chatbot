@@ -146,6 +146,7 @@ const Chatbot = () => {
             mr={5}
         >
             {/* {!isChatbotOpen ? ( */}
+
             <Card
                 sx={{
                     width: '358px',
@@ -155,16 +156,15 @@ const Chatbot = () => {
                     borderTopLeftRadius: '15px',
                     borderTopRightRadius: '15px',
                     borderBottomLeftRadius: '15px',
-                    // display: isChatbotOpen ? 'block' : 'none',
                     position: 'absolute',
-                    top: '45%',
                     zIndex: 4,
                     boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
                     right: '80px',
                     opacity: isChatbotOpen ? 1 : 0,
-                    transform: isChatbotOpen ? 'translateY(-50%)' : 'none',
-                    transition: 'transform 0.5s,opacity 0.5s',
+                    transform: isChatbotOpen ? 'translateY(-20%)' : 'none',
+                    transition: 'transform 0.5s ,opacity 0.5s ',
                     maxHeight: '100%',
+                    pointerEvents: !isChatbotOpen ? 'none' : '',
                 }}
             >
                 <Stack id='header-container'
@@ -421,6 +421,8 @@ const Chatbot = () => {
 
             </Card>
 
+
+
             <Box
                 component="div"
                 onClick={toggleChatbot}
@@ -440,6 +442,7 @@ const Chatbot = () => {
                     zIndex: 5,
                 }}
             ></Box>
+
         </Stack>
     );
 };

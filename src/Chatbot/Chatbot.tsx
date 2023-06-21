@@ -156,15 +156,14 @@ const Chatbot = () => {
                     borderTopLeftRadius: '15px',
                     borderTopRightRadius: '15px',
                     borderBottomLeftRadius: '15px',
-                    position: 'absolute',
+                    position: 'fixed',
                     zIndex: 4,
                     boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
                     right: '80px',
+                    transform: isChatbotOpen ? 'translateY(-20%)' : 'translateY(100%)',
+                    transition: 'transform 0.8s, opacity 0.8s',
                     opacity: isChatbotOpen ? 1 : 0,
-                    transform: isChatbotOpen ? 'translateY(-20%)' : 'none',
-                    transition: 'transform 0.5s ,opacity 0.5s ',
-                    maxHeight: '100%',
-                    pointerEvents: !isChatbotOpen ? 'none' : '',
+                    // display: !isChatbotOpen ? 'none' : '',
                 }}
             >
                 <Stack id='header-container'
@@ -213,7 +212,7 @@ const Chatbot = () => {
                 <Stack ref={scrollRef}
                     id='content-container'
                     sx={{
-                        backgroundColor: '#ffffff', overflowY: 'scroll', maxHeight: '380px', minHeight: '380px', mb: '5px'
+                        backgroundColor: '#ffffff', overflowY: 'scroll', maxHeight: '330px', minHeight: '300px', mb: '5px'
                     }} >
                     <ReactScrolableFeed >
                         {messagesList.map((msgObj) => (

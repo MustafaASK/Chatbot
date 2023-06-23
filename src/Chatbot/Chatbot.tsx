@@ -5,6 +5,7 @@ import TelegramIcon from '@mui/icons-material/Telegram';
 import InputAdornment from '@mui/material/InputAdornment';
 import AttachFileRoundedIcon from '@mui/icons-material/AttachFileRounded';
 import ReactScrolableFeed from 'react-scrollable-feed';
+import { useLocation } from 'react-router-dom';
 
 
 import c from '../Rectangle 99@2x.svg';
@@ -16,6 +17,12 @@ import apiService from "../shared/api/apiService";
 
 
 const Chatbot = () => {
+    
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const queryParam = params.get('job_id');
+//   alert(queryParam);
+
     const [isChatbotOpen, setIsChatbotOpen] = useState(false);
     const [messagesList, setMessagesList] = React.useState<any[] | never[]>([]);
     const [updated, setUpdated] = useState('');
@@ -50,7 +57,10 @@ const Chatbot = () => {
     const sendMessage = (msg: string, msgObj: any) => {
         let obj = {
             "text": msg,
-            "sent": true
+            "sent": true,
+            "metadata": {
+                "job_id": (queryParam ? queryParam : 1)
+            }
         }
         console.log(msgObj);
         // let oldObj =  msgObj;  
@@ -67,7 +77,10 @@ const Chatbot = () => {
             //   console.log(event.target.value);
             let obj = {
                 "text": event.target.value,
-                "sent": true
+                "sent": true,
+                "metadata": {
+                    "job_id": (queryParam ? queryParam : 1)
+                }
             }
             setMessagesList(prevArray => [...prevArray, obj]);
             dataToPass.message = event.target.value;

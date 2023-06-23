@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useState } from "react";
+import { Routes, Route, Link } from 'react-router-dom';
 import logo from './logo.svg';
 import Chatbot from './Chatbot/Chatbot';
 
 import './App.css';
 
-function App() {
+interface AppProps { }
+
+const App: React.FC<AppProps> = () => {
   return (
-    <div className="App">
-      <Chatbot />
-    </div>
+
+    <Routes>
+
+      <Route index path="/" element={<Chatbot/>} />
+
+    </Routes>
+    // <div className="App">
+    //   <Chatbot />
+    // </div>
   );
 }
 

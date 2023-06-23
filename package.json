@@ -1,7 +1,7 @@
 {
   "name": "chatbot",
   "version": "0.1.0",
-  "homepage": "http://52.34.40.39:8900/cxninja-bot2/",
+  "homepage": "http://52.34.40.39:8900/cxninja-bot/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.0",
@@ -19,6 +19,7 @@
     "react": "^18.2.0",
     "react-chatbot-kit": "^2.1.2",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.13.0",
     "react-scripts": "5.0.1",
     "react-scrollable-feed": "^1.3.2",
     "typescript": "^4.9.5",

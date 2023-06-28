@@ -59,12 +59,13 @@ const Chatbot = () => {
             "text": msg,
             "sent": true,
             "metadata": {
-                "job_id": (queryParam ? queryParam : 1)
+                "job_id": (queryParam ? queryParam : "1")
             }
         }
         console.log(msgObj);
         // let oldObj =  msgObj;  
         msgObj['hideBtns'] = true;
+        dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
         setMessagesList(prevArray => [...prevArray, obj]);
         dataToPass.message = msg;
         getTableData();
@@ -84,6 +85,7 @@ const Chatbot = () => {
             }
             setMessagesList(prevArray => [...prevArray, obj]);
             dataToPass.message = event.target.value;
+            dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
             getTableData();
             //   setUpdated(message);
         }
@@ -93,7 +95,10 @@ const Chatbot = () => {
     let checkUseEffectLoad = false;
     let dataToPass = {
         "sender": randStr,
-        "message": "/restart"
+        "message": "/restart",
+        "metadata" : {
+            "job_id": (queryParam ? queryParam : "1")
+        }
     };
 
 

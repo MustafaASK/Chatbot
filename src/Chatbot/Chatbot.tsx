@@ -447,6 +447,7 @@ const Chatbot = () => {
 
                                     <Box sx={{ mr: 1, ml: 1 }}>
                                         <Button variant="outlined"
+                                            disableRipple
                                             sx={{
                                                 width: '100%', mb: 1, borderColor: '#146EF6', boxShadow: 0,
                                                 fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
@@ -460,6 +461,7 @@ const Chatbot = () => {
                                             Set Job Alert
                                         </Button>
                                         <Button variant="contained"
+                                            disableRipple
                                             sx={{
                                                 width: '100%', mb: 1, backgroundColor: '#146EF6', boxShadow: 0,
                                                 fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',

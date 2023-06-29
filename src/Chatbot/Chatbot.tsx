@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Stack, Card, Typography, Box, TextField, Button, Input } from "@mui/material";
+import { Stack, Card, Typography, Box, TextField, Button, } from "@mui/material";
 import CloseSharpIcon from '@mui/icons-material/CloseSharp';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -16,6 +16,11 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import BusinessCenterTwoToneIcon from '@mui/icons-material/BusinessCenterTwoTone';
+import MobileStepper from '@mui/material/MobileStepper';
+import Paper from '@mui/material/Paper';
+import { useTheme } from '@mui/material/styles';
+import Carousel from 'react-material-ui-carousel'
 
 import c from '../Rectangle 99@2x.svg';
 import c1 from '../Rectangle 99@2x-1.png'
@@ -409,6 +414,70 @@ const Chatbot = () => {
 
                             </Stack>
                         </Stack>
+
+                        <Stack sx={{ p: '25px', mb: '300px' }}>
+                            <Stack sx={{
+                                backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
+                                boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', height: '10px',
+                            }}>
+                                <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', textAlign: 'center' }}>
+
+                                    <Stack sx={{ mt: 1 }}>
+                                        <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                            <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                            <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                            <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                        </Stack>
+
+                                        <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                            <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                            <SearchIcon sx={{ fontSize: '50px', zIndex: 5 }} />
+                                            <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                        </Stack>
+
+                                        <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                            <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                            <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                            <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                        </Stack>
+
+                                    </Stack>
+
+                                    <Typography sx={{ mt: 1, mb: 1, fontSize: '16px', fontWeight: 600 }}>Here's what you can do.</Typography>
+
+                                    <Box sx={{ mr: 1, ml: 1 }}>
+                                        <Button variant="outlined"
+                                            sx={{
+                                                width: '100%', mb: 1, borderColor: '#146EF6', boxShadow: 0,
+                                                fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
+                                                '&:hover': {
+                                                    backgroundColor: '#146EF6',
+                                                    boxShadow: 0,
+                                                    color: '#ffffff'
+                                                }
+                                            }}
+                                        >
+                                            Set Job Alert
+                                        </Button>
+                                        <Button variant="contained"
+                                            sx={{
+                                                width: '100%', mb: 1, backgroundColor: '#146EF6', boxShadow: 0,
+                                                fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
+                                                '&:hover': {
+                                                    backgroundColor: '#146EF6',
+                                                    boxShadow: 0
+                                                }
+                                            }}
+                                        >
+                                            Refine Job Search
+                                        </Button>
+                                    </Box>
+                                </Stack>
+
+                            </Stack>
+                        </Stack>
+
+
 
                         {messagesList.map((msgObj) => (
                             <>

@@ -323,9 +323,12 @@ const Chatbot = () => {
                             </Typography>
                         </Stack>
 
-                        <Stack sx={{ p: '25px' }}>
-                            <Stack sx={{ backgroundColor: '#146EF6', borderTopRightRadius: '10px', borderTopLeftRadius: '10px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)' }}>
-                                <Stack sx={{ backgroundColor: '#ffffff', mt: 1, }}>
+                        <Stack sx={{ p: '25px', mb: '356px' }}>
+                            <Stack sx={{
+                                backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
+                                boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', height: '10px',
+                            }}>
+                                <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)' }}>
                                     <Box sx={{ p: 1 }}>
                                         <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>Sales</Typography>
                                     </Box>

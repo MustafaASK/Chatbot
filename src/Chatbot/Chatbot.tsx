@@ -47,6 +47,12 @@ const Chatbot = () => {
     const [isShowLocation, setIsShowLocation] = useState(false)
     const scrollRef = useRef(null);
 
+
+    const handleFileUpload = () => {
+        const fileInput = document.getElementById('file-upload') as HTMLInputElement;
+        fileInput.click();
+    };
+
     const handleReadMore = () => {
         setIsReadMore(!isReadmore)
     }
@@ -309,19 +315,24 @@ const Chatbot = () => {
                             </Box>
                             <Typography>Drag & drop file to upload</Typography>
                             <Box sx={{ mt: '15px', mb: '15px' }}>
-                                <Button
-                                    variant="contained"
-                                    disableRipple
-                                    sx={{
-                                        borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0,
-                                        '&:hover': {
-                                            backgroundColor: '#146EF6',
-                                            boxShadow: 0
-                                        }
-                                    }}>
-                                    Upload new Resume
-                                </Button>
+                                <input type="file" id="file-upload" style={{ display: 'none' }} />
+                                <label htmlFor="file-upload">
+                                    <Button
+                                        onClick={handleFileUpload}
+                                        variant="contained"
+                                        disableRipple
 
+                                        sx={{
+                                            borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0,
+                                            '&:hover': {
+                                                backgroundColor: '#146EF6',
+                                                boxShadow: 0
+                                            }
+                                        }}>
+                                        Upload new Resume
+
+                                    </Button>
+                                </label>
                             </Box>
                             <Typography sx={{ fontWeight: 400, fontSize: '14px', textDecoration: 'underline', cursor: 'pointer' }}>
                                 Cancel

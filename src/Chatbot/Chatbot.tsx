@@ -45,6 +45,7 @@ const Chatbot = () => {
     const [inputValue, setInputValue] = useState('');
     const [isReadmore, setIsReadMore] = useState(false)
     const [isShowLocation, setIsShowLocation] = useState(false)
+    const [isButtonHover, setIsButtonHover] = useState(false)
     const scrollRef = useRef(null);
 
 
@@ -60,6 +61,255 @@ const Chatbot = () => {
     const handleShowLocation = () => {
         setIsShowLocation(!isShowLocation)
     }
+
+
+    const handleButtonHover = () => {
+        setIsButtonHover(!isButtonHover)
+
+    }
+
+
+
+    const steps = [
+        {
+            container: (
+                <Stack sx={{ minHeight: '300px', minWidth: '300px' }}>
+                    <Stack sx={{
+                        backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
+                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', height: '10px',
+                    }}>
+                        <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', textAlign: 'center', p: 2 }}>
+
+                            <Stack sx={{ mt: 1 }}>
+                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                </Stack>
+
+                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <SearchIcon sx={{ fontSize: '50px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                </Stack>
+
+                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                </Stack>
+
+                            </Stack>
+
+                            <Typography sx={{ mt: 1, mb: 1, fontSize: '16px', fontWeight: 600 }}>Here's what you can do.</Typography>
+
+                            <Box sx={{ mr: 1, ml: 1 }}>
+                                <Button variant="outlined"
+                                    disableRipple
+                                    sx={{
+                                        width: '100%', mb: 1, borderColor: '#146EF6', boxShadow: 0,
+                                        fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
+                                        '&:hover': {
+                                            backgroundColor: '#146EF6',
+                                            boxShadow: 0,
+                                            color: '#ffffff'
+                                        }
+                                    }}
+                                >
+                                    Set Job Alert
+                                </Button>
+                                <Button variant="contained"
+                                    disableRipple
+                                    sx={{
+                                        width: '100%', mb: 1, backgroundColor: '#146EF6', boxShadow: 0,
+                                        fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
+                                        '&:hover': {
+                                            backgroundColor: '#146EF6',
+                                            boxShadow: 0
+                                        }
+                                    }}
+                                >
+                                    Refine Job Search
+                                </Button>
+                            </Box>
+                        </Stack>
+
+                    </Stack>
+                </Stack>
+            ),
+        },
+        {
+            container: (
+                <Stack sx={{ minHeight: '300px', minWidth: '300px' }}>
+                    <Stack sx={{
+                        backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
+                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)', height: '10px',
+                    }}>
+                        <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)' }}>
+                            <Box sx={{ p: 1 }}>
+                                <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>Sales</Typography>
+                            </Box>
+
+                            <Stack sx={{ p: '10px' }} direction='column' spacing={2}>
+
+                                <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Manager, Manufacturing Sales</Typography>
+                                <Box sx={{ display: 'flex', flexDirection: 'row', }}>
+                                    <Box>
+                                        <LocationOnOutlinedIcon sx={{ fontSize: '20px' }} />
+                                    </Box>
+                                    <Box sx={{ pl: '10px' }}>
+                                        <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>Philadelphia, PA, United States of America</Typography>
+                                        <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography>
+                                    </Box>
+                                </Box>
+
+                                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', ml: 2 }}>
+                                    <Box>
+                                        <CalendarTodayIcon sx={{ fontSize: '15px' }} />
+                                    </Box>
+                                    <Box sx={{ pl: '10px' }}>
+                                        <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted 6days ago</Typography>
+                                    </Box>
+                                </Box>
+
+                                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                    <Box>
+                                        <AccessTimeIcon sx={{ fontSize: '15px' }} />
+                                    </Box>
+                                    <Box sx={{ pl: '10px' }}>
+                                        <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Full Time</Typography>
+                                    </Box>
+                                </Box>
+
+                            </Stack>
+
+                            <Box>
+                                <Button
+                                    disableRipple
+                                    onClick={handleReadMore}
+                                    endIcon={<KeyboardArrowRightIcon />}
+                                    sx={{
+                                        textTransform: 'capitalize',
+                                        '& .MuiButton-endIcon': {
+                                            mr: 0,
+                                            ml: '-5px'
+                                        },
+                                        '& .MuiButton-endIcon>*:nth-of-type(1)': {
+                                            fontSize: '25px'
+                                        },
+                                        '&:hover': {
+                                            backgroundColor: '#ffffff'
+                                        }
+
+                                    }}
+                                >
+                                    Read More
+                                </Button>
+                            </Box>
+
+                            <Box sx={{ textAlign: 'center', pb: 3, pl: 1, pr: 1 }}>
+                                <Button
+                                    variant="contained"
+                                    disableRipple
+                                    sx={{
+                                        borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0, width: '100%',
+                                        '&:hover': {
+                                            backgroundColor: '#146EF6',
+                                            boxShadow: 0
+                                        }
+                                    }}
+                                >
+                                    I'm Interested
+                                </Button>
+                            </Box>
+                        </Stack>
+
+                    </Stack>
+                </Stack>
+            ),
+        },
+        {
+            container: (
+                <Stack sx={{ minHeight: '300px', minWidth: '300px' }}>
+                    <Stack sx={{
+                        backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
+                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', height: '10px',
+                    }}>
+                        <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', textAlign: 'center', p: 2 }}>
+
+                            <Stack sx={{ mt: 1 }}>
+                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                </Stack>
+
+                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <SearchIcon sx={{ fontSize: '50px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                </Stack>
+
+                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                </Stack>
+
+                            </Stack>
+
+                            <Typography sx={{ mt: 1, mb: 1, fontSize: '16px', fontWeight: 600 }}>Here's what you can do.</Typography>
+
+                            <Box sx={{ mr: 1, ml: 1 }}>
+                                <Button variant="outlined"
+                                    disableRipple
+                                    sx={{
+                                        width: '100%', mb: 1, borderColor: '#146EF6', boxShadow: 0,
+                                        fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
+                                        '&:hover': {
+                                            backgroundColor: '#146EF6',
+                                            boxShadow: 0,
+                                            color: '#ffffff'
+                                        }
+                                    }}
+                                >
+                                    Set Job Alert
+                                </Button>
+                                <Button variant="contained"
+                                    disableRipple
+                                    sx={{
+                                        width: '100%', mb: 1, backgroundColor: '#146EF6', boxShadow: 0,
+                                        fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
+                                        '&:hover': {
+                                            backgroundColor: '#146EF6',
+                                            boxShadow: 0
+                                        }
+                                    }}
+                                >
+                                    Refine Job Search
+                                </Button>
+                            </Box>
+                        </Stack>
+
+                    </Stack>
+                </Stack>
+            ),
+        },
+    ];
+
+
+    const theme = useTheme();
+    const [activeStep, setActiveStep] = React.useState(0);
+    const maxSteps = steps.length;
+
+    const handleNext = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    };
+
+    const handleBack = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+        setIsButtonHover(!isButtonHover)
+    };
 
     const generateRandomNumber = () => {
         const randomNumber = Math.floor(1000000000 + Math.random() * 9000000000); // Generate a random number between 1,000,000,000 and 9,999,999,999
@@ -489,13 +739,13 @@ const Chatbot = () => {
 
                             </Stack>
                         </Stack>
-
+                        {/* 
                         <Stack sx={{
                             mb: 3, '&& .css-ohwg9z': {
                                 overflow: 'unset'
                             }
                         }}>
-                            <Carousel cycleNavigation={false} animation="slide"
+                            <Carousel cycleNavigation={false} animation="slide" autoPlay={false}
 
                                 NavButton={({ onClick, style, next }) => (
                                     <Box
@@ -516,7 +766,7 @@ const Chatbot = () => {
                                                 height: '50px', width: '20px', minWidth: '35px', ml: 1.5, mr: 1.5, backgroundColor: '#ffffff', color: '#146EF6', boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
                                                 '&:hover': {
                                                     backgroundColor: '#146EF6 !important',
-                                                    opacity: 1,
+
                                                     color: '#ffffff'
                                                 }
                                             }}
@@ -527,6 +777,72 @@ const Chatbot = () => {
                                     </Box>
                                 )}
                             >
+
+                                <Stack sx={{ p: '25px', height: '300px' }}>
+                                    <Stack sx={{
+                                        backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
+                                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', height: '10px',
+                                    }}>
+                                        <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', textAlign: 'center' }}>
+
+                                            <Stack sx={{ mt: 1 }}>
+                                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                </Stack>
+
+                                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                    <SearchIcon sx={{ fontSize: '50px', zIndex: 5 }} />
+                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                </Stack>
+
+                                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                </Stack>
+
+                                            </Stack>
+
+                                            <Typography sx={{ mt: 1, mb: 1, fontSize: '16px', fontWeight: 600 }}>Here's what you can do.</Typography>
+
+                                            <Box sx={{ mr: 1, ml: 1 }}>
+                                                <Button variant="outlined"
+                                                    disableRipple
+                                                    sx={{
+                                                        width: '100%', mb: 1, borderColor: '#146EF6', boxShadow: 0,
+                                                        fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
+                                                        '&:hover': {
+                                                            backgroundColor: '#146EF6',
+                                                            boxShadow: 0,
+                                                            color: '#ffffff'
+                                                        }
+                                                    }}
+                                                >
+                                                    Set Job Alert
+                                                </Button>
+                                                <Button variant="contained"
+                                                    disableRipple
+                                                    sx={{
+                                                        width: '100%', mb: 1, backgroundColor: '#146EF6', boxShadow: 0,
+                                                        fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
+                                                        '&:hover': {
+                                                            backgroundColor: '#146EF6',
+                                                            boxShadow: 0
+                                                        }
+                                                    }}
+                                                >
+                                                    Refine Job Search
+                                                </Button>
+                                            </Box>
+                                        </Stack>
+
+                                    </Stack>
+                                </Stack>
+
+
 
                                 <Stack sx={{ p: '25px', height: '300px' }}>
                                     <Stack sx={{
@@ -615,73 +931,131 @@ const Chatbot = () => {
                                     </Stack>
                                 </Stack>
 
-                                <Stack sx={{ p: '25px', height: '300px' }}>
-                                    <Stack sx={{
-                                        backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
-                                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', height: '10px',
-                                    }}>
-                                        <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', textAlign: 'center' }}>
-
-                                            <Stack sx={{ mt: 1 }}>
-                                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
-                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                                </Stack>
-
-                                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
-                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                                    <SearchIcon sx={{ fontSize: '50px', zIndex: 5 }} />
-                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                                </Stack>
-
-                                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
-                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                                </Stack>
-
-                                            </Stack>
-
-                                            <Typography sx={{ mt: 1, mb: 1, fontSize: '16px', fontWeight: 600 }}>Here's what you can do.</Typography>
-
-                                            <Box sx={{ mr: 1, ml: 1 }}>
-                                                <Button variant="outlined"
-                                                    disableRipple
-                                                    sx={{
-                                                        width: '100%', mb: 1, borderColor: '#146EF6', boxShadow: 0,
-                                                        fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
-                                                        '&:hover': {
-                                                            backgroundColor: '#146EF6',
-                                                            boxShadow: 0,
-                                                            color: '#ffffff'
-                                                        }
-                                                    }}
-                                                >
-                                                    Set Job Alert
-                                                </Button>
-                                                <Button variant="contained"
-                                                    disableRipple
-                                                    sx={{
-                                                        width: '100%', mb: 1, backgroundColor: '#146EF6', boxShadow: 0,
-                                                        fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
-                                                        '&:hover': {
-                                                            backgroundColor: '#146EF6',
-                                                            boxShadow: 0
-                                                        }
-                                                    }}
-                                                >
-                                                    Refine Job Search
-                                                </Button>
-                                            </Box>
-                                        </Stack>
-
-                                    </Stack>
-                                </Stack>
-
                             </Carousel>
 
+                        </Stack> */}
+
+
+
+
+                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '350px', position: 'relative', mr: 1, ml: 1 }}>
+
+
+                            <Stack
+                                sx={{ display: activeStep === 0 ? 'none' : 'block', mb: '60px', }}
+                            >
+                                <Button
+                                    disableRipple
+                                    size="small"
+                                    variant="contained"
+                                    onClick={handleBack}
+                                    sx={{
+                                        position: 'absolute',
+                                        left: 0,
+                                        zIndex: 2,
+                                        minWidth: '44px',
+                                        backgroundColor: '#ffffff',
+                                        color: '#146EF6',
+                                        height: '60px',
+                                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
+                                        display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
+                                        '&:hover': {
+                                            backgroundColor: '#146EF6',
+                                            color: '#ffffff',
+                                        }
+                                    }}
+                                >
+                                    {theme.direction === 'rtl' ? (
+                                        <KeyboardArrowRightIcon />
+                                    ) : (
+                                        <KeyboardArrowLeftIcon />
+                                    )}
+                                </Button>
+
+                            </Stack>
+
+
+                            <Paper
+                                square
+                                elevation={0}
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    height: '100%',
+                                    bgcolor: 'background.default',
+                                    position: 'relative',
+                                    zIndex: 1,
+                                    // transition: 'transform 0.5s ease-in-out',
+                                    // transform: `translateX(-${activeStep * (100 / maxSteps)}%)`,
+
+                                }}
+                            >
+                                {steps[activeStep].container}
+                            </Paper>
+
+                            <Box sx={{
+
+                                display: activeStep === maxSteps - 1 ? 'none' : 'block',
+                                mb: '60px'
+
+                            }}>
+                                <Button
+                                    size="small"
+                                    variant="contained"
+                                    onClick={handleNext}
+                                    sx={{
+                                        position: 'absolute',
+                                        right: 0,
+                                        zIndex: 2,
+                                        minWidth: '44px',
+                                        backgroundColor: '#ffffff',
+                                        color: '#146EF6',
+                                        height: '60px',
+                                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
+                                        display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
+                                        '&:hover': {
+                                            backgroundColor: '#146EF6',
+                                            color: '#ffffff',
+                                        }
+                                    }}
+                                    disableRipple
+                                >
+                                    {theme.direction === 'rtl' ? (
+                                        <KeyboardArrowLeftIcon />
+                                    ) : (
+                                        <KeyboardArrowRightIcon />
+                                    )}
+                                </Button>
+
+                            </Box>
+                        </Box>
+
+
+                        <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', mb: 2 }}
+                            direction='row' spacing={2}
+                        >
+
+                            <Box sx={{ textAlign: 'center', ml: '70px' }}>
+                                <Typography variant="body2" color="text.secondary">
+                                    {`${activeStep + 1} of ${maxSteps}`}
+                                </Typography>
+                            </Box>
+
+                            <Box>
+                                <MobileStepper
+                                    variant="progress"
+                                    steps={maxSteps}
+                                    position="static"
+                                    sx={{ width: '160px', }}
+                                    activeStep={activeStep}
+                                    nextButton={null}
+                                    backButton={null}
+                                />
+                            </Box>
+
                         </Stack>
+
+
                         {messagesList.map((msgObj) => (
                             <>
                                 {!msgObj.sent ? (

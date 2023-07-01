@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Stack, Card, Typography, Box, TextField, Button, } from "@mui/material";
+import { Stack, Card, Typography, Box, TextField, Button, Slide, } from "@mui/material";
 import CloseSharpIcon from '@mui/icons-material/CloseSharp';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -63,11 +63,10 @@ const Chatbot = () => {
     }
 
 
-    const handleButtonHover = () => {
-        setIsButtonHover(!isButtonHover)
 
-    }
-
+    const handleSlideIn = () => {
+        return (Number(activeStep) === 0 || Number(activeStep)) ? true : false;
+    };
 
 
     const steps = [
@@ -300,15 +299,17 @@ const Chatbot = () => {
 
     const theme = useTheme();
     const [activeStep, setActiveStep] = React.useState(0);
+    const [slideDirection, setSlideDirection] = React.useState<'left' | 'right'>('left')
     const maxSteps = steps.length;
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        setSlideDirection('left');
     };
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
-        setIsButtonHover(!isButtonHover)
+        setSlideDirection('right');
     };
 
     const generateRandomNumber = () => {
@@ -739,13 +740,13 @@ const Chatbot = () => {
 
                             </Stack>
                         </Stack>
-                        {/* 
-                        <Stack sx={{
+
+                        {/* <Stack sx={{
                             mb: 3, '&& .css-ohwg9z': {
                                 overflow: 'unset'
                             }
                         }}>
-                            <Carousel cycleNavigation={false} animation="slide" autoPlay={false}
+                     <Carousel cycleNavigation={false} animation="slide" autoPlay={false}
 
                                 NavButton={({ onClick, style, next }) => (
                                     <Box
@@ -931,18 +932,27 @@ const Chatbot = () => {
                                     </Stack>
                                 </Stack>
 
-                            </Carousel>
+                            </Carousel> 
 
                         </Stack> */}
 
 
+                        {/* sx={{ display: activeStep === 0 ? 'none' : 'block', mb: '60px', zIndex: 5, position: 'absolute', left: 0, height: '25px' }} */}
+                        {/* // component='div'
+                            // onMouseEnter={() => setIsButtonHover(true)}
+                            // onMouseLeave={() => setIsButtonHover(false)} */}
+
+
+                        {/* {isButtonHover && */}
 
 
                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '350px', position: 'relative', mr: 1, ml: 1 }}>
 
-
                             <Stack
-                                sx={{ display: activeStep === 0 ? 'none' : 'block', mb: '60px', }}
+                                sx={{
+                                    display: activeStep === 0 ? 'none' : 'block',
+                                    mb: '60px'
+                                }}
                             >
                                 <Button
                                     disableRipple
@@ -962,6 +972,7 @@ const Chatbot = () => {
                                         '&:hover': {
                                             backgroundColor: '#146EF6',
                                             color: '#ffffff',
+
                                         }
                                     }}
                                 >
@@ -971,32 +982,47 @@ const Chatbot = () => {
                                         <KeyboardArrowLeftIcon />
                                     )}
                                 </Button>
-
+                                {/* } */}
                             </Stack>
 
+                            {
+                                steps.map((step, i) => {
+                                    return <>
 
-                            <Paper
-                                square
-                                elevation={0}
-                                sx={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    height: '100%',
-                                    bgcolor: 'background.default',
-                                    position: 'relative',
-                                    zIndex: 1,
-                                    // transition: 'transform 0.5s ease-in-out',
-                                    // transform: `translateX(-${activeStep * (100 / maxSteps)}%)`,
+                                        <Slide direction={slideDirection} in={i === activeStep} mountOnEnter unmountOnExit
+                                            timeout={{ appear: 0, enter: 300, exit: 0 }}
+                                        >
 
-                                }}
-                            >
-                                {steps[activeStep].container}
-                            </Paper>
+                                            <Paper
+                                                square
+                                                elevation={0}
+                                                sx={{
+                                                    display: (i === activeStep) ? 'flex' : 'none',
+                                                    alignItems: 'center',
+                                                    height: '100%',
+                                                    bgcolor: 'background.default',
+                                                    position: 'relative',
+                                                    zIndex: 1,
+                                                    // transition: 'transform 0.5s ease-in-out',
+                                                    // transform: `translateX(-${activeStep * (100 / steps.length)}%)`,
+
+                                                }}
+                                            >
+
+                                                {step.container}
+
+                                            </Paper>
+
+                                        </Slide>
+
+                                    </>
+                                })
+                            }
 
                             <Box sx={{
 
                                 display: activeStep === maxSteps - 1 ? 'none' : 'block',
-                                mb: '60px'
+                                mb: '60px',
 
                             }}>
                                 <Button
@@ -1011,6 +1037,7 @@ const Chatbot = () => {
                                         backgroundColor: '#ffffff',
                                         color: '#146EF6',
                                         height: '60px',
+
                                         boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
                                         display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
                                         '&:hover': {
@@ -1029,6 +1056,7 @@ const Chatbot = () => {
 
                             </Box>
                         </Box>
+
 
 
                         <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', mb: 2 }}

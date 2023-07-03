@@ -963,7 +963,8 @@ const Chatbot = () => {
                                         position: 'absolute',
                                         left: 0,
                                         zIndex: 2,
-                                        minWidth: '44px',
+                                        minWidth: '30px',
+                                        p: '5px',
                                         backgroundColor: '#ffffff',
                                         color: '#146EF6',
                                         height: '60px',
@@ -1033,11 +1034,11 @@ const Chatbot = () => {
                                         position: 'absolute',
                                         right: 0,
                                         zIndex: 2,
-                                        minWidth: '44px',
+                                        minWidth: '30px',
                                         backgroundColor: '#ffffff',
                                         color: '#146EF6',
                                         height: '60px',
-
+                                        p: '5px',
                                         boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
                                         display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
                                         '&:hover': {

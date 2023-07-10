@@ -48,6 +48,8 @@ const Chatbot = () => {
     const [isButtonHover, setIsButtonHover] = useState(false)
     const scrollRef = useRef(null);
 
+    const isChatOpenedFirstTime = localStorage.getItem("isChatOpened") ? true : false;
+
 
     const handleFileUpload = () => {
         const fileInput = document.getElementById('file-upload') as HTMLInputElement;
@@ -326,6 +328,7 @@ const Chatbot = () => {
 
     const toggleChatbot = () => {
         setIsChatbotOpen(!isChatbotOpen);
+        localStorage.setItem("isChatOpened", "true")
     };
     const handleInputChange = (event: any) => {
         setInputValue(event.target.value);
@@ -458,13 +461,15 @@ const Chatbot = () => {
                     borderTopRightRadius: '15px',
                     borderBottomLeftRadius: '15px',
                     position: 'fixed',
-                    zIndex: 4,
+                    zIndex: isChatbotOpen ? 4 : -1,
                     boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
                     right: '80px',
-                    transform: isChatbotOpen ? 'translateY(-20%)' : 'translateY(100%)',
-                    transition: 'transform 0.8s, opacity 0.8s',
+                    transform: isChatbotOpen ? 'translate(-20%,-20%)' : 'translateY(5%)',
+                    transition: 'all .1s ease-out',
+                    transformOrigin: "bottom right",
                     opacity: isChatbotOpen ? 1 : 0,
                     display: isReadmore ? 'none' : 'block',
+
                 }}
             >
                 <Stack id='header-container'
@@ -1695,8 +1700,8 @@ const Chatbot = () => {
             </Card >
 
 
+            {!isChatbotOpen ? (<Stack sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: "30px", cursor: 'pointer' }}>
 
-            <Stack sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: '30px', cursor: 'pointer' }}>
                 <Box
                     component="div"
                     onClick={toggleChatbot}
@@ -1717,53 +1722,52 @@ const Chatbot = () => {
                     }}
                 ></Box>
 
-                {!isChatbotOpen ? (
-                    <Stack>
-                        <Box component='div' sx={{ backgroundColor: '#ffffff', display: 'flex', flexDirection: 'row', borderRadius: '20px', boxShadow: 'rgb(0 0 0 / 16%) 0px 1px 15px 2px' }}>
-                            <Box component='div' sx={{ p: '18px 22px 16px 18px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                <Typography sx={{ fontSize: '16px' }}>Hi! How can we be at your side today?</Typography>
-                            </Box>
-
-                            <Box component='div' sx={{ p: '5px' }}>
-                                <CloseSharpIcon sx={{ fontSize: '20px' }} />
-                            </Box>
+                {!isChatOpenedFirstTime && <Stack >
+                    <Box component='div' sx={{ backgroundColor: '#ffffff', display: 'flex', flexDirection: 'row', borderRadius: '20px', boxShadow: 'rgb(0 0 0 / 16%) 0px 1px 15px 2px' }}>
+                        <Box component='div' sx={{ p: '18px 22px 16px 18px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                            <Typography sx={{ fontSize: '16px' }}>Hi! How can we be at your side today?</Typography>
                         </Box>
-                        <Stack mt={1} sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Button
-                                variant="outlined"
-                                disableRipple
-                                startIcon={<SearchIcon />}
-                                onClick={toggleChatbot}
-                                sx={{
-                                    borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', whiteSpace: 'nowrap',
-                                    '&:hover': {
-                                        backgroundColor: '#146EF6',
-                                        borderColor: '#146EF6',
-                                        color: '#ffffff'
-                                    }
-                                }}
-                            >
-                                Explore jobs
-                            </Button>
-                            <Button variant="outlined"
-                                sx={{
-                                    borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', whiteSpace: 'nowrap',
-                                    '&:hover': {
-                                        backgroundColor: '#146EF6',
-                                        borderColor: '#146EF6',
-                                        color: '#ffffff'
-                                    }
-                                }}
-                                disableRipple
-                                startIcon={<HelpOutlineIcon />}
-                            >
-                                Ask  <Box component='span' sx={{ textTransform: 'lowercase', pl: '5px', pr: '5px' }}>a</Box>  question
-                            </Button>
-                        </Stack>
-                    </Stack>
-                ) : (<Stack></Stack>)}
 
-            </Stack>
+                        <Box component='div' sx={{ p: '5px' }}>
+                            <CloseSharpIcon sx={{ fontSize: '20px' }} />
+                        </Box>
+                    </Box>
+                    <Stack mt={1} sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Button
+                            variant="outlined"
+                            disableRipple
+                            startIcon={<SearchIcon />}
+                            onClick={toggleChatbot}
+                            sx={{
+                                borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', whiteSpace: 'nowrap',
+                                '&:hover': {
+                                    backgroundColor: '#146EF6',
+                                    borderColor: '#146EF6',
+                                    color: '#ffffff'
+                                }
+                            }}
+                            className="chat-button"
+                        >
+                            Explore jobs
+                        </Button>
+                        <Button variant="outlined"
+                            sx={{
+                                borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', whiteSpace: 'nowrap',
+                                '&:hover': {
+                                    backgroundColor: '#146EF6',
+                                    borderColor: '#146EF6',
+                                    color: '#ffffff'
+                                }
+                            }}
+                            disableRipple
+                            startIcon={<HelpOutlineIcon />}
+                        >
+                            Ask  <Box component='span' sx={{ textTransform: 'lowercase', pl: '5px', pr: '5px' }}>a</Box>  question
+                        </Button>
+                    </Stack>
+                </Stack>}
+            </Stack>) : <Stack></Stack>}
+
         </Stack >
     );
 };

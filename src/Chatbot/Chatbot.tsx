@@ -1716,49 +1716,53 @@ const Chatbot = () => {
                         zIndex: 5,
                     }}
                 ></Box>
-                <Stack >
-                    <Box component='div' sx={{ backgroundColor: '#ffffff', display: 'flex', flexDirection: 'row', borderRadius: '20px', boxShadow: 'rgb(0 0 0 / 16%) 0px 1px 15px 2px' }}>
-                        <Box component='div' sx={{ p: '18px 22px 16px 18px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                            <Typography sx={{ fontSize: '16px' }}>Hi! How can we be at your side today?</Typography>
-                        </Box>
 
-                        <Box component='div' sx={{ p: '5px' }}>
-                            <CloseSharpIcon sx={{ fontSize: '20px' }} />
+                {!isChatbotOpen ? (
+                    <Stack>
+                        <Box component='div' sx={{ backgroundColor: '#ffffff', display: 'flex', flexDirection: 'row', borderRadius: '20px', boxShadow: 'rgb(0 0 0 / 16%) 0px 1px 15px 2px' }}>
+                            <Box component='div' sx={{ p: '18px 22px 16px 18px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                <Typography sx={{ fontSize: '16px' }}>Hi! How can we be at your side today?</Typography>
+                            </Box>
+
+                            <Box component='div' sx={{ p: '5px' }}>
+                                <CloseSharpIcon sx={{ fontSize: '20px' }} />
+                            </Box>
                         </Box>
-                    </Box>
-                    <Stack mt={1} sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Button
-                            variant="outlined"
-                            disableRipple
-                            startIcon={<SearchIcon />}
-                            onClick={toggleChatbot}
-                            sx={{
-                                borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', whiteSpace: 'nowrap',
-                                '&:hover': {
-                                    backgroundColor: '#146EF6',
-                                    borderColor: '#146EF6',
-                                    color: '#ffffff'
-                                }
-                            }}
-                        >
-                            Explore jobs
-                        </Button>
-                        <Button variant="outlined"
-                            sx={{
-                                borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', whiteSpace: 'nowrap',
-                                '&:hover': {
-                                    backgroundColor: '#146EF6',
-                                    borderColor: '#146EF6',
-                                    color: '#ffffff'
-                                }
-                            }}
-                            disableRipple
-                            startIcon={<HelpOutlineIcon />}
-                        >
-                            Ask  <Box component='span' sx={{ textTransform: 'lowercase', pl: '5px', pr: '5px' }}>a</Box>  question
-                        </Button>
+                        <Stack mt={1} sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Button
+                                variant="outlined"
+                                disableRipple
+                                startIcon={<SearchIcon />}
+                                onClick={toggleChatbot}
+                                sx={{
+                                    borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', whiteSpace: 'nowrap',
+                                    '&:hover': {
+                                        backgroundColor: '#146EF6',
+                                        borderColor: '#146EF6',
+                                        color: '#ffffff'
+                                    }
+                                }}
+                            >
+                                Explore jobs
+                            </Button>
+                            <Button variant="outlined"
+                                sx={{
+                                    borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', whiteSpace: 'nowrap',
+                                    '&:hover': {
+                                        backgroundColor: '#146EF6',
+                                        borderColor: '#146EF6',
+                                        color: '#ffffff'
+                                    }
+                                }}
+                                disableRipple
+                                startIcon={<HelpOutlineIcon />}
+                            >
+                                Ask  <Box component='span' sx={{ textTransform: 'lowercase', pl: '5px', pr: '5px' }}>a</Box>  question
+                            </Button>
+                        </Stack>
                     </Stack>
-                </Stack>
+                ) : (<Stack></Stack>)}
+
             </Stack>
         </Stack >
     );

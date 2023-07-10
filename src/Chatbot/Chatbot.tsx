@@ -464,7 +464,7 @@ const Chatbot = () => {
                     zIndex: isChatbotOpen ? 4 : -1,
                     boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
                     right: '80px',
-                    transform: isChatbotOpen ? 'translate(-20%,-20%)' : 'translateY(5%)',
+                    transform: isChatbotOpen ? 'translate(-5%,-15%)' : 'translateY(5%)',
                     transition: 'all .1s ease-out',
                     transformOrigin: "bottom right",
                     opacity: isChatbotOpen ? 1 : 0,

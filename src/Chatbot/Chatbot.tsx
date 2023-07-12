@@ -340,9 +340,10 @@ const Chatbot = () => {
     //   };
 
 
-    const sendMessage = (msg: string, msgObj: any) => {
+    const sendMessage = (msg: any, msgObj: any) => {
+        // debugger
         let obj = {
-            "text": msg,
+            "text": msg.title,
             "sent": true,
             "metadata": {
                 "job_id": (queryParam ? queryParam : "1")
@@ -353,7 +354,7 @@ const Chatbot = () => {
         msgObj['hideBtns'] = true;
         dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
         setMessagesList(prevArray => [...prevArray, obj]);
-        dataToPass.message = msg;
+        dataToPass.message = msg.payload;
         getTableData();
 
     }
@@ -1152,8 +1153,8 @@ const Chatbot = () => {
                                 {!msgObj.sent ? (
                                     <>
                                         <>
-
-                                            <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
+                                            {msgObj.text ? (
+                                                <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
                                                 <Stack>
                                                     <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
@@ -1168,6 +1169,8 @@ const Chatbot = () => {
                                                     </Typography>
                                                 </Stack>
                                             </Stack>
+                                            ) : (<></>)}
+                                            
                                         </>
 
                                         <>
@@ -1175,7 +1178,7 @@ const Chatbot = () => {
                                                 (
                                                     <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} ml={3}>
                                                         {msgObj.buttons.map((btnObj: any) => (
-                                                            <Button variant="outlined" onClick={() => sendMessage(btnObj.payload, msgObj)} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px',  width: 'auto' }}>
+                                                            <Button variant="outlined" onClick={() => sendMessage(btnObj, msgObj)} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px',  width: 'auto' }}>
                                                                 {btnObj.title}
                                                             </Button>
                                                         ))}

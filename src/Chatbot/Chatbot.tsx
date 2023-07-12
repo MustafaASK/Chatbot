@@ -57,8 +57,22 @@ const Chatbot = () => {
     const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
-    const handleCloseMenu = () => {
+    const handleCloseMenu = (msg:any, title:any) => {
         setAnchorEl(null);
+        let obj = {
+            "text": title,
+            "sent": true,
+            "metadata": {
+                "job_id": (queryParam ? queryParam : "1")
+            }
+        }
+        // console.log(msgObj);
+        // // let oldObj =  msgObj;  
+        // msgObj['hideBtns'] = true;
+        dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
+        setMessagesList(prevArray => [...prevArray, obj]);
+        dataToPass.message = msg;
+        getTableData();
     };
     const isChatOpenedFirstTime = localStorage.getItem("isChatOpened") ? true : false;
 
@@ -1371,14 +1385,17 @@ const Chatbot = () => {
                         id="basic-menu"
                         anchorEl={anchorEl}
                         open={open}
-                        onClose={handleCloseMenu}
+                        // onClose={handleCloseMenu}
                         MenuListProps={{
                             'aria-labelledby': 'basic-button',
                         }}
                         sx={{ transform: "translateY(0px) translateX(10px)" }}
                     >
-                        <MenuItem onClick={handleCloseMenu}>Ask a question</MenuItem>
-                        <MenuItem onClick={handleCloseMenu}>Explore Jobs</MenuItem>
+                        {/* <MenuItem onClick={handleCloseMenu}>Ask a question</MenuItem> */}
+                        <MenuItem onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[1].payload : '', (initialButtons && initialButtons.length) ? initialButtons[1].title : '')}>{(initialButtons && initialButtons.length) ? initialButtons[1].title : ''}</MenuItem>
+                        <MenuItem onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[0].payload : '', (initialButtons && initialButtons.length) ? initialButtons[0].title : '')}>{(initialButtons && initialButtons.length) ? initialButtons[0].title : ''}</MenuItem>
+                        {/* <MenuItem onClick={handleCloseMenu}>{(initialButtons && initialButtons.length) ? initialButtons[0].title : ''}</MenuItem> */}
+                        {/* <MenuItem onClick={handleCloseMenu}>Explore Jobs</MenuItem> */}
 
                     </Menu>
                 </Stack>

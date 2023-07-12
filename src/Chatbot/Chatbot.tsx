@@ -62,7 +62,10 @@ const Chatbot = () => {
     const [loaded, setLoaded] = useState(false);
     const [disableBtn, setDisableBtn] = useState(false);
     const [inputValue, setInputValue] = useState('');
+    const [intentType, setIntentType] = useState('');
+    const [entityType, setEntityType] = useState('');
     const [enableAuto, setEnableAuto] = useState(false);
+    const [newSteps, setNewSteps] = React.useState<any[] | never[]>([]);
     const [isReadmore, setIsReadMore] = useState(false)
     const [isShowLocation, setIsShowLocation] = useState(false)
     const [isButtonHover, setIsButtonHover] = useState(false)
@@ -112,7 +115,8 @@ const Chatbot = () => {
         }
         dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
         setMessagesList(prevArray => [...prevArray, obj]);
-        dataToPass.message = type === "input_job_title" ? `/${type}{"job_title": "${value}"}` : `/${type}{"job_location": "${value}"}`;
+        dataToPass.message = `/${intentType}{"${entityType}": "${value}"}`
+        // dataToPass.message = type === "input_job_title" ? `/${type}{"job_title": "${value}"}` : `/${type}{"job_location": "${value}"}`;
         getTableData();
 
         // sendLocValue(null, "california", "input_job_location")
@@ -147,6 +151,108 @@ const Chatbot = () => {
     const handleSlideIn = () => {
         return (Number(activeStep) === 0 || Number(activeStep)) ? true : false;
     };
+
+    const makeJobsCourousal = (jobs:any) => {
+        setMaxSteps(jobs.length)
+        
+        jobs.forEach((job:any) => {
+            const jobObj = {
+                "container":(
+                    <Stack sx={{ minHeight: '300px', minWidth: '300px' }}>
+                        <Stack sx={{
+                            backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
+                            boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)', height: '10px',
+                        }}>
+                            <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)' }}>
+                                <Box sx={{ p: 1 }}>
+                                    <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>Sales</Typography>
+                                </Box>
+    
+                                <Stack sx={{ p: '10px' }} direction='column' spacing={2}>
+    
+                                    <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{job.jobtitle}</Typography>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', }}>
+                                        <Box>
+                                            <LocationOnOutlinedIcon sx={{ fontSize: '20px' }} />
+                                        </Box>
+                                        <Box sx={{ pl: '10px' }}>
+                                            <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>Philadelphia, PA, United States of America</Typography>
+                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography>
+                                        </Box>
+                                    </Box>
+    
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', ml: 2 }}>
+                                        <Box>
+                                            <CalendarTodayIcon sx={{ fontSize: '15px' }} />
+                                        </Box>
+                                        <Box sx={{ pl: '10px' }}>
+                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted 6days ago</Typography>
+                                        </Box>
+                                    </Box>
+    
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                        <Box>
+                                            <AccessTimeIcon sx={{ fontSize: '15px' }} />
+                                        </Box>
+                                        <Box sx={{ pl: '10px' }}>
+                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Full Time</Typography>
+                                        </Box>
+                                    </Box>
+    
+                                </Stack>
+    
+                                <Box>
+                                    <Button
+                                        disableRipple
+                                        onClick={handleReadMore}
+                                        endIcon={<KeyboardArrowRightIcon />}
+                                        sx={{
+                                            textTransform: 'capitalize',
+                                            '& .MuiButton-endIcon': {
+                                                mr: 0,
+                                                ml: '-5px'
+                                            },
+                                            '& .MuiButton-endIcon>*:nth-of-type(1)': {
+                                                fontSize: '25px'
+                                            },
+                                            '&:hover': {
+                                                backgroundColor: '#ffffff'
+                                            }
+    
+                                        }}
+                                    >
+                                        Read More
+                                    </Button>
+                                </Box>
+    
+                                <Box sx={{ textAlign: 'center', pb: 3, pl: 1, pr: 1 }}>
+                                    <Button
+                                        variant="contained"
+                                        disableRipple
+                                        sx={{
+                                            borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0, width: '100%',
+                                            '&:hover': {
+                                                backgroundColor: '#146EF6',
+                                                boxShadow: 0
+                                            }
+                                        }}
+                                    >
+                                        I'm Interested
+                                    </Button>
+                                </Box>
+                            </Stack>
+    
+                        </Stack>
+                    </Stack>
+                )
+            };
+
+            setNewSteps((prevSearchData: any) => ({
+                ...prevSearchData,jobObj
+              }));
+        })
+
+    }
 
 
     const steps = [
@@ -380,7 +486,8 @@ const Chatbot = () => {
     const theme = useTheme();
     const [activeStep, setActiveStep] = React.useState(0);
     const [slideDirection, setSlideDirection] = React.useState<'left' | 'right'>('left')
-    const maxSteps = steps.length;
+    // const maxSteps = steps.length;
+    const [maxSteps, setMaxSteps] = React.useState(0);
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -511,9 +618,24 @@ const Chatbot = () => {
                             setMessagesList(prevArray => [...prevArray, newObject]);
                             if (newObject.custom && Object.keys(newObject.custom).length) {
                                 setEnableAuto(true);
-                                console.log(newObject, 'newObject')
                                 if (newObject.custom?.titles)
-                                    setSuggesations(newObject.custom.titles)
+                                    setSuggesations(newObject.custom.titles);
+
+                                if(newObject.custom?.intent){
+                                    setIntentType(newObject.custom.intent);
+                                }
+                                if(newObject.custom?.entity){
+                                    setEntityType(newObject.custom.entity);
+                                }
+                                
+                                if(newObject.custom?.ui_component && newObject.custom.ui_component === "job_location"){
+                                    setSuggesations(["california", "newyork", "washington"]);
+                                }
+                                if(newObject.custom?.ui_component && newObject.custom.ui_component === "select_job"){
+                                    setInputValue('');
+                                    setEnableAuto(false);
+                                    makeJobsCourousal(newObject.custom?.jobs);
+                                }
                             }
 
                         })

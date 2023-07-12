@@ -38,3 +38,53 @@
     transform: rotate(360deg);
   }
 }
+
+.img-box {
+  position: relative;
+}
+
+
+
+.img-box::after {
+  content: "";
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  border-radius: 50%;
+  animation: blinkOut 3s ease-in-out;
+  animation-iteration-count: 3;
+  /* background-color: #777; */
+}
+
+@keyframes blinkOut {
+  0% {
+    transform: scale(1.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+
+  }
+
+  50% {
+    transform: scale(1.2);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, .2);
+  }
+
+  80% {
+    transform: scale(1.2);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, .2);
+  }
+
+  100% {
+    transform: scale(0);
+    box-shadow: none;
+
+  }
+}
+
+.menu-box .MuiPaper-root {
+  top: 421px !important;
+  left: 509px !important;
+  width: 38% !important;
+}

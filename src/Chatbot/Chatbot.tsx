@@ -24,6 +24,10 @@ import Carousel from 'react-material-ui-carousel'
 import MenuIcon from '@mui/icons-material/Menu';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import Autocomplete from '@mui/material/Autocomplete';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Divider from '@mui/material/Divider';
 
 import c from '../Rectangle 99@2x.svg';
 import c1 from '../Rectangle 99@2x-1.png'
@@ -31,7 +35,17 @@ import profileIcon from '../profile.jpg';
 import Chatbotlogo from '../Rectangle 98@2x.svg';
 import apiService from "../shared/api/apiService";
 
-
+const suggesations = [
+    { label: "Searched job title" },
+    { label: "Java" },
+    { label: "React Native" },
+    { label: "Javascript" },
+    { label: "Angular" },
+    { label: "VueJs" },
+].map(suggestion => ({
+    value: suggestion.label,
+    label: suggestion.label
+}));
 
 const Chatbot = () => {
 
@@ -57,6 +71,9 @@ const Chatbot = () => {
     const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
+
+
+
     const handleCloseMenu = () => {
         setAnchorEl(null);
     };
@@ -1314,7 +1331,29 @@ const Chatbot = () => {
                     </Stack> */}
                     </ReactScrolableFeed>
                 </Stack>
+                {/* {isShowSelect && <Select options={suggesations} />} */}
+                {/* <Box className="menu-box">
+                    <Menu
 
+                        MenuListProps={{
+                            disablePadding: true
+                        }}
+                        open={isMenuOpen}
+                        anchorEl={anchorMenuEl}
+
+                        sx={{
+                            top: "421px",
+                            left: "509px",
+                            width: "38%"
+                        }}
+                    >
+                        {suggesations.map((suggesation) => {
+                            return (
+                                <MenuItem>{suggesation.value}</MenuItem>
+                            )
+                        })}
+                    </Menu>
+                </Box> */}
                 <Stack
                     id='send-container'
                     direction="row" alignItems="center" pt='5%' mr={1} ml={1} pb='5%'
@@ -1326,42 +1365,80 @@ const Chatbot = () => {
                     <Box sx={{ cursor: 'pointer' }} onClick={handleOpenMenu}>
                         <MenuIcon fontSize="large" sx={{ color: '#919191' }} />
                     </Box>
+                    <Autocomplete
+                        PaperComponent={({ children }) => {
+                            return (
+                                <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none" }}>
 
-                    <TextField
-                        variant="outlined"
-                        placeholder="Type your message..."
-                        onKeyDown={handleKeyDown}
+                                    {children}
+                                </Paper>
+                            )
+                        }}
+                        id="free-solo-demo"
+                        freeSolo
                         fullWidth
-                        disabled={disableBtn}
-                        value={inputValue}
-                        onChange={handleInputChange}
-                        sx={{
-                            '& .MuiInputBase-input.MuiOutlinedInput-input': {
-                                padding: '5px 10px',
+                        // getOptionDisabled={option => option === "Searched job title"}
+                        options={suggesations.map((suggesation) => suggesation.value)}
+                        renderOption={(props, option) => {
+                            return (
+                                <>
+                                    {option !== "Searched job title" ? <li {...props}>
+                                        <Box
+                                            sx={{
+                                                width: "100%"
+                                            }}
+                                        >
+                                            {option}
+                                        </Box>
+                                    </li> : null}
 
-                            },
-                            '& .MuiInputBase-root.MuiOutlinedInput-root ': {
-                                borderRadius: '15px',
-                                backgroundColor: '#F5F5F5'
-                            },
-                            '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-                                borderColor: '#E6E6E6',
-
-                            },
-                            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                borderColor: '#E6E6E6',
-                                borderWidth: '1px'
-
-                            },
+                                </>
+                            );
                         }}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    <TelegramIcon sx={{ cursor: 'pointer', color: '#919191' }} />
-                                </InputAdornment>
-                            ),
-                        }}
+
+                        renderInput={(params) =>
+                            <TextField
+                                {...params}
+
+                                placeholder="Type your message..."
+                                // onKeyDown={handleKeyDown}
+
+                                // // disabled={disableBtn}
+                                // value={inputValue}
+                                // onChange={handleInputChange}
+
+                                sx={{
+                                    '& .MuiInputBase-input.MuiOutlinedInput-input': {
+                                        padding: '5px 10px',
+
+                                    },
+                                    '& .MuiInputBase-root.MuiOutlinedInput-root ': {
+                                        borderRadius: '15px',
+                                        backgroundColor: '#F5F5F5'
+                                    },
+                                    '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+                                        borderColor: '#E6E6E6',
+
+                                    },
+                                    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                        borderColor: '#E6E6E6',
+                                        borderWidth: '1px'
+
+                                    },
+                                }}
+                                InputProps={{
+                                    ...params.InputProps,
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <TelegramIcon sx={{ cursor: 'pointer', color: '#919191' }} />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />}
                     />
+
+
+
 
                     <Box sx={{ cursor: 'pointer' }}>
                         <AttachFileRoundedIcon sx={{ fontSize: '18px', color: '#919191' }} />
@@ -1374,11 +1451,20 @@ const Chatbot = () => {
                         onClose={handleCloseMenu}
                         MenuListProps={{
                             'aria-labelledby': 'basic-button',
+                            sx: { py: 0 }
                         }}
-                        sx={{ transform: "translateY(0px) translateX(10px)" }}
+                        sx={{ transform: "translateY(-110px) translateX(10px)", padding: "5px 2px" }}
+
                     >
-                        <MenuItem onClick={handleCloseMenu}>Ask a question</MenuItem>
-                        <MenuItem onClick={handleCloseMenu}>Explore Jobs</MenuItem>
+                        <MenuItem onClick={handleCloseMenu}>
+                            <ListItemIcon>
+                                <SearchIcon fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText>Explore Jobs </ListItemText> </MenuItem>
+                        <Divider sx={{ margin: "0px" }} />
+                        <MenuItem onClick={handleCloseMenu}>
+                            <ListItemIcon><HelpOutlineIcon fontSize="small" /></ListItemIcon>
+                            <ListItemText>Ask a question</ListItemText></MenuItem>
 
                     </Menu>
                 </Stack>
@@ -1789,76 +1875,81 @@ const Chatbot = () => {
             </Card >
 
 
-            {!isChatbotOpen ? (<Stack sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: "30px", cursor: 'pointer' }}>
+            {
+                !isChatbotOpen ? (
 
-                <Box
-                    component="div"
-                    // onClick={toggleChatbot}
-                    sx={{
-                        height: '50px',
-                        width: '50px',
-                        borderRadius: '50%',
-                        backgroundImage: `url("${c1}")`,
-                        backgroundSize: 'cover',
-                        cursor: 'pointer',
-                        transition: 'transform 0.3s, opacity 0.3s',
-                        transform: isChatbotOpen ? 'translateY(20%)' : 'none',
-                        // top: isChatbotOpen ? '50%' : 'none',
-                        opacity: isChatbotOpen ? 0 : 1,
-                        margin: '20px',
-                        position: 'relative',
-                        zIndex: 5,
-                    }}
-                ></Box>
+                    <Stack sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: "30px", cursor: 'pointer' }}>
 
-                <Stack >
-                    <Box component='div' sx={{ backgroundColor: '#ffffff', display: 'flex', flexDirection: 'row', borderRadius: '20px', boxShadow: 'rgb(0 0 0 / 16%) 0px 1px 15px 2px' }}>
-                        <Box component='div' sx={{ p: '18px 22px 16px 18px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                            <Typography sx={{ fontSize: '16px' }}>{initialText} </Typography>
-                        </Box>
-
-                        <Box component='div' sx={{ p: '5px' }}>
-                            <CloseSharpIcon sx={{ fontSize: '20px' }} />
-                        </Box>
-                    </Box>
-                    <Stack mt={1} sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Button
-                            variant="outlined"
-                            disableRipple
-                            startIcon={<SearchIcon />}
-                            sx={{
-                                borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', whiteSpace: 'nowrap',
-                                '&:hover': {
-                                    backgroundColor: '#146EF6',
-                                    borderColor: '#146EF6',
-                                    color: '#ffffff'
-                                }
-                            }}
-                            className="chat-button"
-                        >
-                            {(initialButtons && initialButtons.length) ? initialButtons[0].title : ''}
-                        </Button>
-                        <Button variant="outlined"
+                        <Box
+                            component="div"
                             // onClick={toggleChatbot}
-                            onClick={() => sendPayload(initialButtons[1].payload, '')}
                             sx={{
-                                borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', whiteSpace: 'nowrap',
-                                '&:hover': {
-                                    backgroundColor: '#146EF6',
-                                    borderColor: '#146EF6',
-                                    color: '#ffffff'
-                                }
+                                height: '50px',
+                                width: '50px',
+                                borderRadius: '50%',
+                                backgroundImage: `url("${c1}")`,
+                                backgroundSize: 'cover',
+                                cursor: 'pointer',
+                                transition: 'transform 0.3s, opacity 0.3s',
+                                transform: isChatbotOpen ? 'translateY(20%)' : 'none',
+                                // top: isChatbotOpen ? '50%' : 'none',
+                                opacity: isChatbotOpen ? 0 : 1,
+                                margin: '20px',
+                                position: 'relative',
+                                zIndex: 5,
                             }}
-                            disableRipple
-                            startIcon={<HelpOutlineIcon />}
-                        >
-                            {/* {initialButtons[1].title} */}
-                            {(initialButtons && initialButtons.length) ? initialButtons[1].title : ''}
-                            {/* Ask  <Box component='span' sx={{ textTransform: 'lowercase', pl: '5px', pr: '5px' }}>a</Box>  question */}
-                        </Button>
-                    </Stack>
-                </Stack>
-            </Stack>) : <Stack></Stack>}
+                        ></Box>
+
+                        <Stack >
+                            <Box component='div' sx={{ backgroundColor: '#ffffff', display: 'flex', flexDirection: 'row', borderRadius: '20px', boxShadow: 'rgb(0 0 0 / 16%) 0px 1px 15px 2px' }}>
+                                <Box component='div' sx={{ p: '18px 22px 16px 18px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                    <Typography sx={{ fontSize: '16px' }}>{initialText} </Typography>
+                                </Box>
+
+                                <Box component='div' sx={{ p: '5px' }}>
+                                    <CloseSharpIcon sx={{ fontSize: '20px' }} />
+                                </Box>
+                            </Box>
+                            <Stack mt={1} sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <Button
+                                    variant="outlined"
+                                    disableRipple
+                                    startIcon={<SearchIcon />}
+                                    sx={{
+                                        borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', whiteSpace: 'nowrap',
+                                        '&:hover': {
+                                            backgroundColor: '#146EF6',
+                                            borderColor: '#146EF6',
+                                            color: '#ffffff'
+                                        }
+                                    }}
+                                    className="chat-button"
+                                    onClick={toggleChatbot}
+                                >
+                                    {(initialButtons && initialButtons.length) ? initialButtons[0].title : ''}
+                                </Button>
+                                <Button variant="outlined"
+                                    // onClick={toggleChatbot}
+                                    onClick={() => sendPayload(initialButtons[1].payload, '')}
+                                    sx={{
+                                        borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', whiteSpace: 'nowrap',
+                                        '&:hover': {
+                                            backgroundColor: '#146EF6',
+                                            borderColor: '#146EF6',
+                                            color: '#ffffff'
+                                        }
+                                    }}
+                                    disableRipple
+                                    startIcon={<HelpOutlineIcon />}
+                                >
+                                    {/* {initialButtons[1].title} */}
+                                    {(initialButtons && initialButtons.length) ? initialButtons[1].title : ''}
+                                    {/* Ask  <Box component='span' sx={{ textTransform: 'lowercase', pl: '5px', pr: '5px' }}>a</Box>  question */}
+                                </Button>
+                            </Stack>
+                        </Stack>
+                    </Stack>) : <Stack></Stack>
+            }
 
         </Stack >
     );

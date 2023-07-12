@@ -21,6 +21,9 @@ import MobileStepper from '@mui/material/MobileStepper';
 import Paper from '@mui/material/Paper';
 import { useTheme } from '@mui/material/styles';
 import Carousel from 'react-material-ui-carousel'
+import MenuIcon from '@mui/icons-material/Menu';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 import c from '../Rectangle 99@2x.svg';
 import c1 from '../Rectangle 99@2x-1.png'
@@ -49,7 +52,14 @@ const Chatbot = () => {
     const [isShowLocation, setIsShowLocation] = useState(false)
     const [isButtonHover, setIsButtonHover] = useState(false)
     const scrollRef = useRef(null);
-
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleCloseMenu = () => {
+        setAnchorEl(null);
+    };
     const isChatOpenedFirstTime = localStorage.getItem("isChatOpened") ? true : false;
 
 
@@ -413,7 +423,7 @@ const Chatbot = () => {
         apiService.sendMessage(dataToPass).then((response: any) => {
             console.log(checkUseEffectLoad);
             if (!response.error) {
-                
+
                 if (checkUseEffectLoad) {
                     setInitialButtons(response.data[0].buttons);
                     setInitialText(response.data[0].text);
@@ -421,31 +431,32 @@ const Chatbot = () => {
                     checkUseEffectLoad = false;
                     // getTableData();
 
-                } else {if (response.data && response.data.length) {
-                    response.data.map((obj: any) => {
-                        //   console.log(response.data[0]);
-                        const newObject = obj;
-                        newObject.sent = false;
-                        newObject.hideBtns = (newObject.buttons && newObject.buttons.length) ? false : true
-                        setMessagesList(prevArray => [...prevArray, newObject]);
+                } else {
+                    if (response.data && response.data.length) {
+                        response.data.map((obj: any) => {
+                            //   console.log(response.data[0]);
+                            const newObject = obj;
+                            newObject.sent = false;
+                            newObject.hideBtns = (newObject.buttons && newObject.buttons.length) ? false : true
+                            setMessagesList(prevArray => [...prevArray, newObject]);
 
-                    })
-                    console.log(messagesList);
-                    if (response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) {
-                        setDisableBtn((response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) ? true : false);
+                        })
+                        console.log(messagesList);
+                        if (response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) {
+                            setDisableBtn((response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) ? true : false);
 
-                    } else {
-                        setDisableBtn((response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) ? false : false);
+                        } else {
+                            setDisableBtn((response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) ? false : false);
+
+                        }
+                        console.log(scrollRef);
+                        if (scrollRef.current) {
+                            // scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+                        }
+                        //    setDisableBtn((newObject.buttons && newObject.buttons.length) ? true : false);
+
 
                     }
-                    console.log(scrollRef);
-                    if (scrollRef.current) {
-                        // scrollRef.current.scrollIntoView({ behavior: 'smooth' });
-                    }
-                    //    setDisableBtn((newObject.buttons && newObject.buttons.length) ? true : false);
-
-
-                }
 
                 }
                 // if (response.data && response.data.length) {
@@ -1156,21 +1167,21 @@ const Chatbot = () => {
                                             {msgObj.text ? (
                                                 <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
-                                                <Stack>
-                                                    <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
+                                                    <Stack>
+                                                        <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
+                                                    </Stack>
+                                                    <Stack sx=
+                                                        {{
+                                                            backgroundColor: '#374458', borderRadius: '5px', pr: 5
+                                                        }}
+                                                    >
+                                                        <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left' }}>
+                                                            {msgObj.text}
+                                                        </Typography>
+                                                    </Stack>
                                                 </Stack>
-                                                <Stack sx=
-                                                    {{
-                                                        backgroundColor: '#374458', borderRadius: '5px', pr: 5
-                                                    }}
-                                                >
-                                                    <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left' }}>
-                                                        {msgObj.text}
-                                                    </Typography>
-                                                </Stack>
-                                            </Stack>
                                             ) : (<></>)}
-                                            
+
                                         </>
 
                                         <>
@@ -1178,7 +1189,7 @@ const Chatbot = () => {
                                                 (
                                                     <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} ml={3}>
                                                         {msgObj.buttons.map((btnObj: any) => (
-                                                            <Button variant="outlined" onClick={() => sendMessage(btnObj, msgObj)} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px',  width: 'auto' }}>
+                                                            <Button variant="outlined" onClick={() => sendMessage(btnObj, msgObj)} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', width: 'auto' }}>
                                                                 {btnObj.title}
                                                             </Button>
                                                         ))}
@@ -1312,6 +1323,9 @@ const Chatbot = () => {
                     zIndex={1}
                     maxHeight='50px'
                 >
+                    <Box sx={{ cursor: 'pointer' }} onClick={handleOpenMenu}>
+                        <MenuIcon fontSize="large" sx={{ color: '#919191' }} />
+                    </Box>
 
                     <TextField
                         variant="outlined"
@@ -1352,6 +1366,21 @@ const Chatbot = () => {
                     <Box sx={{ cursor: 'pointer' }}>
                         <AttachFileRoundedIcon sx={{ fontSize: '18px', color: '#919191' }} />
                     </Box>
+
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleCloseMenu}
+                        MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                        }}
+                        sx={{ transform: "translateY(0px) translateX(10px)" }}
+                    >
+                        <MenuItem onClick={handleCloseMenu}>Ask a question</MenuItem>
+                        <MenuItem onClick={handleCloseMenu}>Explore Jobs</MenuItem>
+
+                    </Menu>
                 </Stack>
 
             </Card >
@@ -1807,7 +1836,7 @@ const Chatbot = () => {
                             }}
                             className="chat-button"
                         >
-                            {(initialButtons && initialButtons.length) ? initialButtons[0].title: ''}
+                            {(initialButtons && initialButtons.length) ? initialButtons[0].title : ''}
                         </Button>
                         <Button variant="outlined"
                             // onClick={toggleChatbot}
@@ -1823,8 +1852,8 @@ const Chatbot = () => {
                             disableRipple
                             startIcon={<HelpOutlineIcon />}
                         >
-                        {/* {initialButtons[1].title} */}
-                            {(initialButtons && initialButtons.length) ? initialButtons[1].title: ''}
+                            {/* {initialButtons[1].title} */}
+                            {(initialButtons && initialButtons.length) ? initialButtons[1].title : ''}
                             {/* Ask  <Box component='span' sx={{ textTransform: 'lowercase', pl: '5px', pr: '5px' }}>a</Box>  question */}
                         </Button>
                     </Stack>

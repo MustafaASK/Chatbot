@@ -1795,8 +1795,9 @@ const Chatbot = () => {
                     <Stack mt={1} sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Button
                             variant="outlined"
-                            disableRipple
+                            // disableRipple
                             startIcon={<SearchIcon />}
+                            onClick={() => sendPayload(initialButtons[0].payload, '')}
                             sx={{
                                 borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', whiteSpace: 'nowrap',
                                 '&:hover': {

@@ -35,17 +35,17 @@ import profileIcon from '../profile.jpg';
 import Chatbotlogo from '../Rectangle 98@2x.svg';
 import apiService from "../shared/api/apiService";
 
-const suggesations = [
-    { label: "Searched job title" },
-    { label: "Java" },
-    { label: "React Native" },
-    { label: "Javascript" },
-    { label: "Angular" },
-    { label: "VueJs" },
-].map(suggestion => ({
-    value: suggestion.label,
-    label: suggestion.label
-}));
+// const suggesations = [
+//     { label: "Searched job title" },
+//     { label: "Java" },
+//     { label: "React Native" },
+//     { label: "Javascript" },
+//     { label: "Angular" },
+//     { label: "VueJs" },
+// ].map(suggestion => ({
+//     value: suggestion.label,
+//     label: suggestion.label
+// }));
 
 const Chatbot = () => {
 
@@ -62,9 +62,11 @@ const Chatbot = () => {
     const [loaded, setLoaded] = useState(false);
     const [disableBtn, setDisableBtn] = useState(false);
     const [inputValue, setInputValue] = useState('');
+    const [enableAuto, setEnableAuto] = useState(false);
     const [isReadmore, setIsReadMore] = useState(false)
     const [isShowLocation, setIsShowLocation] = useState(false)
     const [isButtonHover, setIsButtonHover] = useState(false)
+    const [suggesations, setSuggesations] = React.useState<any[] | never[]>([]);
     const scrollRef = useRef(null);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -452,6 +454,7 @@ const Chatbot = () => {
     const getTableData = () => {
         // alert(randStr);
         setInputValue('');
+        setEnableAuto(false);
         apiService.sendMessage(dataToPass).then((response: any) => {
             console.log(checkUseEffectLoad);
             if (!response.error) {
@@ -471,6 +474,10 @@ const Chatbot = () => {
                             newObject.sent = false;
                             newObject.hideBtns = (newObject.buttons && newObject.buttons.length) ? false : true
                             setMessagesList(prevArray => [...prevArray, newObject]);
+                            if(newObject.custom && Object.keys(newObject.custom).length){
+                                setEnableAuto(true);
+                                setSuggesations(newObject.custom.titles)
+                            }
 
                         })
                         console.log(messagesList);
@@ -1380,77 +1387,114 @@ const Chatbot = () => {
                     <Box sx={{ cursor: 'pointer' }} onClick={handleOpenMenu}>
                         <MenuIcon fontSize="large" sx={{ color: '#919191' }} />
                     </Box>
-                    <Autocomplete
-                        PaperComponent={({ children }) => {
-                            return (
-                                <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none" }}>
-
-                                    {children}
-                                </Paper>
-                            )
-                        }}
-                        id="free-solo-demo"
-                        freeSolo
-                        fullWidth
-                        // getOptionDisabled={option => option === "Searched job title"}
-                        options={suggesations.map((suggesation) => suggesation.value)}
-                        renderOption={(props, option) => {
-                            return (
-                                <>
-                                    {option !== "Searched job title" ? <li {...props}>
-                                        <Box
-                                            sx={{
-                                                width: "100%"
-                                            }}
-                                        >
-                                            {option}
-                                        </Box>
-                                    </li> : null}
-
-                                </>
-                            );
-                        }}
-
-                        renderInput={(params) =>
+                    {
+                        enableAuto ?
+                        (<Autocomplete
+                            PaperComponent={({ children }) => {
+                                return (
+                                    <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none" }}>
+    
+                                        {children}
+                                    </Paper>
+                                )
+                            }}
+                            id="free-solo-demo"
+                            freeSolo
+                            fullWidth
+                            // getOptionDisabled={option => option === "Searched job title"}
+                            options={suggesations.map((suggesation) => suggesation)}
+                            renderOption={(props, option) => {
+                                return (
+                                    <>
+                                        {option !== "Searched job title" ? <li {...props}>
+                                            <Box
+                                                sx={{
+                                                    width: "100%"
+                                                }}
+                                            >
+                                                {option}
+                                            </Box>
+                                        </li> : null}
+    
+                                    </>
+                                );
+                            }}
+    
+                            renderInput={(params) =>
+                                <TextField
+                                    {...params}
+    
+                                    placeholder="Type your message..."
+                                    // onKeyDown={handleKeyDown}
+    
+                                    // // disabled={disableBtn}
+                                    // value={inputValue}
+                                    // onChange={handleInputChange}
+    
+                                    sx={{
+                                        '& .MuiInputBase-input.MuiOutlinedInput-input': {
+                                            padding: '5px 10px',
+    
+                                        },
+                                        '& .MuiInputBase-root.MuiOutlinedInput-root ': {
+                                            borderRadius: '15px',
+                                            backgroundColor: '#F5F5F5'
+                                        },
+                                        '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+                                            borderColor: '#E6E6E6',
+    
+                                        },
+                                        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                            borderColor: '#E6E6E6',
+                                            borderWidth: '1px'
+    
+                                        },
+                                    }}
+                                    InputProps={{
+                                        ...params.InputProps,
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <TelegramIcon sx={{ cursor: 'pointer', color: '#919191' }} />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />}
+    
+                        />) :
+                        (
                             <TextField
-                                {...params}
-
-                                placeholder="Type your message..."
-                                // onKeyDown={handleKeyDown}
-
-                                // // disabled={disableBtn}
-                                // value={inputValue}
-                                // onChange={handleInputChange}
-
-                                sx={{
-                                    '& .MuiInputBase-input.MuiOutlinedInput-input': {
-                                        padding: '5px 10px',
-
-                                    },
-                                    '& .MuiInputBase-root.MuiOutlinedInput-root ': {
-                                        borderRadius: '15px',
-                                        backgroundColor: '#F5F5F5'
-                                    },
-                                    '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-                                        borderColor: '#E6E6E6',
-
-                                    },
-                                    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                        borderColor: '#E6E6E6',
-                                        borderWidth: '1px'
-
-                                    },
-                                }}
-                                InputProps={{
-                                    ...params.InputProps,
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <TelegramIcon sx={{ cursor: 'pointer', color: '#919191' }} />
-                                        </InputAdornment>
-                                    ),
-                                }}
-                            />}
-                    />
+                                    {...params}
+    
+                                    placeholder="Type your message..."
+                                    onKeyDown={handleKeyDown}
+    
+                                    // disabled={disableBtn}
+                                    value={inputValue}
+                                    onChange={handleInputChange}
+    
+                                    sx={{
+                                        '& .MuiInputBase-input.MuiOutlinedInput-input': {
+                                            padding: '5px 10px',
+    
+                                        },
+                                        '& .MuiInputBase-root.MuiOutlinedInput-root ': {
+                                            borderRadius: '15px',
+                                            backgroundColor: '#F5F5F5'
+                                        },
+                                        '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+                                            borderColor: '#E6E6E6',
+    
+                                        },
+                                        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                            borderColor: '#E6E6E6',
+                                            borderWidth: '1px'
+    
+                                        },
+                                    }}
+                                />
+                        )
+                    }
+                    
 
 
 

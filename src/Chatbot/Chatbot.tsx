@@ -83,9 +83,6 @@ const Chatbot = () => {
                 "job_id": (queryParam ? queryParam : "1")
             }
         }
-        // console.log(msgObj);
-        // // let oldObj =  msgObj;  
-        // msgObj['hideBtns'] = true;
         dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
         setMessagesList(prevArray => [...prevArray, obj]);
         dataToPass.message = msg;
@@ -101,6 +98,23 @@ const Chatbot = () => {
 
     const handleReadMore = () => {
         setIsReadMore(!isReadmore)
+    }
+
+    const sendValue = (event:any, value:any) =>{
+        console.log();
+        let obj = {
+            "text": value,
+            "payload": '',
+            "sent": true,
+            "metadata": {
+                "job_id": (queryParam ? queryParam : "1")
+            }
+        }
+        dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
+        setMessagesList(prevArray => [...prevArray, obj]);
+        dataToPass.message = `/input_job_title{"job_title": "${value}"}`;
+        getTableData();
+
     }
 
     const handleShowLocation = () => {
@@ -1399,6 +1413,7 @@ const Chatbot = () => {
                                 )
                             }}
                             id="free-solo-demo"
+                            onChange={sendValue}
                             freeSolo
                             fullWidth
                             // getOptionDisabled={option => option === "Searched job title"}
@@ -1425,11 +1440,6 @@ const Chatbot = () => {
                                     {...params}
     
                                     placeholder="Type your message..."
-                                    // onKeyDown={handleKeyDown}
-    
-                                    // // disabled={disableBtn}
-                                    // value={inputValue}
-                                    // onChange={handleInputChange}
     
                                     sx={{
                                         '& .MuiInputBase-input.MuiOutlinedInput-input': {
@@ -1463,7 +1473,6 @@ const Chatbot = () => {
                         />) :
                         (
                             <TextField
-                                    {...params}
     
                                     placeholder="Type your message..."
                                     onKeyDown={handleKeyDown}
@@ -1471,6 +1480,13 @@ const Chatbot = () => {
                                     // disabled={disableBtn}
                                     value={inputValue}
                                     onChange={handleInputChange}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <TelegramIcon sx={{ cursor: 'pointer', color: '#919191' }} />
+                                            </InputAdornment>
+                                        ),
+                                    }}
     
                                     sx={{
                                         '& .MuiInputBase-input.MuiOutlinedInput-input': {

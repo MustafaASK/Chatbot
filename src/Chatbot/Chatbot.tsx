@@ -1722,7 +1722,7 @@ const Chatbot = () => {
                     }}
                 ></Box>
 
-                {!isChatOpenedFirstTime && <Stack >
+                <Stack >
                     <Box component='div' sx={{ backgroundColor: '#ffffff', display: 'flex', flexDirection: 'row', borderRadius: '20px', boxShadow: 'rgb(0 0 0 / 16%) 0px 1px 15px 2px' }}>
                         <Box component='div' sx={{ p: '18px 22px 16px 18px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                             <Typography sx={{ fontSize: '16px' }}>Hi! How can we be at your side today?</Typography>
@@ -1765,7 +1765,7 @@ const Chatbot = () => {
                             Ask  <Box component='span' sx={{ textTransform: 'lowercase', pl: '5px', pr: '5px' }}>a</Box>  question
                         </Button>
                     </Stack>
-                </Stack>}
+                </Stack>
             </Stack>) : <Stack></Stack>}
 
         </Stack >

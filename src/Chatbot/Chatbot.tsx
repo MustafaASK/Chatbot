@@ -57,10 +57,11 @@ const Chatbot = () => {
     const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
-    const handleCloseMenu = (msg:any, title:any) => {
+    const handleCloseMenu = (msg:any, msgObj:any) => {
         setAnchorEl(null);
         let obj = {
-            "text": title,
+            "text": msgObj.title,
+            "payload": msgObj.payload,
             "sent": true,
             "metadata": {
                 "job_id": (queryParam ? queryParam : "1")
@@ -368,6 +369,7 @@ const Chatbot = () => {
         // debugger
         let obj = {
             "text": msg.title,
+            "payload": msgObj.payload,
             "sent": true,
             "metadata": {
                 "job_id": (queryParam ? queryParam : "1")
@@ -385,7 +387,8 @@ const Chatbot = () => {
     const sendPayload = (msg: string, msgObj: any) => {
         toggleChatbot();
         let obj = {
-            "text": msg,
+            "text": msgObj.title,
+            "payload": msgObj.payload,
             "sent": true,
             "metadata": {
                 "job_id": (queryParam ? queryParam : "1")
@@ -407,6 +410,7 @@ const Chatbot = () => {
             //   console.log(event.target.value);
             let obj = {
                 "text": event.target.value,
+                "payload": '',
                 "sent": true,
                 "metadata": {
                     "job_id": (queryParam ? queryParam : 1)
@@ -641,7 +645,7 @@ const Chatbot = () => {
                             </Typography>
                         </Stack>
 
-                        <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }}>
+                        {/* <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }}>
                             <Box sx={{ backgroundColor: '#e2e2e2', height: '100px', width: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: '50%', mb: '15px' }}>
 
                                 <Box >
@@ -676,7 +680,7 @@ const Chatbot = () => {
                             <Typography sx={{ fontWeight: 400, fontSize: '14px', textDecoration: 'underline', cursor: 'pointer' }}>
                                 Cancel
                             </Typography>
-                        </Stack>
+                        </Stack> */}
 
                         <Stack sx={{ p: '25px', height: '300px' }}>
                             <Stack sx={{
@@ -1392,8 +1396,8 @@ const Chatbot = () => {
                         sx={{ transform: "translateY(0px) translateX(10px)" }}
                     >
                         {/* <MenuItem onClick={handleCloseMenu}>Ask a question</MenuItem> */}
-                        <MenuItem onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[1].payload : '', (initialButtons && initialButtons.length) ? initialButtons[1].title : '')}>{(initialButtons && initialButtons.length) ? initialButtons[1].title : ''}</MenuItem>
-                        <MenuItem onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[0].payload : '', (initialButtons && initialButtons.length) ? initialButtons[0].title : '')}>{(initialButtons && initialButtons.length) ? initialButtons[0].title : ''}</MenuItem>
+                        <MenuItem onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[1].payload : '', (initialButtons && initialButtons.length) ? initialButtons[1].title : '')}>{(initialButtons && initialButtons.length) ? initialButtons[1] : ''}</MenuItem>
+                        <MenuItem onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[0].payload : '', (initialButtons && initialButtons.length) ? initialButtons[0].title : '')}>{(initialButtons && initialButtons.length) ? initialButtons[0] : ''}</MenuItem>
                         {/* <MenuItem onClick={handleCloseMenu}>{(initialButtons && initialButtons.length) ? initialButtons[0].title : ''}</MenuItem> */}
                         {/* <MenuItem onClick={handleCloseMenu}>Explore Jobs</MenuItem> */}
 
@@ -1843,7 +1847,7 @@ const Chatbot = () => {
                             variant="outlined"
                             // disableRipple
                             startIcon={<SearchIcon />}
-                            onClick={() => sendPayload(initialButtons[0].payload, '')}
+                            onClick={() => sendPayload(initialButtons[0].payload, initialButtons[0])}
                             sx={{
                                 borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', whiteSpace: 'nowrap',
                                 '&:hover': {
@@ -1858,7 +1862,7 @@ const Chatbot = () => {
                         </Button>
                         <Button variant="outlined"
                             // onClick={toggleChatbot}
-                            onClick={() => sendPayload(initialButtons[1].payload, '')}
+                            onClick={() => sendPayload(initialButtons[1].payload, initialButtons[1])}
                             sx={{
                                 borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', whiteSpace: 'nowrap',
                                 '&:hover': {

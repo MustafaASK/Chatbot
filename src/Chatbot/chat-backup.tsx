@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Stack, Card, Typography, Box, TextField, Button, Input } from "@mui/material";
+import { Stack, Card, Typography, Box, TextField, Button, Slide, } from "@mui/material";
 import CloseSharpIcon from '@mui/icons-material/CloseSharp';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -16,6 +16,14 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import BusinessCenterTwoToneIcon from '@mui/icons-material/BusinessCenterTwoTone';
+import MobileStepper from '@mui/material/MobileStepper';
+import Paper from '@mui/material/Paper';
+import { useTheme } from '@mui/material/styles';
+import Carousel from 'react-material-ui-carousel'
+import MenuIcon from '@mui/icons-material/Menu';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 import c from '../Rectangle 99@2x.svg';
 import c1 from '../Rectangle 99@2x-1.png'
@@ -34,13 +42,46 @@ const Chatbot = () => {
 
     const [isChatbotOpen, setIsChatbotOpen] = useState(false);
     const [messagesList, setMessagesList] = React.useState<any[] | never[]>([]);
+    const [initialButtons, setInitialButtons] = React.useState<any[] | never[]>([]);
+    const [initialText, setInitialText] = useState('');
     const [updated, setUpdated] = useState('');
     const [loaded, setLoaded] = useState(false);
     const [disableBtn, setDisableBtn] = useState(false);
     const [inputValue, setInputValue] = useState('');
     const [isReadmore, setIsReadMore] = useState(false)
     const [isShowLocation, setIsShowLocation] = useState(false)
+    const [isButtonHover, setIsButtonHover] = useState(false)
     const scrollRef = useRef(null);
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleCloseMenu = (msg:any, msgObj:any) => {
+        setAnchorEl(null);
+        let obj = {
+            "text": msgObj.title,
+            "payload": msgObj.payload,
+            "sent": true,
+            "metadata": {
+                "job_id": (queryParam ? queryParam : "1")
+            }
+        }
+        // console.log(msgObj);
+        // // let oldObj =  msgObj;  
+        // msgObj['hideBtns'] = true;
+        dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
+        setMessagesList(prevArray => [...prevArray, obj]);
+        dataToPass.message = msg;
+        getTableData();
+    };
+    const isChatOpenedFirstTime = localStorage.getItem("isChatOpened") ? true : false;
+
+
+    const handleFileUpload = () => {
+        const fileInput = document.getElementById('file-upload') as HTMLInputElement;
+        fileInput.click();
+    };
 
     const handleReadMore = () => {
         setIsReadMore(!isReadmore)
@@ -49,6 +90,256 @@ const Chatbot = () => {
     const handleShowLocation = () => {
         setIsShowLocation(!isShowLocation)
     }
+
+
+
+    const handleSlideIn = () => {
+        return (Number(activeStep) === 0 || Number(activeStep)) ? true : false;
+    };
+
+
+    const steps = [
+        {
+            container: (
+                <Stack sx={{ minHeight: '300px', minWidth: '300px' }}>
+                    <Stack sx={{
+                        backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
+                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', height: '10px',
+                    }}>
+                        <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', textAlign: 'center', p: 2 }}>
+
+                            <Stack sx={{ mt: 1 }}>
+                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                </Stack>
+
+                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <SearchIcon sx={{ fontSize: '50px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                </Stack>
+
+                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                </Stack>
+
+                            </Stack>
+
+                            <Typography sx={{ mt: 1, mb: 1, fontSize: '16px', fontWeight: 600 }}>Here's what you can do.</Typography>
+
+                            <Box sx={{ mr: 1, ml: 1 }}>
+                                <Button variant="outlined"
+                                    disableRipple
+                                    sx={{
+                                        width: '100%', mb: 1, borderColor: '#146EF6', boxShadow: 0,
+                                        fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
+                                        '&:hover': {
+                                            backgroundColor: '#146EF6',
+                                            boxShadow: 0,
+                                            color: '#ffffff'
+                                        }
+                                    }}
+                                >
+                                    Set Job Alert
+                                </Button>
+                                <Button variant="contained"
+                                    disableRipple
+                                    sx={{
+                                        width: '100%', mb: 1, backgroundColor: '#146EF6', boxShadow: 0,
+                                        fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
+                                        '&:hover': {
+                                            backgroundColor: '#146EF6',
+                                            boxShadow: 0
+                                        }
+                                    }}
+                                >
+                                    Refine Job Search
+                                </Button>
+                            </Box>
+                        </Stack>
+
+                    </Stack>
+                </Stack>
+            ),
+        },
+        {
+            container: (
+                <Stack sx={{ minHeight: '300px', minWidth: '300px' }}>
+                    <Stack sx={{
+                        backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
+                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)', height: '10px',
+                    }}>
+                        <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)' }}>
+                            <Box sx={{ p: 1 }}>
+                                <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>Sales</Typography>
+                            </Box>
+
+                            <Stack sx={{ p: '10px' }} direction='column' spacing={2}>
+
+                                <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Manager, Manufacturing Sales</Typography>
+                                <Box sx={{ display: 'flex', flexDirection: 'row', }}>
+                                    <Box>
+                                        <LocationOnOutlinedIcon sx={{ fontSize: '20px' }} />
+                                    </Box>
+                                    <Box sx={{ pl: '10px' }}>
+                                        <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>Philadelphia, PA, United States of America</Typography>
+                                        <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography>
+                                    </Box>
+                                </Box>
+
+                                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', ml: 2 }}>
+                                    <Box>
+                                        <CalendarTodayIcon sx={{ fontSize: '15px' }} />
+                                    </Box>
+                                    <Box sx={{ pl: '10px' }}>
+                                        <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted 6days ago</Typography>
+                                    </Box>
+                                </Box>
+
+                                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                    <Box>
+                                        <AccessTimeIcon sx={{ fontSize: '15px' }} />
+                                    </Box>
+                                    <Box sx={{ pl: '10px' }}>
+                                        <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Full Time</Typography>
+                                    </Box>
+                                </Box>
+
+                            </Stack>
+
+                            <Box>
+                                <Button
+                                    disableRipple
+                                    onClick={handleReadMore}
+                                    endIcon={<KeyboardArrowRightIcon />}
+                                    sx={{
+                                        textTransform: 'capitalize',
+                                        '& .MuiButton-endIcon': {
+                                            mr: 0,
+                                            ml: '-5px'
+                                        },
+                                        '& .MuiButton-endIcon>*:nth-of-type(1)': {
+                                            fontSize: '25px'
+                                        },
+                                        '&:hover': {
+                                            backgroundColor: '#ffffff'
+                                        }
+
+                                    }}
+                                >
+                                    Read More
+                                </Button>
+                            </Box>
+
+                            <Box sx={{ textAlign: 'center', pb: 3, pl: 1, pr: 1 }}>
+                                <Button
+                                    variant="contained"
+                                    disableRipple
+                                    sx={{
+                                        borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0, width: '100%',
+                                        '&:hover': {
+                                            backgroundColor: '#146EF6',
+                                            boxShadow: 0
+                                        }
+                                    }}
+                                >
+                                    I'm Interested
+                                </Button>
+                            </Box>
+                        </Stack>
+
+                    </Stack>
+                </Stack>
+            ),
+        },
+        {
+            container: (
+                <Stack sx={{ minHeight: '300px', minWidth: '300px' }}>
+                    <Stack sx={{
+                        backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
+                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', height: '10px',
+                    }}>
+                        <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', textAlign: 'center', p: 2 }}>
+
+                            <Stack sx={{ mt: 1 }}>
+                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                </Stack>
+
+                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <SearchIcon sx={{ fontSize: '50px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                </Stack>
+
+                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                </Stack>
+
+                            </Stack>
+
+                            <Typography sx={{ mt: 1, mb: 1, fontSize: '16px', fontWeight: 600 }}>Here's what you can do.</Typography>
+
+                            <Box sx={{ mr: 1, ml: 1 }}>
+                                <Button variant="outlined"
+                                    disableRipple
+                                    sx={{
+                                        width: '100%', mb: 1, borderColor: '#146EF6', boxShadow: 0,
+                                        fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
+                                        '&:hover': {
+                                            backgroundColor: '#146EF6',
+                                            boxShadow: 0,
+                                            color: '#ffffff'
+                                        }
+                                    }}
+                                >
+                                    Set Job Alert
+                                </Button>
+                                <Button variant="contained"
+                                    disableRipple
+                                    sx={{
+                                        width: '100%', mb: 1, backgroundColor: '#146EF6', boxShadow: 0,
+                                        fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
+                                        '&:hover': {
+                                            backgroundColor: '#146EF6',
+                                            boxShadow: 0
+                                        }
+                                    }}
+                                >
+                                    Refine Job Search
+                                </Button>
+                            </Box>
+                        </Stack>
+
+                    </Stack>
+                </Stack>
+            ),
+        },
+    ];
+
+
+    const theme = useTheme();
+    const [activeStep, setActiveStep] = React.useState(0);
+    const [slideDirection, setSlideDirection] = React.useState<'left' | 'right'>('left')
+    const maxSteps = steps.length;
+
+    const handleNext = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        setSlideDirection('left');
+    };
+
+    const handleBack = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+        setSlideDirection('right');
+    };
 
     const generateRandomNumber = () => {
         const randomNumber = Math.floor(1000000000 + Math.random() * 9000000000); // Generate a random number between 1,000,000,000 and 9,999,999,999
@@ -64,6 +355,7 @@ const Chatbot = () => {
 
     const toggleChatbot = () => {
         setIsChatbotOpen(!isChatbotOpen);
+        localStorage.setItem("isChatOpened", "true")
     };
     const handleInputChange = (event: any) => {
         setInputValue(event.target.value);
@@ -73,9 +365,11 @@ const Chatbot = () => {
     //   };
 
 
-    const sendMessage = (msg: string, msgObj: any) => {
+    const sendMessage = (msg: any, msgObj: any) => {
+        // debugger
         let obj = {
-            "text": msg,
+            "text": msg.title,
+            "payload": msgObj.payload,
             "sent": true,
             "metadata": {
                 "job_id": (queryParam ? queryParam : "1")
@@ -84,6 +378,25 @@ const Chatbot = () => {
         console.log(msgObj);
         // let oldObj =  msgObj;  
         msgObj['hideBtns'] = true;
+        dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
+        setMessagesList(prevArray => [...prevArray, obj]);
+        dataToPass.message = msg.payload;
+        getTableData();
+
+    }
+    const sendPayload = (msg: string, msgObj: any) => {
+        toggleChatbot();
+        let obj = {
+            "text": msgObj.title,
+            "payload": msgObj.payload,
+            "sent": true,
+            "metadata": {
+                "job_id": (queryParam ? queryParam : "1")
+            }
+        }
+        // console.log(msgObj);
+        // // let oldObj =  msgObj;  
+        // msgObj['hideBtns'] = true;
         dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
         setMessagesList(prevArray => [...prevArray, obj]);
         dataToPass.message = msg;
@@ -97,6 +410,7 @@ const Chatbot = () => {
             //   console.log(event.target.value);
             let obj = {
                 "text": event.target.value,
+                "payload": '',
                 "sent": true,
                 "metadata": {
                     "job_id": (queryParam ? queryParam : 1)
@@ -125,39 +439,77 @@ const Chatbot = () => {
         // alert(randStr);
         setInputValue('');
         apiService.sendMessage(dataToPass).then((response: any) => {
+            console.log(checkUseEffectLoad);
             if (!response.error) {
-                if (response.data && response.data.length) {
-                    response.data.map((obj: any) => {
-                        //   console.log(response.data[0]);
-                        const newObject = obj;
-                        newObject.sent = false;
-                        newObject.hideBtns = (newObject.buttons && newObject.buttons.length) ? false : true
-                        setMessagesList(prevArray => [...prevArray, newObject]);
 
-                    })
-                    console.log(messagesList);
-                    if (response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) {
-                        setDisableBtn((response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) ? true : false);
-
-                    } else {
-                        setDisableBtn((response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) ? false : false);
-
-                    }
-                    console.log(scrollRef);
-                    if (scrollRef.current) {
-                        // scrollRef.current.scrollIntoView({ behavior: 'smooth' });
-                    }
-                    //    setDisableBtn((newObject.buttons && newObject.buttons.length) ? true : false);
-
+                if (checkUseEffectLoad) {
+                    setInitialButtons(response.data[0].buttons);
+                    setInitialText(response.data[0].text);
+                    dataToPass.message = "/job_screening";
+                    checkUseEffectLoad = false;
+                    // getTableData();
 
                 } else {
-                    if (checkUseEffectLoad) {
-                        dataToPass.message = "/job_screening";
-                        checkUseEffectLoad = false;
-                        getTableData();
+                    if (response.data && response.data.length) {
+                        response.data.map((obj: any) => {
+                            //   console.log(response.data[0]);
+                            const newObject = obj;
+                            newObject.sent = false;
+                            newObject.hideBtns = (newObject.buttons && newObject.buttons.length) ? false : true
+                            setMessagesList(prevArray => [...prevArray, newObject]);
+
+                        })
+                        console.log(messagesList);
+                        if (response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) {
+                            setDisableBtn((response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) ? true : false);
+
+                        } else {
+                            setDisableBtn((response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) ? false : false);
+
+                        }
+                        console.log(scrollRef);
+                        if (scrollRef.current) {
+                            // scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+                        }
+                        //    setDisableBtn((newObject.buttons && newObject.buttons.length) ? true : false);
+
 
                     }
+
                 }
+                // if (response.data && response.data.length) {
+                //     response.data.map((obj: any) => {
+                //         //   console.log(response.data[0]);
+                //         const newObject = obj;
+                //         newObject.sent = false;
+                //         newObject.hideBtns = (newObject.buttons && newObject.buttons.length) ? false : true
+                //         setMessagesList(prevArray => [...prevArray, newObject]);
+
+                //     })
+                //     console.log(messagesList);
+                //     if (response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) {
+                //         setDisableBtn((response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) ? true : false);
+
+                //     } else {
+                //         setDisableBtn((response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) ? false : false);
+
+                //     }
+                //     console.log(scrollRef);
+                //     if (scrollRef.current) {
+                //         // scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+                //     }
+                //     //    setDisableBtn((newObject.buttons && newObject.buttons.length) ? true : false);
+
+
+                // } else {
+                //     console.log(checkUseEffectLoad);
+                //     if (checkUseEffectLoad) {
+                //         dataToPass.message = "/job_screening";
+                //         checkUseEffectLoad = false;
+                //         getTableData();
+
+                //     }
+                // }
 
             }
         })
@@ -196,13 +548,15 @@ const Chatbot = () => {
                     borderTopRightRadius: '15px',
                     borderBottomLeftRadius: '15px',
                     position: 'fixed',
-                    zIndex: 4,
+                    zIndex: isChatbotOpen ? 4 : -1,
                     boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
                     right: '80px',
-                    transform: isChatbotOpen ? 'translateY(-20%)' : 'translateY(100%)',
-                    transition: 'transform 0.8s, opacity 0.8s',
+                    transform: isChatbotOpen ? 'translate(-5%,-15%)' : 'translateY(5%)',
+                    transition: 'all .1s ease-out',
+                    transformOrigin: "bottom right",
                     opacity: isChatbotOpen ? 1 : 0,
                     display: isReadmore ? 'none' : 'block',
+
                 }}
             >
                 <Stack id='header-container'
@@ -291,7 +645,7 @@ const Chatbot = () => {
                             </Typography>
                         </Stack>
 
-                        <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }}>
+                        {/* <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }}>
                             <Box sx={{ backgroundColor: '#e2e2e2', height: '100px', width: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: '50%', mb: '15px' }}>
 
                                 <Box >
@@ -304,33 +658,41 @@ const Chatbot = () => {
                             </Box>
                             <Typography>Drag & drop file to upload</Typography>
                             <Box sx={{ mt: '15px', mb: '15px' }}>
-                                <Button
-                                    variant="contained"
-                                    disableRipple
-                                    sx={{
-                                        borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0,
-                                        '&:hover': {
-                                            backgroundColor: '#146EF6',
-                                            boxShadow: 0
-                                        }
-                                    }}>
-                                    Upload new Resume
-                                </Button>
+                                <input type="file" id="file-upload" style={{ display: 'none' }} />
+                                <label htmlFor="file-upload">
+                                    <Button
+                                        onClick={handleFileUpload}
+                                        variant="contained"
+                                        disableRipple
 
+                                        sx={{
+                                            borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0,
+                                            '&:hover': {
+                                                backgroundColor: '#146EF6',
+                                                boxShadow: 0
+                                            }
+                                        }}>
+                                        Upload new Resume
+
+                                    </Button>
+                                </label>
                             </Box>
                             <Typography sx={{ fontWeight: 400, fontSize: '14px', textDecoration: 'underline', cursor: 'pointer' }}>
                                 Cancel
                             </Typography>
-                        </Stack>
+                        </Stack> */}
 
-                        <Stack sx={{ p: '25px' }}>
-                            <Stack sx={{ backgroundColor: '#146EF6', borderTopRightRadius: '10px', borderTopLeftRadius: '10px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)' }}>
-                                <Stack sx={{ backgroundColor: '#ffffff', mt: 1, }}>
+                        <Stack sx={{ p: '25px', height: '300px' }}>
+                            <Stack sx={{
+                                backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
+                                boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', height: '10px',
+                            }}>
+                                <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)' }}>
                                     <Box sx={{ p: 1 }}>
                                         <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>Sales</Typography>
                                     </Box>
 
-                                    <Stack sx={{ p: 3 }} direction='column' spacing={2}>
+                                    <Stack sx={{ p: 2 }} direction='column' spacing={2}>
 
                                         <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Manager, Manufacturing Sales</Typography>
                                         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
@@ -387,7 +749,7 @@ const Chatbot = () => {
                                         </Button>
                                     </Box>
 
-                                    <Box sx={{ textAlign: 'center', p: '8px' }}>
+                                    <Box sx={{ textAlign: 'center', pb: 3, pl: 1, pr: 1 }}>
                                         <Button
                                             variant="contained"
                                             disableRipple
@@ -407,27 +769,437 @@ const Chatbot = () => {
                             </Stack>
                         </Stack>
 
+                        <Stack sx={{ p: '25px', height: '270px' }}>
+                            <Stack sx={{
+                                backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
+                                boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', height: '10px',
+                            }}>
+                                <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', textAlign: 'center' }}>
+
+                                    <Stack sx={{ mt: 1 }}>
+                                        <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                            <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                            <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                            <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                        </Stack>
+
+                                        <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                            <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                            <SearchIcon sx={{ fontSize: '50px', zIndex: 5 }} />
+                                            <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                        </Stack>
+
+                                        <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                            <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                            <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                            <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                        </Stack>
+
+                                    </Stack>
+
+                                    <Typography sx={{ mt: 1, mb: 1, fontSize: '16px', fontWeight: 600 }}>Here's what you can do.</Typography>
+
+                                    <Box sx={{ mr: 1, ml: 1 }}>
+                                        <Button variant="outlined"
+                                            disableRipple
+                                            sx={{
+                                                width: '100%', mb: 1, borderColor: '#146EF6', boxShadow: 0,
+                                                fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
+                                                '&:hover': {
+                                                    backgroundColor: '#146EF6',
+                                                    boxShadow: 0,
+                                                    color: '#ffffff'
+                                                }
+                                            }}
+                                        >
+                                            Set Job Alert
+                                        </Button>
+                                        <Button variant="contained"
+                                            disableRipple
+                                            sx={{
+                                                width: '100%', mb: 1, backgroundColor: '#146EF6', boxShadow: 0,
+                                                fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
+                                                '&:hover': {
+                                                    backgroundColor: '#146EF6',
+                                                    boxShadow: 0
+                                                }
+                                            }}
+                                        >
+                                            Refine Job Search
+                                        </Button>
+                                    </Box>
+                                </Stack>
+
+                            </Stack>
+                        </Stack>
+
+                        {/* <Stack sx={{
+                            mb: 3, '&& .css-ohwg9z': {
+                                overflow: 'unset'
+                            }
+                        }}>
+                     <Carousel cycleNavigation={false} animation="slide" autoPlay={false}
+
+                                NavButton={({ onClick, style, next }) => (
+                                    <Box
+                                        style={{
+                                            ...style,
+                                            position: 'absolute',
+                                            top: '50%',
+                                            transform: 'translateY(-50%)',
+                                            left: next ? 'auto' : 0,
+                                            right: next ? 0 : 'auto',
+
+                                        }}
+                                    >
+                                        <Button
+                                            variant="contained"
+                                            disableRipple
+                                            sx={{
+                                                height: '50px', width: '20px', minWidth: '35px', ml: 1.5, mr: 1.5, backgroundColor: '#ffffff', color: '#146EF6', boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
+                                                '&:hover': {
+                                                    backgroundColor: '#146EF6 !important',
+
+                                                    color: '#ffffff'
+                                                }
+                                            }}
+                                            onClick={onClick as React.MouseEventHandler<HTMLButtonElement>}
+                                        >
+                                            {next ? <KeyboardArrowRightIcon /> : <KeyboardArrowLeftIcon />}
+                                        </Button>
+                                    </Box>
+                                )}
+                            >
+
+                                <Stack sx={{ p: '25px', height: '300px' }}>
+                                    <Stack sx={{
+                                        backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
+                                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', height: '10px',
+                                    }}>
+                                        <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', textAlign: 'center' }}>
+
+                                            <Stack sx={{ mt: 1 }}>
+                                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                </Stack>
+
+                                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                    <SearchIcon sx={{ fontSize: '50px', zIndex: 5 }} />
+                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                </Stack>
+
+                                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                </Stack>
+
+                                            </Stack>
+
+                                            <Typography sx={{ mt: 1, mb: 1, fontSize: '16px', fontWeight: 600 }}>Here's what you can do.</Typography>
+
+                                            <Box sx={{ mr: 1, ml: 1 }}>
+                                                <Button variant="outlined"
+                                                    disableRipple
+                                                    sx={{
+                                                        width: '100%', mb: 1, borderColor: '#146EF6', boxShadow: 0,
+                                                        fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
+                                                        '&:hover': {
+                                                            backgroundColor: '#146EF6',
+                                                            boxShadow: 0,
+                                                            color: '#ffffff'
+                                                        }
+                                                    }}
+                                                >
+                                                    Set Job Alert
+                                                </Button>
+                                                <Button variant="contained"
+                                                    disableRipple
+                                                    sx={{
+                                                        width: '100%', mb: 1, backgroundColor: '#146EF6', boxShadow: 0,
+                                                        fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
+                                                        '&:hover': {
+                                                            backgroundColor: '#146EF6',
+                                                            boxShadow: 0
+                                                        }
+                                                    }}
+                                                >
+                                                    Refine Job Search
+                                                </Button>
+                                            </Box>
+                                        </Stack>
+
+                                    </Stack>
+                                </Stack>
+
+
+
+                                <Stack sx={{ p: '25px', height: '300px' }}>
+                                    <Stack sx={{
+                                        backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
+                                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)', height: '10px',
+                                    }}>
+                                        <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)' }}>
+                                            <Box sx={{ p: 1 }}>
+                                                <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>Sales</Typography>
+                                            </Box>
+
+                                            <Stack sx={{ p: 2 }} direction='column' spacing={2}>
+
+                                                <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Manager, Manufacturing Sales</Typography>
+                                                <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                                                    <Box>
+                                                        <LocationOnOutlinedIcon sx={{ fontSize: '20px' }} />
+                                                    </Box>
+                                                    <Box sx={{ pl: '10px' }}>
+                                                        <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>Philadelphia, PA, United States of America</Typography>
+                                                        <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography>
+                                                    </Box>
+                                                </Box>
+
+                                                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                                    <Box>
+                                                        <CalendarTodayIcon sx={{ fontSize: '15px' }} />
+                                                    </Box>
+                                                    <Box sx={{ pl: '10px' }}>
+                                                        <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted 6days ago</Typography>
+                                                    </Box>
+                                                </Box>
+
+                                                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                                    <Box>
+                                                        <AccessTimeIcon sx={{ fontSize: '15px' }} />
+                                                    </Box>
+                                                    <Box sx={{ pl: '10px' }}>
+                                                        <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Full Time</Typography>
+                                                    </Box>
+                                                </Box>
+
+                                            </Stack>
+
+                                            <Box>
+                                                <Button
+                                                    disableRipple
+                                                    onClick={handleReadMore}
+                                                    endIcon={<KeyboardArrowRightIcon />}
+                                                    sx={{
+                                                        textTransform: 'capitalize',
+                                                        '& .MuiButton-endIcon': {
+                                                            mr: 0,
+                                                            ml: '-5px'
+                                                        },
+                                                        '& .MuiButton-endIcon>*:nth-of-type(1)': {
+                                                            fontSize: '25px'
+                                                        },
+                                                        '&:hover': {
+                                                            backgroundColor: '#ffffff'
+                                                        }
+
+                                                    }}
+                                                >
+                                                    Read More
+                                                </Button>
+                                            </Box>
+
+                                            <Box sx={{ textAlign: 'center', pb: 3, pl: 1, pr: 1 }}>
+                                                <Button
+                                                    variant="contained"
+                                                    disableRipple
+                                                    sx={{
+                                                        borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0, width: '100%',
+                                                        '&:hover': {
+                                                            backgroundColor: '#146EF6',
+                                                            boxShadow: 0
+                                                        }
+                                                    }}
+                                                >
+                                                    I'm Interested
+                                                </Button>
+                                            </Box>
+                                        </Stack>
+
+                                    </Stack>
+                                </Stack>
+
+                            </Carousel> 
+
+                        </Stack> */}
+
+
+                        {/* sx={{ display: activeStep === 0 ? 'none' : 'block', mb: '60px', zIndex: 5, position: 'absolute', left: 0, height: '25px' }} */}
+                        {/* // component='div'
+                            // onMouseEnter={() => setIsButtonHover(true)}
+                            // onMouseLeave={() => setIsButtonHover(false)} */}
+
+
+                        {/* {isButtonHover && */}
+
+
+                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '350px', position: 'relative', mr: 1, ml: 1 }}>
+
+                            <Stack
+                                sx={{
+                                    display: activeStep === 0 ? 'none' : 'block',
+                                    mb: '60px'
+                                }}
+                            >
+                                <Button
+                                    disableRipple
+                                    size="small"
+                                    variant="contained"
+                                    onClick={handleBack}
+                                    sx={{
+                                        position: 'absolute',
+                                        left: 0,
+                                        zIndex: 2,
+                                        minWidth: '30px',
+                                        p: '5px',
+                                        backgroundColor: '#ffffff',
+                                        color: '#146EF6',
+                                        height: '60px',
+                                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
+                                        display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
+                                        '&:hover': {
+                                            backgroundColor: '#146EF6',
+                                            color: '#ffffff',
+
+                                        }
+                                    }}
+                                >
+                                    {theme.direction === 'rtl' ? (
+                                        <KeyboardArrowRightIcon />
+                                    ) : (
+                                        <KeyboardArrowLeftIcon />
+                                    )}
+                                </Button>
+                                {/* } */}
+                            </Stack>
+
+                            {
+                                steps.map((step, i) => {
+                                    return <>
+
+                                        <Slide direction={slideDirection} in={i === activeStep} mountOnEnter unmountOnExit
+                                            timeout={{ appear: 0, enter: 300, exit: 0 }}
+                                        >
+
+                                            <Paper
+                                                square
+                                                elevation={0}
+                                                sx={{
+                                                    display: (i === activeStep) ? 'flex' : 'none',
+                                                    alignItems: 'center',
+                                                    height: '100%',
+                                                    bgcolor: 'background.default',
+                                                    position: 'relative',
+                                                    zIndex: 1,
+                                                    // transition: 'transform 0.5s ease-in-out',
+                                                    // transform: `translateX(-${activeStep * (100 / steps.length)}%)`,
+
+                                                }}
+                                            >
+
+                                                {step.container}
+
+                                            </Paper>
+
+                                        </Slide>
+
+                                    </>
+                                })
+                            }
+
+                            <Box sx={{
+
+                                display: activeStep === maxSteps - 1 ? 'none' : 'block',
+                                mb: '60px',
+
+                            }}>
+                                <Button
+                                    size="small"
+                                    variant="contained"
+                                    onClick={handleNext}
+                                    sx={{
+                                        position: 'absolute',
+                                        right: 0,
+                                        zIndex: 2,
+                                        minWidth: '30px',
+                                        backgroundColor: '#ffffff',
+                                        color: '#146EF6',
+                                        height: '60px',
+                                        p: '5px',
+                                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
+                                        display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
+                                        '&:hover': {
+                                            backgroundColor: '#146EF6',
+                                            color: '#ffffff',
+                                        }
+                                    }}
+                                    disableRipple
+                                >
+                                    {theme.direction === 'rtl' ? (
+                                        <KeyboardArrowLeftIcon />
+                                    ) : (
+                                        <KeyboardArrowRightIcon />
+                                    )}
+                                </Button>
+
+                            </Box>
+                        </Box>
+
+
+
+                        <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', mb: 2 }}
+                            direction='row' spacing={2}
+                        >
+
+                            <Box sx={{ textAlign: 'center', ml: '70px' }}>
+                                <Typography variant="body2" color="text.secondary">
+                                    {`${activeStep + 1} of ${maxSteps}`}
+                                </Typography>
+                            </Box>
+
+                            <Box>
+                                <MobileStepper
+                                    variant="progress"
+                                    steps={maxSteps}
+                                    position="static"
+                                    sx={{ width: '160px', }}
+                                    activeStep={activeStep}
+                                    nextButton={null}
+                                    backButton={null}
+                                />
+                            </Box>
+
+                        </Stack>
+
+
                         {messagesList.map((msgObj) => (
                             <>
                                 {!msgObj.sent ? (
                                     <>
                                         <>
+                                            {msgObj.text ? (
+                                                <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
-                                            <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
+                                                    <Stack>
+                                                        <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
+                                                    </Stack>
+                                                    <Stack sx=
+                                                        {{
+                                                            backgroundColor: '#374458', borderRadius: '5px', pr: 5
+                                                        }}
+                                                    >
+                                                        <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left' }}>
+                                                            {msgObj.text}
+                                                        </Typography>
+                                                    </Stack>
+                                                </Stack>
+                                            ) : (<></>)}
 
-                                                <Stack>
-                                                    <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
-                                                </Stack>
-                                                <Stack sx=
-                                                    {{
-                                                        backgroundColor: '#374458', borderRadius: '5px', pr: 5
-                                                    }}
-                                                >
-                                                    <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left' }}>
-                                                        {msgObj.text}
-                                                    </Typography>
-                                                </Stack>
-                                            </Stack>
                                         </>
 
                                         <>
@@ -435,7 +1207,7 @@ const Chatbot = () => {
                                                 (
                                                     <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} ml={3}>
                                                         {msgObj.buttons.map((btnObj: any) => (
-                                                            <Button variant="outlined" onClick={() => sendMessage(btnObj.payload, msgObj)} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', width: 'auto' }}>
+                                                            <Button variant="outlined" onClick={() => sendMessage(btnObj, msgObj)} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', width: 'auto' }}>
                                                                 {btnObj.title}
                                                             </Button>
                                                         ))}
@@ -569,6 +1341,9 @@ const Chatbot = () => {
                     zIndex={1}
                     maxHeight='50px'
                 >
+                    <Box sx={{ cursor: 'pointer' }} onClick={handleOpenMenu}>
+                        <MenuIcon fontSize="large" sx={{ color: '#919191' }} />
+                    </Box>
 
                     <TextField
                         variant="outlined"
@@ -609,6 +1384,24 @@ const Chatbot = () => {
                     <Box sx={{ cursor: 'pointer' }}>
                         <AttachFileRoundedIcon sx={{ fontSize: '18px', color: '#919191' }} />
                     </Box>
+
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        // onClose={handleCloseMenu}
+                        MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                        }}
+                        sx={{ transform: "translateY(0px) translateX(10px)" }}
+                    >
+                        {/* <MenuItem onClick={handleCloseMenu}>Ask a question</MenuItem> */}
+                        <MenuItem onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[1].payload : '', (initialButtons && initialButtons.length) ? initialButtons[1].title : '')}>{(initialButtons && initialButtons.length) ? initialButtons[1] : ''}</MenuItem>
+                        <MenuItem onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[0].payload : '', (initialButtons && initialButtons.length) ? initialButtons[0].title : '')}>{(initialButtons && initialButtons.length) ? initialButtons[0] : ''}</MenuItem>
+                        {/* <MenuItem onClick={handleCloseMenu}>{(initialButtons && initialButtons.length) ? initialButtons[0].title : ''}</MenuItem> */}
+                        {/* <MenuItem onClick={handleCloseMenu}>Explore Jobs</MenuItem> */}
+
+                    </Menu>
                 </Stack>
 
             </Card >
@@ -1017,11 +1810,11 @@ const Chatbot = () => {
             </Card >
 
 
+            {!isChatbotOpen ? (<Stack sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: "30px", cursor: 'pointer' }}>
 
-            <Stack sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: '30px', cursor: 'pointer' }}>
                 <Box
                     component="div"
-                    onClick={toggleChatbot}
+                    // onClick={toggleChatbot}
                     sx={{
                         height: '50px',
                         width: '50px',
@@ -1038,10 +1831,11 @@ const Chatbot = () => {
                         zIndex: 5,
                     }}
                 ></Box>
+
                 <Stack >
                     <Box component='div' sx={{ backgroundColor: '#ffffff', display: 'flex', flexDirection: 'row', borderRadius: '20px', boxShadow: 'rgb(0 0 0 / 16%) 0px 1px 15px 2px' }}>
                         <Box component='div' sx={{ p: '18px 22px 16px 18px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                            <Typography sx={{ fontSize: '16px' }}>Hi! How can we be at your side today?</Typography>
+                            <Typography sx={{ fontSize: '16px' }}>{initialText} </Typography>
                         </Box>
 
                         <Box component='div' sx={{ p: '5px' }}>
@@ -1051,9 +1845,9 @@ const Chatbot = () => {
                     <Stack mt={1} sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Button
                             variant="outlined"
-                            disableRipple
+                            // disableRipple
                             startIcon={<SearchIcon />}
-                            onClick={toggleChatbot}
+                            onClick={() => sendPayload(initialButtons[0].payload, initialButtons[0])}
                             sx={{
                                 borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', whiteSpace: 'nowrap',
                                 '&:hover': {
@@ -1062,10 +1856,13 @@ const Chatbot = () => {
                                     color: '#ffffff'
                                 }
                             }}
+                            className="chat-button"
                         >
-                            Explore jobs
+                            {(initialButtons && initialButtons.length) ? initialButtons[0].title : ''}
                         </Button>
                         <Button variant="outlined"
+                            // onClick={toggleChatbot}
+                            onClick={() => sendPayload(initialButtons[1].payload, initialButtons[1])}
                             sx={{
                                 borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', whiteSpace: 'nowrap',
                                 '&:hover': {
@@ -1077,11 +1874,14 @@ const Chatbot = () => {
                             disableRipple
                             startIcon={<HelpOutlineIcon />}
                         >
-                            Ask  <Box component='span' sx={{ textTransform: 'lowercase', pl: '5px', pr: '5px' }}>a</Box>  question
+                            {/* {initialButtons[1].title} */}
+                            {(initialButtons && initialButtons.length) ? initialButtons[1].title : ''}
+                            {/* Ask  <Box component='span' sx={{ textTransform: 'lowercase', pl: '5px', pr: '5px' }}>a</Box>  question */}
                         </Button>
                     </Stack>
                 </Stack>
-            </Stack>
+            </Stack>) : <Stack></Stack>}
+
         </Stack >
     );
 };

@@ -357,6 +357,24 @@ const Chatbot = () => {
         getTableData();
 
     }
+    const sendPayload = (msg: string, msgObj: any) => {
+        toggleChatbot();
+        let obj = {
+            "text": msg,
+            "sent": true,
+            "metadata": {
+                "job_id": (queryParam ? queryParam : "1")
+            }
+        }
+        // console.log(msgObj);
+        // // let oldObj =  msgObj;  
+        // msgObj['hideBtns'] = true;
+        dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
+        setMessagesList(prevArray => [...prevArray, obj]);
+        dataToPass.message = msg;
+        getTableData();
+
+    }
 
     const handleKeyDown = (event: any) => {
         if (event.key === 'Enter') {
@@ -401,6 +419,32 @@ const Chatbot = () => {
                     dataToPass.message = "/job_screening";
                     checkUseEffectLoad = false;
                     // getTableData();
+
+                } else {if (response.data && response.data.length) {
+                    response.data.map((obj: any) => {
+                        //   console.log(response.data[0]);
+                        const newObject = obj;
+                        newObject.sent = false;
+                        newObject.hideBtns = (newObject.buttons && newObject.buttons.length) ? false : true
+                        setMessagesList(prevArray => [...prevArray, newObject]);
+
+                    })
+                    console.log(messagesList);
+                    if (response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) {
+                        setDisableBtn((response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) ? true : false);
+
+                    } else {
+                        setDisableBtn((response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) ? false : false);
+
+                    }
+                    console.log(scrollRef);
+                    if (scrollRef.current) {
+                        // scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+                    }
+                    //    setDisableBtn((newObject.buttons && newObject.buttons.length) ? true : false);
+
+
+                }
 
                 }
                 // if (response.data && response.data.length) {
@@ -1131,7 +1175,7 @@ const Chatbot = () => {
                                                 (
                                                     <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} ml={3}>
                                                         {msgObj.buttons.map((btnObj: any) => (
-                                                            <Button variant="outlined" onClick={() => sendMessage(btnObj.payload, msgObj)} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', width: 'auto' }}>
+                                                            <Button variant="outlined" onClick={() => sendMessage(btnObj.payload, msgObj)} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px',  width: 'auto' }}>
                                                                 {btnObj.title}
                                                             </Button>
                                                         ))}
@@ -1717,7 +1761,7 @@ const Chatbot = () => {
 
                 <Box
                     component="div"
-                    onClick={toggleChatbot}
+                    // onClick={toggleChatbot}
                     sx={{
                         height: '50px',
                         width: '50px',
@@ -1763,7 +1807,8 @@ const Chatbot = () => {
                             {(initialButtons && initialButtons.length) ? initialButtons[0].title: ''}
                         </Button>
                         <Button variant="outlined"
-                            onClick={toggleChatbot}
+                            // onClick={toggleChatbot}
+                            onClick={() => sendPayload(initialButtons[1].payload, '')}
                             sx={{
                                 borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', whiteSpace: 'nowrap',
                                 '&:hover': {

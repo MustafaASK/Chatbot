@@ -67,6 +67,7 @@ const Chatbot = () => {
     const [enableAuto, setEnableAuto] = useState(false);
     const [newSteps, setNewSteps] = React.useState<any[] | never[]>([]);
     const [isReadmore, setIsReadMore] = useState(false)
+    const [selectedJobData, setSelectedJobData] = React.useState<any[] | never[]>([]);
     const [isShowLocation, setIsShowLocation] = useState(false)
     const [isButtonHover, setIsButtonHover] = useState(false)
     const [suggesations, setSuggesations] = React.useState<any[] | never[]>([]);
@@ -99,11 +100,14 @@ const Chatbot = () => {
         fileInput.click();
     };
 
-    const handleReadMore = () => {
+    const handleReadMore = (obj:any) => {
+        if(obj){
+            setSelectedJobData(prevArray => [obj]);
+        }
         setIsReadMore(!isReadmore)
     }
     let isCalled = false
-    const sendValue = (event: any, value: any, type: string) => {
+    const sendValue = (event: any, value: any) => {
         console.log();
         let obj = {
             "text": value,
@@ -116,6 +120,26 @@ const Chatbot = () => {
         dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
         setMessagesList(prevArray => [...prevArray, obj]);
         dataToPass.message = `/${intentType}{"${entityType}": "${value}"}`
+        // dataToPass.message = type === "input_job_title" ? `/${type}{"job_title": "${value}"}` : `/${type}{"job_location": "${value}"}`;
+        getTableData();
+
+        // sendLocValue(null, "california", "input_job_location")
+
+    }
+    
+    const sendJobValue = (jobData: any) => {
+        console.log();
+        let obj = {
+            "text": jobData.jobtitle,
+            "payload": '',
+            "sent": true,
+            "metadata": {
+                "job_id": (queryParam ? queryParam : "1")
+            }
+        }
+        dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
+        setMessagesList(prevArray => [...prevArray, obj]);
+        dataToPass.message = `/input_select_job{"select_job": "${jobData.jobid}"}`
         // dataToPass.message = type === "input_job_title" ? `/${type}{"job_title": "${value}"}` : `/${type}{"job_location": "${value}"}`;
         getTableData();
 
@@ -152,10 +176,10 @@ const Chatbot = () => {
         return (Number(activeStep) === 0 || Number(activeStep)) ? true : false;
     };
 
-    const makeJobsCourousal = (jobs:any) => {
-        setMaxSteps(jobs.length)
+    const makeJobsCourousal = (rowObj:any) => {
+        // setMaxSteps(rowObj.jobs.length)
         
-        jobs.forEach((job:any) => {
+        rowObj.jobs.forEach((job:any) => {
             const jobObj = {
                 "container":(
                     <Stack sx={{ minHeight: '300px', minWidth: '300px' }}>
@@ -176,8 +200,8 @@ const Chatbot = () => {
                                             <LocationOnOutlinedIcon sx={{ fontSize: '20px' }} />
                                         </Box>
                                         <Box sx={{ pl: '10px' }}>
-                                            <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>Philadelphia, PA, United States of America</Typography>
-                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography>
+                                            <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>{job.city}, {job.state}  {job.zipcode}</Typography>
+                                            {/* <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography> */}
                                         </Box>
                                     </Box>
     
@@ -186,7 +210,7 @@ const Chatbot = () => {
                                             <CalendarTodayIcon sx={{ fontSize: '15px' }} />
                                         </Box>
                                         <Box sx={{ pl: '10px' }}>
-                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted 6days ago</Typography>
+                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted on {job.date}</Typography>
                                         </Box>
                                     </Box>
     
@@ -195,7 +219,7 @@ const Chatbot = () => {
                                             <AccessTimeIcon sx={{ fontSize: '15px' }} />
                                         </Box>
                                         <Box sx={{ pl: '10px' }}>
-                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Full Time</Typography>
+                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{job.jobtype}</Typography>
                                         </Box>
                                     </Box>
     
@@ -204,7 +228,7 @@ const Chatbot = () => {
                                 <Box>
                                     <Button
                                         disableRipple
-                                        onClick={handleReadMore}
+                                        onClick={()=>handleReadMore(job)}
                                         endIcon={<KeyboardArrowRightIcon />}
                                         sx={{
                                             textTransform: 'capitalize',
@@ -228,7 +252,7 @@ const Chatbot = () => {
                                 <Box sx={{ textAlign: 'center', pb: 3, pl: 1, pr: 1 }}>
                                     <Button
                                         variant="contained"
-                                        disableRipple
+                                        onClick={()=>sendJobValue(job)}
                                         sx={{
                                             borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0, width: '100%',
                                             '&:hover': {
@@ -246,10 +270,11 @@ const Chatbot = () => {
                     </Stack>
                 )
             };
+            rowObj.newJobs.push(jobObj);
 
-            setNewSteps((prevSearchData: any) => ({
-                ...prevSearchData,jobObj
-              }));
+            // setNewSteps((prevSearchData: any) => ({
+            //     ...prevSearchData,jobObj
+            //   }));
         })
 
     }
@@ -614,29 +639,35 @@ const Chatbot = () => {
                             //   console.log(response.data[0]);
                             const newObject = obj;
                             newObject.sent = false;
+                            newObject.jobs = [];
                             newObject.hideBtns = (newObject.buttons && newObject.buttons.length) ? false : true
-                            setMessagesList(prevArray => [...prevArray, newObject]);
-                            if (newObject.custom && Object.keys(newObject.custom).length) {
+                            if (obj.custom && Object.keys(obj.custom).length) {
                                 setEnableAuto(true);
-                                if (newObject.custom?.titles)
-                                    setSuggesations(newObject.custom.titles);
+                                if (obj.custom?.titles)
+                                    setSuggesations(obj.custom.titles);
 
-                                if(newObject.custom?.intent){
-                                    setIntentType(newObject.custom.intent);
+                                if(obj.custom?.intent){
+                                    setIntentType(obj.custom.intent);
+                                    console.log(`${intentType}`);
                                 }
-                                if(newObject.custom?.entity){
-                                    setEntityType(newObject.custom.entity);
+                                if(obj.custom?.entity){
+                                    setEntityType(obj.custom.entity);
+                                    console.log(`${entityType}`);
                                 }
                                 
-                                if(newObject.custom?.ui_component && newObject.custom.ui_component === "job_location"){
+                                if(obj.custom?.ui_component && obj.custom.ui_component === "job_location"){
                                     setSuggesations(["california", "newyork", "washington"]);
                                 }
-                                if(newObject.custom?.ui_component && newObject.custom.ui_component === "select_job"){
+                                if(obj.custom?.ui_component && obj.custom.ui_component === "select_job"){
                                     setInputValue('');
                                     setEnableAuto(false);
-                                    makeJobsCourousal(newObject.custom?.jobs);
+                                    newObject.newJobs = [];
+                                    newObject.maxSteps = newObject.custom?.jobs.length;
+                                    newObject.jobs = newObject.custom?.jobs;
+                                    makeJobsCourousal(newObject);
                                 }
                             }
+                            setMessagesList(prevArray => [...prevArray, newObject]);
 
                         })
                         console.log(messagesList);
@@ -862,7 +893,7 @@ const Chatbot = () => {
                             </Typography>
                         </Stack> */}
 
-                        <Stack sx={{ p: '25px', height: '300px' }}>
+                        {/* <Stack sx={{ p: '25px', height: '300px' }}>
                             <Stack sx={{
                                 backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
                                 boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', height: '10px',
@@ -1011,7 +1042,7 @@ const Chatbot = () => {
                                 </Stack>
 
                             </Stack>
-                        </Stack>
+                        </Stack> */}
 
                         {/* <Stack sx={{
                             mb: 3, '&& .css-ohwg9z': {
@@ -1218,7 +1249,14 @@ const Chatbot = () => {
                         {/* {isButtonHover && */}
 
 
-                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '350px', position: 'relative', mr: 1, ml: 1 }}>
+                        
+
+
+                        {messagesList.map((msgObj) => (
+                            <>
+                            {msgObj.newJobs && msgObj.newJobs.length ?
+                             (<>
+                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '350px', position: 'relative', mr: 1, ml: 1 }}>
 
                             <Stack
                                 sx={{
@@ -1259,7 +1297,7 @@ const Chatbot = () => {
                             </Stack>
 
                             {
-                                steps.map((step, i) => {
+                                msgObj.newJobs.map((step:any, i:any) => {
                                     return <>
 
                                         <Slide direction={slideDirection} in={i === activeStep} mountOnEnter unmountOnExit
@@ -1294,7 +1332,7 @@ const Chatbot = () => {
 
                             <Box sx={{
 
-                                display: activeStep === maxSteps - 1 ? 'none' : 'block',
+                                display: activeStep === msgObj.maxSteps - 1 ? 'none' : 'block',
                                 mb: '60px',
 
                             }}>
@@ -1328,24 +1366,24 @@ const Chatbot = () => {
                                 </Button>
 
                             </Box>
-                        </Box>
+                            </Box>
 
 
 
-                        <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', mb: 2 }}
+                            <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', mb: 2 }}
                             direction='row' spacing={2}
-                        >
+                            >
 
                             <Box sx={{ textAlign: 'center', ml: '70px' }}>
                                 <Typography variant="body2" color="text.secondary">
-                                    {`${activeStep + 1} of ${maxSteps}`}
+                                    {`${activeStep + 1} of ${msgObj.maxSteps}`}
                                 </Typography>
                             </Box>
 
                             <Box>
                                 <MobileStepper
                                     variant="progress"
-                                    steps={maxSteps}
+                                    steps={msgObj.maxSteps}
                                     position="static"
                                     sx={{ width: '160px', }}
                                     activeStep={activeStep}
@@ -1354,11 +1392,9 @@ const Chatbot = () => {
                                 />
                             </Box>
 
-                        </Stack>
-
-
-                        {messagesList.map((msgObj) => (
-                            <>
+                            </Stack>
+                            </>) : 
+                             (<>
                                 {!msgObj.sent ? (
                                     <>
                                         <>
@@ -1418,22 +1454,9 @@ const Chatbot = () => {
                                         </Stack>
                                     </Stack>
                                 )}
+                             </>)}
+                                
                             </>
-                            // <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
-
-                            //     <Stack>
-                            //         <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
-                            //     </Stack>
-                            //     <Stack sx=
-                            //         {{
-                            //             backgroundColor: '#374458', borderRadius: '5px', pr: 5
-                            //         }}
-                            //     >
-                            //         <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left' }}>
-                            //             {msgObj.text}
-                            //         </Typography>
-                            //     </Stack>
-                            // </Stack>
 
                         ))}
 
@@ -1558,7 +1581,7 @@ const Chatbot = () => {
                                     )
                                 }}
                                 id="free-solo-demo"
-                                onChange={(e, value) => sendValue(e, value, "input_job_title")}
+                                onChange={(e, value) => sendValue(e, value)}
                                 freeSolo
                                 fullWidth
                                 // getOptionDisabled={option => option === "Searched job title"}
@@ -1716,7 +1739,7 @@ const Chatbot = () => {
                     p='15px'
                     maxHeight='30px'
                 >
-                    <Stack onClick={handleReadMore} sx={{ cursor: 'pointer' }}>
+                    <Stack onClick={()=>handleReadMore('')} sx={{ cursor: 'pointer' }}>
                         <KeyboardArrowLeftIcon sx={{ fontSize: '30px', color: '#ffffff', fontWeight: 600 }} />
                     </Stack>
                     <Stack
@@ -1734,13 +1757,13 @@ const Chatbot = () => {
 
                     <Stack sx={{ pb: '15px', borderBottom: '1px solid lightgrey' }} direction='column' spacing={2}>
 
-                        <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Manager, Manufacturing Sales</Typography>
-                        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                        <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{selectedJobData[0]?.jobtitle}</Typography>
+                        {/* <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                             <Box>
                                 <LocationOnOutlinedIcon sx={{ fontSize: '20px' }} />
                             </Box>
                             <Stack sx={{ pl: '10px' }}>
-                                <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>Philadelphia, PA, United States of America</Typography>
+                                <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>{selectedJobData[0]?.city}, {selectedJobData[0]?.state} {selectedJobData[0]?.zipcode}</Typography>
                                 <Typography
                                     sx={{
                                         fontSize: '12px',
@@ -1754,9 +1777,6 @@ const Chatbot = () => {
                                     spacing={1}
                                     sx={{
                                         display: isShowLocation ? 'block' : 'none',
-                                        // overflow: 'hidden',
-                                        // maxHeight: isShowLocation ? '1000px' : '0',
-                                        // transition: 'max-height 0.3s ease',
                                     }}
                                 >
                                     <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>Richmond, VA, United States of America</Typography>
@@ -1779,14 +1799,14 @@ const Chatbot = () => {
                             >
                                 {isShowLocation ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
                             </Box>
-                        </Box>
+                        </Box> */}
 
                         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                             <Box>
                                 <CalendarTodayIcon sx={{ fontSize: '15px' }} />
                             </Box>
                             <Box sx={{ pl: '10px' }}>
-                                <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted 6days ago</Typography>
+                                <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted {selectedJobData[0]?.date}</Typography>
                             </Box>
                         </Box>
 
@@ -1795,7 +1815,7 @@ const Chatbot = () => {
                                 <AccessTimeIcon sx={{ fontSize: '15px' }} />
                             </Box>
                             <Box sx={{ pl: '10px' }}>
-                                <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Full Time</Typography>
+                                <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{selectedJobData[0]?.jobtype}</Typography>
                             </Box>
                         </Box>
 
@@ -1809,12 +1829,13 @@ const Chatbot = () => {
 
                         <Box sx={{ mt: '5px' }}>
                             <Typography sx={{ fontSize: '14px' }}>
-                                Our mission is to live our “at your side” promise and simplify and enrich the lives of our customers, employees, and communities. "At your side" is more than a slogan to us; it’s the purpose we do our best to fulfill every day. With a legacy spanning over a century, this is a great place to launch or expand any career and push the boundaries of what comes next. We're committed to achieving shared success, and we provide opportunities for you to develop through experience, exposure and education. Our people have always leveraged their unique perspectives to keep us on the right track for a lasting future. If you want to innovate, learn, and grow with a global leader that builds products, services, and a company people love, then we’ll be “at your side” every step of the way.
+                            <span dangerouslySetInnerHTML={{ __html: selectedJobData[0]?.description }} />
+                            {/* {selectedJobData[0]?.description} */}
                             </Typography>
                         </Box>
 
 
-                        <Box sx={{ mt: '5px' }}>
+                        {/* <Box sx={{ mt: '5px' }}>
                             <Typography sx={{ fontSize: '14px' }}>
                                 The <Box component='span' sx={{ fontWeight: 600 }}>Manager, Manufacturing Sales</Box> focuses on expansion of Brother Mobile Solutions’ (BMS) sales revenue and market share within the major target vertical market – Manufacturing (includes Auto ID, Safety Signage & MRO) in North America. This role collaborates works under the leadership of the Senior Manager, Manufacturing Sales to execute cutting edge sales strategies to meet company’s revenue goals and profits. Additional focus areas for this position include but are not limited to: pipeline management, forecasting, and sales reporting.
                             </Typography>
@@ -2067,7 +2088,7 @@ const Chatbot = () => {
                             <Typography sx={{ fontSize: '14px', mt: '15px' }}>
                                 Brother International Corporation has earned its reputation as a premier provider of home office and business products, home appliances for the sewing and crafting enthusiast as well as industrial solutions that revolutionize the way we live and work. Brother International Corporation is a wholly-owned subsidiary of Brother Industries Ltd. With worldwide sales exceeding $6 billion, this global manufacturer was started more than 100 years ago. Bridgewater, New Jersey is the corporate headquarters for Brother in the Americas. It has fully integrated sales, marketing services, manufacturing, research and development capabilities located in the U.S. In addition to its headquarters, Brother has facilities in California, Illinois and Tennessee, as well as subsidiaries in Canada, Brazil, Chile, Argentina, Peru and Mexico. For more information, visit www.brother.com.
                             </Typography>
-                        </Stack>
+                        </Stack> */}
                     </Stack>
                 </Stack>
 
@@ -2080,6 +2101,8 @@ const Chatbot = () => {
                     <Button
                         variant="contained"
                         disableRipple
+                        // onClick={()=>handleReadMore('')}
+                        onClick={()=>(sendJobValue(selectedJobData[0]),handleReadMore(''))}
                         sx={{
                             borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0, width: '100%',
                             '&:hover': {

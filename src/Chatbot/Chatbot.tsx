@@ -1248,10 +1248,10 @@ const Chatbot = () => {
                                                     </Stack>
                                                     <Stack sx=
                                                         {{
-                                                            backgroundColor: '#374458', borderRadius: '5px', pr: 5
+                                                            backgroundColor: '#eaeeed', borderRadius: '24px', p: 0.5, borderBottomLeftRadius: "5px", outline: "1px solid transparent"
                                                         }}
                                                     >
-                                                        <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left' }}>
+                                                        <Typography component='p' sx={{ color: 'black', padding: '5px', textAlign: 'left' }}>
                                                             {msgObj.text}
                                                         </Typography>
                                                     </Stack>
@@ -1265,7 +1265,7 @@ const Chatbot = () => {
                                                 (
                                                     <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} ml={3}>
                                                         {msgObj.buttons.map((btnObj: any) => (
-                                                            <Button variant="outlined" onClick={() => sendMessage(btnObj, msgObj)} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', width: 'auto' }}>
+                                                            <Button variant="outlined" onClick={() => sendMessage(btnObj, msgObj)} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', width: 'auto', outline: "1px solid transparent" }}>
                                                                 {btnObj.title}
                                                             </Button>
                                                         ))}
@@ -1281,7 +1281,7 @@ const Chatbot = () => {
                                         <Stack direction='row' spacing={0.5} mr={1}>
                                             <Stack sx=
                                                 {{
-                                                    backgroundColor: '#146EF6', borderRadius: '5px', p: 0.5, display: 'flex', flexDirection: 'row', justifyContent: 'center'
+                                                    backgroundColor: '#146EF6', borderRadius: '24px', p: 0.5, display: 'flex', flexDirection: 'row', justifyContent: 'center', borderBottomRightRadius: "5px", outline: "1px solid transparent"
                                                 }}
 
                                             >

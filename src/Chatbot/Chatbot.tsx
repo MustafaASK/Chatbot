@@ -73,7 +73,7 @@ const Chatbot = () => {
     const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
-    const handleCloseMenu = (msg:any, msgObj:any) => {
+    const handleCloseMenu = (msg: any, msgObj: any) => {
         setAnchorEl(null);
         let obj = {
             "text": msgObj.title,
@@ -99,8 +99,8 @@ const Chatbot = () => {
     const handleReadMore = () => {
         setIsReadMore(!isReadmore)
     }
-
-    const sendValue = (event:any, value:any) =>{
+    let isCalled = false
+    const sendValue = (event: any, value: any, type: string) => {
         console.log();
         let obj = {
             "text": value,
@@ -112,8 +112,29 @@ const Chatbot = () => {
         }
         dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
         setMessagesList(prevArray => [...prevArray, obj]);
-        dataToPass.message = `/input_job_title{"job_title": "${value}"}`;
+        dataToPass.message = type === "input_job_title" ? `/${type}{"job_title": "${value}"}` : `/${type}{"job_location": "${value}"}`;
         getTableData();
+
+        // sendLocValue(null, "california", "input_job_location")
+
+    }
+
+    const sendLocationValue = (event: any, value: any, type: string) => {
+        console.log();
+        let obj = {
+            "text": value,
+            "payload": '',
+            "sent": true,
+            "metadata": {
+                "job_id": (queryParam ? queryParam : "1")
+            }
+        }
+        dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
+        setMessagesList(prevArray => [...prevArray, obj]);
+        dataToPass.message = type === "input_job_title" ? `/${type}{"job_title": "${value}"}` : `/${type}{"job_location": "${value}"}`;
+        getTableData();
+
+        // 
 
     }
 
@@ -478,7 +499,7 @@ const Chatbot = () => {
                     setInitialText(response.data[0].text);
                     dataToPass.message = "/job_screening";
                     checkUseEffectLoad = false;
-                    // getTableData();
+                    // getTableData()
 
                 } else {
                     if (response.data && response.data.length) {
@@ -488,9 +509,11 @@ const Chatbot = () => {
                             newObject.sent = false;
                             newObject.hideBtns = (newObject.buttons && newObject.buttons.length) ? false : true
                             setMessagesList(prevArray => [...prevArray, newObject]);
-                            if(newObject.custom && Object.keys(newObject.custom).length){
+                            if (newObject.custom && Object.keys(newObject.custom).length) {
                                 setEnableAuto(true);
-                                setSuggesations(newObject.custom.titles)
+                                console.log(newObject, 'newObject')
+                                if (newObject.custom?.titles)
+                                    setSuggesations(newObject.custom.titles)
                             }
 
                         })
@@ -1258,7 +1281,7 @@ const Chatbot = () => {
                                         <Stack direction='row' spacing={0.5} mr={1}>
                                             <Stack sx=
                                                 {{
-                                                    backgroundColor: '#146EF6', borderRadius: '5px', p: 0.5,  display: 'flex', flexDirection: 'row', justifyContent: 'center'
+                                                    backgroundColor: '#146EF6', borderRadius: '5px', p: 0.5, display: 'flex', flexDirection: 'row', justifyContent: 'center'
                                                 }}
 
                                             >
@@ -1403,80 +1426,80 @@ const Chatbot = () => {
                     </Box>
                     {
                         enableAuto ?
-                        (<Autocomplete
-                            PaperComponent={({ children }) => {
-                                return (
-                                    <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none" }}>
-    
-                                        {children}
-                                    </Paper>
-                                )
-                            }}
-                            id="free-solo-demo"
-                            onChange={sendValue}
-                            freeSolo
-                            fullWidth
-                            // getOptionDisabled={option => option === "Searched job title"}
-                            options={suggesations.map((suggesation) => suggesation)}
-                            renderOption={(props, option) => {
-                                return (
-                                    <>
-                                        {option !== "Searched job title" ? <li {...props}>
-                                            <Box
-                                                sx={{
-                                                    width: "100%"
-                                                }}
-                                            >
-                                                {option}
-                                            </Box>
-                                        </li> : null}
-    
-                                    </>
-                                );
-                            }}
-    
-                            renderInput={(params) =>
+                            (<Autocomplete
+                                PaperComponent={({ children }) => {
+                                    return (
+                                        <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none" }}>
+
+                                            {children}
+                                        </Paper>
+                                    )
+                                }}
+                                id="free-solo-demo"
+                                onChange={(e, value) => sendValue(e, value, "input_job_title")}
+                                freeSolo
+                                fullWidth
+                                // getOptionDisabled={option => option === "Searched job title"}
+                                options={suggesations.map((suggesation) => suggesation)}
+                                renderOption={(props, option) => {
+                                    return (
+                                        <>
+                                            {option !== "Searched job title" ? <li {...props}>
+                                                <Box
+                                                    sx={{
+                                                        width: "100%"
+                                                    }}
+                                                >
+                                                    {option}
+                                                </Box>
+                                            </li> : null}
+
+                                        </>
+                                    );
+                                }}
+
+                                renderInput={(params) =>
+                                    <TextField
+                                        {...params}
+
+                                        placeholder="Type your message..."
+
+                                        sx={{
+                                            '& .MuiInputBase-input.MuiOutlinedInput-input': {
+                                                padding: '5px 10px',
+
+                                            },
+                                            '& .MuiInputBase-root.MuiOutlinedInput-root ': {
+                                                borderRadius: '15px',
+                                                backgroundColor: '#F5F5F5'
+                                            },
+                                            '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: '#E6E6E6',
+
+                                            },
+                                            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: '#E6E6E6',
+                                                borderWidth: '1px'
+
+                                            },
+                                        }}
+                                        InputProps={{
+                                            ...params.InputProps,
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <TelegramIcon sx={{ cursor: 'pointer', color: '#919191' }} />
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                    />}
+
+                            />) :
+                            (
                                 <TextField
-                                    {...params}
-    
-                                    placeholder="Type your message..."
-    
-                                    sx={{
-                                        '& .MuiInputBase-input.MuiOutlinedInput-input': {
-                                            padding: '5px 10px',
-    
-                                        },
-                                        '& .MuiInputBase-root.MuiOutlinedInput-root ': {
-                                            borderRadius: '15px',
-                                            backgroundColor: '#F5F5F5'
-                                        },
-                                        '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-                                            borderColor: '#E6E6E6',
-    
-                                        },
-                                        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                            borderColor: '#E6E6E6',
-                                            borderWidth: '1px'
-    
-                                        },
-                                    }}
-                                    InputProps={{
-                                        ...params.InputProps,
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <TelegramIcon sx={{ cursor: 'pointer', color: '#919191' }} />
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                />}
-    
-                        />) :
-                        (
-                            <TextField
-    
+
                                     placeholder="Type your message..."
                                     onKeyDown={handleKeyDown}
-    
+
                                     // disabled={disableBtn}
                                     value={inputValue}
                                     onChange={handleInputChange}
@@ -1487,11 +1510,11 @@ const Chatbot = () => {
                                             </InputAdornment>
                                         ),
                                     }}
-    
+
                                     sx={{
                                         '& .MuiInputBase-input.MuiOutlinedInput-input': {
                                             padding: '5px 10px',
-    
+
                                         },
                                         '& .MuiInputBase-root.MuiOutlinedInput-root ': {
                                             borderRadius: '15px',
@@ -1499,18 +1522,18 @@ const Chatbot = () => {
                                         },
                                         '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
                                             borderColor: '#E6E6E6',
-    
+
                                         },
                                         '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
                                             borderColor: '#E6E6E6',
                                             borderWidth: '1px'
-    
+
                                         },
                                     }}
                                 />
-                        )
+                            )
                     }
-                    
+
 
 
 
@@ -1531,7 +1554,7 @@ const Chatbot = () => {
                         sx={{ transform: "translateY(-110px) translateX(10px)", padding: "5px 2px" }}
 
                     >
-                        <MenuItem  onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[1].payload : '', (initialButtons && initialButtons.length) ? initialButtons[1] : '')}>
+                        <MenuItem onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[1].payload : '', (initialButtons && initialButtons.length) ? initialButtons[1] : '')}>
                             <ListItemIcon>
                                 <SearchIcon fontSize="small" />
                             </ListItemIcon>

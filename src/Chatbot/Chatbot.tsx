@@ -1746,7 +1746,7 @@ const Chatbot = () => {
 
                                                             <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer', position: "absolute", right: "5px", bottom: "2px" }}
                                                                 onClick={() => {
-                                                                    setIsChatbotOpen(false)
+
                                                                     setOpenAutoComplete(false)
                                                                 }
                                                                 } />

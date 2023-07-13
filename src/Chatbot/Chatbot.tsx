@@ -907,15 +907,13 @@ const Chatbot = () => {
                     <ReactScrolableFeed >
 
                         <Stack sx={{ pl: '10px', pb: '10px', pt: '10px' }}>
-                            <Typography component='p' sx={{ fontSize: '14px' }}>
+                            <Typography component='p' sx={{ fontSize: '13px', color:'#374458' }}>
                                 The information you provide to the careers website <br />
                                 and chatbot will be collected to improve your <br />
                                 experience. Please read our
                                 <Box component='span'
                                     sx={{
-                                        color: '#146EF6',
-                                        fontSize: '14px',
-                                        fontWeight: 600,
+                                        fontWeight: 'bold',
                                         cursor: 'pointer',
                                         pl: "5px",
                                         '&:hover': {
@@ -926,9 +924,7 @@ const Chatbot = () => {
                                 we are storing and protecting your data, as well as <br />
                                 our <Box component='span'
                                     sx={{
-                                        color: '#146EF6',
-                                        fontSize: '14px',
-                                        fontWeight: 600,
+                                        fontWeight: 'bold',
                                         cursor: 'pointer',
                                         '&:hover': {
                                             textDecoration: 'underline'
@@ -2270,10 +2266,10 @@ const Chatbot = () => {
                                 <Stack >
                                     <Box component='div' sx={{ backgroundColor: '#ffffff', display: 'flex', flexDirection: 'row', borderRadius: '20px', boxShadow: 'rgb(0 0 0 / 16%) 0px 1px 15px 2px' }}>
                                         <Box component='div' sx={{ p: '18px 22px 16px 18px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                            <Typography sx={{ fontSize: '16px' }}>{initialText} </Typography>
+                                            <Typography sx={{ fontSize: '14px',color:'#1A1A1A' }}>{initialText} </Typography>
                                         </Box>
 
-                                        <Box component='div' sx={{ p: '5px' }}>
+                                        <Box component='div' sx={{ pr: '7px',pt:'18px' }}>
                                             <CloseSharpIcon sx={{ fontSize: '20px' }} />
                                         </Box>
                                     </Box>
@@ -2283,7 +2279,7 @@ const Chatbot = () => {
                                             disableRipple
                                             startIcon={<SearchIcon />}
                                             sx={{
-                                                borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', whiteSpace: 'nowrap',
+                                                borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '12px', height: '34px', whiteSpace: 'nowrap',
                                                 '&:hover': {
                                                     backgroundColor: '#146EF6',
                                                     borderColor: '#146EF6',
@@ -2298,7 +2294,7 @@ const Chatbot = () => {
                                         <Button variant="outlined"
                                             onClick={() => sendPayload(initialButtons[1].payload, initialButtons[1])}
                                             sx={{
-                                                borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', whiteSpace: 'nowrap',
+                                                borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '12px', height: '34px', whiteSpace: 'nowrap',
                                                 '&:hover': {
                                                     backgroundColor: '#146EF6',
                                                     borderColor: '#146EF6',

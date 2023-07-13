@@ -134,6 +134,10 @@ const Loader = () => {
     );
 }
 
+const delay = (ms:any) => new Promise(
+    resolve => setTimeout(resolve, ms)
+  );
+
 const Chatbot = () => {
 
     const location = useLocation();
@@ -725,39 +729,41 @@ const Chatbot = () => {
 
                 } else {
                     if (response.data && response.data.length) {
-                        response.data.map((obj: any) => {
+                        response.data.map((obj: any, i:any) => {
+                            setTimeout(function() {
+                                const newObject = obj;
+                                newObject.sent = false;
+                                newObject.jobs = [];
+                                newObject.hideBtns = (newObject.buttons && newObject.buttons.length) ? false : true
+                                if (obj.custom && Object.keys(obj.custom).length) {
+                                    setEnableAuto(true);
+                                    if (obj.custom?.titles)
+                                        setSuggesations(obj.custom.titles);
+    
+                                    if (obj.custom?.intent) {
+                                        setIntentType(obj.custom.intent);
+                                        console.log(`${intentType}`);
+                                    }
+                                    if (obj.custom?.entity) {
+                                        setEntityType(obj.custom.entity);
+                                        console.log(`${entityType}`);
+                                    }
+    
+                                    if (obj.custom?.ui_component && obj.custom.ui_component === "job_location") {
+                                        setSuggesations(["california", "newyork", "washington"]);
+                                    }
+                                    if (obj.custom?.ui_component && obj.custom.ui_component === "select_job") {
+                                        setInputValue('');
+                                        setEnableAuto(false);
+                                        newObject.newJobs = [];
+                                        newObject.maxSteps = newObject.custom?.jobs.length;
+                                        newObject.jobs = newObject.custom?.jobs;
+                                        makeJobsCourousal(newObject);
+                                    }
+                                }
+                                setMessagesList(prevArray => [...prevArray, newObject]);
+                            }, (i) * 1000);
                             //   console.log(response.data[0]);
-                            const newObject = obj;
-                            newObject.sent = false;
-                            newObject.jobs = [];
-                            newObject.hideBtns = (newObject.buttons && newObject.buttons.length) ? false : true
-                            if (obj.custom && Object.keys(obj.custom).length) {
-                                setEnableAuto(true);
-                                if (obj.custom?.titles)
-                                    setSuggesations(obj.custom.titles);
-
-                                if (obj.custom?.intent) {
-                                    setIntentType(obj.custom.intent);
-                                    console.log(`${intentType}`);
-                                }
-                                if (obj.custom?.entity) {
-                                    setEntityType(obj.custom.entity);
-                                    console.log(`${entityType}`);
-                                }
-
-                                if (obj.custom?.ui_component && obj.custom.ui_component === "job_location") {
-                                    setSuggesations(["california", "newyork", "washington"]);
-                                }
-                                if (obj.custom?.ui_component && obj.custom.ui_component === "select_job") {
-                                    setInputValue('');
-                                    setEnableAuto(false);
-                                    newObject.newJobs = [];
-                                    newObject.maxSteps = newObject.custom?.jobs.length;
-                                    newObject.jobs = newObject.custom?.jobs;
-                                    makeJobsCourousal(newObject);
-                                }
-                            }
-                            setMessagesList(prevArray => [...prevArray, newObject]);
 
                         })
                         console.log(messagesList);

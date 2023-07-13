@@ -1329,11 +1329,31 @@ const Chatbot = () => {
 
 
 
-
-
                         {messagesList.map((msgObj) => (
                             <>
-                                {msgObj.payload === '/affirm' ?
+                            { msgObj.sent ? 
+                            (<>
+                            <Stack direction='column' p={0.5} alignItems='flex-end' >
+                                                    <Stack direction='row' spacing={0.5} mr={1}>
+                                                        <Stack sx=
+                                                            {{
+                                                                backgroundColor: '#146EF6', borderRadius: '24px', p: 0.5, display: 'flex', flexDirection: 'row', justifyContent: 'center', borderBottomRightRadius: "5px", outline: "1px solid transparent"
+                                                            }}
+
+                                                        >
+                                                            <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
+                                                                {msgObj.text}
+                                                            </Typography>
+                                                        </Stack>
+
+                                                        <Stack>
+                                                            <img src={profileIcon} style={{ height: '30px', width: '30px' }} alt="chatbot" />
+                                                        </Stack>
+                                                    </Stack>
+                            </Stack>
+                            </>)  :
+                            (<>
+                            { msgObj.payload === '/affirm' ? 
                                     (<>
                                         <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }}>
                                             <Box sx={{ backgroundColor: '#e2e2e2', height: '100px', width: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: '50%', mb: '15px' }}>
@@ -1372,7 +1392,8 @@ const Chatbot = () => {
                                             </Typography>
                                         </Stack>
                                     </>) :
-                                    (<>{msgObj.newJobs && msgObj.newJobs.length ?
+                                    (<>
+                                    {msgObj.newJobs && msgObj.newJobs.length ?
                                         (<>
                                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '350px', position: 'relative', mr: 1, ml: 1 }}>
 
@@ -1512,74 +1533,54 @@ const Chatbot = () => {
 
                                             </Stack>
                                         </>) :
-                                        (<>
-                                            {!msgObj.sent ? (
+                                        (
+                                            <>
                                                 <>
-                                                    <>
-                                                        {msgObj.text ? (
-                                                            <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
+                                                    {msgObj.text ? (
+                                                        <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
-                                                                <Stack>
-                                                                    <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
-                                                                </Stack>
-                                                                <Stack sx=
-                                                                    {{
-                                                                        backgroundColor: '#eaeeed', borderRadius: '24px', p: 0.5, borderBottomLeftRadius: "5px", outline: "1px solid transparent"
-                                                                    }}
-                                                                >
-                                                                    <Typography component='p' sx={{ color: 'black', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
-                                                                        {msgObj.text}
-                                                                    </Typography>
-                                                                </Stack>
+                                                            <Stack>
+                                                                <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
                                                             </Stack>
-                                                        ) : (<></>)}
+                                                            <Stack sx=
+                                                                {{
+                                                                    backgroundColor: '#eaeeed', borderRadius: '24px', p: 0.5, borderBottomLeftRadius: "5px", outline: "1px solid transparent"
+                                                                }}
+                                                            >
+                                                                <Typography component='p' sx={{ color: 'black', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
+                                                                    {msgObj.text}
+                                                                </Typography>
+                                                            </Stack>
+                                                        </Stack>
+                                                    ) : (<></>)}
 
-                                                    </>
-
-                                                    <>
-                                                        {(msgObj.buttons && msgObj.buttons.length && !msgObj.hideBtns) ?
-                                                            (
-                                                                <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} ml={3}>
-                                                                    {msgObj.buttons.map((btnObj: any) => (
-                                                                        <Button variant="outlined" onClick={() => sendMessage(btnObj, msgObj)} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '13px', width: 'auto', outline: "1px solid transparent" }}>
-                                                                            {btnObj.title}
-                                                                        </Button>
-                                                                    ))}
-                                                                </Stack>
-                                                            ) :
-                                                            (<></>)}
-                                                    </>
                                                 </>
 
+                                                <>
+                                                    {(msgObj.buttons && msgObj.buttons.length && !msgObj.hideBtns) ?
+                                                        (
+                                                            <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} ml={3}>
+                                                                {msgObj.buttons.map((btnObj: any) => (
+                                                                    <Button variant="outlined" onClick={() => sendMessage(btnObj, msgObj)} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '13px', width: 'auto', outline: "1px solid transparent" }}>
+                                                                        {btnObj.title}
+                                                                    </Button>
+                                                                ))}
+                                                            </Stack>
+                                                        ) :
+                                                        (<></>)}
+                                                </>
+                                            </>
 
-                                            ) : (
-                                                <Stack direction='column' p={0.5} alignItems='flex-end' >
-                                                    <Stack direction='row' spacing={0.5} mr={1}>
-                                                        <Stack sx=
-                                                            {{
-                                                                backgroundColor: '#146EF6', borderRadius: '24px', p: 0.5, display: 'flex', flexDirection: 'row', justifyContent: 'center', borderBottomRightRadius: "5px", outline: "1px solid transparent"
-                                                            }}
 
-                                                        >
-                                                            <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
-                                                                {msgObj.text}
-                                                            </Typography>
-                                                        </Stack>
-
-                                                        <Stack>
-                                                            <img src={profileIcon} style={{ height: '30px', width: '30px' }} alt="chatbot" />
-                                                        </Stack>
-                                                    </Stack>
-                                                </Stack>
-                                            )}
-                                        </>)}
+                                        )
+                                        }
                                     </>)
-                                }
-
-
+                            }
+                            </>) }
                             </>
-
                         ))}
+
+                        
 
 
                         {/* <Stack direction='column' p={0.5} alignItems='flex-end' >

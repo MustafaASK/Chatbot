@@ -134,9 +134,9 @@ const Loader = () => {
     );
 }
 
-const delay = (ms:any) => new Promise(
+const delay = (ms: any) => new Promise(
     resolve => setTimeout(resolve, ms)
-  );
+);
 
 const Chatbot = () => {
 
@@ -732,8 +732,8 @@ const Chatbot = () => {
 
                 } else {
                     if (response.data && response.data.length) {
-                        response.data.map((obj: any, i:any) => {
-                            setTimeout(function() {
+                        response.data.map((obj: any, i: any) => {
+                            setTimeout(function () {
                                 const newObject = obj;
                                 newObject.sent = false;
                                 newObject.jobs = [];
@@ -742,7 +742,7 @@ const Chatbot = () => {
                                     setEnableAuto(true);
                                     if (obj.custom?.titles)
                                         setSuggesations(obj.custom.titles);
-    
+
                                     if (obj.custom?.intent) {
                                         setIntentType(obj.custom.intent);
                                         console.log(`${intentType}`);
@@ -751,7 +751,7 @@ const Chatbot = () => {
                                         setEntityType(obj.custom.entity);
                                         console.log(`${entityType}`);
                                     }
-    
+
                                     if (obj.custom?.ui_component && obj.custom.ui_component === "job_location") {
                                         setSuggesations(["california", "newyork", "washington"]);
                                     }
@@ -1410,7 +1410,7 @@ const Chatbot = () => {
                                             (<>
                                                 {msgObj.newJobs && msgObj.newJobs.length ?
                                                     (<>
-                                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '350px', position: 'relative', mr: 1, ml: 1 }}>
+                                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '350px', position: 'relative', mr: 1, ml: 1, overflow: 'hidden' }}>
 
                                                             <Stack
                                                                 sx={{
@@ -1425,7 +1425,7 @@ const Chatbot = () => {
                                                                     onClick={handleBack}
                                                                     sx={{
                                                                         position: 'absolute',
-                                                                        left: 0,
+                                                                        left: '1px',
                                                                         zIndex: 2,
                                                                         minWidth: '30px',
                                                                         p: '5px',
@@ -1496,7 +1496,7 @@ const Chatbot = () => {
                                                                     onClick={handleNext}
                                                                     sx={{
                                                                         position: 'absolute',
-                                                                        right: 0,
+                                                                        right: '1px',
                                                                         zIndex: 2,
                                                                         minWidth: '30px',
                                                                         backgroundColor: '#ffffff',

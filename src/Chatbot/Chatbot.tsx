@@ -1819,18 +1819,18 @@ const Chatbot = () => {
                             'aria-labelledby': 'basic-button',
                             sx: { py: 0 }
                         }}
-                        sx={{ transform: "translateY(-110px) translateX(10px)", padding: "5px 2px" }}
+                        sx={{ transform: "translateY(-50px) translateX(15px)", padding: "5px 2px" }}
 
                     >
-                        <MenuItem onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[1].payload : '', (initialButtons && initialButtons.length) ? initialButtons[1] : '')}>
+                        <MenuItem sx={{ padding: "4px 5px" }} onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[1].payload : '', (initialButtons && initialButtons.length) ? initialButtons[1] : '')}>
                             <ListItemIcon>
                                 <SearchIcon fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText>{(initialButtons && initialButtons.length) ? initialButtons[1].title : ''}</ListItemText> </MenuItem>
-                        <Divider sx={{ margin: "0px" }} />
-                        <MenuItem onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[0].payload : '', (initialButtons && initialButtons.length) ? initialButtons[0] : '')}>
+                            <ListItemText><span style={{ fontSize: "13px" }}>{(initialButtons && initialButtons.length) ? initialButtons[1].title : ''}</span></ListItemText> </MenuItem>
+                        <Divider sx={{ marginTop: "1px !important", marginBottom: "1px !important" }} />
+                        <MenuItem sx={{ padding: "4px 5px" }} onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[0].payload : '', (initialButtons && initialButtons.length) ? initialButtons[0] : '')}>
                             <ListItemIcon><HelpOutlineIcon fontSize="small" /></ListItemIcon>
-                            <ListItemText>{(initialButtons && initialButtons.length) ? initialButtons[0].title : ''}</ListItemText></MenuItem>
+                            <ListItemText><span style={{ fontSize: "13px" }}>{(initialButtons && initialButtons.length) ? initialButtons[0].title : ''}</span></ListItemText></MenuItem>
 
                     </Menu>
                 </Stack>

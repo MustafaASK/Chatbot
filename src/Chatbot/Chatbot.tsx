@@ -1767,7 +1767,7 @@ const Chatbot = () => {
 
                                     placeholder="Type your message..."
                                     onKeyDown={handleKeyDown}
-
+                                    fullWidth
                                     // disabled={disableBtn}
                                     value={inputValue}
                                     onChange={handleInputChange}

@@ -48,92 +48,6 @@ import apiService from "../shared/api/apiService";
 //     label: suggestion.label
 // }));
 
-const Loader = () => {
-    return (<>
-            <Box
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.3em',
-                    overflow: 'hidden',
-
-                }}
-            >
-
-                <Box
-                    sx={{
-                        animation: 'pulse 1s infinite',
-                        color: '#2731DD',
-                        '@keyframes pulse': {
-                            '0%': {
-                                opacity: 0.2,
-                                transform: 'translateY(0)',
-                            },
-                            '50%': {
-                                opacity: 0.5,
-                                transform: 'translateY(-2px)',
-                            },
-                            '100%': {
-                                opacity: 1,
-                                transform: 'translateY(0)',
-                            },
-                        },
-                    }}
-                >
-                    <FiberManualRecordIcon sx={{ fontSize: '14px' }} />
-                </Box>
-
-                <Box
-                    sx={{
-                        animation: 'typing 1s infinite',
-                        color: '#2731DD',
-                        '@keyframes typing': {
-                            '0%': {
-                                opacity: 0.2,
-                                transform: 'translateY(0)',
-                            },
-                            '50%': {
-                                opacity: 0.5,
-                                transform: 'translateY(-2px)',
-                            },
-                            '100%': {
-                                opacity: 1,
-                                transform: 'translateY(0)',
-                            },
-                        },
-                    }}
-                >
-                    <FiberManualRecordIcon sx={{ fontSize: '14px' }} />
-                </Box>
-
-                <Box
-                    sx={{
-                        animation: 'typing 1s infinite',
-                        color: '#2731DD',
-                        '@keyframes typing': {
-                            '0%': {
-                                opacity: 0.2,
-                                transform: 'translateY(0)',
-                            },
-                            '50%': {
-                                opacity: 0.5,
-                                transform: 'translateY(-2px)',
-                            },
-                            '100%': {
-                                opacity: 1,
-                                transform: 'translateY(0)',
-                            },
-                        },
-                    }}
-                >
-                    <FiberManualRecordIcon sx={{ fontSize: '14px' }} />
-                </Box>
-
-            </Box>
-            </>
-    );
-}
-
 const Chatbot = () => {
 
     const location = useLocation();
@@ -368,7 +282,6 @@ const Chatbot = () => {
         })
 
     }
-
 
 
     const steps = [
@@ -852,8 +765,8 @@ const Chatbot = () => {
                     position: 'fixed',
                     zIndex: isChatbotOpen ? 4 : -1,
                     boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
-                    right: '80px',
-                    transform: isChatbotOpen ? 'translate(-5%,-15%)' : 'translateY(5%)',
+                    right: '40px',
+                    transform: isChatbotOpen ? 'translate(-5%,-5%)' : 'translateY(5%)',
                     transition: 'all .1s ease-out',
                     transformOrigin: "bottom right",
                     opacity: isChatbotOpen ? 1 : 0,
@@ -904,17 +817,97 @@ const Chatbot = () => {
                     </Box>
                 </Stack>
 
-                
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.3em',
+                        overflow: 'hidden',
+
+                    }}
+                >
+
+                    <Box
+                        sx={{
+                            animation: 'pulse 1s infinite',
+                            color: '#2731DD',
+                            '@keyframes pulse': {
+                                '0%': {
+                                    opacity: 0.2,
+                                    transform: 'translateY(0)',
+                                },
+                                '50%': {
+                                    opacity: 0.5,
+                                    transform: 'translateY(-2px)',
+                                },
+                                '100%': {
+                                    opacity: 1,
+                                    transform: 'translateY(0)',
+                                },
+                            },
+                        }}
+                    >
+                        <FiberManualRecordIcon sx={{ fontSize: '14px' }} />
+                    </Box>
+
+                    <Box
+                        sx={{
+                            animation: 'typing 1s infinite',
+                            color: '#2731DD',
+                            '@keyframes typing': {
+                                '0%': {
+                                    opacity: 0.2,
+                                    transform: 'translateY(0)',
+                                },
+                                '50%': {
+                                    opacity: 0.5,
+                                    transform: 'translateY(-2px)',
+                                },
+                                '100%': {
+                                    opacity: 1,
+                                    transform: 'translateY(0)',
+                                },
+                            },
+                        }}
+                    >
+                        <FiberManualRecordIcon sx={{ fontSize: '14px' }} />
+                    </Box>
+
+                    <Box
+                        sx={{
+                            animation: 'typing 1s infinite',
+                            color: '#2731DD',
+                            '@keyframes typing': {
+                                '0%': {
+                                    opacity: 0.2,
+                                    transform: 'translateY(0)',
+                                },
+                                '50%': {
+                                    opacity: 0.5,
+                                    transform: 'translateY(-2px)',
+                                },
+                                '100%': {
+                                    opacity: 1,
+                                    transform: 'translateY(0)',
+                                },
+                            },
+                        }}
+                    >
+                        <FiberManualRecordIcon sx={{ fontSize: '14px' }} />
+                    </Box>
+
+                </Box>
+
                 <Stack ref={scrollRef}
                     id='content-container'
                     sx={{
-                        backgroundColor: '#ffffff', overflowY: 'scroll', maxHeight: '330px', minHeight: '300px', mb: '5px'
+                        backgroundColor: '#ffffff', overflowY: 'scroll', maxHeight: '385px', minHeight: '350px', mb: '5px'
                     }} >
 
                     <ReactScrolableFeed >
 
                         <Stack sx={{ pl: '10px', pb: '10px', pt: '10px' }}>
-                            <Typography component='p' sx={{ fontSize: '13px', color:'#374458' }}>
+                            <Typography component='p' sx={{ fontSize: '13px', color: '#374458' }}>
                                 The information you provide to the careers website <br />
                                 and chatbot will be collected to improve your <br />
                                 experience. Please read our
@@ -1339,29 +1332,8 @@ const Chatbot = () => {
 
 
                         {messagesList.map((msgObj) => (
-                            <> 
-                            { msgObj.sent ? 
-                                (<Stack direction='column' p={0.5} alignItems='flex-end' >
-                                <Stack direction='row' spacing={0.5} mr={1}>
-                                    <Stack sx=
-                                        {{
-                                            backgroundColor: '#146EF6', borderRadius: '24px', p: 0.5, display: 'flex', flexDirection: 'row', justifyContent: 'center', borderBottomRightRadius: "5px", outline: "1px solid transparent"
-                                        }}
-
-                                    >
-                                        <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left' }}>
-                                            {msgObj.text}
-                                        </Typography>
-                                    </Stack>
-
-                                    <Stack>
-                                        <img src={profileIcon} style={{ height: '30px', width: '30px' }} alt="chatbot" />
-                                    </Stack>
-                                </Stack>
-                            </Stack>) : 
-                                ( 
-                                <>
-                                    { msgObj.payload === '/affirm' ? 
+                            <>
+                                {msgObj.payload === '/affirm' ?
                                     (<>
                                         <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }}>
                                             <Box sx={{ backgroundColor: '#e2e2e2', height: '100px', width: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: '50%', mb: '15px' }}>
@@ -1399,9 +1371,8 @@ const Chatbot = () => {
                                                 Cancel
                                             </Typography>
                                         </Stack>
-                                    </>) : 
-                                    (<>
-                                        {msgObj.newJobs && msgObj.newJobs.length ?
+                                    </>) :
+                                    (<>{msgObj.newJobs && msgObj.newJobs.length ?
                                         (<>
                                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '350px', position: 'relative', mr: 1, ml: 1 }}>
 
@@ -1542,48 +1513,68 @@ const Chatbot = () => {
                                             </Stack>
                                         </>) :
                                         (<>
-                                            <>
-                                                {msgObj.text ? (
-                                                    <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
+                                            {!msgObj.sent ? (
+                                                <>
+                                                    <>
+                                                        {msgObj.text ? (
+                                                            <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
-                                                        <Stack>
-                                                            <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
-                                                        </Stack>
+                                                                <Stack>
+                                                                    <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
+                                                                </Stack>
+                                                                <Stack sx=
+                                                                    {{
+                                                                        backgroundColor: '#eaeeed', borderRadius: '24px', p: 0.5, borderBottomLeftRadius: "5px", outline: "1px solid transparent"
+                                                                    }}
+                                                                >
+                                                                    <Typography component='p' sx={{ color: 'black', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
+                                                                        {msgObj.text}
+                                                                    </Typography>
+                                                                </Stack>
+                                                            </Stack>
+                                                        ) : (<></>)}
+
+                                                    </>
+
+                                                    <>
+                                                        {(msgObj.buttons && msgObj.buttons.length && !msgObj.hideBtns) ?
+                                                            (
+                                                                <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} ml={3}>
+                                                                    {msgObj.buttons.map((btnObj: any) => (
+                                                                        <Button variant="outlined" onClick={() => sendMessage(btnObj, msgObj)} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '13px', width: 'auto', outline: "1px solid transparent" }}>
+                                                                            {btnObj.title}
+                                                                        </Button>
+                                                                    ))}
+                                                                </Stack>
+                                                            ) :
+                                                            (<></>)}
+                                                    </>
+                                                </>
+
+
+                                            ) : (
+                                                <Stack direction='column' p={0.5} alignItems='flex-end' >
+                                                    <Stack direction='row' spacing={0.5} mr={1}>
                                                         <Stack sx=
                                                             {{
-                                                                backgroundColor: '#eaeeed', borderRadius: '24px', p: 0.5, borderBottomLeftRadius: "5px", outline: "1px solid transparent"
+                                                                backgroundColor: '#146EF6', borderRadius: '24px', p: 0.5, display: 'flex', flexDirection: 'row', justifyContent: 'center', borderBottomRightRadius: "5px", outline: "1px solid transparent"
                                                             }}
+
                                                         >
-                                                            <Typography component='p' sx={{ color: 'black', padding: '5px', textAlign: 'left' }}>
+                                                            <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
                                                                 {msgObj.text}
                                                             </Typography>
                                                         </Stack>
-                                                    </Stack>
-                                                ) : (<></>)}
 
-                                            </>
-
-                                            <>
-                                                {(msgObj.buttons && msgObj.buttons.length && !msgObj.hideBtns) ?
-                                                    (
-                                                        <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} ml={3}>
-                                                            {msgObj.buttons.map((btnObj: any) => (
-                                                                <Button variant="outlined" onClick={() => sendMessage(btnObj, msgObj)} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', width: 'auto', outline: "1px solid transparent" }}>
-                                                                    {btnObj.title}
-                                                                </Button>
-                                                            ))}
+                                                        <Stack>
+                                                            <img src={profileIcon} style={{ height: '30px', width: '30px' }} alt="chatbot" />
                                                         </Stack>
-                                                    ) :
-                                                    (<></>)}
-                                            </>
-                                        </>)
-                                        }
-                                    </>)}
-                                </>
-                                )
-
-                            }
-                               
+                                                    </Stack>
+                                                </Stack>
+                                            )}
+                                        </>)}
+                                    </>)
+                                }
 
 
                             </>
@@ -1690,7 +1681,7 @@ const Chatbot = () => {
                 </Box> */}
                 <Stack
                     id='send-container'
-                    direction="row" alignItems="center" pt='5%' mr={1} ml={1} pb='5%'
+                    direction="row" alignItems="center" pt='2%' mr={1} ml={1} pb='2%'
                     sx={{ borderTop: '1px solid lightgrey', bottom: '0px' }} spacing={1}
                     position='sticky'
                     zIndex={1}
@@ -1701,80 +1692,82 @@ const Chatbot = () => {
                     </Box>
                     {
                         enableAuto ?
-                            (<Autocomplete
-                                PaperComponent={({ children }) => {
-                                    return (
-                                        <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none" }}>
+                            (
+                                <Autocomplete
+                                    PaperComponent={({ children }) => {
+                                        return (
+                                            <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none" }}>
 
-                                            {children}
-                                        </Paper>
-                                    )
-                                }}
-                                id="free-solo-demo"
-                                onChange={(e, value) => sendValue(e, value)}
-                                freeSolo
-                                fullWidth
-                                // getOptionDisabled={option => option === "Searched job title"}
-                                options={suggesations.map((suggesation) => suggesation)}
-                                renderOption={(props, option) => {
-                                    return (
-                                        <>
-                                            {option !== "Searched job title" ? <li {...props}>
-                                                <Box
-                                                    sx={{
-                                                        width: "100%"
-                                                    }}
-                                                >
-                                                    {option}
-                                                </Box>
-                                            </li> : null}
+                                                {children}
+                                            </Paper>
+                                        )
+                                    }}
+                                    id="free-solo-demo"
+                                    onChange={(e, value) => sendValue(e, value)}
+                                    freeSolo
+                                    fullWidth
+                                    // getOptionDisabled={option => option === "Searched job title"}
+                                    options={suggesations.map((suggesation) => suggesation)}
+                                    renderOption={(props, option) => {
+                                        return (
+                                            <>
+                                                {option !== "Searched job title" ? <li {...props}>
+                                                    <Box
+                                                        sx={{
+                                                            width: "100%"
+                                                        }}
+                                                    >
+                                                        {option}
+                                                    </Box>
+                                                </li> : null}
 
-                                        </>
-                                    );
-                                }}
+                                            </>
+                                        );
+                                    }}
 
-                                renderInput={(params) =>
-                                    <TextField
-                                        {...params}
+                                    renderInput={(params) =>
+                                        <TextField
+                                            {...params}
 
-                                        placeholder="Type your message..."
+                                            placeholder="Type your message..."
 
-                                        sx={{
-                                            '& .MuiInputBase-input.MuiOutlinedInput-input': {
-                                                padding: '5px 10px',
+                                            sx={{
+                                                '& .MuiInputBase-input.MuiOutlinedInput-input': {
+                                                    padding: '5px 10px',
+                                                    height: "10px"
 
-                                            },
-                                            '& .MuiInputBase-root.MuiOutlinedInput-root ': {
-                                                borderRadius: '15px',
-                                                backgroundColor: '#F5F5F5'
-                                            },
-                                            '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-                                                borderColor: '#E6E6E6',
+                                                },
+                                                '& .MuiInputBase-root.MuiOutlinedInput-root ': {
+                                                    borderRadius: '15px',
+                                                    backgroundColor: '#F5F5F5'
+                                                },
+                                                '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#E6E6E6',
 
-                                            },
-                                            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                                borderColor: '#E6E6E6',
-                                                borderWidth: '1px'
+                                                },
+                                                '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#E6E6E6',
+                                                    borderWidth: '1px'
 
-                                            },
-                                        }}
-                                        InputProps={{
-                                            ...params.InputProps,
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <TelegramIcon sx={{ cursor: 'pointer', color: '#919191' }} />
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                    />}
+                                                },
+                                            }}
+                                            InputProps={{
+                                                ...params.InputProps,
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <TelegramIcon sx={{ cursor: 'pointer', color: '#919191' }} />
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                        />}
 
-                            />) :
+                                />) :
                             (
                                 <TextField
 
                                     placeholder="Type your message..."
                                     onKeyDown={handleKeyDown}
-
+                                    fullWidth
                                     // disabled={disableBtn}
                                     value={inputValue}
                                     onChange={handleInputChange}
@@ -1826,18 +1819,18 @@ const Chatbot = () => {
                             'aria-labelledby': 'basic-button',
                             sx: { py: 0 }
                         }}
-                        sx={{ transform: "translateY(-110px) translateX(10px)", padding: "5px 2px" }}
+                        sx={{ transform: "translateY(-50px) translateX(15px)", padding: "5px 2px" }}
 
                     >
-                        <MenuItem onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[1].payload : '', (initialButtons && initialButtons.length) ? initialButtons[1] : '')}>
+                        <MenuItem sx={{ padding: "4px 5px" }} onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[1].payload : '', (initialButtons && initialButtons.length) ? initialButtons[1] : '')}>
                             <ListItemIcon>
                                 <SearchIcon fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText>{(initialButtons && initialButtons.length) ? initialButtons[1].title : ''}</ListItemText> </MenuItem>
-                        <Divider sx={{ margin: "0px" }} />
-                        <MenuItem onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[0].payload : '', (initialButtons && initialButtons.length) ? initialButtons[0] : '')}>
+                            <ListItemText><span style={{ fontSize: "13px" }}>{(initialButtons && initialButtons.length) ? initialButtons[1].title : ''}</span></ListItemText> </MenuItem>
+                        <Divider sx={{ marginTop: "1px !important", marginBottom: "1px !important" }} />
+                        <MenuItem sx={{ padding: "4px 5px" }} onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[0].payload : '', (initialButtons && initialButtons.length) ? initialButtons[0] : '')}>
                             <ListItemIcon><HelpOutlineIcon fontSize="small" /></ListItemIcon>
-                            <ListItemText>{(initialButtons && initialButtons.length) ? initialButtons[0].title : ''}</ListItemText></MenuItem>
+                            <ListItemText><span style={{ fontSize: "13px" }}>{(initialButtons && initialButtons.length) ? initialButtons[0].title : ''}</span></ListItemText></MenuItem>
 
                     </Menu>
                 </Stack>
@@ -2275,10 +2268,10 @@ const Chatbot = () => {
                                 <Stack >
                                     <Box component='div' sx={{ backgroundColor: '#ffffff', display: 'flex', flexDirection: 'row', borderRadius: '20px', boxShadow: 'rgb(0 0 0 / 16%) 0px 1px 15px 2px' }}>
                                         <Box component='div' sx={{ p: '18px 22px 16px 18px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                            <Typography sx={{ fontSize: '14px',color:'#1A1A1A' }}>{initialText} </Typography>
+                                            <Typography sx={{ fontSize: '14px', color: '#1A1A1A' }}>{initialText} </Typography>
                                         </Box>
 
-                                        <Box component='div' sx={{ pr: '7px',pt:'18px' }}>
+                                        <Box component='div' sx={{ pr: '7px', pt: '18px' }}>
                                             <CloseSharpIcon sx={{ fontSize: '20px' }} />
                                         </Box>
                                     </Box>

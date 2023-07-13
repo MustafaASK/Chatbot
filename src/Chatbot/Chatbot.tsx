@@ -765,8 +765,8 @@ const Chatbot = () => {
                     position: 'fixed',
                     zIndex: isChatbotOpen ? 4 : -1,
                     boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
-                    right: '80px',
-                    transform: isChatbotOpen ? 'translate(-5%,-15%)' : 'translateY(5%)',
+                    right: '40px',
+                    transform: isChatbotOpen ? 'translate(-5%,-5%)' : 'translateY(5%)',
                     transition: 'all .1s ease-out',
                     transformOrigin: "bottom right",
                     opacity: isChatbotOpen ? 1 : 0,
@@ -901,13 +901,13 @@ const Chatbot = () => {
                 <Stack ref={scrollRef}
                     id='content-container'
                     sx={{
-                        backgroundColor: '#ffffff', overflowY: 'scroll', maxHeight: '330px', minHeight: '300px', mb: '5px'
+                        backgroundColor: '#ffffff', overflowY: 'scroll', maxHeight: '385px', minHeight: '350px', mb: '5px'
                     }} >
 
                     <ReactScrolableFeed >
 
                         <Stack sx={{ pl: '10px', pb: '10px', pt: '10px' }}>
-                            <Typography component='p' sx={{ fontSize: '13px', color:'#374458' }}>
+                            <Typography component='p' sx={{ fontSize: '13px', color: '#374458' }}>
                                 The information you provide to the careers website <br />
                                 and chatbot will be collected to improve your <br />
                                 experience. Please read our
@@ -1527,7 +1527,7 @@ const Chatbot = () => {
                                                                         backgroundColor: '#eaeeed', borderRadius: '24px', p: 0.5, borderBottomLeftRadius: "5px", outline: "1px solid transparent"
                                                                     }}
                                                                 >
-                                                                    <Typography component='p' sx={{ color: 'black', padding: '5px', textAlign: 'left' }}>
+                                                                    <Typography component='p' sx={{ color: 'black', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
                                                                         {msgObj.text}
                                                                     </Typography>
                                                                 </Stack>
@@ -1561,7 +1561,7 @@ const Chatbot = () => {
                                                             }}
 
                                                         >
-                                                            <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left' }}>
+                                                            <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
                                                                 {msgObj.text}
                                                             </Typography>
                                                         </Stack>
@@ -1681,7 +1681,7 @@ const Chatbot = () => {
                 </Box> */}
                 <Stack
                     id='send-container'
-                    direction="row" alignItems="center" pt='5%' mr={1} ml={1} pb='5%'
+                    direction="row" alignItems="center" pt='2%' mr={1} ml={1} pb='2%'
                     sx={{ borderTop: '1px solid lightgrey', bottom: '0px' }} spacing={1}
                     position='sticky'
                     zIndex={1}
@@ -1692,74 +1692,76 @@ const Chatbot = () => {
                     </Box>
                     {
                         enableAuto ?
-                            (<Autocomplete
-                                PaperComponent={({ children }) => {
-                                    return (
-                                        <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none" }}>
+                            (
+                                <Autocomplete
+                                    PaperComponent={({ children }) => {
+                                        return (
+                                            <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none" }}>
 
-                                            {children}
-                                        </Paper>
-                                    )
-                                }}
-                                id="free-solo-demo"
-                                onChange={(e, value) => sendValue(e, value)}
-                                freeSolo
-                                fullWidth
-                                // getOptionDisabled={option => option === "Searched job title"}
-                                options={suggesations.map((suggesation) => suggesation)}
-                                renderOption={(props, option) => {
-                                    return (
-                                        <>
-                                            {option !== "Searched job title" ? <li {...props}>
-                                                <Box
-                                                    sx={{
-                                                        width: "100%"
-                                                    }}
-                                                >
-                                                    {option}
-                                                </Box>
-                                            </li> : null}
+                                                {children}
+                                            </Paper>
+                                        )
+                                    }}
+                                    id="free-solo-demo"
+                                    onChange={(e, value) => sendValue(e, value)}
+                                    freeSolo
+                                    fullWidth
+                                    // getOptionDisabled={option => option === "Searched job title"}
+                                    options={suggesations.map((suggesation) => suggesation)}
+                                    renderOption={(props, option) => {
+                                        return (
+                                            <>
+                                                {option !== "Searched job title" ? <li {...props}>
+                                                    <Box
+                                                        sx={{
+                                                            width: "100%"
+                                                        }}
+                                                    >
+                                                        {option}
+                                                    </Box>
+                                                </li> : null}
 
-                                        </>
-                                    );
-                                }}
+                                            </>
+                                        );
+                                    }}
 
-                                renderInput={(params) =>
-                                    <TextField
-                                        {...params}
+                                    renderInput={(params) =>
+                                        <TextField
+                                            {...params}
 
-                                        placeholder="Type your message..."
+                                            placeholder="Type your message..."
 
-                                        sx={{
-                                            '& .MuiInputBase-input.MuiOutlinedInput-input': {
-                                                padding: '5px 10px',
+                                            sx={{
+                                                '& .MuiInputBase-input.MuiOutlinedInput-input': {
+                                                    padding: '5px 10px',
+                                                    height: "10px"
 
-                                            },
-                                            '& .MuiInputBase-root.MuiOutlinedInput-root ': {
-                                                borderRadius: '15px',
-                                                backgroundColor: '#F5F5F5'
-                                            },
-                                            '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-                                                borderColor: '#E6E6E6',
+                                                },
+                                                '& .MuiInputBase-root.MuiOutlinedInput-root ': {
+                                                    borderRadius: '15px',
+                                                    backgroundColor: '#F5F5F5'
+                                                },
+                                                '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#E6E6E6',
 
-                                            },
-                                            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                                borderColor: '#E6E6E6',
-                                                borderWidth: '1px'
+                                                },
+                                                '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#E6E6E6',
+                                                    borderWidth: '1px'
 
-                                            },
-                                        }}
-                                        InputProps={{
-                                            ...params.InputProps,
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <TelegramIcon sx={{ cursor: 'pointer', color: '#919191' }} />
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                    />}
+                                                },
+                                            }}
+                                            InputProps={{
+                                                ...params.InputProps,
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <TelegramIcon sx={{ cursor: 'pointer', color: '#919191' }} />
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                        />}
 
-                            />) :
+                                />) :
                             (
                                 <TextField
 
@@ -2266,10 +2268,10 @@ const Chatbot = () => {
                                 <Stack >
                                     <Box component='div' sx={{ backgroundColor: '#ffffff', display: 'flex', flexDirection: 'row', borderRadius: '20px', boxShadow: 'rgb(0 0 0 / 16%) 0px 1px 15px 2px' }}>
                                         <Box component='div' sx={{ p: '18px 22px 16px 18px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                            <Typography sx={{ fontSize: '14px',color:'#1A1A1A' }}>{initialText} </Typography>
+                                            <Typography sx={{ fontSize: '14px', color: '#1A1A1A' }}>{initialText} </Typography>
                                         </Box>
 
-                                        <Box component='div' sx={{ pr: '7px',pt:'18px' }}>
+                                        <Box component='div' sx={{ pr: '7px', pt: '18px' }}>
                                             <CloseSharpIcon sx={{ fontSize: '20px' }} />
                                         </Box>
                                     </Box>

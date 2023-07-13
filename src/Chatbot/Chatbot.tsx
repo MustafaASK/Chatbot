@@ -80,18 +80,21 @@ const Chatbot = () => {
     };
     const handleCloseMenu = (msg: any, msgObj: any) => {
         setAnchorEl(null);
-        let obj = {
-            "text": msgObj.title,
-            "payload": msgObj.payload,
-            "sent": true,
-            "metadata": {
-                "job_id": (queryParam ? queryParam : "1")
+        if (typeof msg !== 'object') {
+            let obj = {
+                "text": msgObj.title,
+                "payload": msgObj.payload,
+                "sent": true,
+                "metadata": {
+                    "job_id": (queryParam ? queryParam : "1")
+                }
             }
+            dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
+            setMessagesList(prevArray => [...prevArray, obj]);
+            dataToPass.message = msg;
+            getTableData();
         }
-        dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
-        setMessagesList(prevArray => [...prevArray, obj]);
-        dataToPass.message = msg;
-        getTableData();
+
     };
     const isChatOpenedFirstTime = localStorage.getItem("isChatOpened") ? true : false;
 

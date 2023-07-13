@@ -50,87 +50,87 @@ import apiService from "../shared/api/apiService";
 
 const Loader = () => {
     return (<>
+        <Box
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.3em',
+                overflow: 'hidden',
+
+            }}
+        >
+
             <Box
                 sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.3em',
-                    overflow: 'hidden',
-
+                    animation: 'pulse 1s infinite',
+                    color: '#2731DD',
+                    '@keyframes pulse': {
+                        '0%': {
+                            opacity: 0.2,
+                            transform: 'translateY(0)',
+                        },
+                        '50%': {
+                            opacity: 0.5,
+                            transform: 'translateY(-2px)',
+                        },
+                        '100%': {
+                            opacity: 1,
+                            transform: 'translateY(0)',
+                        },
+                    },
                 }}
             >
-
-                <Box
-                    sx={{
-                        animation: 'pulse 1s infinite',
-                        color: '#2731DD',
-                        '@keyframes pulse': {
-                            '0%': {
-                                opacity: 0.2,
-                                transform: 'translateY(0)',
-                            },
-                            '50%': {
-                                opacity: 0.5,
-                                transform: 'translateY(-2px)',
-                            },
-                            '100%': {
-                                opacity: 1,
-                                transform: 'translateY(0)',
-                            },
-                        },
-                    }}
-                >
-                    <FiberManualRecordIcon sx={{ fontSize: '14px' }} />
-                </Box>
-
-                <Box
-                    sx={{
-                        animation: 'typing 1s infinite',
-                        color: '#2731DD',
-                        '@keyframes typing': {
-                            '0%': {
-                                opacity: 0.2,
-                                transform: 'translateY(0)',
-                            },
-                            '50%': {
-                                opacity: 0.5,
-                                transform: 'translateY(-2px)',
-                            },
-                            '100%': {
-                                opacity: 1,
-                                transform: 'translateY(0)',
-                            },
-                        },
-                    }}
-                >
-                    <FiberManualRecordIcon sx={{ fontSize: '14px' }} />
-                </Box>
-
-                <Box
-                    sx={{
-                        animation: 'typing 1s infinite',
-                        color: '#2731DD',
-                        '@keyframes typing': {
-                            '0%': {
-                                opacity: 0.2,
-                                transform: 'translateY(0)',
-                            },
-                            '50%': {
-                                opacity: 0.5,
-                                transform: 'translateY(-2px)',
-                            },
-                            '100%': {
-                                opacity: 1,
-                                transform: 'translateY(0)',
-                            },
-                        },
-                    }}
-                >
-                    <FiberManualRecordIcon sx={{ fontSize: '14px' }} />
-                </Box>
-
+                <FiberManualRecordIcon sx={{ fontSize: '14px' }} />
             </Box>
-            </>
+
+            <Box
+                sx={{
+                    animation: 'typing 1s infinite',
+                    color: '#2731DD',
+                    '@keyframes typing': {
+                        '0%': {
+                            opacity: 0.2,
+                            transform: 'translateY(0)',
+                        },
+                        '50%': {
+                            opacity: 0.5,
+                            transform: 'translateY(-2px)',
+                        },
+                        '100%': {
+                            opacity: 1,
+                            transform: 'translateY(0)',
+                        },
+                    },
+                }}
+            >
+                <FiberManualRecordIcon sx={{ fontSize: '14px' }} />
+            </Box>
+
+            <Box
+                sx={{
+                    animation: 'typing 1s infinite',
+                    color: '#2731DD',
+                    '@keyframes typing': {
+                        '0%': {
+                            opacity: 0.2,
+                            transform: 'translateY(0)',
+                        },
+                        '50%': {
+                            opacity: 0.5,
+                            transform: 'translateY(-2px)',
+                        },
+                        '100%': {
+                            opacity: 1,
+                            transform: 'translateY(0)',
+                        },
+                    },
+                }}
+            >
+                <FiberManualRecordIcon sx={{ fontSize: '14px' }} />
+            </Box>
+
+        </Box>
+    </>
     );
 }
 
@@ -161,6 +161,9 @@ const Chatbot = () => {
     const scrollRef = useRef(null);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+    const [openAutoComplete, setOpenAutoComplete] = useState(false);
+    const closePopper = () => setOpenAutoComplete(false);
+    const openPopper = () => setOpenAutoComplete(true);
     const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -734,7 +737,7 @@ const Chatbot = () => {
                             if (obj.custom && Object.keys(obj.custom).length) {
                                 setEnableAuto(true);
                                 if (obj.custom?.titles)
-                                    setSuggesations(obj.custom.titles);
+                                    setSuggesations(["Searched job title", ...obj.custom.titles]);
 
                                 if (obj.custom?.intent) {
                                     setIntentType(obj.custom.intent);
@@ -1337,256 +1340,256 @@ const Chatbot = () => {
 
                         {messagesList.map((msgObj) => (
                             <>
-                            { msgObj.sent ? 
-                            (<>
-                            <Stack direction='column' p={0.5} alignItems='flex-end' >
-                                                    <Stack direction='row' spacing={0.5} mr={1}>
-                                                        <Stack sx=
-                                                            {{
-                                                                backgroundColor: '#146EF6', borderRadius: '24px', p: 0.5, display: 'flex', flexDirection: 'row', justifyContent: 'center', borderBottomRightRadius: "5px", outline: "1px solid transparent"
-                                                            }}
-
-                                                        >
-                                                            <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
-                                                                {msgObj.text}
-                                                            </Typography>
-                                                        </Stack>
-
-                                                        <Stack>
-                                                            <img src={profileIcon} style={{ height: '30px', width: '30px' }} alt="chatbot" />
-                                                        </Stack>
-                                                    </Stack>
-                            </Stack>
-                            </>)  :
-                            (<>
-                            { msgObj.payload === '/affirm' ? 
+                                {msgObj.sent ?
                                     (<>
-                                        <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }}>
-                                            <Box sx={{ backgroundColor: '#e2e2e2', height: '100px', width: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: '50%', mb: '15px' }}>
+                                        <Stack direction='column' p={0.5} alignItems='flex-end' >
+                                            <Stack direction='row' spacing={0.5} mr={1}>
+                                                <Stack sx=
+                                                    {{
+                                                        backgroundColor: '#146EF6', borderRadius: '24px', p: 0.5, display: 'flex', flexDirection: 'row', justifyContent: 'center', borderBottomRightRadius: "5px", outline: "1px solid transparent"
+                                                    }}
 
-                                                <Box >
-                                                    <UploadFileIcon sx={{
-                                                        fontSize: '40px',
-                                                        color: 'white',
-                                                    }} />
-                                                </Box>
+                                                >
+                                                    <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
+                                                        {msgObj.text}
+                                                    </Typography>
+                                                </Stack>
 
-                                            </Box>
-                                            <Typography>Drag & drop file to upload</Typography>
-                                            <Box sx={{ mt: '15px', mb: '15px' }}>
-                                                <input type="file" id="file-upload" style={{ display: 'none' }} />
-                                                <label htmlFor="file-upload">
-                                                    <Button
-                                                        onClick={handleFileUpload}
-                                                        variant="contained"
-                                                        disableRipple
-
-                                                        sx={{
-                                                            borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0,
-                                                            '&:hover': {
-                                                                backgroundColor: '#146EF6',
-                                                                boxShadow: 0
-                                                            }
-                                                        }}>
-                                                        Upload new Resume
-
-                                                    </Button>
-                                                </label>
-                                            </Box>
-                                            <Typography sx={{ fontWeight: 400, fontSize: '14px', textDecoration: 'underline', cursor: 'pointer' }}>
-                                                Cancel
-                                            </Typography>
+                                                <Stack>
+                                                    <img src={profileIcon} style={{ height: '30px', width: '30px' }} alt="chatbot" />
+                                                </Stack>
+                                            </Stack>
                                         </Stack>
                                     </>) :
                                     (<>
-                                    {msgObj.newJobs && msgObj.newJobs.length ?
-                                        (<>
-                                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '350px', position: 'relative', mr: 1, ml: 1 }}>
+                                        {msgObj.payload === '/affirm' ?
+                                            (<>
+                                                <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }}>
+                                                    <Box sx={{ backgroundColor: '#e2e2e2', height: '100px', width: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: '50%', mb: '15px' }}>
 
-                                                <Stack
-                                                    sx={{
-                                                        display: activeStep === 0 ? 'none' : 'block',
-                                                        mb: '60px'
-                                                    }}
-                                                >
-                                                    <Button
-                                                        disableRipple
-                                                        size="small"
-                                                        variant="contained"
-                                                        onClick={handleBack}
-                                                        sx={{
-                                                            position: 'absolute',
-                                                            left: 0,
-                                                            zIndex: 2,
-                                                            minWidth: '30px',
-                                                            p: '5px',
-                                                            backgroundColor: '#ffffff',
-                                                            color: '#146EF6',
-                                                            height: '60px',
-                                                            boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
-                                                            display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
-                                                            '&:hover': {
-                                                                backgroundColor: '#146EF6',
-                                                                color: '#ffffff',
+                                                        <Box >
+                                                            <UploadFileIcon sx={{
+                                                                fontSize: '40px',
+                                                                color: 'white',
+                                                            }} />
+                                                        </Box>
 
-                                                            }
-                                                        }}
-                                                    >
-                                                        {theme.direction === 'rtl' ? (
-                                                            <KeyboardArrowRightIcon />
-                                                        ) : (
-                                                            <KeyboardArrowLeftIcon />
-                                                        )}
-                                                    </Button>
-                                                    {/* } */}
-                                                </Stack>
+                                                    </Box>
+                                                    <Typography>Drag & drop file to upload</Typography>
+                                                    <Box sx={{ mt: '15px', mb: '15px' }}>
+                                                        <input type="file" id="file-upload" style={{ display: 'none' }} />
+                                                        <label htmlFor="file-upload">
+                                                            <Button
+                                                                onClick={handleFileUpload}
+                                                                variant="contained"
+                                                                disableRipple
 
-                                                {
-                                                    msgObj.newJobs.map((step: any, i: any) => {
-                                                        return <>
+                                                                sx={{
+                                                                    borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0,
+                                                                    '&:hover': {
+                                                                        backgroundColor: '#146EF6',
+                                                                        boxShadow: 0
+                                                                    }
+                                                                }}>
+                                                                Upload new Resume
 
-                                                            <Slide direction={slideDirection} in={i === activeStep} mountOnEnter unmountOnExit
-                                                                timeout={{ appear: 0, enter: 300, exit: 0 }}
-                                                            >
-
-                                                                <Paper
-                                                                    square
-                                                                    elevation={0}
-                                                                    sx={{
-                                                                        display: (i === activeStep) ? 'flex' : 'none',
-                                                                        alignItems: 'center',
-                                                                        height: '100%',
-                                                                        bgcolor: 'background.default',
-                                                                        position: 'relative',
-                                                                        zIndex: 1,
-                                                                        // transition: 'transform 0.5s ease-in-out',
-                                                                        // transform: `translateX(-${activeStep * (100 / steps.length)}%)`,
-
-                                                                    }}
-                                                                >
-
-                                                                    {step.container}
-
-                                                                </Paper>
-
-                                                            </Slide>
-
-                                                        </>
-                                                    })
-                                                }
-
-                                                <Box sx={{
-
-                                                    display: activeStep === msgObj.maxSteps - 1 ? 'none' : 'block',
-                                                    mb: '60px',
-
-                                                }}>
-                                                    <Button
-                                                        size="small"
-                                                        variant="contained"
-                                                        onClick={handleNext}
-                                                        sx={{
-                                                            position: 'absolute',
-                                                            right: 0,
-                                                            zIndex: 2,
-                                                            minWidth: '30px',
-                                                            backgroundColor: '#ffffff',
-                                                            color: '#146EF6',
-                                                            height: '60px',
-                                                            p: '5px',
-                                                            boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
-                                                            display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
-                                                            '&:hover': {
-                                                                backgroundColor: '#146EF6',
-                                                                color: '#ffffff',
-                                                            }
-                                                        }}
-                                                        disableRipple
-                                                    >
-                                                        {theme.direction === 'rtl' ? (
-                                                            <KeyboardArrowLeftIcon />
-                                                        ) : (
-                                                            <KeyboardArrowRightIcon />
-                                                        )}
-                                                    </Button>
-
-                                                </Box>
-                                            </Box>
-
-
-
-                                            <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', mb: 2 }}
-                                                direction='row' spacing={2}
-                                            >
-
-                                                <Box sx={{ textAlign: 'center', ml: '70px' }}>
-                                                    <Typography variant="body2" color="text.secondary">
-                                                        {`${activeStep + 1} of ${msgObj.maxSteps}`}
+                                                            </Button>
+                                                        </label>
+                                                    </Box>
+                                                    <Typography sx={{ fontWeight: 400, fontSize: '14px', textDecoration: 'underline', cursor: 'pointer' }}>
+                                                        Cancel
                                                     </Typography>
-                                                </Box>
+                                                </Stack>
+                                            </>) :
+                                            (<>
+                                                {msgObj.newJobs && msgObj.newJobs.length ?
+                                                    (<>
+                                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '350px', position: 'relative', mr: 1, ml: 1 }}>
 
-                                                <Box>
-                                                    <MobileStepper
-                                                        variant="progress"
-                                                        steps={msgObj.maxSteps}
-                                                        position="static"
-                                                        sx={{ width: '160px', }}
-                                                        activeStep={activeStep}
-                                                        nextButton={null}
-                                                        backButton={null}
-                                                    />
-                                                </Box>
-
-                                            </Stack>
-                                        </>) :
-                                        (
-                                            <>
-                                                <>
-                                                    {msgObj.text ? (
-                                                        <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
-
-                                                            <Stack>
-                                                                <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
-                                                            </Stack>
-                                                            <Stack sx=
-                                                                {{
-                                                                    backgroundColor: '#eaeeed', borderRadius: '24px', p: 0.5, borderBottomLeftRadius: "5px", outline: "1px solid transparent"
+                                                            <Stack
+                                                                sx={{
+                                                                    display: activeStep === 0 ? 'none' : 'block',
+                                                                    mb: '60px'
                                                                 }}
                                                             >
-                                                                <Typography component='p' sx={{ color: 'black', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
-                                                                    {msgObj.text}
+                                                                <Button
+                                                                    disableRipple
+                                                                    size="small"
+                                                                    variant="contained"
+                                                                    onClick={handleBack}
+                                                                    sx={{
+                                                                        position: 'absolute',
+                                                                        left: 0,
+                                                                        zIndex: 2,
+                                                                        minWidth: '30px',
+                                                                        p: '5px',
+                                                                        backgroundColor: '#ffffff',
+                                                                        color: '#146EF6',
+                                                                        height: '60px',
+                                                                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
+                                                                        display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
+                                                                        '&:hover': {
+                                                                            backgroundColor: '#146EF6',
+                                                                            color: '#ffffff',
+
+                                                                        }
+                                                                    }}
+                                                                >
+                                                                    {theme.direction === 'rtl' ? (
+                                                                        <KeyboardArrowRightIcon />
+                                                                    ) : (
+                                                                        <KeyboardArrowLeftIcon />
+                                                                    )}
+                                                                </Button>
+                                                                {/* } */}
+                                                            </Stack>
+
+                                                            {
+                                                                msgObj.newJobs.map((step: any, i: any) => {
+                                                                    return <>
+
+                                                                        <Slide direction={slideDirection} in={i === activeStep} mountOnEnter unmountOnExit
+                                                                            timeout={{ appear: 0, enter: 300, exit: 0 }}
+                                                                        >
+
+                                                                            <Paper
+                                                                                square
+                                                                                elevation={0}
+                                                                                sx={{
+                                                                                    display: (i === activeStep) ? 'flex' : 'none',
+                                                                                    alignItems: 'center',
+                                                                                    height: '100%',
+                                                                                    bgcolor: 'background.default',
+                                                                                    position: 'relative',
+                                                                                    zIndex: 1,
+                                                                                    // transition: 'transform 0.5s ease-in-out',
+                                                                                    // transform: `translateX(-${activeStep * (100 / steps.length)}%)`,
+
+                                                                                }}
+                                                                            >
+
+                                                                                {step.container}
+
+                                                                            </Paper>
+
+                                                                        </Slide>
+
+                                                                    </>
+                                                                })
+                                                            }
+
+                                                            <Box sx={{
+
+                                                                display: activeStep === msgObj.maxSteps - 1 ? 'none' : 'block',
+                                                                mb: '60px',
+
+                                                            }}>
+                                                                <Button
+                                                                    size="small"
+                                                                    variant="contained"
+                                                                    onClick={handleNext}
+                                                                    sx={{
+                                                                        position: 'absolute',
+                                                                        right: 0,
+                                                                        zIndex: 2,
+                                                                        minWidth: '30px',
+                                                                        backgroundColor: '#ffffff',
+                                                                        color: '#146EF6',
+                                                                        height: '60px',
+                                                                        p: '5px',
+                                                                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
+                                                                        display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
+                                                                        '&:hover': {
+                                                                            backgroundColor: '#146EF6',
+                                                                            color: '#ffffff',
+                                                                        }
+                                                                    }}
+                                                                    disableRipple
+                                                                >
+                                                                    {theme.direction === 'rtl' ? (
+                                                                        <KeyboardArrowLeftIcon />
+                                                                    ) : (
+                                                                        <KeyboardArrowRightIcon />
+                                                                    )}
+                                                                </Button>
+
+                                                            </Box>
+                                                        </Box>
+
+
+
+                                                        <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', mb: 2 }}
+                                                            direction='row' spacing={2}
+                                                        >
+
+                                                            <Box sx={{ textAlign: 'center', ml: '70px' }}>
+                                                                <Typography variant="body2" color="text.secondary">
+                                                                    {`${activeStep + 1} of ${msgObj.maxSteps}`}
                                                                 </Typography>
-                                                            </Stack>
+                                                            </Box>
+
+                                                            <Box>
+                                                                <MobileStepper
+                                                                    variant="progress"
+                                                                    steps={msgObj.maxSteps}
+                                                                    position="static"
+                                                                    sx={{ width: '160px', }}
+                                                                    activeStep={activeStep}
+                                                                    nextButton={null}
+                                                                    backButton={null}
+                                                                />
+                                                            </Box>
+
                                                         </Stack>
-                                                    ) : (<></>)}
+                                                    </>) :
+                                                    (
+                                                        <>
+                                                            <>
+                                                                {msgObj.text ? (
+                                                                    <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
-                                                </>
+                                                                        <Stack>
+                                                                            <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
+                                                                        </Stack>
+                                                                        <Stack sx=
+                                                                            {{
+                                                                                backgroundColor: '#eaeeed', borderRadius: '24px', p: 0.5, borderBottomLeftRadius: "5px", outline: "1px solid transparent"
+                                                                            }}
+                                                                        >
+                                                                            <Typography component='p' sx={{ color: 'black', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
+                                                                                {msgObj.text}
+                                                                            </Typography>
+                                                                        </Stack>
+                                                                    </Stack>
+                                                                ) : (<></>)}
 
-                                                <>
-                                                    {(msgObj.buttons && msgObj.buttons.length && !msgObj.hideBtns) ?
-                                                        (
-                                                            <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} ml={3}>
-                                                                {msgObj.buttons.map((btnObj: any) => (
-                                                                    <Button variant="outlined" onClick={() => sendMessage(btnObj, msgObj)} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '13px', width: 'auto', outline: "1px solid transparent" }}>
-                                                                        {btnObj.title}
-                                                                    </Button>
-                                                                ))}
-                                                            </Stack>
-                                                        ) :
-                                                        (<></>)}
-                                                </>
-                                            </>
+                                                            </>
+
+                                                            <>
+                                                                {(msgObj.buttons && msgObj.buttons.length && !msgObj.hideBtns) ?
+                                                                    (
+                                                                        <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} ml={3}>
+                                                                            {msgObj.buttons.map((btnObj: any) => (
+                                                                                <Button variant="outlined" onClick={() => sendMessage(btnObj, msgObj)} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '13px', width: 'auto', outline: "1px solid transparent" }}>
+                                                                                    {btnObj.title}
+                                                                                </Button>
+                                                                            ))}
+                                                                        </Stack>
+                                                                    ) :
+                                                                    (<></>)}
+                                                            </>
+                                                        </>
 
 
-                                        )
+                                                    )
+                                                }
+                                            </>)
                                         }
-                                    </>)
-                            }
-                            </>) }
+                                    </>)}
                             </>
                         ))}
 
-                        
+
 
 
                         {/* <Stack direction='column' p={0.5} alignItems='flex-end' >
@@ -1701,14 +1704,18 @@ const Chatbot = () => {
                         enableAuto ?
                             (
                                 <Autocomplete
+                                    open={openAutoComplete}
+                                    onOpen={openPopper}
+                                    onClose={closePopper}
                                     PaperComponent={({ children }) => {
                                         return (
-                                            <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none" }}>
+                                            <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none", }}>
 
                                                 {children}
                                             </Paper>
                                         )
                                     }}
+                                    sx={{ overflowX: "hidden !important" }}
                                     id="free-solo-demo"
                                     onChange={(e, value) => sendValue(e, value)}
                                     freeSolo
@@ -1721,12 +1728,32 @@ const Chatbot = () => {
                                                 {option !== "Searched job title" ? <li {...props}>
                                                     <Box
                                                         sx={{
-                                                            width: "100%"
+                                                            width: "100%", textTransform: "capitalize"
                                                         }}
                                                     >
                                                         {option}
                                                     </Box>
-                                                </li> : null}
+                                                </li> :
+
+                                                    <Box
+                                                        sx={{
+                                                            width: "100%", textTransform: "capitalize", cursor: "pointer", borderBottom: "1px solid black", paddingBottom: "4px",
+                                                        }}
+
+                                                    >
+                                                        <Box sx={{ clear: "both", position: "relative" }}>
+                                                            <Typography sx={{ paddingLeft: "15px" }}>{option}</Typography>
+
+                                                            <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer', position: "absolute", right: "5px", bottom: "2px" }}
+                                                                onClick={() => {
+                                                                    setIsChatbotOpen(false)
+                                                                    setOpenAutoComplete(false)
+                                                                }
+                                                                } />
+                                                        </Box>
+                                                    </Box>
+
+                                                }
 
                                             </>
                                         );

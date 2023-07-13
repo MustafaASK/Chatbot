@@ -48,6 +48,92 @@ import apiService from "../shared/api/apiService";
 //     label: suggestion.label
 // }));
 
+const Loader = () => {
+    return (<>
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.3em',
+                    overflow: 'hidden',
+
+                }}
+            >
+
+                <Box
+                    sx={{
+                        animation: 'pulse 1s infinite',
+                        color: '#2731DD',
+                        '@keyframes pulse': {
+                            '0%': {
+                                opacity: 0.2,
+                                transform: 'translateY(0)',
+                            },
+                            '50%': {
+                                opacity: 0.5,
+                                transform: 'translateY(-2px)',
+                            },
+                            '100%': {
+                                opacity: 1,
+                                transform: 'translateY(0)',
+                            },
+                        },
+                    }}
+                >
+                    <FiberManualRecordIcon sx={{ fontSize: '14px' }} />
+                </Box>
+
+                <Box
+                    sx={{
+                        animation: 'typing 1s infinite',
+                        color: '#2731DD',
+                        '@keyframes typing': {
+                            '0%': {
+                                opacity: 0.2,
+                                transform: 'translateY(0)',
+                            },
+                            '50%': {
+                                opacity: 0.5,
+                                transform: 'translateY(-2px)',
+                            },
+                            '100%': {
+                                opacity: 1,
+                                transform: 'translateY(0)',
+                            },
+                        },
+                    }}
+                >
+                    <FiberManualRecordIcon sx={{ fontSize: '14px' }} />
+                </Box>
+
+                <Box
+                    sx={{
+                        animation: 'typing 1s infinite',
+                        color: '#2731DD',
+                        '@keyframes typing': {
+                            '0%': {
+                                opacity: 0.2,
+                                transform: 'translateY(0)',
+                            },
+                            '50%': {
+                                opacity: 0.5,
+                                transform: 'translateY(-2px)',
+                            },
+                            '100%': {
+                                opacity: 1,
+                                transform: 'translateY(0)',
+                            },
+                        },
+                    }}
+                >
+                    <FiberManualRecordIcon sx={{ fontSize: '14px' }} />
+                </Box>
+
+            </Box>
+            </>
+    );
+}
+
 const Chatbot = () => {
 
     const location = useLocation();
@@ -817,86 +903,6 @@ const Chatbot = () => {
                     </Box>
                 </Stack>
 
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.3em',
-                        overflow: 'hidden',
-
-                    }}
-                >
-
-                    <Box
-                        sx={{
-                            animation: 'pulse 1s infinite',
-                            color: '#2731DD',
-                            '@keyframes pulse': {
-                                '0%': {
-                                    opacity: 0.2,
-                                    transform: 'translateY(0)',
-                                },
-                                '50%': {
-                                    opacity: 0.5,
-                                    transform: 'translateY(-2px)',
-                                },
-                                '100%': {
-                                    opacity: 1,
-                                    transform: 'translateY(0)',
-                                },
-                            },
-                        }}
-                    >
-                        <FiberManualRecordIcon sx={{ fontSize: '14px' }} />
-                    </Box>
-
-                    <Box
-                        sx={{
-                            animation: 'typing 1s infinite',
-                            color: '#2731DD',
-                            '@keyframes typing': {
-                                '0%': {
-                                    opacity: 0.2,
-                                    transform: 'translateY(0)',
-                                },
-                                '50%': {
-                                    opacity: 0.5,
-                                    transform: 'translateY(-2px)',
-                                },
-                                '100%': {
-                                    opacity: 1,
-                                    transform: 'translateY(0)',
-                                },
-                            },
-                        }}
-                    >
-                        <FiberManualRecordIcon sx={{ fontSize: '14px' }} />
-                    </Box>
-
-                    <Box
-                        sx={{
-                            animation: 'typing 1s infinite',
-                            color: '#2731DD',
-                            '@keyframes typing': {
-                                '0%': {
-                                    opacity: 0.2,
-                                    transform: 'translateY(0)',
-                                },
-                                '50%': {
-                                    opacity: 0.5,
-                                    transform: 'translateY(-2px)',
-                                },
-                                '100%': {
-                                    opacity: 1,
-                                    transform: 'translateY(0)',
-                                },
-                            },
-                        }}
-                    >
-                        <FiberManualRecordIcon sx={{ fontSize: '14px' }} />
-                    </Box>
-
-                </Box>
 
                 <Stack ref={scrollRef}
                     id='content-container'

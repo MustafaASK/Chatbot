@@ -88,3 +88,9 @@
   left: 509px !important;
   width: 38% !important;
 }
+
+.multi-location .MuiAutocomplete-inputRoot {
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  width: 100%;
+}

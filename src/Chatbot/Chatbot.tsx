@@ -138,6 +138,11 @@ const delay = (ms: any) => new Promise(
     resolve => setTimeout(resolve, ms)
 );
 
+type CustomObj = {
+    titles: any[],
+    type: string
+}
+
 const Chatbot = () => {
 
     const location = useLocation();
@@ -161,7 +166,8 @@ const Chatbot = () => {
     const [selectedJobData, setSelectedJobData] = React.useState<any[] | never[]>([]);
     const [isShowLocation, setIsShowLocation] = useState(false)
     const [isButtonHover, setIsButtonHover] = useState(false)
-    const [suggesations, setSuggesations] = React.useState<any[] | never[]>([]);
+    const [suggesationObj, setSuggesations] = React.useState<CustomObj>({ titles: [], type: "" });
+    const [locationData, selLocationData] = React.useState<any[] | never[]>([]);
     const scrollRef = useRef(null);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -203,7 +209,7 @@ const Chatbot = () => {
         }
         setIsReadMore(!isReadmore)
     }
-    let isCalled = false
+
     const sendValue = (event: any, value: any) => {
         console.log();
         let obj = {
@@ -223,6 +229,18 @@ const Chatbot = () => {
         // sendLocValue(null, "california", "input_job_location")
 
     }
+
+    const sendLocationData = () => {
+        sendValue(null, locationData)
+        console.log(locationData, 'locationData')
+    }
+
+    const sendLocation = (e: any, value: any) => {
+        selLocationData(value)
+        // let formattedValue = value.reduce((res: any, k: any, i: any) => [res, k].join(i === value.length - 1 ? ',' : '.'))
+    }
+
+
 
     const sendJobValue = (jobData: any) => {
         console.log();
@@ -741,9 +759,12 @@ const Chatbot = () => {
                                 newObject.hideBtns = (newObject.buttons && newObject.buttons.length) ? false : true
                                 if (obj.custom && Object.keys(obj.custom).length) {
                                     setEnableAuto(true);
-                                    if (obj.custom?.titles)
-                                        setSuggesations(obj.custom.titles);
-
+                                    if (obj.custom?.ui_component && obj.custom.ui_component === "job_title") {
+                                        setSuggesations({
+                                            titles: ["Searched job title", ...obj.custom.titles],
+                                            type: obj.custom.ui_component
+                                        });
+                                    }
                                     if (obj.custom?.intent) {
                                         setIntentType(obj.custom.intent);
                                         console.log(`${intentType}`);
@@ -754,7 +775,10 @@ const Chatbot = () => {
                                     }
 
                                     if (obj.custom?.ui_component && obj.custom.ui_component === "job_location") {
-                                        setSuggesations(["california", "newyork", "washington"]);
+                                        setSuggesations({
+                                            titles: ["Searched job location", ...["california", "newyork", "washington"]],
+                                            type: obj.custom.ui_component
+                                        });
                                     }
                                     if (obj.custom?.ui_component && obj.custom.ui_component === "select_job") {
                                         setInputValue('');
@@ -1722,110 +1746,209 @@ const Chatbot = () => {
                 <Stack
                     id='send-container'
                     direction="row" alignItems="center" pt='2%' mr={1} ml={1} pb='2%'
-                    sx={{ borderTop: '1px solid lightgrey', bottom: '0px' }} spacing={1}
+                    sx={{ borderTop: '1px solid lightgrey', bottom: '0px' }}
+                    spacing={1}
                     position='sticky'
                     zIndex={1}
-                    maxHeight='50px'
+                    maxHeight={suggesationObj.type === "job_location" ? "70px" : "50px"}
                 >
                     <Box sx={{ cursor: 'pointer' }} onClick={handleOpenMenu}>
                         <MenuIcon fontSize="large" sx={{ color: '#919191' }} />
                     </Box>
                     {
-                        enableAuto ?
-                            (
-                                <Autocomplete
-                                    open={openAutoComplete}
-                                    onOpen={openPopper}
-                                    onClose={closePopper}
-                                    PaperComponent={({ children }) => {
-                                        return (
-                                            <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none", }}>
+                        enableAuto ? suggesationObj.type === "job_title" ?
+                            <Autocomplete
+                                open={openAutoComplete}
+                                onOpen={openPopper}
+                                onClose={closePopper}
+                                PaperComponent={({ children }) => {
+                                    return (
+                                        <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none", }}>
 
-                                                {children}
-                                            </Paper>
-                                        )
-                                    }}
-                                    sx={{ overflowX: "hidden !important" }}
-                                    id="free-solo-demo"
-                                    onChange={(e, value) => sendValue(e, value)}
-                                    freeSolo
-                                    fullWidth
-                                    // getOptionDisabled={option => option === "Searched job title"}
-                                    options={suggesations.map((suggesation) => suggesation)}
-                                    renderOption={(props, option) => {
-                                        return (
-                                            <>
-                                                {option !== "Searched job title" ? <li {...props}>
-                                                    <Box
-                                                        sx={{
-                                                            width: "100%", textTransform: "capitalize"
-                                                        }}
-                                                    >
-                                                        {option}
+                                            {children}
+                                        </Paper>
+                                    )
+                                }}
+                                sx={{ overflowX: "hidden !important" }}
+                                id="free-solo-demo"
+                                onChange={(e, value) => sendValue(e, value)}
+                                freeSolo
+                                fullWidth
+                                getOptionDisabled={option => option === "Searched job title"}
+                                options={suggesationObj.titles.map((suggesation) => suggesation)}
+                                renderOption={(props, option) => {
+                                    console.log(option, 'ooo')
+                                    return (
+                                        <>
+                                            {option !== "Searched job title" ? <li {...props}>
+                                                <Box
+                                                    sx={{
+                                                        width: "100%", textTransform: "capitalize"
+                                                    }}
+                                                >
+                                                    {option}
+                                                </Box>
+                                            </li> :
+
+                                                <Box
+                                                    sx={{
+                                                        width: "100%", textTransform: "capitalize", cursor: "pointer", borderBottom: "1px solid black", paddingBottom: "4px",
+                                                    }}
+
+                                                >
+                                                    <Box sx={{ clear: "both", position: "relative" }}>
+                                                        <Typography sx={{ paddingLeft: "15px" }}>{option}</Typography>
+
+                                                        <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer', position: "absolute", right: "5px", bottom: "2px" }}
+                                                            onClick={() => {
+
+                                                                setOpenAutoComplete(false)
+                                                            }
+                                                            } />
                                                     </Box>
-                                                </li> :
+                                                </Box>
 
-                                                    <Box
-                                                        sx={{
-                                                            width: "100%", textTransform: "capitalize", cursor: "pointer", borderBottom: "1px solid black", paddingBottom: "4px",
-                                                        }}
+                                            }
 
-                                                    >
-                                                        <Box sx={{ clear: "both", position: "relative" }}>
-                                                            <Typography sx={{ paddingLeft: "15px" }}>{option}</Typography>
+                                        </>
+                                    );
+                                }}
 
-                                                            <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer', position: "absolute", right: "5px", bottom: "2px" }}
-                                                                onClick={() => {
+                                renderInput={(params) =>
+                                    <TextField
+                                        {...params}
 
-                                                                    setOpenAutoComplete(false)
-                                                                }
-                                                                } />
-                                                        </Box>
+                                        placeholder="Type your message..."
+
+                                        sx={{
+                                            '& .MuiInputBase-input.MuiOutlinedInput-input': {
+                                                padding: '5px 10px',
+                                                height: "10px"
+
+                                            },
+                                            '& .MuiInputBase-root.MuiOutlinedInput-root ': {
+                                                borderRadius: '15px',
+                                                backgroundColor: '#fff'
+                                            },
+                                            '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: '#E6E6E6',
+
+                                            },
+                                            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: '#E6E6E6',
+                                                borderWidth: '1px'
+
+                                            },
+                                        }}
+                                        InputProps={{
+                                            ...params.InputProps,
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <TelegramIcon sx={{ cursor: 'pointer', color: '#919191' }} />
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                    />}
+
+                            /> : <Autocomplete
+                                multiple
+                                open={openAutoComplete}
+                                onOpen={openPopper}
+                                onClose={closePopper}
+                                onChange={sendLocation}
+                                PaperComponent={({ children }) => {
+                                    return (
+                                        <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none", }}>
+
+                                            {children}
+                                        </Paper>
+                                    )
+                                }}
+                                sx={{ overflowX: "hidden !important" }}
+                                id="free-solo-demo"
+                                freeSolo
+                                fullWidth
+                                getOptionDisabled={option => option === "Searched job location"}
+                                options={suggesationObj.titles.map((suggesation) => suggesation)}
+                                renderOption={(props, option) => {
+                                    return (
+                                        <>
+                                            {option !== "Searched job location" ? <li {...props}>
+                                                <Box
+                                                    sx={{
+                                                        width: "100%", textTransform: "capitalize"
+                                                    }}
+                                                >
+                                                    {option}
+                                                </Box>
+                                            </li> :
+
+                                                <Box
+                                                    sx={{
+                                                        width: "100%", textTransform: "capitalize", cursor: "pointer", borderBottom: "1px solid black", paddingBottom: "4px",
+                                                    }}
+
+                                                >
+                                                    <Box sx={{ clear: "both", position: "relative" }}>
+                                                        <Typography sx={{ paddingLeft: "15px" }}>{option}</Typography>
+
+                                                        <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer', position: "absolute", right: "5px", bottom: "2px" }}
+                                                            onClick={() => {
+
+                                                                setOpenAutoComplete(false)
+                                                            }
+                                                            } />
                                                     </Box>
+                                                </Box>
 
-                                                }
+                                            }
 
-                                            </>
-                                        );
-                                    }}
+                                        </>
+                                    );
+                                }}
 
-                                    renderInput={(params) =>
-                                        <TextField
-                                            {...params}
+                                renderInput={(params) =>
+                                    <TextField
+                                        {...params}
 
-                                            placeholder="Type your message..."
+                                        placeholder="Type your message..."
 
-                                            sx={{
-                                                '& .MuiInputBase-input.MuiOutlinedInput-input': {
-                                                    padding: '5px 10px',
-                                                    height: "10px"
+                                        sx={{
+                                            '& .MuiInputBase-input.MuiOutlinedInput-input': {
+                                                padding: '5px 10px',
+                                                height: "10px"
 
-                                                },
-                                                '& .MuiInputBase-root.MuiOutlinedInput-root ': {
-                                                    borderRadius: '15px',
-                                                    backgroundColor: '#F5F5F5'
-                                                },
-                                                '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-                                                    borderColor: '#E6E6E6',
+                                            },
+                                            '& .MuiInputBase-root.MuiOutlinedInput-root ': {
+                                                borderRadius: '15px',
+                                                backgroundColor: '#fff'
+                                            },
+                                            '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: '#E6E6E6',
 
-                                                },
-                                                '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                                    borderColor: '#E6E6E6',
-                                                    borderWidth: '1px'
+                                            },
+                                            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: '#E6E6E6',
+                                                borderWidth: '1px'
 
-                                                },
-                                            }}
-                                            InputProps={{
-                                                ...params.InputProps,
-                                                endAdornment: (
-                                                    <InputAdornment position="end">
-                                                        <TelegramIcon sx={{ cursor: 'pointer', color: '#919191' }} />
-                                                    </InputAdornment>
-                                                ),
-                                            }}
-                                        />}
+                                            },
+                                            maxHeight: "60px",
+                                            overflowY: "auto"
+                                        }}
+                                        className="multi-location"
+                                        InputProps={{
+                                            ...params.InputProps,
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <TelegramIcon onClick={sendLocationData} sx={{ cursor: 'pointer', color: '#919191', position: "fixed", right: "40px", bottom: "15px" }} />
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                    />}
 
-                                />) :
+                            />
+
+                            :
                             (
                                 <TextField
 
@@ -1850,7 +1973,7 @@ const Chatbot = () => {
                                         },
                                         '& .MuiInputBase-root.MuiOutlinedInput-root ': {
                                             borderRadius: '15px',
-                                            backgroundColor: '#F5F5F5'
+                                            backgroundColor: '#fff'
                                         },
                                         '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
                                             borderColor: '#E6E6E6',
@@ -1870,9 +1993,9 @@ const Chatbot = () => {
 
 
 
-                    <Box sx={{ cursor: 'pointer' }}>
+                    {/* <Box sx={{ cursor: 'pointer' }}>
                         <AttachFileRoundedIcon sx={{ fontSize: '18px', color: '#919191' }} />
-                    </Box>
+                    </Box> */}
 
                     <Menu
                         id="basic-menu"

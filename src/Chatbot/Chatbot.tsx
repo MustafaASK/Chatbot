@@ -1367,7 +1367,7 @@ const Chatbot = () => {
                                             </Stack>
                                         </Stack>
                                     </>) :
-                                    (<>
+                                    (<> 
                                         {msgObj.payload === '/affirm' ?
                                             (<>
                                                 <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }}>

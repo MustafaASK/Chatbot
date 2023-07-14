@@ -719,6 +719,7 @@ const Chatbot = () => {
         // alert(randStr);
         setInputValue('');
         setEnableAuto(false);
+        setLoaded(true);
         apiService.sendMessage(dataToPass).then((response: any) => {
             console.log(checkUseEffectLoad);
             if (!response.error) {
@@ -764,12 +765,15 @@ const Chatbot = () => {
                                         makeJobsCourousal(newObject);
                                     }
                                 }
+                                if(i + 1 === response.data.length){                                    
+                                    setLoaded(false);
+                                }
                                 setMessagesList(prevArray => [...prevArray, newObject]);
                             }, (i) * 1000);
                             //   console.log(response.data[0]);
 
                         })
-                        console.log(messagesList);
+                        // console.log(messagesList);
                         if (response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) {
                             setDisableBtn((response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) ? true : false);
 
@@ -829,8 +833,11 @@ const Chatbot = () => {
             getTableData();
         }
         checkUseEffectLoad = true;
-        setLoaded(true);
+        // setLoaded(true);
     }, []);
+    React.useEffect(() => {
+        console.log(messagesList);
+    }, [messagesList]);
 
     return (
 
@@ -1594,6 +1601,23 @@ const Chatbot = () => {
                                     </>)}
                             </>
                         ))}
+                        {loaded ? 
+                        (<><Stack direction='row' spacing={0.5} p={0.5} mr={5}>
+
+                            <Stack>
+                                <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
+                            </Stack>
+                            <Stack sx=
+                                {{
+                                      p: 0.5
+                                }}
+                            >
+                                <Loader/>
+                            </Stack>
+                            </Stack></>) 
+                            : (<></>)
+                            }
+                        
 
 
 

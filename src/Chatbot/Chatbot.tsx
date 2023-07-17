@@ -711,7 +711,7 @@ const Chatbot = () => {
         if (event.key === 'Enter') {
             // 👇 Get input value
             //   console.log(event.target.value);
-            if (event.target.value !== "") {
+            if (event.target.value !== "" && event.target.value.trim() !== "") {
                 let obj = {
                     "text": event.target.value,
                     "payload": '',
@@ -731,7 +731,7 @@ const Chatbot = () => {
     //send text as input 
 
     const sendTextMessage = () => {
-        if (inputValue !== "") {
+        if (inputValue !== "" && inputValue.trim() !== "") {
             let obj = {
                 "text": inputValue,
                 "payload": '',

@@ -1401,7 +1401,7 @@ const Chatbot = () => {
                                         </Stack>
                                     </>) :
                                     (<>
-                                        {msgObj.payload === '/affirm' ?
+                                        {msgObj.custom?.ui_component === 'resume_upload' ?
                                             (<>
                                                 <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }}>
                                                     <Box sx={{ backgroundColor: '#e2e2e2', height: '100px', width: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: '50%', mb: '15px' }}>

@@ -237,10 +237,13 @@ const Chatbot = () => {
         let formattedValue = locationData.join()
         sendValue(null, formattedValue)
     }
-
     const sendLocation = (e: any, value: any) => {
+        let filteredValues;
+        filteredValues = suggesationObj.titles.filter((suggesation) => !value.includes(suggesation))
+        setSuggesations({ ...suggesationObj, titles: filteredValues })
         setLocationData(value)
     }
+
 
 
 
@@ -708,8 +711,29 @@ const Chatbot = () => {
         if (event.key === 'Enter') {
             // 👇 Get input value
             //   console.log(event.target.value);
+            if (event.target.value !== "") {
+                let obj = {
+                    "text": event.target.value,
+                    "payload": '',
+                    "sent": true,
+                    "metadata": {
+                        "job_id": (queryParam ? queryParam : 1)
+                    }
+                }
+                setMessagesList(prevArray => [...prevArray, obj]);
+                dataToPass.message = event.target.value;
+                dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
+                getTableData();
+            }
+        }
+    };
+
+    //send text as input 
+
+    const sendTextMessage = () => {
+        if (inputValue !== "") {
             let obj = {
-                "text": event.target.value,
+                "text": inputValue,
                 "payload": '',
                 "sent": true,
                 "metadata": {
@@ -717,12 +741,11 @@ const Chatbot = () => {
                 }
             }
             setMessagesList(prevArray => [...prevArray, obj]);
-            dataToPass.message = event.target.value;
+            dataToPass.message = inputValue;
             dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
             getTableData();
-            //   setUpdated(message);
         }
-    };
+    }
 
 
     let checkUseEffectLoad = false;
@@ -1984,7 +2007,7 @@ const Chatbot = () => {
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position="end">
-                                                <TelegramIcon sx={{ cursor: 'pointer', color: '#919191' }} />
+                                                <TelegramIcon sx={{ cursor: 'pointer', color: '#919191' }} onClick={sendTextMessage} />
                                             </InputAdornment>
                                         ),
                                     }}

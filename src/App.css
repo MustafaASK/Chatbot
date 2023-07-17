@@ -95,7 +95,19 @@
   width: 100%;
 }
 
+.multi-location .MuiFormControl-fullWidth {
+  max-height: 80px !important;
+}
+
 .multi-location .MuiAutocomplete-tag {
   width: 90%;
   justify-content: flex-start !important;
+}
+
+.multi-location .MuiInputBase-input.MuiOutlinedInput-input {
+  width: fit-content !important;
+}
+
+.auto-shadow {
+  /* box-shadow: 10px 0 0 0 rgba(0, 0, 0, .6) */
 }

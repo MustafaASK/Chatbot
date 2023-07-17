@@ -170,7 +170,7 @@ const Chatbot = () => {
     const [isShowLocation, setIsShowLocation] = useState(false)
     const [isButtonHover, setIsButtonHover] = useState(false)
     const [suggesationObj, setSuggesations] = React.useState<CustomObj>({ titles: [], type: "" });
-    const [locationData, selLocationData] = React.useState<any[] | never[]>([]);
+    const [locationData, setLocationData] = React.useState<any[] | never[]>([]);
     const scrollRef = useRef(null);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -234,13 +234,12 @@ const Chatbot = () => {
     }
 
     const sendLocationData = () => {
-        sendValue(null, locationData)
-        console.log(locationData, 'locationData')
+        let formattedValue = locationData.join()
+        sendValue(null, formattedValue)
     }
 
     const sendLocation = (e: any, value: any) => {
-        selLocationData(value)
-        // let formattedValue = value.reduce((res: any, k: any, i: any) => [res, k].join(i === value.length - 1 ? ',' : '.'))
+        setLocationData(value)
     }
 
 
@@ -1871,7 +1870,7 @@ const Chatbot = () => {
                                 onChange={sendLocation}
                                 PaperComponent={({ children }) => {
                                     return (
-                                        <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none", fontSize: "13px" }}>
+                                        <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", fontSize: "13px" }} className="auto-shadow">
 
                                             {children}
                                         </Paper>
@@ -1956,7 +1955,7 @@ const Chatbot = () => {
                                                 borderWidth: '1px'
 
                                             },
-                                            maxHeight: "60px",
+                                            maxHeight: "80px",
                                             overflowY: "auto"
                                         }}
                                         className="multi-location"
@@ -1964,7 +1963,7 @@ const Chatbot = () => {
                                             ...params.InputProps,
                                             endAdornment: (
                                                 <InputAdornment position="end">
-                                                    <TelegramIcon onClick={sendLocationData} sx={{ cursor: 'pointer', color: '#919191', position: "fixed", right: "40px", bottom: "15px" }} />
+                                                    <TelegramIcon onClick={sendLocationData} sx={{ cursor: 'pointer', color: '#919191', position: "fixed", right: "20px", bottom: "15px" }} />
                                                 </InputAdornment>
                                             ),
                                         }}

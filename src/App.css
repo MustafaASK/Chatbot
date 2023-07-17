@@ -94,3 +94,8 @@
   align-items: flex-start !important;
   width: 100%;
 }
+
+.multi-location .MuiAutocomplete-tag {
+  width: 90%;
+  justify-content: flex-start !important;
+}

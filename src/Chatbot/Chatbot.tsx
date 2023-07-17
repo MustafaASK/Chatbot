@@ -29,12 +29,15 @@ import Autocomplete from '@mui/material/Autocomplete';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
+import parse from 'autosuggest-highlight/parse';
+import match from 'autosuggest-highlight/match';
 
 import c from '../Rectangle 99@2x.svg';
 import c1 from '../Rectangle 99@2x-1.png'
 import profileIcon from '../profile.jpg';
 import Chatbotlogo from '../Rectangle 98@2x.svg';
 import apiService from "../shared/api/apiService";
+import { States } from "./utills/helper"
 
 // const suggesations = [
 //     { label: "Searched job title" },
@@ -211,7 +214,7 @@ const Chatbot = () => {
     }
 
     const sendValue = (event: any, value: any) => {
-        console.log();
+
         let obj = {
             "text": value,
             "payload": '',
@@ -776,7 +779,7 @@ const Chatbot = () => {
 
                                     if (obj.custom?.ui_component && obj.custom.ui_component === "job_location") {
                                         setSuggesations({
-                                            titles: ["Searched job location", ...["california", "newyork", "washington"]],
+                                            titles: ["Searched job location", ...States],
                                             type: obj.custom.ui_component
                                         });
                                     }
@@ -789,7 +792,7 @@ const Chatbot = () => {
                                         makeJobsCourousal(newObject);
                                     }
                                 }
-                                if(i + 1 === response.data.length){                                    
+                                if (i + 1 === response.data.length) {
                                     setLoaded(false);
                                 }
                                 setMessagesList(prevArray => [...prevArray, newObject]);
@@ -1398,7 +1401,7 @@ const Chatbot = () => {
                                             </Stack>
                                         </Stack>
                                     </>) :
-                                    (<> 
+                                    (<>
                                         {msgObj.payload === '/affirm' ?
                                             (<>
                                                 <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }}>
@@ -1625,23 +1628,23 @@ const Chatbot = () => {
                                     </>)}
                             </>
                         ))}
-                        {loaded ? 
-                        (<><Stack direction='row' spacing={0.5} p={0.5} mr={5}>
+                        {loaded ?
+                            (<><Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
-                            <Stack>
-                                <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
-                            </Stack>
-                            <Stack sx=
-                                {{
-                                      p: 0.5
-                                }}
-                            >
-                                <Loader/>
-                            </Stack>
-                            </Stack></>) 
+                                <Stack>
+                                    <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
+                                </Stack>
+                                <Stack sx=
+                                    {{
+                                        p: 0.5
+                                    }}
+                                >
+                                    <Loader />
+                                </Stack>
+                            </Stack></>)
                             : (<></>)
-                            }
-                        
+                        }
+
 
 
 
@@ -1763,7 +1766,7 @@ const Chatbot = () => {
                                 onClose={closePopper}
                                 PaperComponent={({ children }) => {
                                     return (
-                                        <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none", }}>
+                                        <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none", fontSize: "13px" }}>
 
                                             {children}
                                         </Paper>
@@ -1776,28 +1779,38 @@ const Chatbot = () => {
                                 fullWidth
                                 getOptionDisabled={option => option === "Searched job title"}
                                 options={suggesationObj.titles.map((suggesation) => suggesation)}
-                                renderOption={(props, option) => {
-                                    console.log(option, 'ooo')
+                                renderOption={(props, option, { inputValue }) => {
+                                    const matches = match(option, inputValue, { insideWords: true });
+                                    const parts = parse(option, matches);
                                     return (
                                         <>
-                                            {option !== "Searched job title" ? <li {...props}>
-                                                <Box
-                                                    sx={{
+                                            {option !== "Searched job title" ?
+                                                <li {...props}>
+                                                    <Box sx={{
                                                         width: "100%", textTransform: "capitalize"
-                                                    }}
-                                                >
-                                                    {option}
-                                                </Box>
-                                            </li> :
+                                                    }}>
+                                                        {parts.map((part, index) => (
+                                                            <span
+                                                                key={index}
+                                                                style={{
+                                                                    fontWeight: part.highlight ? 700 : 400,
+                                                                }}
+                                                            >
+                                                                {part.text}
+                                                            </span>
+                                                        ))}
+                                                    </Box>
+                                                </li>
+                                                :
 
                                                 <Box
                                                     sx={{
-                                                        width: "100%", textTransform: "capitalize", cursor: "pointer", borderBottom: "1px solid black", paddingBottom: "4px",
+                                                        width: "100%", cursor: "pointer", borderBottom: "1px solid black", paddingBottom: "4px",
                                                     }}
 
                                                 >
                                                     <Box sx={{ clear: "both", position: "relative" }}>
-                                                        <Typography sx={{ paddingLeft: "15px" }}>{option}</Typography>
+                                                        <Typography sx={{ paddingLeft: "15px", fontWeight: "600", fontSize: "13px" }}>{option}</Typography>
 
                                                         <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer', position: "absolute", right: "5px", bottom: "2px" }}
                                                             onClick={() => {
@@ -1858,7 +1871,7 @@ const Chatbot = () => {
                                 onChange={sendLocation}
                                 PaperComponent={({ children }) => {
                                     return (
-                                        <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none", }}>
+                                        <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none", fontSize: "13px" }}>
 
                                             {children}
                                         </Paper>
@@ -1870,27 +1883,38 @@ const Chatbot = () => {
                                 fullWidth
                                 getOptionDisabled={option => option === "Searched job location"}
                                 options={suggesationObj.titles.map((suggesation) => suggesation)}
-                                renderOption={(props, option) => {
+                                renderOption={(props, option, { inputValue }) => {
+                                    const matches = match(option, inputValue, { insideWords: true });
+                                    const parts = parse(option, matches);
                                     return (
                                         <>
-                                            {option !== "Searched job location" ? <li {...props}>
-                                                <Box
-                                                    sx={{
+                                            {option !== "Searched job location" ?
+                                                <li {...props}>
+                                                    <Box sx={{
                                                         width: "100%", textTransform: "capitalize"
-                                                    }}
-                                                >
-                                                    {option}
-                                                </Box>
-                                            </li> :
+                                                    }}>
+                                                        {parts.map((part, index) => (
+                                                            <span
+                                                                key={index}
+                                                                style={{
+                                                                    fontWeight: part.highlight ? 700 : 400,
+                                                                }}
+                                                            >
+                                                                {part.text}
+                                                            </span>
+                                                        ))}
+                                                    </Box>
+                                                </li>
+                                                :
 
                                                 <Box
                                                     sx={{
-                                                        width: "100%", textTransform: "capitalize", cursor: "pointer", borderBottom: "1px solid black", paddingBottom: "4px",
+                                                        width: "100%", cursor: "pointer", borderBottom: "1px solid black", paddingBottom: "4px",
                                                     }}
 
                                                 >
                                                     <Box sx={{ clear: "both", position: "relative" }}>
-                                                        <Typography sx={{ paddingLeft: "15px" }}>{option}</Typography>
+                                                        <Typography sx={{ paddingLeft: "15px", fontWeight: "600", fontSize: "13px" }}>{option}</Typography>
 
                                                         <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer', position: "absolute", right: "5px", bottom: "2px" }}
                                                             onClick={() => {

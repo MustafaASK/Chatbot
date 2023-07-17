@@ -214,7 +214,7 @@ const Chatbot = () => {
         try {
             let response = await apiService.uploadFile(formData)
             if (response.data.success) {
-                sendValue(null, `You candidate Id is ${response.data.candidate_id}`)
+                sendValue(null, `candid ${response.data.candidate_id}`)
             }
         }
         catch (e) {
@@ -232,7 +232,7 @@ const Chatbot = () => {
     const sendValue = (event: any, value: any) => {
 
         let obj = {
-            "text": value,
+            "text": (value.search("candid") !== -1) ? "Resume uploaded successfully" : value,
             "payload": '',
             "sent": true,
             "metadata": {

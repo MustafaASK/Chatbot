@@ -206,6 +206,22 @@ const Chatbot = () => {
         fileInput.click();
     };
 
+    const readFile = async (e: any) => {
+        let formData = new FormData()
+        formData.append("resume", e.target.files[0])
+        formData.set("sender", `${randStr}`);
+        formData.set("metaData", JSON.stringify(dataToPass.metadata))
+        try {
+            let response = await apiService.uploadFile(formData)
+            if (response.data.success) {
+                sendValue(null, `You candidate Id is ${response.data.candidate_id}`)
+            }
+        }
+        catch (e) {
+            console.log(e, "err")
+        }
+    }
+
     const handleReadMore = (obj: any) => {
         if (obj) {
             setSelectedJobData(prevArray => [obj]);
@@ -678,7 +694,6 @@ const Chatbot = () => {
                 "job_id": (queryParam ? queryParam : "1")
             }
         }
-        console.log(msgObj);
         // let oldObj =  msgObj;  
         msgObj['hideBtns'] = true;
         dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
@@ -764,7 +779,6 @@ const Chatbot = () => {
         setEnableAuto(false);
         setLoaded(true);
         apiService.sendMessage(dataToPass).then((response: any) => {
-            console.log(checkUseEffectLoad);
             if (!response.error) {
 
                 if (checkUseEffectLoad) {
@@ -830,7 +844,7 @@ const Chatbot = () => {
                             setDisableBtn((response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) ? false : false);
 
                         }
-                        console.log(scrollRef);
+                        // console.log(scrollRef);
                         if (scrollRef.current) {
                             // scrollRef.current.scrollIntoView({ behavior: 'smooth' });
                         }
@@ -1439,7 +1453,8 @@ const Chatbot = () => {
                                                     </Box>
                                                     <Typography>Drag & drop file to upload</Typography>
                                                     <Box sx={{ mt: '15px', mb: '15px' }}>
-                                                        <input type="file" id="file-upload" style={{ display: 'none' }} />
+                                                        <input type="file" id="file-upload"
+                                                            accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={{ display: 'none' }} onChange={readFile} />
                                                         <label htmlFor="file-upload">
                                                             <Button
                                                                 onClick={handleFileUpload}

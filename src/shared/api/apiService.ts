@@ -10,7 +10,7 @@ import axios from 'axios';
 // import UserData from '../../shared/data/userData';
 
 const Url171 = (process.env.NODE_ENV === "development" || window.location.protocol === 'http:') ? "http://52.40.250.118:8888/webhooks/rest/" : "https://resume.accuick.com/";
-
+const fileUploadUrl = (process.env.NODE_ENV === "development" || window.location.protocol === 'http:') ? "http://52.40.250.118:8888/" : "https://resume.accuick.com/";
 // const Url233 = (process.env.NODE_ENV === "development") ? "http://35.155.228.233:41088/Sequence/api/v1/" : "https://resume.accuick.com/Sequence/api/v1/";
 
 // const Url233 = (process.env.NODE_ENV === "development" || window.location.protocol === 'http:') ? "http://35.155.228.233:41088/Sequence/" : "https://sequence.accuick.com/Sequence/";
@@ -23,10 +23,10 @@ const Url171 = (process.env.NODE_ENV === "development" || window.location.protoc
 
 class ApiService {
 
-    
+
     getSuggessions(data: any): any {
         // http://35.155.202.216:8080/people_search/peoplebyskillncompany
-        const header:any = new Headers();
+        const header: any = new Headers();
         header.append('Access-Control-Allow-Origin', '*');
         header.append('Content-Type', 'application/json;charset=UTF-8');
         // axios.get(Url233 + 'getAuditLog');
@@ -38,7 +38,7 @@ class ApiService {
     }
     getTableData(data: any): any {
         // http://35.155.202.216:8080/people_search/peoplebyskillncompany
-        const header:any = new Headers();
+        const header: any = new Headers();
         header.append('Access-Control-Allow-Origin', '*');
         header.append('Content-Type', 'application/json;charset=UTF-8');
         // axios.get(Url233 + 'getAuditLog');
@@ -50,12 +50,23 @@ class ApiService {
     }
     sendMessage(data: any): any {
         // http://35.155.202.216:8080/people_search/peoplebyskillncompany
-        const header:any = new Headers();
+        const header: any = new Headers();
         header.append('Access-Control-Allow-Origin', '*');
         header.append('Content-Type', 'application/json');
         // axios.get(Url233 + 'getAuditLog');
         return axios.post(
             Url171 + 'webhook',
+            data,
+            header
+        );
+    }
+
+    uploadFile(data: any) {
+        const header: any = new Headers();
+        header.append('Access-Control-Allow-Origin', '*');
+        header.append("Content-Type", "multipart/form-data");
+        return axios.post(
+            fileUploadUrl + 'api/upload_resume',
             data,
             header
         );

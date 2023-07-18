@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Stack, Card, Typography, Box, TextField, Button, Slide, } from "@mui/material";
 import CloseSharpIcon from '@mui/icons-material/CloseSharp';
 import TelegramIcon from '@mui/icons-material/Telegram';
@@ -173,6 +173,9 @@ const Chatbot = () => {
     const [locationData, setLocationData] = React.useState<any[] | never[]>([]);
     const scrollRef = useRef(null);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+    const dropContainer = useRef<HTMLDivElement>(null)
+    const [isDrag, setDrag] = useState(false)
     const open = Boolean(anchorEl);
     const [openAutoComplete, setOpenAutoComplete] = useState(false);
     const closePopper = () => setOpenAutoComplete(false);
@@ -198,7 +201,7 @@ const Chatbot = () => {
         }
 
     };
-    const isChatOpenedFirstTime = localStorage.getItem("isChatOpened") ? true : false;
+
 
 
     const handleFileUpload = () => {
@@ -208,7 +211,8 @@ const Chatbot = () => {
 
     const readFile = async (e: any) => {
         let formData = new FormData()
-        formData.append("resume", e.target.files[0])
+        let fileData = e.target.files ? e.target.files[0] : e.dataTransfer.files[0]
+        formData.append("resume", fileData)
         formData.set("sender", `${randStr}`);
         formData.set("metaData", JSON.stringify(dataToPass.metadata))
         try {
@@ -221,6 +225,52 @@ const Chatbot = () => {
             console.log(e, "err")
         }
     }
+
+    // handle drag and drop file
+    const handleDrag = (e: any) => {
+        e.preventDefault()
+        e.stopPropagation()
+        setDrag(true)
+    }
+    const handleDragIn = (e: any) => {
+        e.preventDefault()
+        e.stopPropagation()
+        setDrag(true)
+    }
+
+    const handleDragOut = (e: any) => {
+        e.preventDefault()
+        e.stopPropagation()
+        setDrag(false)
+    }
+
+    const handleDrop = (e: any) => {
+        e.preventDefault()
+        e.stopPropagation()
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            readFile(e)
+            e.dataTransfer.clearData()
+            setDrag(false)
+        }
+    }
+
+    useEffect(() => {
+        let div = dropContainer?.current
+        if (div) {
+            div.addEventListener('dragenter', handleDragIn)
+            div.addEventListener('dragleave', handleDragOut)
+            div.addEventListener('dragover', handleDrag)
+            div.addEventListener('drop', handleDrop)
+        }
+        return () => {
+            if (div) {
+                div.removeEventListener('dragenter', handleDragIn)
+                div.removeEventListener('dragleave', handleDragOut)
+                div.removeEventListener('dragover', handleDrag)
+                div.removeEventListener('drop', handleDrop)
+            }
+        }
+    }, [messagesList])
 
     const handleReadMore = (obj: any) => {
         if (obj) {
@@ -771,6 +821,17 @@ const Chatbot = () => {
             "job_id": (queryParam ? queryParam : "1")
         }
     };
+
+    const cancelUpload = () => {
+        dataToPass = {
+            "sender": `${randStr}`,
+            "message": "/explore_jobs",
+            "metadata": {
+                "job_id": (queryParam ? queryParam : "1")
+            }
+        };
+        getTableData();
+    }
 
 
     const getTableData = () => {
@@ -1440,7 +1501,7 @@ const Chatbot = () => {
                                     (<>
                                         {msgObj.custom?.ui_component === 'resume_upload' ?
                                             (<>
-                                                <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }}>
+                                                <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }} ref={dropContainer} style={{ border: isDrag ? '5px dotted #e2e2e2' : '1px solid #e2e2e2', backgroundColor: isDrag ? 'rgba(255,255,255,.8)' : '#fbfbfb' }}>
                                                     <Box sx={{ backgroundColor: '#e2e2e2', height: '100px', width: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: '50%', mb: '15px' }}>
 
                                                         <Box >
@@ -1451,8 +1512,8 @@ const Chatbot = () => {
                                                         </Box>
 
                                                     </Box>
-                                                    <Typography>Drag & drop file to upload</Typography>
-                                                    <Box sx={{ mt: '15px', mb: '15px' }}>
+                                                    <Typography sx={{ fontSize: "14px" }}>Drag & drop file to upload</Typography>
+                                                    <Box sx={{ mt: '15px', mb: '15px' }} >
                                                         <input type="file" id="file-upload"
                                                             accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={{ display: 'none' }} onChange={readFile} />
                                                         <label htmlFor="file-upload">
@@ -1462,7 +1523,7 @@ const Chatbot = () => {
                                                                 disableRipple
 
                                                                 sx={{
-                                                                    borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0,
+                                                                    borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '14px', height: '34px', boxShadow: 0,
                                                                     '&:hover': {
                                                                         backgroundColor: '#146EF6',
                                                                         boxShadow: 0
@@ -1473,7 +1534,7 @@ const Chatbot = () => {
                                                             </Button>
                                                         </label>
                                                     </Box>
-                                                    <Typography sx={{ fontWeight: 400, fontSize: '14px', textDecoration: 'underline', cursor: 'pointer' }}>
+                                                    <Typography sx={{ fontWeight: 400, fontSize: '14px', textDecoration: 'underline', cursor: 'pointer' }} onClick={cancelUpload} >
                                                         Cancel
                                                     </Typography>
                                                 </Stack>

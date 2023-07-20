@@ -825,7 +825,7 @@ const Chatbot = () => {
     const cancelUpload = () => {
         dataToPass = {
             "sender": `${randStr}`,
-            "message": "/explore_jobs",
+            "message": "/cancel_message",
             "metadata": {
                 "job_id": (queryParam ? queryParam : "1")
             }
@@ -1534,9 +1534,10 @@ const Chatbot = () => {
                                                             </Button>
                                                         </label>
                                                     </Box>
-                                                    <Typography sx={{ fontWeight: 400, fontSize: '14px', textDecoration: 'underline', cursor: 'pointer' }} onClick={cancelUpload} >
+                                                    {msgObj.custom.is_cancel_allowed && <Typography sx={{ fontWeight: 400, fontSize: '14px', textDecoration: 'underline', cursor: 'pointer' }} onClick={cancelUpload} >
                                                         Cancel
-                                                    </Typography>
+                                                    </Typography>}
+
                                                 </Stack>
                                             </>) :
                                             (<>

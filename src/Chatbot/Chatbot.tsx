@@ -42,14 +42,14 @@ import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-  props,
-  ref,
+    props,
+    ref,
 ) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 interface State extends SnackbarOrigin {
-  open: boolean;
+    open: boolean;
 }
 
 // const suggesations = [
@@ -201,7 +201,7 @@ const Chatbot = () => {
     const [severity, setSeverity] = React.useState("");
     const [toastrMessage, setToastrMessage] = React.useState("");
 
-    
+
 
     const handleCloseMenu = (msg: any, msgObj: any) => {
         setAnchorEl(null);
@@ -727,8 +727,8 @@ const Chatbot = () => {
     const [slideDirection, setSlideDirection] = React.useState<'left' | 'right'>('left')
     // const maxSteps = steps.length;
     const [maxSteps, setMaxSteps] = React.useState(0);
-    const  vertical  = "top";
-    const  horizontal  = "right";
+    const vertical = "top";
+    const horizontal = "right";
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -919,12 +919,12 @@ const Chatbot = () => {
                                         newObject.jobs = newObject.custom?.jobs;
                                         makeJobsCourousal(newObject);
                                     }
-                                    
+
                                 }
                                 if (i + 1 === response.data.length) {
                                     setLoaded(false);
                                     if (obj.custom?.ui_component && obj.custom.placeholder_text !== "") {
-                                        
+
                                         obj.custom?.placeholder_text ? setPlaceHolderText(obj.custom?.placeholder_text) : setPlaceHolderText("Type your message..");
 
                                     } else {
@@ -1017,6 +1017,7 @@ const Chatbot = () => {
                 height: '100vh',
             }}
             mr={5}
+            className="main_cls"
         >
             {/* {!isChatbotOpen ? ( */}
 
@@ -1042,6 +1043,8 @@ const Chatbot = () => {
                     display: isReadmore ? 'none' : 'block',
 
                 }}
+
+                className="chat-width"
             >
                 <Stack id='header-container'
                     sx={{
@@ -2206,6 +2209,7 @@ const Chatbot = () => {
                     transform: 'translateY(-20%)',
                     display: isReadmore ? 'block' : 'none',
                 }}
+                className="set-width"
             >
 
                 <Stack
@@ -2670,20 +2674,20 @@ const Chatbot = () => {
                     </Stack>) : <Stack></Stack>
             }
             <div>
-                <Snackbar  onClose={() => setOpen(false)}
+                <Snackbar onClose={() => setOpen(false)}
                     anchorOrigin={{ vertical, horizontal }}
-                        
+
                     key={vertical + horizontal}
                     open={toaster}
                     autoHideDuration={4000}
                 >
                     {
                         (<Alert severity="error">{toastrMessage}</Alert>)
-                        
+
                     }
-                
+
                 </Snackbar>
-      </div>
+            </div>
 
         </Stack >
     );

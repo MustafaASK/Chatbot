@@ -111,3 +111,25 @@
 .auto-shadow {
   /* box-shadow: 10px 0 0 0 rgba(0, 0, 0, .6) */
 }
+
+@media only screen and (max-width: 600px) {
+  .chat-width {
+    right: 0px !important;
+    width: 100% !important;
+    transform: translate(0) !important;
+    height: 100%;
+  }
+
+  #content-container {
+    max-height: calc(100vh - 120px) !important;
+    min-height: calc(100vh - 120px) !important;
+  }
+
+  .main_cls {
+    margin-right: 5px !important;
+  }
+
+  .main_cls .chat-width {
+    border-radius: 0px !important;
+  }
+}

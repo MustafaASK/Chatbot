@@ -37,7 +37,20 @@ import c1 from '../Rectangle 99@2x-1.png'
 import profileIcon from '../profile.jpg';
 import Chatbotlogo from '../Rectangle 98@2x.svg';
 import apiService from "../shared/api/apiService";
-import { States } from "./utills/helper"
+import { States } from "./utills/helper";
+import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref,
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+interface State extends SnackbarOrigin {
+  open: boolean;
+}
 
 // const suggesations = [
 //     { label: "Searched job title" },
@@ -163,6 +176,7 @@ const Chatbot = () => {
     const [inputValue, setInputValue] = useState('');
     const [intentType, setIntentType] = useState('');
     const [entityType, setEntityType] = useState('');
+    const [placeHolderText, setPlaceHolderText] = useState('Type your message');
     const [enableAuto, setEnableAuto] = useState(false);
     const [newSteps, setNewSteps] = React.useState<any[] | never[]>([]);
     const [isReadmore, setIsReadMore] = useState(false)
@@ -183,6 +197,12 @@ const Chatbot = () => {
     const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
+    const [toaster, setOpen] = React.useState(false);
+    const [severity, setSeverity] = React.useState("");
+    const [toastrMessage, setToastrMessage] = React.useState("");
+
+    
+
     const handleCloseMenu = (msg: any, msgObj: any) => {
         setAnchorEl(null);
         if (typeof msg !== 'object') {
@@ -214,14 +234,22 @@ const Chatbot = () => {
         let fileData = e.target.files ? e.target.files[0] : e.dataTransfer.files[0]
         formData.append("resume", fileData)
         formData.set("sender", `${randStr}`);
-        formData.set("metaData", JSON.stringify(dataToPass.metadata))
+        formData.set("metaData", JSON.stringify(dataToPass.metadata));
+        setLoaded(true);
         try {
             let response = await apiService.uploadFile(formData)
             if (response.data.success) {
+                setLoaded(false);
                 sendValue(null, `candid ${response.data.candidate_id}`)
+            } else {
+                setLoaded(false);
+                setSeverity("error");
+                setToastrMessage(response.data.message);
+                setOpen(true);
             }
         }
         catch (e) {
+            setLoaded(false);
             console.log(e, "err")
         }
     }
@@ -699,6 +727,8 @@ const Chatbot = () => {
     const [slideDirection, setSlideDirection] = React.useState<'left' | 'right'>('left')
     // const maxSteps = steps.length;
     const [maxSteps, setMaxSteps] = React.useState(0);
+    const  vertical  = "top";
+    const  horizontal  = "right";
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -858,8 +888,8 @@ const Chatbot = () => {
                                 newObject.jobs = [];
                                 newObject.hideBtns = (newObject.buttons && newObject.buttons.length) ? false : true
                                 if (obj.custom && Object.keys(obj.custom).length) {
-                                    setEnableAuto(true);
                                     if (obj.custom?.ui_component && obj.custom.ui_component === "job_title") {
+                                        setEnableAuto(true);
                                         setSuggesations({
                                             titles: ["Searched job title", ...obj.custom.titles],
                                             type: obj.custom.ui_component
@@ -875,6 +905,7 @@ const Chatbot = () => {
                                     }
 
                                     if (obj.custom?.ui_component && obj.custom.ui_component === "job_location") {
+                                        setEnableAuto(true);
                                         setSuggesations({
                                             titles: ["Searched job location", ...States],
                                             type: obj.custom.ui_component
@@ -888,9 +919,17 @@ const Chatbot = () => {
                                         newObject.jobs = newObject.custom?.jobs;
                                         makeJobsCourousal(newObject);
                                     }
+                                    
                                 }
                                 if (i + 1 === response.data.length) {
                                     setLoaded(false);
+                                    if (obj.custom?.ui_component && obj.custom.placeholder_text !== "") {
+                                        
+                                        obj.custom?.placeholder_text ? setPlaceHolderText(obj.custom?.placeholder_text) : setPlaceHolderText("Type your message..");
+
+                                    } else {
+                                        setPlaceHolderText("Type your message..")
+                                    }
                                 }
                                 setMessagesList(prevArray => [...prevArray, newObject]);
                             }, (i) * 1000);
@@ -949,6 +988,10 @@ const Chatbot = () => {
                 //     }
                 // }
 
+            } else {
+                setSeverity("error");
+                setToastrMessage(response.message);
+                setOpen(true);
             }
         })
     }
@@ -2075,7 +2118,7 @@ const Chatbot = () => {
                             (
                                 <TextField
 
-                                    placeholder="Type your message..."
+                                    placeholder={placeHolderText}
                                     onKeyDown={handleKeyDown}
                                     fullWidth
                                     // disabled={disableBtn}
@@ -2626,6 +2669,21 @@ const Chatbot = () => {
 
                     </Stack>) : <Stack></Stack>
             }
+            <div>
+                <Snackbar  onClose={() => setOpen(false)}
+                    anchorOrigin={{ vertical, horizontal }}
+                        
+                    key={vertical + horizontal}
+                    open={toaster}
+                    autoHideDuration={4000}
+                >
+                    {
+                        (<Alert severity="error">{toastrMessage}</Alert>)
+                        
+                    }
+                
+                </Snackbar>
+      </div>
 
         </Stack >
     );

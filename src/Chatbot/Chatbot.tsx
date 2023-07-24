@@ -169,6 +169,7 @@ const Chatbot = () => {
     const [isChatbotOpen, setIsChatbotOpen] = useState(false);
     const [messagesList, setMessagesList] = React.useState<any[] | never[]>([]);
     const [initialButtons, setInitialButtons] = React.useState<any[] | never[]>([]);
+    const [intialData, setIntialData] = React.useState<any[] | never[]>([])
     const [initialText, setInitialText] = useState('');
     const [updated, setUpdated] = useState('');
     const [loaded, setLoaded] = useState(false);
@@ -327,6 +328,15 @@ const Chatbot = () => {
 
     }
 
+    const intializeChatBot = () => {
+        setIsChatbotOpen(true)
+        let isIntialized = sessionStorage.getItem("isChatBotIntialized");
+        if (isIntialized === "false") {
+            setMessagesList([...intialData])
+            sessionStorage.setItem("isChatBotIntialized", "true")
+        }
+        setLoaded(false);
+    }
     const sendLocationData = () => {
         let formattedValue = locationData.join()
         sendValue(null, formattedValue)
@@ -875,6 +885,7 @@ const Chatbot = () => {
                 if (checkUseEffectLoad) {
                     setInitialButtons(response.data[0].buttons);
                     setInitialText(response.data[0].text);
+                    setIntialData(response.data)
                     dataToPass.message = "/job_screening";
                     checkUseEffectLoad = false;
                     // getTableData()
@@ -932,6 +943,7 @@ const Chatbot = () => {
                                     }
                                 }
                                 setMessagesList(prevArray => [...prevArray, newObject]);
+                                setIntialData(prevArray => [...prevArray, newObject])
                             }, (i) * 1000);
                             //   console.log(response.data[0]);
 
@@ -999,6 +1011,7 @@ const Chatbot = () => {
         if (!checkUseEffectLoad) {
             getTableData();
         }
+        sessionStorage.setItem("isChatBotIntialized", "false")
         checkUseEffectLoad = true;
         // setLoaded(true);
     }, []);
@@ -2619,11 +2632,12 @@ const Chatbot = () => {
                                 position: 'relative',
                                 zIndex: 5,
                             }}
+                            onClick={intializeChatBot}
                         ></Box>
                         {(initialButtons && initialButtons.length) ?
                             (<>
                                 <Stack >
-                                    <Box component='div' sx={{ backgroundColor: '#ffffff', display: 'flex', flexDirection: 'row', borderRadius: '20px', boxShadow: 'rgb(0 0 0 / 16%) 0px 1px 15px 2px' }}>
+                                    <Box component='div' sx={{ backgroundColor: '#ffffff', display: 'flex', flexDirection: 'row', borderRadius: '20px', boxShadow: 'rgb(0 0 0 / 16%) 0px 1px 15px 2px' }} onClick={intializeChatBot}>
                                         <Box component='div' sx={{ p: '18px 22px 16px 18px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                             <Typography sx={{ fontSize: '14px', color: '#1A1A1A' }}>{initialText} </Typography>
                                         </Box>

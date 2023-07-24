@@ -31,6 +31,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
+import FilePresentIcon from '@mui/icons-material/FilePresent';
 
 import c from '../Rectangle 99@2x.svg';
 import c1 from '../Rectangle 99@2x-1.png'
@@ -201,7 +202,7 @@ const Chatbot = () => {
     const [toaster, setOpen] = React.useState(false);
     const [severity, setSeverity] = React.useState("");
     const [toastrMessage, setToastrMessage] = React.useState("");
-
+    const [fileInputData, setFileData] = React.useState<any | never>(null)
 
 
     const handleCloseMenu = (msg: any, msgObj: any) => {
@@ -231,9 +232,16 @@ const Chatbot = () => {
     };
 
     const readFile = async (e: any) => {
-        let formData = new FormData()
+
         let fileData = e.target.files ? e.target.files[0] : e.dataTransfer.files[0]
-        formData.append("resume", fileData)
+        setFileData(fileData)
+
+
+    }
+
+    const submitFile = async () => {
+        let formData = new FormData()
+        formData.append("resume", fileInputData)
         formData.set("sender", `${randStr}`);
         formData.set("metaData", JSON.stringify(dataToPass.metadata));
         setLoaded(true);
@@ -254,6 +262,10 @@ const Chatbot = () => {
             console.log(e, "err")
         }
     }
+
+    // useEffect(() => {
+    //     console.log(fileInputData, 'jjj')
+    // }, [fileInputData])
 
     // handle drag and drop file
     const handleDrag = (e: any) => {
@@ -870,6 +882,7 @@ const Chatbot = () => {
                 "job_id": (queryParam ? queryParam : "1")
             }
         };
+        setFileData(null)
         getTableData();
     }
 
@@ -1562,17 +1575,25 @@ const Chatbot = () => {
                                             (<>
                                                 <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }} ref={dropContainer} style={{ border: isDrag ? '5px dotted #e2e2e2' : '1px solid #e2e2e2', backgroundColor: isDrag ? 'rgba(255,255,255,.8)' : '#fbfbfb' }}>
                                                     <Box sx={{ backgroundColor: '#e2e2e2', height: '100px', width: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: '50%', mb: '15px' }}>
+                                                        {fileInputData ?
+                                                            <Box >
+                                                                <FilePresentIcon sx={{
+                                                                    fontSize: '40px',
+                                                                    color: 'white',
+                                                                }} />
+                                                            </Box> :
+                                                            <Box >
+                                                                <UploadFileIcon sx={{
+                                                                    fontSize: '40px',
+                                                                    color: 'white',
+                                                                }} />
+                                                            </Box>
 
-                                                        <Box >
-                                                            <UploadFileIcon sx={{
-                                                                fontSize: '40px',
-                                                                color: 'white',
-                                                            }} />
-                                                        </Box>
+                                                        }
 
                                                     </Box>
-                                                    <Typography sx={{ fontSize: "14px" }}>Drag & drop file to upload</Typography>
-                                                    <Box sx={{ mt: '15px', mb: '15px' }} >
+                                                    {fileInputData ? <Typography sx={{ fontSize: "14px" }}>{fileInputData.name}</Typography> : <Typography sx={{ fontSize: "14px" }}>Drag & drop file to upload</Typography>}
+                                                    {!fileInputData ? <Box sx={{ mt: '15px', mb: '15px' }} >
                                                         <input type="file" id="file-upload"
                                                             accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={{ display: 'none' }} onChange={readFile} />
                                                         <label htmlFor="file-upload">
@@ -1592,7 +1613,25 @@ const Chatbot = () => {
 
                                                             </Button>
                                                         </label>
-                                                    </Box>
+                                                    </Box> : <Box sx={{ mt: '15px', mb: '15px' }} >
+                                                        <Button
+                                                            onClick={submitFile}
+                                                            variant="contained"
+                                                            disableRipple
+
+                                                            sx={{
+                                                                borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '14px', height: '34px', boxShadow: 0,
+                                                                '&:hover': {
+                                                                    backgroundColor: '#146EF6',
+                                                                    boxShadow: 0
+                                                                }
+                                                            }}>
+                                                            Submit
+
+                                                        </Button>
+
+                                                    </Box>}
+
                                                     {msgObj.custom.is_cancel_allowed && <Typography sx={{ fontWeight: 400, fontSize: '14px', textDecoration: 'underline', cursor: 'pointer' }} onClick={cancelUpload} >
                                                         Cancel
                                                     </Typography>}

@@ -875,7 +875,8 @@ const Chatbot = () => {
         }
     };
 
-    const cancelUpload = () => {
+    const cancelUpload = (value: any) => {
+        let { cancel_message } = value.custom
         let obj = {
             "text": "cancel",
             "payload": "",
@@ -884,7 +885,7 @@ const Chatbot = () => {
         setMessagesList(prevArray => [...prevArray, obj]);
         dataToPass = {
             "sender": `${randStr}`,
-            "message": "/cancel_message",
+            "message": cancel_message,
             "metadata": {
                 "job_id": (queryParam ? queryParam : "1")
             }
@@ -1639,7 +1640,7 @@ const Chatbot = () => {
 
                                                     </Box>}
 
-                                                    {msgObj.custom.is_cancel_allowed && <Typography sx={{ fontWeight: 400, fontSize: '14px', textDecoration: 'underline', cursor: 'pointer' }} onClick={cancelUpload} >
+                                                    {msgObj.custom.is_cancel_allowed && <Typography sx={{ fontWeight: 400, fontSize: '14px', textDecoration: 'underline', cursor: 'pointer' }} onClick={() => cancelUpload(msgObj)} >
                                                         Cancel
                                                     </Typography>}
 

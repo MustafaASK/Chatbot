@@ -805,6 +805,7 @@ const Chatbot = () => {
 
     }
     const sendPayload = (msg: string, msgObj: any) => {
+        sessionStorage.setItem("isChatBotIntialized", "true")
         toggleChatbot();
         let obj = {
             "text": msgObj.title,

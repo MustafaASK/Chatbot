@@ -249,6 +249,10 @@ const Chatbot = () => {
             let response = await apiService.uploadFile(formData)
             if (response.data.success) {
                 setLoaded(false);
+                let filter_messages = messagesList.filter((message) => {
+                    return message.custom?.ui_component !== "resume_upload"
+                })
+                setMessagesList([...filter_messages]);
                 sendValue(null, `candid ${response.data.candidate_id}`)
             } else {
                 setLoaded(false);
@@ -882,7 +886,13 @@ const Chatbot = () => {
             "payload": "",
             "sent": true,
         }
-        setMessagesList(prevArray => [...prevArray, obj]);
+
+        let filter_messages = messagesList.filter((message) => {
+
+            return message.custom?.ui_component !== "resume_upload"
+
+        })
+        setMessagesList([...filter_messages, obj]);
         dataToPass = {
             "sender": `${randStr}`,
             "message": cancel_message,

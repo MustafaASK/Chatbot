@@ -344,7 +344,7 @@ const Chatbot = () => {
         setIsChatbotOpen(true)
         let isIntialized = sessionStorage.getItem("isChatBotIntialized");
         if (isIntialized === "false") {
-            setMessagesList([...intialData])
+            setMessagesList(prevState => [...prevState, ...intialData])
             sessionStorage.setItem("isChatBotIntialized", "true")
         }
         setLoaded(false);
@@ -875,6 +875,12 @@ const Chatbot = () => {
     };
 
     const cancelUpload = () => {
+        let obj = {
+            "text": "cancel",
+            "payload": "",
+            "sent": true,
+        }
+        setMessagesList(prevArray => [...prevArray, obj]);
         dataToPass = {
             "sender": `${randStr}`,
             "message": "/cancel_message",

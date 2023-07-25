@@ -10,7 +10,9 @@ import axios from 'axios';
 // import UserData from '../../shared/data/userData';
 
 const Url171 = (process.env.NODE_ENV === "development" || window.location.protocol === 'http:') ? "http://52.40.250.118:8888/webhooks/rest/" : "https://resume.accuick.com/";
-const fileUploadUrl = (process.env.NODE_ENV === "development" || window.location.protocol === 'http:') ? "http://52.40.250.118:8888/" : "https://resume.accuick.com/";
+const fileUploadUrl = (process.env.NODE_ENV === "development" || window.location.protocol === 'http:') ? "http://52.40.250.118:8888/http://52.40.250.118:8888/" : "https://resume.accuick.com/";
+
+const jobSearchUrl = (process.env.NODE_ENV === "development" || window.location.protocol === 'http:') ? "http://52.40.49.193/" : "https://www4.accuick.com/";
 // const Url233 = (process.env.NODE_ENV === "development") ? "http://35.155.228.233:41088/Sequence/api/v1/" : "https://resume.accuick.com/Sequence/api/v1/";
 
 // const Url233 = (process.env.NODE_ENV === "development" || window.location.protocol === 'http:') ? "http://35.155.228.233:41088/Sequence/" : "https://sequence.accuick.com/Sequence/";
@@ -70,6 +72,13 @@ class ApiService {
             data,
             header
         );
+    }
+
+    searchJobTitle(data: any) {
+        const header: any = new Headers();
+        header.append('Access-Control-Allow-Origin', '*');
+        header.append("Content-Type", "multipart/form-data");
+        return axios.get(jobSearchUrl + 'ChatBot/jobTitleSearch.jsp?search=' + data);
     }
 
 }

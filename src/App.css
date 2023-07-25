@@ -113,6 +113,8 @@
 }
 
 @media only screen and (max-width: 600px) {
+
+
   .chat-width {
     right: 0px !important;
     width: 100% !important;
@@ -127,14 +129,33 @@
 
   .main_cls {
     margin-right: 5px !important;
+    /* height: 100% !important; */
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    height: 100dvh !important;
+
   }
 
   .main_cls .chat-width {
     border-radius: 0px !important;
+    margin-bottom: 0px !important;
+    height: 100% !important;
   }
+
+  #content-container {
+    max-height: calc(100dvh - 120px) !important;
+    min-height: calc(100dvh - 120px) !important;
+  }
+
+  .bottom-cls {
+    margin-bottom: 5px !important;
+  }
+
+
 }
 
 @media only screen and (max-width: 900px) and (min-width: 601px) {
+
   #content-container {
     max-height: calc(100vh - 120px) !important;
     min-height: calc(100vh - 120px) !important;

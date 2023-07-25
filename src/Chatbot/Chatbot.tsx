@@ -189,7 +189,7 @@ const Chatbot = () => {
     const [locationData, setLocationData] = React.useState<any[] | never[]>([]);
     const scrollRef = useRef(null);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
+    const [titleSearchValue, setTitleValue] = React.useState("")
     const dropContainer = useRef<HTMLDivElement>(null)
     const [isDrag, setDrag] = useState(false)
     const open = Boolean(anchorEl);
@@ -365,10 +365,26 @@ const Chatbot = () => {
     }
 
 
+    const handleTitleChange = async (e: any) => {
+        setTitleValue(e.target.value)
+    }
 
+    useEffect(() => {
+        const getJobTitles = async () => {
+            try {
+                let searchResp = await apiService.searchJobTitle(titleSearchValue)
+                let filteredValues = searchResp.data.filter((data: string) => data !== "")
+                setSuggesations({ ...suggesationObj, titles: [...suggesationObj.titles, ...filteredValues] })
+            }
+            catch (e) {
+                console.log(e)
+            }
+        }
+        getJobTitles()
+
+    }, [titleSearchValue])
 
     const sendJobValue = (jobData: any) => {
-        console.log();
         let obj = {
             "text": jobData.jobtitle,
             "payload": '',
@@ -933,17 +949,17 @@ const Chatbot = () => {
                                     if (obj.custom?.ui_component && obj.custom.ui_component === "job_title") {
                                         setEnableAuto(true);
                                         setSuggesations({
-                                            titles: ["Searched job title", ...obj.custom.titles],
+                                            titles: ["Searched job title", ...suggesationObj.titles],
                                             type: obj.custom.ui_component
                                         });
                                     }
                                     if (obj.custom?.intent) {
                                         setIntentType(obj.custom.intent);
-                                        console.log(`${intentType}`);
+                                        // console.log(`${intentType}`);
                                     }
                                     if (obj.custom?.entity) {
                                         setEntityType(obj.custom.entity);
-                                        console.log(`${entityType}`);
+                                        // console.log(`${entityType}`);
                                     }
 
                                     if (obj.custom?.ui_component && obj.custom.ui_component === "job_location") {
@@ -1047,7 +1063,7 @@ const Chatbot = () => {
         // setLoaded(true);
     }, []);
     React.useEffect(() => {
-        console.log(messagesList);
+        // console.log(messagesList);
     }, [messagesList]);
 
     return (
@@ -1981,7 +1997,7 @@ const Chatbot = () => {
                                 onClose={closePopper}
                                 PaperComponent={({ children }) => {
                                     return (
-                                        <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none", fontSize: "13px" }}>
+                                        <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none", fontSize: "13px" }} className="auto-cls">
 
                                             {children}
                                         </Paper>
@@ -2047,7 +2063,7 @@ const Chatbot = () => {
                                         {...params}
 
                                         placeholder="Type your message..."
-
+                                        onChange={handleTitleChange}
                                         sx={{
                                             '& .MuiInputBase-input.MuiOutlinedInput-input': {
                                                 padding: '5px 10px',
@@ -2086,7 +2102,7 @@ const Chatbot = () => {
                                 onChange={sendLocation}
                                 PaperComponent={({ children }) => {
                                     return (
-                                        <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", fontSize: "13px" }} className="auto-shadow">
+                                        <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", fontSize: "13px" }} className="auto-shadow auto-cls" >
 
                                             {children}
                                         </Paper>
@@ -2671,7 +2687,7 @@ const Chatbot = () => {
             {
                 !isChatbotOpen ? (
 
-                    <Stack sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: "30px", cursor: 'pointer' }}>
+                    <Stack sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: "30px", cursor: 'pointer' }} className="bottom-cls">
 
                         <Box
                             component="div"

@@ -78,9 +78,11 @@ class ApiService {
         const header: any = new Headers();
         header.append('Access-Control-Allow-Origin', '*');
         header.append("Content-Type", "multipart/form-data");
-        return axios.get(jobSearchUrl + 'ChatBot/jobTitleSearch.jsp?search=' + data);
+        return axios.get('https://www4.accuick.com/ChatBot/jobTitleSearch.jsp?search=' + data);
     }
 
 }
+
+// [Yesterday 16:42] Anil Kunde https://www4.accuick.com/ChatBot/jobTitleSearch.jsp?search=Angular
 
 export default new ApiService();

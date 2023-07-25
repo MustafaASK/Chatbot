@@ -75,9 +75,6 @@ class ApiService {
     }
 
     searchJobTitle(data: any) {
-        const header: any = new Headers();
-        header.append('Access-Control-Allow-Origin', '*');
-        header.append("Content-Type", "multipart/form-data");
         return axios.get('https://www4.accuick.com/ChatBot/jobTitleSearch.jsp?search=' + data);
     }
 

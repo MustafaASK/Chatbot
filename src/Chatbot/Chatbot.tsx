@@ -14,8 +14,6 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import BusinessCenterTwoToneIcon from '@mui/icons-material/BusinessCenterTwoTone';
 import MobileStepper from '@mui/material/MobileStepper';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
@@ -31,8 +29,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
-import FilePresentIcon from '@mui/icons-material/FilePresent';
 
+import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import c from '../Rectangle 99@2x.svg';
 import c1 from '../Rectangle 99@2x-1.png'
 import profileIcon from '../profile.jpg';
@@ -41,6 +39,7 @@ import apiService from "../shared/api/apiService";
 import { States } from "./utills/helper";
 import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -1611,18 +1610,21 @@ const Chatbot = () => {
                                         {msgObj.custom?.ui_component === 'resume_upload' ?
                                             (<>
                                                 <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }} ref={dropContainer} style={{ border: isDrag ? '5px dotted #e2e2e2' : '1px solid #e2e2e2', backgroundColor: isDrag ? 'rgba(255,255,255,.8)' : '#fbfbfb' }}>
-                                                    <Box sx={{ backgroundColor: '#e2e2e2', height: '100px', width: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: '50%', mb: '15px' }}>
+                                                    <Box sx={{ backgroundColor: '#e2e2e2', height: '100px', width: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: '50%', mb: '15px', }}>
                                                         {fileInputData ?
-                                                            <Box >
-                                                                <FilePresentIcon sx={{
-                                                                    fontSize: '40px',
-                                                                    color: 'white',
+                                                            <Box sx={{ position: "relative" }}>
+                                                                <InsertDriveFileOutlinedIcon sx={{
+                                                                    fontSize: '45px',
+                                                                    color: 'grey',
+                                                                    // fill: "green"
                                                                 }} />
+                                                                <CheckCircleIcon sx={{ fill: "#6fd4ab", fontSize: "15px", position: "absolute", right: "14px", top: "18px" }} />
                                                             </Box> :
                                                             <Box >
                                                                 <UploadFileIcon sx={{
                                                                     fontSize: '40px',
                                                                     color: 'white',
+
                                                                 }} />
                                                             </Box>
 

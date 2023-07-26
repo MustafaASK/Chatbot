@@ -368,13 +368,14 @@ const Chatbot = () => {
     const handleTitleChange = async (e: any) => {
         setTitleValue(e.target.value)
     }
-
+    const [titleData, setTitleData] = React.useState([])
     useEffect(() => {
         const getJobTitles = async () => {
             try {
                 let searchResp = await apiService.searchJobTitle(titleSearchValue)
                 let filteredValues = searchResp.data.filter((data: string) => data !== "")
-                setSuggesations({ ...suggesationObj, titles: [...suggesationObj.titles, ...filteredValues] })
+                setTitleData(filteredValues)
+                setSuggesations({ ...suggesationObj, titles: [...filteredValues] })
             }
             catch (e) {
                 console.log(e)
@@ -948,10 +949,12 @@ const Chatbot = () => {
                                 if (obj.custom && Object.keys(obj.custom).length) {
                                     if (obj.custom?.ui_component && obj.custom.ui_component === "job_title") {
                                         setEnableAuto(true);
+
                                         setSuggesations({
-                                            titles: ["Searched job title", ...suggesationObj.titles],
+                                            titles: [...titleData],
                                             type: obj.custom.ui_component
                                         });
+
                                     }
                                     if (obj.custom?.intent) {
                                         setIntentType(obj.custom.intent);
@@ -965,7 +968,7 @@ const Chatbot = () => {
                                     if (obj.custom?.ui_component && obj.custom.ui_component === "job_location") {
                                         setEnableAuto(true);
                                         setSuggesations({
-                                            titles: ["Searched job location", ...States],
+                                            titles: [...States],
                                             type: obj.custom.ui_component
                                         });
                                     }
@@ -1993,8 +1996,14 @@ const Chatbot = () => {
                         enableAuto ? suggesationObj.type === "job_title" ?
                             <Autocomplete
                                 open={openAutoComplete}
-                                onOpen={openPopper}
+                                onOpen={
+                                    openPopper
+                                }
                                 onClose={closePopper}
+                                filterOptions={(options, state) => {
+                                    let filterArr = options.filter((opt) => opt.toLowerCase().includes(state.inputValue.toLowerCase()))
+                                    return ["Searched job title", ...filterArr]
+                                }}
                                 PaperComponent={({ children }) => {
                                     return (
                                         <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none", fontSize: "13px" }} className="auto-cls">
@@ -2100,6 +2109,10 @@ const Chatbot = () => {
                                 onOpen={openPopper}
                                 onClose={closePopper}
                                 onChange={sendLocation}
+                                filterOptions={(options, state) => {
+                                    let filterArr = options.filter((opt) => opt.toLowerCase().includes(state.inputValue.toLowerCase()))
+                                    return ["Searched job location", ...filterArr]
+                                }}
                                 PaperComponent={({ children }) => {
                                     return (
                                         <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", fontSize: "13px" }} className="auto-shadow auto-cls" >

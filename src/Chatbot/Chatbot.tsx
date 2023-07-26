@@ -2051,11 +2051,11 @@ const Chatbot = () => {
 
                                                 <Box
                                                     sx={{
-                                                        width: "100%", cursor: "pointer"
+                                                        width: "100%"
                                                     }}
 
                                                 >
-                                                    <Box sx={{ clear: "both", position: "relative", borderBottom: "1px solid black", paddingBottom: "4px", }}>
+                                                    <Box sx={{ clear: "both", position: "relative", borderBottom: "1px solid black", paddingBottom: "4px", cursor: "pointer" }}>
                                                         <Typography sx={{ paddingLeft: "15px", fontWeight: "600", fontSize: "13px" }}>{option}</Typography>
 
                                                         <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer', position: "absolute", right: "5px", bottom: "2px" }}
@@ -2172,11 +2172,11 @@ const Chatbot = () => {
 
                                                 <Box
                                                     sx={{
-                                                        width: "100%", cursor: "pointer"
+                                                        width: "100%"
                                                     }}
 
                                                 >
-                                                    <Box sx={{ clear: "both", position: "relative", borderBottom: "1px solid black", paddingBottom: "4px", }}>
+                                                    <Box sx={{ clear: "both", position: "relative", borderBottom: "1px solid black", paddingBottom: "4px", cursor: "pointer" }}>
                                                         <Typography sx={{ paddingLeft: "15px", fontWeight: "600", fontSize: "13px" }}>{option}</Typography>
 
                                                         <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer', position: "absolute", right: "5px", bottom: "2px" }}

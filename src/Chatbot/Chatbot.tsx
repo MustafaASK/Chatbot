@@ -203,7 +203,7 @@ const Chatbot = () => {
     const [severity, setSeverity] = React.useState("");
     const [toastrMessage, setToastrMessage] = React.useState("");
     const [fileInputData, setFileData] = React.useState<any | never>(null)
-
+    const [isShowNoResults, setIsShowResults] = useState(false)
 
     const handleCloseMenu = (msg: any, msgObj: any) => {
         setAnchorEl(null);
@@ -2002,6 +2002,12 @@ const Chatbot = () => {
                                 onClose={closePopper}
                                 filterOptions={(options, state) => {
                                     let filterArr = options.filter((opt) => opt.toLowerCase().includes(state.inputValue.toLowerCase()))
+                                    if (!filterArr.length) {
+                                        setIsShowResults(true)
+                                    }
+                                    else {
+                                        setIsShowResults(false)
+                                    }
                                     return ["Searched job title", ...filterArr]
                                 }}
                                 PaperComponent={({ children }) => {
@@ -2045,11 +2051,11 @@ const Chatbot = () => {
 
                                                 <Box
                                                     sx={{
-                                                        width: "100%", cursor: "pointer", borderBottom: "1px solid black", paddingBottom: "4px",
+                                                        width: "100%", cursor: "pointer"
                                                     }}
 
                                                 >
-                                                    <Box sx={{ clear: "both", position: "relative" }}>
+                                                    <Box sx={{ clear: "both", position: "relative", borderBottom: "1px solid black", paddingBottom: "4px", }}>
                                                         <Typography sx={{ paddingLeft: "15px", fontWeight: "600", fontSize: "13px" }}>{option}</Typography>
 
                                                         <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer', position: "absolute", right: "5px", bottom: "2px" }}
@@ -2059,6 +2065,12 @@ const Chatbot = () => {
                                                             }
                                                             } />
                                                     </Box>
+                                                    {isShowNoResults && <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "50px" }}>
+                                                        <Typography sx={{ fontWeight: 700, fontSize: "13px" }}>
+                                                            No results found
+                                                        </Typography>
+                                                    </Box>
+                                                    }
                                                 </Box>
 
                                             }
@@ -2109,8 +2121,15 @@ const Chatbot = () => {
                                 onOpen={openPopper}
                                 onClose={closePopper}
                                 onChange={sendLocation}
+
                                 filterOptions={(options, state) => {
                                     let filterArr = options.filter((opt) => opt.toLowerCase().includes(state.inputValue.toLowerCase()))
+                                    if (!filterArr.length) {
+                                        setIsShowResults(true)
+                                    }
+                                    else {
+                                        setIsShowResults(false)
+                                    }
                                     return ["Searched job location", ...filterArr]
                                 }}
                                 PaperComponent={({ children }) => {
@@ -2153,11 +2172,11 @@ const Chatbot = () => {
 
                                                 <Box
                                                     sx={{
-                                                        width: "100%", cursor: "pointer", borderBottom: "1px solid black", paddingBottom: "4px",
+                                                        width: "100%", cursor: "pointer"
                                                     }}
 
                                                 >
-                                                    <Box sx={{ clear: "both", position: "relative" }}>
+                                                    <Box sx={{ clear: "both", position: "relative", borderBottom: "1px solid black", paddingBottom: "4px", }}>
                                                         <Typography sx={{ paddingLeft: "15px", fontWeight: "600", fontSize: "13px" }}>{option}</Typography>
 
                                                         <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer', position: "absolute", right: "5px", bottom: "2px" }}
@@ -2167,6 +2186,12 @@ const Chatbot = () => {
                                                             }
                                                             } />
                                                     </Box>
+                                                    {isShowNoResults && <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "50px" }}>
+                                                        <Typography sx={{ fontWeight: 700, fontSize: "13px" }}>
+                                                            No results found
+                                                        </Typography>
+                                                    </Box>
+                                                    }
                                                 </Box>
 
                                             }

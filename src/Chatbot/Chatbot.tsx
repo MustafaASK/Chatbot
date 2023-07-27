@@ -353,8 +353,21 @@ const Chatbot = () => {
         setLoaded(false);
     }
     const sendLocationData = () => {
-        let formattedValue = locationData.join()
-        sendValue(null, formattedValue)
+        let locations = locationData.map((val) => val.key);
+        let formattedValue = locationData.map((val) => val.name).join();
+        let formattedeKyValue = locations.join();
+        let obj = {
+            "text": formattedValue,
+            "payload": '',
+            "sent": true,
+            "metadata": {
+                "job_id": (queryParam ? queryParam : "1")
+            }
+        }
+        dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
+        setMessagesList(prevArray => [...prevArray, obj]);
+        dataToPass.message = `/${intentType}{"${entityType}": "${formattedeKyValue}"}`
+        getTableData();
     }
     const sendLocation = (e: any, value: any) => {
         let filteredValues;
@@ -2125,14 +2138,18 @@ const Chatbot = () => {
                                 onChange={sendLocation}
 
                                 filterOptions={(options, state) => {
-                                    let filterArr = options.filter((opt) => opt.toLowerCase().includes(state.inputValue.toLowerCase()))
+                                    let filterArr = options.filter((opt) => (
+                                        opt.name.toLowerCase().includes(state.inputValue.toLowerCase()) ||
+                                        opt.key.toLowerCase().includes(state.inputValue.toLowerCase())
+                                    ))
                                     if (!filterArr.length) {
                                         setIsShowResults(true)
                                     }
                                     else {
                                         setIsShowResults(false)
                                     }
-                                    return ["Searched job location", ...filterArr]
+
+                                    return [{ name: "Searched job location", key: "" }, ...filterArr]
                                 }}
                                 PaperComponent={({ children }) => {
                                     return (
@@ -2146,14 +2163,17 @@ const Chatbot = () => {
                                 id="free-solo-demo"
                                 freeSolo
                                 fullWidth
-                                getOptionDisabled={option => option === "Searched job location"}
+                                getOptionDisabled={option => option.name === "Searched job location"}
                                 options={suggesationObj.titles.map((suggesation) => suggesation)}
+                                getOptionLabel={(option) => {
+                                    return option.name
+                                }}
                                 renderOption={(props, option, { inputValue }) => {
-                                    const matches = match(option, inputValue, { insideWords: true });
-                                    const parts = parse(option, matches);
+                                    const matches = match(option?.name, inputValue, { insideWords: true });
+                                    const parts = parse(option?.name, matches);
                                     return (
                                         <>
-                                            {option !== "Searched job location" ?
+                                            {option?.name !== "Searched job location" ?
                                                 <li {...props}>
                                                     <Box sx={{
                                                         width: "100%", textTransform: "capitalize"
@@ -2179,7 +2199,7 @@ const Chatbot = () => {
 
                                                 >
                                                     <Box sx={{ clear: "both", position: "relative", borderBottom: "1px solid black", paddingBottom: "4px", cursor: "pointer" }}>
-                                                        <Typography sx={{ paddingLeft: "15px", fontWeight: "600", fontSize: "13px" }}>{option}</Typography>
+                                                        <Typography sx={{ paddingLeft: "15px", fontWeight: "600", fontSize: "13px" }}>{option.name}</Typography>
 
                                                         <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer', position: "absolute", right: "5px", bottom: "2px" }}
                                                             onClick={() => {

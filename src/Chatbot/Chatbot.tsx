@@ -335,6 +335,7 @@ const Chatbot = () => {
         }
         dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
         setMessagesList(prevArray => [...prevArray, obj]);
+        value = (value.search("candid") !== -1) ? value.split(" ")[1] : value;
         dataToPass.message = `/${intentType}{"${entityType}": "${value}"}`
         // dataToPass.message = type === "input_job_title" ? `/${type}{"job_title": "${value}"}` : `/${type}{"job_location": "${value}"}`;
         getTableData();
@@ -444,9 +445,9 @@ const Chatbot = () => {
                             boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)', height: '10px',
                         }}>
                             <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)' }}>
-                                <Box sx={{ p: 1 }}>
+                                {/* <Box sx={{ p: 1 }}>
                                     <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>Sales</Typography>
-                                </Box>
+                                </Box> */}
 
                                 <Stack sx={{ p: '10px' }} direction='column' spacing={2}>
 

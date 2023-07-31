@@ -837,6 +837,8 @@ const Chatbot = () => {
         setMessagesList(prevArray => [...prevArray, obj]);
         dataToPass.message = msg.payload;
         getTableData();
+        
+        // dataToPass.message = `/${intentType}{"${entityType}": "${formattedeKyValue}"}`
 
     }
     const sendPayload = (msg: string, msgObj: any) => {
@@ -874,7 +876,15 @@ const Chatbot = () => {
                     }
                 }
                 setMessagesList(prevArray => [...prevArray, obj]);
-                dataToPass.message = event.target.value;
+                if(intentType === "input_job_location" ){
+                    dataToPass.message = `/${intentType}{"${entityType}": "${event.target.value}"}`
+                } else {
+                    dataToPass.message = event.target.value;
+                }
+                
+                // dataToPass.message = type === "input_job_location" ?  `/${type}{"job_location": "${event.target.value}"}` : `${event.target.value}`;
+                // dataToPass.message = event.target.value;
+                console.log(event.target.value);
                 dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
                 getTableData();
             }
@@ -980,11 +990,11 @@ const Chatbot = () => {
                                     }
 
                                     if (obj.custom?.ui_component && obj.custom.ui_component === "job_location") {
-                                        setEnableAuto(true);
-                                        setSuggesations({
-                                            titles: [...States],
-                                            type: obj.custom.ui_component
-                                        });
+                                        // setEnableAuto(true);
+                                        // setSuggesations({
+                                        //     titles: [...States],
+                                        //     type: obj.custom.ui_component
+                                        // });
                                     }
                                     if (obj.custom?.ui_component && obj.custom.ui_component === "select_job") {
                                         setInputValue('');
@@ -1895,108 +1905,8 @@ const Chatbot = () => {
                             </Stack></>)
                             : (<></>)
                         }
-
-
-
-
-
-                        {/* <Stack direction='column' p={0.5} alignItems='flex-end' >
-                        <Stack direction='row' spacing={0.5} mr={1}>
-                            <Stack sx=
-                                {{
-                                    backgroundColor: '#146EF6', borderRadius: '5px', p: 0.5, width: '49px', height: '31px', display: 'flex', flexDirection: 'row', justifyContent: 'center'
-                                }}
-
-                            >
-                                <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left' }}>
-                                    Yes
-                                </Typography>
-                            </Stack>
-
-                            <Stack>
-                                <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
-                            </Stack>
-                        </Stack>
-                    </Stack> */}
-
-
-                        {/* <Stack p={0.5} mr={5}>
-                        <Stack direction='row' spacing={0.5}>
-                            <Stack>
-                                <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
-                            </Stack>
-                            <Stack sx=
-                                {{
-                                    backgroundColor: '#374458', borderRadius: '5px', pr: 1.5
-                                }}
-                            >
-                                <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left' }}>
-                                    Do you have any Concerns about working in a call center environment on a recorded line?
-                                </Typography>
-                            </Stack>
-                        </Stack>
-                        <Stack direction='row' spacing={2} mt={1}>
-                            <Button variant="outlined" sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', width: '80px', ml: 2.5 }}
-                                disableRipple>
-                                Yes
-                            </Button>
-                            <Button variant="outlined" sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', width: '80px' }}
-                                disableRipple>
-                                No
-                            </Button>
-                        </Stack>
-                    </Stack>
-                    <Stack p={0.5} mr={5}>
-                        <Stack direction='row' spacing={0.5}>
-                            <Stack>
-                                <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
-                            </Stack>
-                            <Stack sx=
-                                {{
-                                    backgroundColor: '#374458', borderRadius: '5px', pr: 1.5
-                                }}
-                            >
-                                <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left' }}>
-                                    Do you have any Concerns about working in a call center environment on a recorded line?
-                                </Typography>
-                            </Stack>
-                        </Stack>
-                        <Stack direction='row' spacing={2} mt={1}>
-                            <Button variant="outlined" sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', width: '80px', ml: 2.5 }}
-                                disableRipple>
-                                Yes
-                            </Button>
-                            <Button variant="outlined" sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '16px', height: '34px', width: '80px' }}
-                                disableRipple>
-                                No
-                            </Button>
-                        </Stack>
-                    </Stack> */}
                     </ReactScrolableFeed>
                 </Stack>
-                {/* {isShowSelect && <Select options={suggesations} />} */}
-                {/* <Box className="menu-box">
-                    <Menu
-
-                        MenuListProps={{
-                            disablePadding: true
-                        }}
-                        open={isMenuOpen}
-                        anchorEl={anchorMenuEl}
-
-                        sx={{
-                            top: "421px",
-                            left: "509px",
-                            width: "38%"
-                        }}
-                    >
-                        {suggesations.map((suggesation) => {
-                            return (
-                                <MenuItem>{suggesation.value}</MenuItem>
-                            )
-                        })}
-                    </Menu>
-                </Box> */}
                 <Stack
                     id='send-container'
                     direction="row" alignItems="center" pt='2%' mr={1} ml={1} pb='2%'
@@ -2132,7 +2042,9 @@ const Chatbot = () => {
                                         }}
                                     />}
 
-                            /> : <Autocomplete
+                            /> 
+                            : 
+                            <Autocomplete
                                 multiple
                                 open={openAutoComplete}
                                 onOpen={openPopper}

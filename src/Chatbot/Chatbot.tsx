@@ -400,7 +400,7 @@ const Chatbot = () => {
 
     const sendJobValue = (jobData: any) => {
         let obj = {
-            "text": jobData.jobtitle,
+            "text": jobData.title_,
             "payload": '',
             "sent": true,
             "metadata": {
@@ -409,7 +409,7 @@ const Chatbot = () => {
         }
         dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
         setMessagesList(prevArray => [...prevArray, obj]);
-        dataToPass.message = `/input_select_job{"select_job": "${jobData.jobid}"}`
+        dataToPass.message = `/input_select_job{"select_job": "${jobData.requisitionId_}"}`
         // dataToPass.message = type === "input_job_title" ? `/${type}{"job_title": "${value}"}` : `/${type}{"job_location": "${value}"}`;
         getTableData();
 
@@ -448,6 +448,7 @@ const Chatbot = () => {
 
     const makeJobsCourousal = (rowObj: any) => {
         // setMaxSteps(rowObj.jobs.length)
+        console.log(rowObj);
 
         rowObj.jobs.forEach((job: any) => {
             const jobObj = {
@@ -464,13 +465,13 @@ const Chatbot = () => {
 
                                 <Stack sx={{ p: '10px' }} direction='column' spacing={2}>
 
-                                    <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{job.jobtitle}</Typography>
+                                    <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{job.title_}</Typography>
                                     <Box sx={{ display: 'flex', flexDirection: 'row', }}>
                                         <Box>
                                             <LocationOnOutlinedIcon sx={{ fontSize: '20px' }} />
                                         </Box>
                                         <Box sx={{ pl: '10px' }}>
-                                            <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>{job.city}, {job.state}  {job.zipcode}</Typography>
+                                            <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>{job.addresses_ && job.addresses_[0]}</Typography>
                                             {/* <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography> */}
                                         </Box>
                                     </Box>
@@ -480,7 +481,7 @@ const Chatbot = () => {
                                             <CalendarTodayIcon sx={{ fontSize: '15px' }} />
                                         </Box>
                                         <Box sx={{ pl: '10px' }}>
-                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted on {job.date}</Typography>
+                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted on {job.postingPublishTime_?.seconds_}</Typography>
                                         </Box>
                                     </Box>
 
@@ -489,7 +490,7 @@ const Chatbot = () => {
                                             <AccessTimeIcon sx={{ fontSize: '15px' }} />
                                         </Box>
                                         <Box sx={{ pl: '10px' }}>
-                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{job.jobtype}</Typography>
+                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{job.companyDisplayName_}</Typography>
                                         </Box>
                                     </Box>
 
@@ -2384,7 +2385,7 @@ const Chatbot = () => {
 
                     <Stack sx={{ pb: '15px', borderBottom: '1px solid lightgrey' }} direction='column' spacing={2}>
 
-                        <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{selectedJobData[0]?.jobtitle}</Typography>
+                        <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{selectedJobData[0]?.title_}</Typography>
                         {/* <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                             <Box>
                                 <LocationOnOutlinedIcon sx={{ fontSize: '20px' }} />
@@ -2433,7 +2434,7 @@ const Chatbot = () => {
                                 <CalendarTodayIcon sx={{ fontSize: '15px' }} />
                             </Box>
                             <Box sx={{ pl: '10px' }}>
-                                <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted {selectedJobData[0]?.date}</Typography>
+                                <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted {selectedJobData[0]?.postingCreateTime_.seconds_}</Typography>
                             </Box>
                         </Box>
 
@@ -2442,7 +2443,7 @@ const Chatbot = () => {
                                 <AccessTimeIcon sx={{ fontSize: '15px' }} />
                             </Box>
                             <Box sx={{ pl: '10px' }}>
-                                <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{selectedJobData[0]?.jobtype}</Typography>
+                                <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{selectedJobData[0]?.companyDisplayName_}</Typography>
                             </Box>
                         </Box>
 
@@ -2456,7 +2457,7 @@ const Chatbot = () => {
 
                         <Box sx={{ mt: '5px' }}>
                             <Typography sx={{ fontSize: '14px' }}>
-                                <span dangerouslySetInnerHTML={{ __html: selectedJobData[0]?.description }} />
+                                <span dangerouslySetInnerHTML={{ __html: selectedJobData[0]?.description_ }} />
                                 {/* {selectedJobData[0]?.description} */}
                             </Typography>
                         </Box>

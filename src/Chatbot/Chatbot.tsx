@@ -326,7 +326,10 @@ const Chatbot = () => {
     }
 
     const sendValue = (event: any, value: any) => {
-        setActiveStep(0)
+        let newArr = [...activeStep];
+        // newArr[sliderCount] = { "stepNumber": newArr[sliderCount].stepNumber + 1 }
+        setActiveStep(newArr);
+        // setActiveStep([{ "stepNumber": 0 }])
         if (value) {
             let obj = {
                 "text": (value.search("candid") !== -1) ? "Resume uploaded successfully" : value,
@@ -447,9 +450,9 @@ const Chatbot = () => {
 
 
 
-    const handleSlideIn = () => {
-        return (Number(activeStep) === 0 || Number(activeStep)) ? true : false;
-    };
+    // const handleSlideIn = () => {
+    //     return (Number(activeStep) === 0 || Number(activeStep)) ? true : false;
+    // };
 
     const refineSearchJob = (value: any) => {
 
@@ -868,20 +871,25 @@ const Chatbot = () => {
 
 
     const theme = useTheme();
-    const [activeStep, setActiveStep] = React.useState(0);
+    const [activeStep, setActiveStep] = React.useState<any[]>([{ "stepNumber": 0 }]);
     const [slideDirection, setSlideDirection] = React.useState<'left' | 'right'>('left')
     // const maxSteps = steps.length;
     const [maxSteps, setMaxSteps] = React.useState(0);
+    const [sliderCount, setSliderCount] = useState(0)
     const vertical = "top";
     const horizontal = "right";
 
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    const handleNext = (count: any) => {
+        let newArr = [...activeStep];
+        newArr[count] = { "stepNumber": newArr[count].stepNumber + 1 }
+        setActiveStep(newArr);
         setSlideDirection('left');
     };
 
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    const handleBack = (count: any) => {
+        let newArr = [...activeStep];
+        newArr[count] = { "stepNumber": newArr[count].stepNumber - 1 }
+        setActiveStep(newArr);
         setSlideDirection('right');
     };
 
@@ -954,7 +962,8 @@ const Chatbot = () => {
         if (event.key === 'Enter') {
             // 👇 Get input value
             //   console.log(event.target.value);
-            setActiveStep(0)
+            // setActiveStep([{ "stepNumber": 0 }])
+            setActiveStep((prevState) => [...prevState])
             if (event.target.value !== "" && event.target.value.trim() !== "") {
                 let obj = {
                     "text": event.target.value,
@@ -983,7 +992,7 @@ const Chatbot = () => {
     //send text as input 
 
     const sendTextMessage = () => {
-        setActiveStep(0)
+        setActiveStep((prevState) => [...prevState])
         if (inputValue !== "" && inputValue.trim() !== "") {
             let obj = {
                 "text": inputValue,
@@ -994,7 +1003,12 @@ const Chatbot = () => {
                 }
             }
             setMessagesList(prevArray => [...prevArray, obj]);
-            dataToPass.message = inputValue;
+            if (intentType === "input_job_location") {
+                dataToPass.message = `/${intentType}{"${entityType}": "${inputValue}"}`
+            } else {
+                dataToPass.message = inputValue;
+            }
+
             dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
             getTableData();
         }
@@ -1034,6 +1048,12 @@ const Chatbot = () => {
         setFileData(null)
         getTableData();
     }
+
+    let isLoadedFirstTime = false;
+    // let slideCountArray = []
+    useEffect(() => {
+        sessionStorage.setItem("isLoadedFirsttime", 'true')
+    }, [])
 
 
     const getTableData = () => {
@@ -1089,13 +1109,24 @@ const Chatbot = () => {
                                         // });
                                     }
                                     if (obj.custom?.ui_component && obj.custom.ui_component === "select_job") {
+
+
                                         setInputValue('');
                                         setEnableAuto(false);
                                         newObject.newJobs = [];
                                         newObject.maxSteps = newObject.custom?.jobs.length + 1;
                                         newObject.jobs = newObject.custom?.jobs;
                                         makeJobsCourousal(newObject);
+                                        if (sessionStorage.getItem("isLoadedFirsttime") === "false") {
+                                            console.log("is coming juyyy")
+                                            setActiveStep((prevState) => [...prevState, { "stepNumber": 0 }])
+                                            setSliderCount((prevState) => prevState + 1)
+                                            newObject.slideCount = sliderCount + 1;
+                                            isLoadedFirstTime = false
+                                        }
+
                                     }
+                                    sessionStorage.setItem("isLoadedFirsttime", 'false')
 
                                 }
                                 if (i + 1 === response.data.length) {
@@ -1182,7 +1213,7 @@ const Chatbot = () => {
         // setLoaded(true);
     }, []);
     React.useEffect(() => {
-        // console.log(messagesList);
+        // console.log(messagesList, 'messsage');
     }, [messagesList]);
 
     return (
@@ -1801,7 +1832,7 @@ const Chatbot = () => {
 
                                                             <Stack
                                                                 sx={{
-                                                                    display: activeStep === 0 ? 'none' : 'block',
+                                                                    display: activeStep[msgObj.slideCount]?.stepNumber === 0 ? 'none' : 'block',
                                                                     mb: '60px'
                                                                 }}
                                                             >
@@ -1809,7 +1840,7 @@ const Chatbot = () => {
                                                                     disableRipple
                                                                     size="small"
                                                                     variant="contained"
-                                                                    onClick={handleBack}
+                                                                    onClick={() => handleBack(msgObj.slideCount)}
                                                                     sx={{
                                                                         position: 'absolute',
                                                                         left: '1px',
@@ -1841,7 +1872,7 @@ const Chatbot = () => {
                                                                 msgObj.newJobs.map((step: any, i: any) => {
                                                                     return <>
 
-                                                                        <Slide direction={slideDirection} in={i === activeStep} mountOnEnter unmountOnExit
+                                                                        <Slide direction={slideDirection} in={i === activeStep[msgObj.slideCount]?.stepNumber} mountOnEnter unmountOnExit
                                                                             timeout={{ appear: 0, enter: 300, exit: 0 }}
                                                                         >
 
@@ -1849,7 +1880,7 @@ const Chatbot = () => {
                                                                                 square
                                                                                 elevation={0}
                                                                                 sx={{
-                                                                                    display: (i === activeStep) ? 'flex' : 'none',
+                                                                                    display: (i === activeStep[msgObj.slideCount]?.stepNumber) ? 'flex' : 'none',
                                                                                     alignItems: 'center',
                                                                                     height: '100%',
                                                                                     bgcolor: 'background.default',
@@ -1873,14 +1904,14 @@ const Chatbot = () => {
 
                                                             <Box sx={{
 
-                                                                display: activeStep === msgObj.maxSteps - 1 ? 'none' : 'block',
+                                                                display: activeStep[msgObj.slideCount]?.stepNumber === msgObj.maxSteps - 1 ? 'none' : 'block',
                                                                 mb: '60px',
 
                                                             }}>
                                                                 <Button
                                                                     size="small"
                                                                     variant="contained"
-                                                                    onClick={handleNext}
+                                                                    onClick={() => handleNext(msgObj.slideCount)}
                                                                     sx={{
                                                                         position: 'absolute',
                                                                         right: '1px',
@@ -1917,7 +1948,7 @@ const Chatbot = () => {
 
                                                             <Box sx={{ textAlign: 'center', ml: '70px' }}>
                                                                 <Typography variant="body2" color="text.secondary">
-                                                                    {`${activeStep + 1} of ${msgObj.maxSteps}`}
+                                                                    {`${activeStep[msgObj.slideCount]?.stepNumber + 1} of ${msgObj.maxSteps}`}
                                                                 </Typography>
                                                             </Box>
 
@@ -1927,7 +1958,7 @@ const Chatbot = () => {
                                                                     steps={msgObj.maxSteps}
                                                                     position="static"
                                                                     sx={{ width: '160px', }}
-                                                                    activeStep={activeStep}
+                                                                    activeStep={activeStep[sliderCount]?.stepNumber}
                                                                     nextButton={null}
                                                                     backButton={null}
                                                                 />

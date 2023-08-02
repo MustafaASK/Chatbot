@@ -29,6 +29,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
+// import moment from 'moment'
 
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import c from '../Rectangle 99@2x.svg';
@@ -203,7 +204,7 @@ const Chatbot = () => {
     const [toastrMessage, setToastrMessage] = React.useState("");
     const [fileInputData, setFileData] = React.useState<any | never>(null)
     const [isShowNoResults, setIsShowResults] = useState(false)
-
+    const [defaultTitle, setDefaultTitle] = useState("");
     const handleCloseMenu = (msg: any, msgObj: any) => {
         setAnchorEl(null);
         if (typeof msg !== 'object') {
@@ -325,20 +326,22 @@ const Chatbot = () => {
 
     const sendValue = (event: any, value: any) => {
         setActiveStep(0)
-        let obj = {
-            "text": (value.search("candid") !== -1) ? "Resume uploaded successfully" : value,
-            "payload": '',
-            "sent": true,
-            "metadata": {
-                "job_id": (queryParam ? queryParam : "1")
+        if (value) {
+            let obj = {
+                "text": (value.search("candid") !== -1) ? "Resume uploaded successfully" : value,
+                "payload": '',
+                "sent": true,
+                "metadata": {
+                    "job_id": (queryParam ? queryParam : "1")
+                }
             }
+            dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
+            setMessagesList(prevArray => [...prevArray, obj]);
+            value = (value.search("candid") !== -1) ? value.split(" ")[1] : value;
+            dataToPass.message = `/${intentType}{"${entityType}": "${value}"}`
+            // dataToPass.message = type === "input_job_title" ? `/${type}{"job_title": "${value}"}` : `/${type}{"job_location": "${value}"}`;
+            getTableData();
         }
-        dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
-        setMessagesList(prevArray => [...prevArray, obj]);
-        value = (value.search("candid") !== -1) ? value.split(" ")[1] : value;
-        dataToPass.message = `/${intentType}{"${entityType}": "${value}"}`
-        // dataToPass.message = type === "input_job_title" ? `/${type}{"job_title": "${value}"}` : `/${type}{"job_location": "${value}"}`;
-        getTableData();
 
         // sendLocValue(null, "california", "input_job_location")
 
@@ -380,6 +383,7 @@ const Chatbot = () => {
 
     const handleTitleChange = async (e: any) => {
         setTitleValue(e.target.value)
+        setDefaultTitle(e.target.value)
     }
     const [titleData, setTitleData] = React.useState([])
     useEffect(() => {
@@ -501,7 +505,8 @@ const Chatbot = () => {
                                             <CalendarTodayIcon sx={{ fontSize: '15px' }} />
                                         </Box>
                                         <Box sx={{ pl: '10px' }}>
-                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted on {job.postingPublishTime_?.seconds_}</Typography>
+                                            {/* {`${new Date(job.postingPublishTime_?.seconds_)}`} */}
+                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted on { }</Typography>
                                         </Box>
                                     </Box>
 
@@ -1028,7 +1033,7 @@ const Chatbot = () => {
         setFileData(null)
         getTableData();
     }
-    const [defaultTitle, setDefaultTitle] = useState("");
+
 
     const getTableData = () => {
         // alert(randStr);

@@ -324,7 +324,7 @@ const Chatbot = () => {
     }
 
     const sendValue = (event: any, value: any) => {
-
+        setActiveStep(0)
         let obj = {
             "text": (value.search("candid") !== -1) ? "Resume uploaded successfully" : value,
             "payload": '',
@@ -446,6 +446,25 @@ const Chatbot = () => {
         return (Number(activeStep) === 0 || Number(activeStep)) ? true : false;
     };
 
+    const refineSearchJob = (value: any) => {
+
+        let { refine_job_search_message } = value.custom;
+        let obj = {
+            "text": "Refine job search",
+            "payload": "",
+            "sent": true,
+        }
+        setMessagesList((prevList) => [...prevList, obj])
+        dataToPass = {
+            "sender": `${randStr}`,
+            "message": refine_job_search_message,
+            "metadata": {
+                "job_id": (queryParam ? queryParam : "1")
+            }
+        };
+        getTableData();
+    }
+
     const makeJobsCourousal = (rowObj: any) => {
         // setMaxSteps(rowObj.jobs.length)
         console.log(rowObj);
@@ -453,6 +472,7 @@ const Chatbot = () => {
         rowObj.jobs.forEach((job: any) => {
             const jobObj = {
                 "container": (
+
                     <Stack sx={{ minHeight: '300px', minWidth: '300px' }}>
                         <Stack sx={{
                             backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
@@ -460,8 +480,8 @@ const Chatbot = () => {
                         }}>
                             <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)' }}>
                                 {/* <Box sx={{ p: 1 }}>
-                                    <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>Sales</Typography>
-                                </Box> */}
+                                        <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>Sales</Typography>
+                                    </Box> */}
 
                                 <Stack sx={{ p: '10px' }} direction='column' spacing={2}>
 
@@ -539,14 +559,76 @@ const Chatbot = () => {
 
                         </Stack>
                     </Stack>
+
                 )
             };
             rowObj.newJobs.push(jobObj);
+
+
 
             // setNewSteps((prevSearchData: any) => ({
             //     ...prevSearchData,jobObj
             //   }));
         })
+
+        let refineJobSearch = {
+            "container": (
+                <Stack sx={{ minHeight: '300px', minWidth: '300px' }}>
+                    <Stack sx={{
+                        backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
+                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', height: '10px',
+                    }}>
+                        <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', textAlign: 'center', p: 2 }}>
+
+                            <Stack sx={{ mt: 1 }}>
+                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                </Stack>
+
+                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <SearchIcon sx={{ fontSize: '50px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                </Stack>
+
+                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                </Stack>
+
+                            </Stack>
+
+                            <Typography sx={{ mt: 1, mb: 1, fontSize: '16px', fontWeight: 600 }}>Here's what you can do.</Typography>
+
+                            <Box sx={{ mr: 1, ml: 1 }}>
+
+                                <Button variant="contained"
+                                    disableRipple
+                                    sx={{
+                                        width: '100%', mb: 1, backgroundColor: '#146EF6', boxShadow: 0,
+                                        fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
+                                        '&:hover': {
+                                            backgroundColor: '#146EF6',
+                                            boxShadow: 0
+                                        }
+                                    }}
+
+                                    onClick={() => refineSearchJob(rowObj)}
+                                >
+                                    Refine Job Search
+                                </Button>
+                            </Box>
+                        </Stack>
+
+                    </Stack>
+                </Stack>
+            ),
+        }
+        rowObj.newJobs.push(refineJobSearch);
+
 
     }
 
@@ -837,7 +919,7 @@ const Chatbot = () => {
         setMessagesList(prevArray => [...prevArray, obj]);
         dataToPass.message = msg.payload;
         getTableData();
-        
+
         // dataToPass.message = `/${intentType}{"${entityType}": "${formattedeKyValue}"}`
 
     }
@@ -866,6 +948,7 @@ const Chatbot = () => {
         if (event.key === 'Enter') {
             // 👇 Get input value
             //   console.log(event.target.value);
+            setActiveStep(0)
             if (event.target.value !== "" && event.target.value.trim() !== "") {
                 let obj = {
                     "text": event.target.value,
@@ -876,12 +959,12 @@ const Chatbot = () => {
                     }
                 }
                 setMessagesList(prevArray => [...prevArray, obj]);
-                if(intentType === "input_job_location" ){
+                if (intentType === "input_job_location") {
                     dataToPass.message = `/${intentType}{"${entityType}": "${event.target.value}"}`
                 } else {
                     dataToPass.message = event.target.value;
                 }
-                
+
                 // dataToPass.message = type === "input_job_location" ?  `/${type}{"job_location": "${event.target.value}"}` : `${event.target.value}`;
                 // dataToPass.message = event.target.value;
                 console.log(event.target.value);
@@ -894,6 +977,7 @@ const Chatbot = () => {
     //send text as input 
 
     const sendTextMessage = () => {
+        setActiveStep(0)
         if (inputValue !== "" && inputValue.trim() !== "") {
             let obj = {
                 "text": inputValue,
@@ -944,7 +1028,8 @@ const Chatbot = () => {
         setFileData(null)
         getTableData();
     }
-
+    const [defaultTitle, setDefaultTitle] = useState("");
+    const [defaultLocation, setDefaultLocation] = useState("")
 
     const getTableData = () => {
         // alert(randStr);
@@ -973,7 +1058,9 @@ const Chatbot = () => {
                                 if (obj.custom && Object.keys(obj.custom).length) {
                                     if (obj.custom?.ui_component && obj.custom.ui_component === "job_title") {
                                         setEnableAuto(true);
-
+                                        if (obj.custom.titles?.length) {
+                                            setDefaultTitle(obj.custom.titles[0])
+                                        }
                                         setSuggesations({
                                             titles: [...titleData],
                                             type: obj.custom.ui_component
@@ -1000,7 +1087,7 @@ const Chatbot = () => {
                                         setInputValue('');
                                         setEnableAuto(false);
                                         newObject.newJobs = [];
-                                        newObject.maxSteps = newObject.custom?.jobs.length;
+                                        newObject.maxSteps = newObject.custom?.jobs.length + 1;
                                         newObject.jobs = newObject.custom?.jobs;
                                         makeJobsCourousal(newObject);
                                     }
@@ -1926,6 +2013,7 @@ const Chatbot = () => {
                                 onOpen={
                                     openPopper
                                 }
+                                defaultValue={defaultTitle}
                                 onClose={closePopper}
                                 filterOptions={(options, state) => {
                                     let filterArr = options.filter((opt) => opt.toLowerCase().includes(state.inputValue.toLowerCase()))
@@ -2009,13 +2097,14 @@ const Chatbot = () => {
                                 renderInput={(params) =>
                                     <TextField
                                         {...params}
-
+                                        defaultValue={defaultTitle}
                                         placeholder="Type your message..."
                                         onChange={handleTitleChange}
                                         sx={{
                                             '& .MuiInputBase-input.MuiOutlinedInput-input': {
                                                 padding: '5px 10px',
-                                                height: "10px"
+                                                height: "10px",
+                                                fontSize: "13px"
 
                                             },
                                             '& .MuiInputBase-root.MuiOutlinedInput-root ': {
@@ -2031,19 +2120,23 @@ const Chatbot = () => {
                                                 borderWidth: '1px'
 
                                             },
+
                                         }}
                                         InputProps={{
                                             ...params.InputProps,
                                             endAdornment: (
                                                 <InputAdornment position="end">
-                                                    <TelegramIcon sx={{ cursor: 'pointer', color: '#919191' }} />
+                                                    {!defaultTitle ? <TelegramIcon sx={{ cursor: 'pointer', color: '#919191', position: "fixed", right: "20px" }} /> :
+                                                        <TelegramIcon sx={{ cursor: 'pointer', color: '#919191', position: "fixed", right: "20px" }} onClick={(value) => sendValue(null, defaultTitle)} />
+                                                    }
+
                                                 </InputAdornment>
                                             ),
                                         }}
                                     />}
 
-                            /> 
-                            : 
+                            />
+                            :
                             <Autocomplete
                                 multiple
                                 open={openAutoComplete}

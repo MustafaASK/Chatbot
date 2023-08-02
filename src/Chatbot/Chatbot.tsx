@@ -1029,7 +1029,6 @@ const Chatbot = () => {
         getTableData();
     }
     const [defaultTitle, setDefaultTitle] = useState("");
-    const [defaultLocation, setDefaultLocation] = useState("")
 
     const getTableData = () => {
         // alert(randStr);

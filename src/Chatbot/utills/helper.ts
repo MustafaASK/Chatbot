@@ -1,3 +1,4 @@
+import moment from 'moment'
 export const States = [
 
     { "name": "Alabama", "key": "AL" },
@@ -125,3 +126,7 @@ export const States = [
     { "name": "Wyoming", "key": "WY" }]
 
 
+export const formatDate = (value: any) => {
+    let curDate = new Date(value * 1000);
+    return moment(curDate.toDateString()).format("MM-DD-YYYY")
+}

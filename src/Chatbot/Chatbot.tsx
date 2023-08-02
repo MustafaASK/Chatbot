@@ -29,7 +29,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
-// import moment from 'moment'
+
 
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import c from '../Rectangle 99@2x.svg';
@@ -41,6 +41,7 @@ import { States } from "./utills/helper";
 import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { formatDate } from "./utills/helper";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -505,8 +506,8 @@ const Chatbot = () => {
                                             <CalendarTodayIcon sx={{ fontSize: '15px' }} />
                                         </Box>
                                         <Box sx={{ pl: '10px' }}>
-                                            {/* {`${new Date(job.postingPublishTime_?.seconds_)}`} */}
-                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted on { }</Typography>
+
+                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted on {formatDate(job.postingPublishTime_?.seconds_)}</Typography>
                                         </Box>
                                     </Box>
 
@@ -2443,7 +2444,7 @@ const Chatbot = () => {
                                 <CalendarTodayIcon sx={{ fontSize: '15px' }} />
                             </Box>
                             <Box sx={{ pl: '10px' }}>
-                                <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted {selectedJobData[0]?.postingCreateTime_.seconds_}</Typography>
+                                <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted {formatDate(selectedJobData[0]?.postingCreateTime_.seconds_)}</Typography>
                             </Box>
                         </Box>
 

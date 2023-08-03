@@ -1114,8 +1114,9 @@ const Chatbot = () => {
                                         setInputValue('');
                                         setEnableAuto(false);
                                         newObject.newJobs = [];
-                                        newObject.maxSteps = newObject.custom?.jobs.length + 1;
-                                        newObject.jobs = newObject.custom?.jobs;
+                                        newObject.maxSteps = newObject.custom?.jobs ? newObject.custom?.jobs?.length + 1 : 1;
+
+                                        newObject.jobs = newObject.custom?.jobs ? newObject.custom?.jobs : [];
                                         makeJobsCourousal(newObject);
                                         if (sessionStorage.getItem("isLoadedFirsttime") === "false") {
                                             console.log("is coming juyyy")

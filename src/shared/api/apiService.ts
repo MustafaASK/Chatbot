@@ -75,6 +75,7 @@ class ApiService {
     }
 
     searchJobTitle(data: any) {
+        data = data ? data : "java"
         const header: any = new Headers();
         header.append('Access-Control-Allow-Origin', '*');
         header.append("Content-Type", "multipart/form-data");

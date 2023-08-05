@@ -75,7 +75,16 @@ class ApiService {
     }
 
     searchJobTitle(data: any) {
-        return axios.get('https://www4.accuick.com/ChatBot/jobTitleSearch.jsp?search=' + data);
+        const header: any = new Headers();
+        header.append('Access-Control-Allow-Origin', '*');
+        header.append("Content-Type", "multipart/form-data");
+        let input = { "query": data }
+        return axios.post(
+            'https://sequence.accuick.com/CloudTalentApi/api/autocomplete',
+            input,
+            header
+        );
+        // return axios.get('https://www4.accuick.com/ChatBot/jobTitleSearch.jsp?search=' + data);
     }
 
 }

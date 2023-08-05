@@ -399,8 +399,8 @@ const Chatbot = () => {
     useEffect(() => {
         const getJobTitles = async () => {
             try {
-                let searchResp = await apiService.searchJobTitle(titleSearchValue)
-                let filteredValues = searchResp.data.filter((data: string) => data !== "")
+                let searchResp = await apiService.searchJobTitle(titleSearchValue);
+                let filteredValues = searchResp.data?.list.filter((data: any) => data.title !== "").map((data: any) => data.title)
                 setTitleData(filteredValues)
                 setSuggesations({ ...suggesationObj, titles: [...filteredValues] })
             }

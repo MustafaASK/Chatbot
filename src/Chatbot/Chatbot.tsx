@@ -234,7 +234,6 @@ const Chatbot = () => {
             try {
                 let response = await apiService.getIpAddress();
                 let data = response.data;
-                data.city = undefined;
                 // console.log(ip_address, 'ip_address', ip_address.headers["X-Rl"])
                 let formatted_string = `${data.city},${data.regionName},${data.country},${data.zip}`;
                 let filter_str = formatted_string.split(",");
@@ -255,7 +254,7 @@ const Chatbot = () => {
 
             }
         }
-        getLocation()
+        // getLocation()
 
     }, [])
 

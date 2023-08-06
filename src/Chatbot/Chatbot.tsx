@@ -2061,6 +2061,29 @@ const Chatbot = () => {
 
                                                                                                     I'm Interested
                                                                                                 </Button>
+                                                                                                
+                                    <Button
+                                        disableRipple
+                                        onClick={() => refineSearchJob(msgObj)}
+                                        sx={{
+                                            textTransform: 'capitalize',
+                                            textDecoration:'underline',
+                                            '& .MuiButton-endIcon': {
+                                                mr: 0,
+                                                ml: '-5px'
+                                            },
+                                            '& .MuiButton-endIcon>*:nth-of-type(1)': {
+                                                fontSize: '25px'
+                                            },
+                                            '&:hover': {
+                                                backgroundColor: '#ffffff'
+                                            }
+
+                                        }}
+
+                                    >
+                                        Refine Search
+                                    </Button>
                                                                                             </Box>
                                                                                         </Stack>
 

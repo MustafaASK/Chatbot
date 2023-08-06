@@ -88,6 +88,10 @@ class ApiService {
         // return axios.get('https://www4.accuick.com/ChatBot/jobTitleSearch.jsp?search=' + data);
     }
 
+    getIpAddress() {
+        return axios.get('http://ip-api.com/json/?fields=20508671');
+    }
+
 }
 
 // [Yesterday 16:42] Anil Kunde https://www4.accuick.com/ChatBot/jobTitleSearch.jsp?search=Angular

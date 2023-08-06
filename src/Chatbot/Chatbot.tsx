@@ -228,6 +228,36 @@ const Chatbot = () => {
 
     };
 
+    useEffect(() => {
+
+        const getLocation = async () => {
+            try {
+                let response = await apiService.getIpAddress();
+                let data = response.data;
+                data.city = undefined;
+                // console.log(ip_address, 'ip_address', ip_address.headers["X-Rl"])
+                let formatted_string = `${data.city},${data.regionName},${data.country},${data.zip}`;
+                let filter_str = formatted_string.split(",");
+                let final_loc = ""
+                for (let i = 0; i < filter_str.length; i++) {
+                    if (filter_str[i] !== "undefined") {
+                        if (i !== filter_str.length - 1) {
+                            final_loc += filter_str[i] + ","
+                        }
+                        else {
+                            final_loc += filter_str[i];
+                        }
+                    }
+                }
+                // console.log(filter_str, final_loc, 'ff')
+            }
+            catch (e) {
+
+            }
+        }
+        getLocation()
+
+    }, [])
 
 
     const handleFileUpload = () => {

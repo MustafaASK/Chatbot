@@ -235,7 +235,7 @@ const Chatbot = () => {
                 let response = await apiService.getIpAddress();
                 let data = response.data;
                 // console.log(ip_address, 'ip_address', ip_address.headers["X-Rl"])
-                let formatted_string = `${data.city},${data.regionName},${data.country},${data.zip}`;
+                let formatted_string = `${data.city},${data.region},${data.country},${data.postal}`;
                 let filter_str = formatted_string.split(",");
                 let final_loc = ""
                 for (let i = 0; i < filter_str.length; i++) {
@@ -254,7 +254,7 @@ const Chatbot = () => {
 
             }
         }
-        // getLocation()
+        getLocation()
 
     }, [])
 
@@ -272,6 +272,48 @@ const Chatbot = () => {
 
     }
 
+
+    // const ratingStars = () => {
+    //     return (
+    //         <Stack className="rating">
+    //             <Box className="rating-star">
+    //                 <input type="radio" value="1" id="star1" />
+    //                 <label htmlFor="start1">
+    //                     <MoodBadOutlinedIcon className="icon-emoji" sx={{ fill: "#dede11", opacity: "0.8" }} />
+    //                     {/* <h4>Not saticfied</h4> */}
+    //                 </label>
+    //             </Box>
+    //             <Box className="rating-star">
+    //                 <input type="radio" value="2" id="star2" />
+    //                 <label htmlFor="start2">
+    //                     <SentimentSatisfiedAltOutlinedIcon className="icon-emoji" sx={{ fill: "#dede11", opacity: "0.8" }} />
+    //                     {/* <h4>Saticified</h4> */}
+    //                 </label>
+    //             </Box>
+    //             <Box className="rating-star">
+    //                 <input type="radio" value="3" id="star3" />
+    //                 <label htmlFor="start3">
+    //                     <TagFacesOutlinedIcon className="icon-emoji" sx={{ fill: "#dede11", opacity: "0.8" }} />
+    //                     {/* <h4>Good</h4> */}
+    //                 </label>
+    //             </Box>
+    //             <Box className="rating-star">
+    //                 <input type="radio" value="4" id="star4" />
+    //                 <label htmlFor="start4">
+    //                     <EmojiEmotionsOutlinedIcon className="icon-emoji" sx={{ fill: "#dede11", opacity: "0.8" }} />
+    //                     {/* <h4>Very Good</h4> */}
+    //                 </label>
+    //             </Box>
+    //             <Box className="rating-star">
+    //                 <input type="radio" value="5" id="star5" />
+    //                 <label htmlFor="start5">
+    //                     <SentimentVerySatisfiedOutlinedIcon className="icon-emoji" sx={{ fill: "#dede11", opacity: "0.8" }} />
+    //                     {/* <h4>Excellent</h4> */}
+    //                 </label>
+    //             </Box>
+    //         </Stack>
+    //     )
+    // }
     const submitFile = async () => {
         let formData = new FormData()
         formData.append("resume", fileInputData)
@@ -2090,29 +2132,29 @@ const Chatbot = () => {
 
                                                                                                     I'm Interested
                                                                                                 </Button>
-                                                                                                
-                                    <Button
-                                        disableRipple
-                                        onClick={() => refineSearchJob(msgObj)}
-                                        sx={{
-                                            textTransform: 'capitalize',
-                                            textDecoration:'underline',
-                                            '& .MuiButton-endIcon': {
-                                                mr: 0,
-                                                ml: '-5px'
-                                            },
-                                            '& .MuiButton-endIcon>*:nth-of-type(1)': {
-                                                fontSize: '25px'
-                                            },
-                                            '&:hover': {
-                                                backgroundColor: '#ffffff'
-                                            }
 
-                                        }}
+                                                                                                <Button
+                                                                                                    disableRipple
+                                                                                                    onClick={() => refineSearchJob(msgObj)}
+                                                                                                    sx={{
+                                                                                                        textTransform: 'capitalize',
+                                                                                                        textDecoration: 'underline',
+                                                                                                        '& .MuiButton-endIcon': {
+                                                                                                            mr: 0,
+                                                                                                            ml: '-5px'
+                                                                                                        },
+                                                                                                        '& .MuiButton-endIcon>*:nth-of-type(1)': {
+                                                                                                            fontSize: '25px'
+                                                                                                        },
+                                                                                                        '&:hover': {
+                                                                                                            backgroundColor: '#ffffff'
+                                                                                                        }
 
-                                    >
-                                        Refine Search
-                                    </Button>
+                                                                                                    }}
+
+                                                                                                >
+                                                                                                    Refine Search
+                                                                                                </Button>
                                                                                             </Box>
                                                                                         </Stack>
 

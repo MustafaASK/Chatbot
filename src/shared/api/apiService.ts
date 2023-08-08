@@ -89,7 +89,7 @@ class ApiService {
     }
 
     getIpAddress() {
-        return axios.get('http://ip-api.com/json/?fields=20508671');
+        return axios.get('https://ipinfo.io/json?token=8f59664b32e94b');
     }
 
 }

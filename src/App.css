@@ -167,3 +167,24 @@
 
   }
 }
+
+.rating {
+  display: flex !important;
+  position: relative;
+  justify-content: center !important;
+  align-items: center !important;
+  flex-direction: row !important;
+  width: 100%;
+}
+
+.rating .rating-star input {
+  display: none;
+}
+
+.rating .rating-star label {
+  cursor: pointer;
+}
+
+.icon-emoji:hover {
+  font-size: 28px;
+}

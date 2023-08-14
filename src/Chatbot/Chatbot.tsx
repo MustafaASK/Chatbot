@@ -1368,130 +1368,226 @@ const Chatbot = () => {
         // setLoaded(true);
     }, []);
 
+    const [isTermOpen, setIsTermOpen] = useState(false)
 
+    const handleTermsCardOpen = () => {
+        setIsTermOpen(true)
+    }
+
+    const handleTermsCardClose = () => {
+        setIsTermOpen(false)
+    }
 
     return (
+        <Stack sx={{
+            display: 'flex', flexDirection: 'row', justifyContent: 'flex-end',
+            alignItems: 'flex-end', right: 500
+        }}>
 
-        <Stack
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flex-end',
-                alignItems: 'flex-end',
-                height: '100vh',
-            }}
-            mr={5}
-            className="main_cls"
-        >
-            {/* {!isChatbotOpen ? ( */}
-
-
-
-            <Card
-                sx={{
-                    width: '375px',
-                    '& .MuiPaper-root.MuiCard-root ': {
-                        pt: 0,
-                    },
-                    borderTopLeftRadius: '15px',
-                    borderTopRightRadius: '15px',
-                    borderBottomLeftRadius: '15px',
-                    position: 'fixed',
-                    zIndex: isChatbotOpen ? 4 : -1,
-                    boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
-                    right: '40px',
-                    transform: isChatbotOpen ? 'translate(-5%,-5%)' : 'translateY(5%)',
-                    transition: 'all .1s ease-out',
-                    transformOrigin: "bottom right",
-                    opacity: isChatbotOpen ? 1 : 0,
-                    display: isReadmore ? 'none' : 'block',
-
-                }}
-
-                className="chat-width"
-            >
-                <Stack id='header-container'
-                    sx={{
-                        backgroundImage: 'linear-gradient(to right,#2731DD, #137CED)',
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                    }}
-                    direction='row'
-                    spacing={2}
-                    p='15px'
-                    maxHeight='30px'
-                >
-                    <Stack
-                        direction='row'
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'center'
-                        }}
-                        spacing={2}
-                    >
-                        <Box sx={{ border: '3px solid #CDE4FD', borderRadius: '50%' }}>
+            <Stack sx={{ display: isTermOpen ? 'block' : 'none' }}>
+                <Card sx={{ width: '350px' }}>
+                    <Stack sx={{ display: 'flex', flexDirection: 'row', borderBottom: '1px solid lightgrey', p: 1, maxHeight: '80px' }}>
+                        <Box>
                             <img
                                 src={Chatbotlogo}
                                 alt='avatar'
                                 style={{
-                                    height: '35px',
-                                    width: '40px',
+                                    height: '30px',
+                                    width: '35px',
                                 }}
                             />
                         </Box>
                         <Typography
-                            sx={{ color: '#ffffff', fontSize: '17px', fontWeight: 700 }}
+                            sx={{ fontSize: '12px' }}
                         >
-                            CXninja <Box component='span' sx={{ fontWeight: 400 }}>SmartBot</Box>
+                            Hello, I'm CXninja SmartBot, your personal recruiting assistant. Before we
+                            get started i'd like to make sure you have had a chance to
+                            read and agree to the terms below:
                         </Typography>
                     </Stack>
-                    <Box component='div' onClick={toggleChatbot} >
-                        <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer' }} />
-                    </Box>
-                </Stack>
+
+                    <Stack sx={{ p: 1, pl: 2, pr: 2, maxHeight: '270px', overflowY: 'scroll' }}>
+                        <Typography sx={{ fontSize: '12px', fontStyle: 'italic', mt: 1 }}>
+                            By using our chatbot, you understand that Bristal-Myers Squibb (BMS)
+                            will collect certain information that includes personal data about you
+                            like your job interest, location, your contact details, and other
+                            information that you share through this tool. This tool is managed by
+                            Curately.AI, a BMS approved third party. Our recruiters and hiring
+                            managers will use this information for recruiting, where needed to get in
+                            touch with you, and for statistical and improvement purposes.
+                        </Typography>
+
+                        <Typography sx={{ fontSize: '12px', fontStyle: 'italic', mt: 2 }}>
+                            <Box component='span' sx={{ fontWeight: 600 }}>Terms:</Box> By using this tool, you agree to these terms and understand how
+                            BMS will use your personal data for these purposes.
+                        </Typography>
+
+                        <Typography sx={{ fontSize: '12px', fontStyle: 'italic', mt: 4, mb: 4 }}>
+                            <Box component='span' sx={{ fontWeight: 600 }}>Privacy</Box> For more information about how BMS handles your personal
+                            data or to exercise your rights, please visit our <Box component='span' sx={{ color: '#146EF6' }}>privacy Notice Center</Box> or
+                            contact our Data Protection officer <Box component='span' sx={{ color: '#146EF6' }}>dpo@bms.com</Box>
+                        </Typography>
+                    </Stack>
+
+                    <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', p: 1, borderTop: '1px solid lightgrey' }}>
+                        <Button
+                            onClick={handleTermsCardClose}
+                            variant="contained"
+                            disableRipple
+                            sx={{
+                                backgroundColor: '#146EF6',
+                                width: '75px',
+                                height: '30px',
+                                textTransform: 'capitalize',
+                                boxShadow: 0,
+                                '&:hover': {
+                                    backgroundColor: '#146EF6',
+                                    boxShadow: 0,
+                                }
+                            }}
+                        >
+                            Decline
+                        </Button>
+                        <Button
+                            variant="contained"
+                            disableRipple
+                            sx={{
+                                backgroundColor: '#146EF6',
+                                width: '75px',
+                                height: '30px',
+                                textTransform: 'capitalize',
+                                boxShadow: 0,
+                                '&:hover': {
+                                    backgroundColor: '#146EF6',
+                                    boxShadow: 0,
+                                }
+                            }}
+                        >
+                            Accept
+                        </Button>
+                    </Stack>
+                </Card>
+            </Stack>
+
+            <Stack
+                sx={{
+                    height: '100vh',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                    alignItems: 'flex-end',
+                }}
+                mr={5}
+                className="main_cls"
+            >
+                {/* {!isChatbotOpen ? ( */}
 
 
-                <Stack ref={scrollRef}
-                    id='content-container'
+                <Card
                     sx={{
-                        backgroundColor: '#ffffff', overflowY: 'scroll', maxHeight: '385px', minHeight: '350px', mb: '5px'
-                    }} >
+                        width: '375px',
+                        '& .MuiPaper-root.MuiCard-root ': {
+                            pt: 0,
+                        },
+                        borderTopLeftRadius: '15px',
+                        borderTopRightRadius: '15px',
+                        borderBottomLeftRadius: '15px',
+                        position: 'fixed',
+                        zIndex: isChatbotOpen ? 4 : -1,
+                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
+                        right: '40px',
+                        transform: isChatbotOpen ? 'translate(-5%,-5%)' : 'translateY(5%)',
+                        transition: 'all .1s ease-out',
+                        transformOrigin: "bottom right",
+                        opacity: isChatbotOpen ? 1 : 0,
+                        display: isReadmore ? 'none' : 'block',
 
-                    <ReactScrolableFeed >
+                    }}
 
-                        <Stack sx={{ pl: '10px', pb: '10px', pt: '10px' }}>
-                            <Typography component='p' sx={{ fontSize: '13px', color: '#374458' }}>
-                                The information you provide to the careers website <br />
-                                and chatbot will be collected to improve your <br />
-                                experience. Please read our
-                                <Box component='span'
-                                    sx={{
-                                        fontWeight: 'bold',
-                                        cursor: 'pointer',
-                                        pl: "5px",
-                                        '&:hover': {
-                                            textDecoration: 'underline'
-                                        }
-                                    }}>Privacy Policy
-                                </Box> to see how <br />
-                                we are storing and protecting your data, as well as <br />
-                                our <Box component='span'
-                                    sx={{
-                                        fontWeight: 'bold',
-                                        cursor: 'pointer',
-                                        '&:hover': {
-                                            textDecoration: 'underline'
-                                        }
-                                    }}>
-                                    Terms of Use.
-                                </Box>
+                    className="chat-width"
+                >
+                    <Stack id='header-container'
+                        sx={{
+                            backgroundImage: 'linear-gradient(to right,#2731DD, #137CED)',
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                        }}
+                        direction='row'
+                        spacing={2}
+                        p='15px'
+                        maxHeight='30px'
+                    >
+                        <Stack
+                            direction='row'
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItems: 'center'
+                            }}
+                            spacing={2}
+                        >
+                            <Box sx={{ border: '3px solid #CDE4FD', borderRadius: '50%' }}>
+                                <img
+                                    src={Chatbotlogo}
+                                    alt='avatar'
+                                    style={{
+                                        height: '35px',
+                                        width: '40px',
+                                    }}
+                                />
+                            </Box>
+                            <Typography
+                                sx={{ color: '#ffffff', fontSize: '17px', fontWeight: 700 }}
+                            >
+                                CXninja <Box component='span' sx={{ fontWeight: 400 }}>SmartBot</Box>
                             </Typography>
                         </Stack>
+                        <Box component='div' onClick={toggleChatbot} >
+                            <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer' }} />
+                        </Box>
+                    </Stack>
 
-                        {/* <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }}>
+
+                    <Stack ref={scrollRef}
+                        id='content-container'
+                        sx={{
+                            backgroundColor: '#ffffff', overflowY: 'scroll', maxHeight: '385px', minHeight: '350px', mb: '5px'
+                        }} >
+
+                        <ReactScrolableFeed >
+
+                            <Stack sx={{ pl: '10px', pb: '10px', pt: '10px' }}>
+                                <Typography component='p' sx={{ fontSize: '13px', color: '#374458' }}>
+                                    The information you provide to the careers website <br />
+                                    and chatbot will be collected to improve your <br />
+                                    experience. Please read our
+                                    <Box component='span'
+                                        sx={{
+                                            fontWeight: 'bold',
+                                            cursor: 'pointer',
+                                            pl: "5px",
+                                            '&:hover': {
+                                                textDecoration: 'underline'
+                                            }
+                                        }}>Privacy Policy
+                                    </Box> to see how <br />
+                                    we are storing and protecting your data, as well as <br />
+                                    our <Box component='span'
+                                        sx={{
+                                            fontWeight: 'bold',
+                                            cursor: 'pointer',
+                                            '&:hover': {
+                                                textDecoration: 'underline'
+                                            }
+                                        }}>
+                                        Terms of Use.
+                                    </Box>
+                                </Typography>
+                            </Stack>
+
+                            {/* <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }}>
                             <Box sx={{ backgroundColor: '#e2e2e2', height: '100px', width: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: '50%', mb: '15px' }}>
 
                                 <Box >
@@ -1528,7 +1624,7 @@ const Chatbot = () => {
                             </Typography>
                         </Stack> */}
 
-                        {/* <Stack sx={{ p: '25px', height: '300px' }}>
+                            {/* <Stack sx={{ p: '25px', height: '300px' }}>
                             <Stack sx={{
                                 backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
                                 boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', height: '10px',
@@ -1679,7 +1775,7 @@ const Chatbot = () => {
                             </Stack>
                         </Stack> */}
 
-                        {/* <Stack sx={{
+                            {/* <Stack sx={{
                             mb: 3, '&& .css-ohwg9z': {
                                 overflow: 'unset'
                             }
@@ -1875,71 +1971,88 @@ const Chatbot = () => {
                         </Stack> */}
 
 
-                        {/* sx={{ display: activeStep === 0 ? 'none' : 'block', mb: '60px', zIndex: 5, position: 'absolute', left: 0, height: '25px' }} */}
-                        {/* // component='div'
+                            {/* sx={{ display: activeStep === 0 ? 'none' : 'block', mb: '60px', zIndex: 5, position: 'absolute', left: 0, height: '25px' }} */}
+                            {/* // component='div'
                             // onMouseEnter={() => setIsButtonHover(true)}
                             // onMouseLeave={() => setIsButtonHover(false)} */}
 
 
-                        {/* {isButtonHover && */}
+                            {/* {isButtonHover && */}
 
 
 
-                        {messagesList.map((msgObj) => (
-                            <>
-                                {msgObj.sent ?
-                                    (<>
-                                        <Stack direction='column' p={0.5} alignItems='flex-end' >
-                                            <Stack direction='row' spacing={0.5} mr={1}>
-                                                <Stack sx=
-                                                    {{
-                                                        backgroundColor: '#146EF6', borderRadius: '24px', p: 0.5, display: 'flex', flexDirection: 'row', justifyContent: 'center', borderBottomRightRadius: "5px", outline: "1px solid transparent"
-                                                    }}
+                            {messagesList.map((msgObj) => (
+                                <>
+                                    {msgObj.sent ?
+                                        (<>
+                                            <Stack direction='column' p={0.5} alignItems='flex-end' >
+                                                <Stack direction='row' spacing={0.5} mr={1}>
+                                                    <Stack sx=
+                                                        {{
+                                                            backgroundColor: '#146EF6', borderRadius: '24px', p: 0.5, display: 'flex', flexDirection: 'row', justifyContent: 'center', borderBottomRightRadius: "5px", outline: "1px solid transparent"
+                                                        }}
 
-                                                >
-                                                    <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
-                                                        {msgObj.text}
-                                                    </Typography>
-                                                </Stack>
+                                                    >
+                                                        <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
+                                                            {msgObj.text}
+                                                        </Typography>
+                                                    </Stack>
 
-                                                <Stack>
-                                                    <img src={profileIcon} style={{ height: '30px', width: '30px' }} alt="chatbot" />
+                                                    <Stack>
+                                                        <img src={profileIcon} style={{ height: '30px', width: '30px' }} alt="chatbot" />
+                                                    </Stack>
                                                 </Stack>
                                             </Stack>
-                                        </Stack>
-                                    </>) :
-                                    (<>
-                                        {msgObj.custom?.ui_component === 'resume_upload' ?
-                                            (<>
-                                                <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }} ref={dropContainer} style={{ border: isDrag ? '5px dotted #e2e2e2' : '1px solid #e2e2e2', backgroundColor: isDrag ? 'rgba(255,255,255,.8)' : '#fbfbfb' }}>
-                                                    <Box sx={{ backgroundColor: '#e2e2e2', height: '100px', width: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: '50%', mb: '15px', }}>
-                                                        {fileInputData ?
-                                                            <Box sx={{ position: "relative" }}>
-                                                                <InsertDriveFileOutlinedIcon sx={{
-                                                                    fontSize: '45px',
-                                                                    color: 'grey',
-                                                                    // fill: "green"
-                                                                }} />
-                                                                <CheckCircleIcon sx={{ fill: "#6fd4ab", fontSize: "15px", position: "absolute", right: "14px", top: "18px" }} />
-                                                            </Box> :
-                                                            <Box >
-                                                                <UploadFileIcon sx={{
-                                                                    fontSize: '40px',
-                                                                    color: 'white',
+                                        </>) :
+                                        (<>
+                                            {msgObj.custom?.ui_component === 'resume_upload' ?
+                                                (<>
+                                                    <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }} ref={dropContainer} style={{ border: isDrag ? '5px dotted #e2e2e2' : '1px solid #e2e2e2', backgroundColor: isDrag ? 'rgba(255,255,255,.8)' : '#fbfbfb' }}>
+                                                        <Box sx={{ backgroundColor: '#e2e2e2', height: '100px', width: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: '50%', mb: '15px', }}>
+                                                            {fileInputData ?
+                                                                <Box sx={{ position: "relative" }}>
+                                                                    <InsertDriveFileOutlinedIcon sx={{
+                                                                        fontSize: '45px',
+                                                                        color: 'grey',
+                                                                        // fill: "green"
+                                                                    }} />
+                                                                    <CheckCircleIcon sx={{ fill: "#6fd4ab", fontSize: "15px", position: "absolute", right: "14px", top: "18px" }} />
+                                                                </Box> :
+                                                                <Box >
+                                                                    <UploadFileIcon sx={{
+                                                                        fontSize: '40px',
+                                                                        color: 'white',
 
-                                                                }} />
-                                                            </Box>
+                                                                    }} />
+                                                                </Box>
 
-                                                        }
+                                                            }
 
-                                                    </Box>
-                                                    {fileInputData ? <Typography sx={{ fontSize: "14px" }}>{fileInputData.name}</Typography> : <Typography sx={{ fontSize: "14px" }}>Drag & drop file to upload</Typography>}
-                                                    {!fileInputData ? <Box sx={{ mt: '15px', mb: '15px' }} >
-                                                        <input type="file" id="file-upload"
-                                                            accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={{ display: 'none' }} onChange={readFile} />
-                                                        <label htmlFor="file-upload">
+                                                        </Box>
+                                                        {fileInputData ? <Typography sx={{ fontSize: "14px" }}>{fileInputData.name}</Typography> : <Typography sx={{ fontSize: "14px" }}>Drag & drop file to upload</Typography>}
+                                                        {!fileInputData ? <Box sx={{ mt: '15px', mb: '15px' }} >
+                                                            <input type="file" id="file-upload"
+                                                                accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={{ display: 'none' }} onChange={readFile} />
+                                                            <label htmlFor="file-upload">
+                                                                <Button
+                                                                    onClick={handleFileUpload}
+                                                                    variant="contained"
+                                                                    disableRipple
+
+                                                                    sx={{
+                                                                        borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '14px', height: '34px', boxShadow: 0,
+                                                                        '&:hover': {
+                                                                            backgroundColor: '#146EF6',
+                                                                            boxShadow: 0
+                                                                        }
+                                                                    }}>
+                                                                    Upload new Resume
+
+                                                                </Button>
+                                                            </label>
+                                                        </Box> : <Box sx={{ mt: '15px', mb: '15px' }} >
                                                             <Button
-                                                                onClick={handleFileUpload}
+                                                                onClick={submitFile}
                                                                 variant="contained"
                                                                 disableRipple
 
@@ -1950,686 +2063,669 @@ const Chatbot = () => {
                                                                         boxShadow: 0
                                                                     }
                                                                 }}>
-                                                                Upload new Resume
+                                                                Submit
 
                                                             </Button>
-                                                        </label>
-                                                    </Box> : <Box sx={{ mt: '15px', mb: '15px' }} >
-                                                        <Button
-                                                            onClick={submitFile}
-                                                            variant="contained"
-                                                            disableRipple
 
-                                                            sx={{
-                                                                borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '14px', height: '34px', boxShadow: 0,
-                                                                '&:hover': {
-                                                                    backgroundColor: '#146EF6',
-                                                                    boxShadow: 0
-                                                                }
-                                                            }}>
-                                                            Submit
+                                                        </Box>}
 
-                                                        </Button>
+                                                        {msgObj.custom.is_cancel_allowed && <Typography sx={{ fontWeight: 400, fontSize: '14px', textDecoration: 'underline', cursor: 'pointer' }} onClick={() => cancelUpload(msgObj)} >
+                                                            Cancel
+                                                        </Typography>}
 
-                                                    </Box>}
+                                                    </Stack>
+                                                </>) :
+                                                (<>
+                                                    {msgObj.jobs && msgObj.jobs.length ?
+                                                        (<>
+                                                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '350px', position: 'relative', mr: 1, ml: 1, overflow: 'hidden' }}>
 
-                                                    {msgObj.custom.is_cancel_allowed && <Typography sx={{ fontWeight: 400, fontSize: '14px', textDecoration: 'underline', cursor: 'pointer' }} onClick={() => cancelUpload(msgObj)} >
-                                                        Cancel
-                                                    </Typography>}
-
-                                                </Stack>
-                                            </>) :
-                                            (<>
-                                                {msgObj.jobs && msgObj.jobs.length ?
-                                                    (<>
-                                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '350px', position: 'relative', mr: 1, ml: 1, overflow: 'hidden' }}>
-
-                                                            <Stack
-                                                                sx={{
-                                                                    display: activeStep[msgObj.slideCount]?.stepNumber === 0 ? 'none' : 'block',
-                                                                    mb: '60px'
-                                                                }}
-                                                            >
-                                                                <Button
-                                                                    disableRipple
-                                                                    size="small"
-                                                                    variant="contained"
-                                                                    onClick={() => handleBack(msgObj.slideCount)}
+                                                                <Stack
                                                                     sx={{
-                                                                        position: 'absolute',
-                                                                        left: '1px',
-                                                                        zIndex: 2,
-                                                                        minWidth: '30px',
-                                                                        p: '5px',
-                                                                        backgroundColor: '#ffffff',
-                                                                        color: '#146EF6',
-                                                                        height: '60px',
-                                                                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
-                                                                        display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
-                                                                        '&:hover': {
-                                                                            backgroundColor: '#146EF6',
-                                                                            color: '#ffffff',
-
-                                                                        }
+                                                                        display: activeStep[msgObj.slideCount]?.stepNumber === 0 ? 'none' : 'block',
+                                                                        mb: '60px'
                                                                     }}
                                                                 >
-                                                                    {theme.direction === 'rtl' ? (
-                                                                        <KeyboardArrowRightIcon />
-                                                                    ) : (
-                                                                        <KeyboardArrowLeftIcon />
-                                                                    )}
-                                                                </Button>
-                                                                {/* } */}
-                                                            </Stack>
+                                                                    <Button
+                                                                        disableRipple
+                                                                        size="small"
+                                                                        variant="contained"
+                                                                        onClick={() => handleBack(msgObj.slideCount)}
+                                                                        sx={{
+                                                                            position: 'absolute',
+                                                                            left: '1px',
+                                                                            zIndex: 2,
+                                                                            minWidth: '30px',
+                                                                            p: '5px',
+                                                                            backgroundColor: '#ffffff',
+                                                                            color: '#146EF6',
+                                                                            height: '60px',
+                                                                            boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
+                                                                            display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
+                                                                            '&:hover': {
+                                                                                backgroundColor: '#146EF6',
+                                                                                color: '#ffffff',
 
-                                                            {
-                                                                msgObj.jobs.map((job: any, i: any) => {
-                                                                    return <>
+                                                                            }
+                                                                        }}
+                                                                    >
+                                                                        {theme.direction === 'rtl' ? (
+                                                                            <KeyboardArrowRightIcon />
+                                                                        ) : (
+                                                                            <KeyboardArrowLeftIcon />
+                                                                        )}
+                                                                    </Button>
+                                                                    {/* } */}
+                                                                </Stack>
 
-                                                                        <Slide direction={slideDirection} in={i === activeStep[msgObj.slideCount]?.stepNumber} mountOnEnter unmountOnExit
-                                                                            timeout={{ appear: 0, enter: 300, exit: 0 }}
-                                                                        >
+                                                                {
+                                                                    msgObj.jobs.map((job: any, i: any) => {
+                                                                        return <>
 
-                                                                            <Paper
-                                                                                square
-                                                                                elevation={0}
-                                                                                sx={{
-                                                                                    display: (i === activeStep[msgObj.slideCount]?.stepNumber) ? 'flex' : 'none',
-                                                                                    alignItems: 'center',
-                                                                                    height: '100%',
-                                                                                    bgcolor: 'background.default',
-                                                                                    position: 'relative',
-                                                                                    zIndex: 1,
-                                                                                    // transition: 'transform 0.5s ease-in-out',
-                                                                                    // transform: `translateX(-${activeStep * (100 / steps.length)}%)`,
-
-                                                                                }}
+                                                                            <Slide direction={slideDirection} in={i === activeStep[msgObj.slideCount]?.stepNumber} mountOnEnter unmountOnExit
+                                                                                timeout={{ appear: 0, enter: 300, exit: 0 }}
                                                                             >
 
-                                                                                {/* {step.container} */}
-                                                                                {job.isRealJob ? <Stack sx={{ minHeight: '300px', minWidth: '300px' }}>
-                                                                                    <Stack sx={{
-                                                                                        backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
-                                                                                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)', height: '10px',
-                                                                                    }}>
-                                                                                        <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)' }}>
-                                                                                            {/* <Box sx={{ p: 1 }}>
+                                                                                <Paper
+                                                                                    square
+                                                                                    elevation={0}
+                                                                                    sx={{
+                                                                                        display: (i === activeStep[msgObj.slideCount]?.stepNumber) ? 'flex' : 'none',
+                                                                                        alignItems: 'center',
+                                                                                        height: '100%',
+                                                                                        bgcolor: 'background.default',
+                                                                                        position: 'relative',
+                                                                                        zIndex: 1,
+                                                                                        // transition: 'transform 0.5s ease-in-out',
+                                                                                        // transform: `translateX(-${activeStep * (100 / steps.length)}%)`,
+
+                                                                                    }}
+                                                                                >
+
+                                                                                    {/* {step.container} */}
+                                                                                    {job.isRealJob ? <Stack sx={{ minHeight: '300px', minWidth: '300px' }}>
+                                                                                        <Stack sx={{
+                                                                                            backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
+                                                                                            boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)', height: '10px',
+                                                                                        }}>
+                                                                                            <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)' }}>
+                                                                                                {/* <Box sx={{ p: 1 }}>
                                         <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>Sales</Typography>
                                     </Box> */}
 
-                                                                                            <Stack sx={{ p: '10px' }} direction='column' spacing={2}>
+                                                                                                <Stack sx={{ p: '10px' }} direction='column' spacing={2}>
 
-                                                                                                <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{job.title_}</Typography>
-                                                                                                <Box sx={{ display: 'flex', flexDirection: 'row', }}>
-                                                                                                    <Box>
-                                                                                                        <LocationOnOutlinedIcon sx={{ fontSize: '20px' }} />
+                                                                                                    <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{job.title_}</Typography>
+                                                                                                    <Box sx={{ display: 'flex', flexDirection: 'row', }}>
+                                                                                                        <Box>
+                                                                                                            <LocationOnOutlinedIcon sx={{ fontSize: '20px' }} />
+                                                                                                        </Box>
+                                                                                                        <Box sx={{ pl: '10px' }}>
+                                                                                                            <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>{job.addresses_ && job.addresses_[0]}</Typography>
+                                                                                                            {/* <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography> */}
+                                                                                                        </Box>
                                                                                                     </Box>
-                                                                                                    <Box sx={{ pl: '10px' }}>
-                                                                                                        <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>{job.addresses_ && job.addresses_[0]}</Typography>
-                                                                                                        {/* <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography> */}
+
+                                                                                                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', ml: 2 }}>
+                                                                                                        <Box>
+                                                                                                            <CalendarTodayIcon sx={{ fontSize: '15px' }} />
+                                                                                                        </Box>
+                                                                                                        <Box sx={{ pl: '10px' }}>
+
+                                                                                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted on {formatDate(job.postingPublishTime_?.seconds_)}</Typography>
+                                                                                                        </Box>
                                                                                                     </Box>
+
+                                                                                                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                                                                                        <Box>
+                                                                                                            <AccessTimeIcon sx={{ fontSize: '15px' }} />
+                                                                                                        </Box>
+                                                                                                        <Box sx={{ pl: '10px' }}>
+                                                                                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{job.companyDisplayName_}</Typography>
+                                                                                                        </Box>
+                                                                                                    </Box>
+
+                                                                                                </Stack>
+
+                                                                                                <Box>
+                                                                                                    <Button
+                                                                                                        disableRipple
+                                                                                                        onClick={() => handleReadMore(job, msgObj.isDisabled)}
+                                                                                                        endIcon={<KeyboardArrowRightIcon />}
+                                                                                                        sx={{
+                                                                                                            textTransform: 'capitalize',
+                                                                                                            '& .MuiButton-endIcon': {
+                                                                                                                mr: 0,
+                                                                                                                ml: '-5px'
+                                                                                                            },
+                                                                                                            '& .MuiButton-endIcon>*:nth-of-type(1)': {
+                                                                                                                fontSize: '25px'
+                                                                                                            },
+                                                                                                            '&:hover': {
+                                                                                                                backgroundColor: '#ffffff'
+                                                                                                            }
+
+                                                                                                        }}
+
+                                                                                                    >
+                                                                                                        Read More
+                                                                                                    </Button>
                                                                                                 </Box>
 
-                                                                                                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', ml: 2 }}>
-                                                                                                    <Box>
-                                                                                                        <CalendarTodayIcon sx={{ fontSize: '15px' }} />
-                                                                                                    </Box>
-                                                                                                    <Box sx={{ pl: '10px' }}>
+                                                                                                <Box sx={{ textAlign: 'center', pb: 3, pl: 1, pr: 1 }}>
+                                                                                                    <Button
+                                                                                                        variant="contained"
+                                                                                                        onClick={() => sendJobValue(job)}
+                                                                                                        sx={{
+                                                                                                            borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0, width: '100%',
+                                                                                                            '&:hover': {
+                                                                                                                backgroundColor: '#146EF6',
+                                                                                                                boxShadow: 0
+                                                                                                            }
+                                                                                                        }}
+                                                                                                        disabled={msgObj.isDisabled}
+                                                                                                    >
 
-                                                                                                        <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted on {formatDate(job.postingPublishTime_?.seconds_)}</Typography>
-                                                                                                    </Box>
+                                                                                                        I'm Interested
+                                                                                                    </Button>
+
+                                                                                                    <Button
+                                                                                                        disableRipple
+                                                                                                        onClick={() => refineSearchJob(msgObj)}
+                                                                                                        sx={{
+                                                                                                            textTransform: 'capitalize',
+                                                                                                            textDecoration: 'underline',
+                                                                                                            '& .MuiButton-endIcon': {
+                                                                                                                mr: 0,
+                                                                                                                ml: '-5px'
+                                                                                                            },
+                                                                                                            '& .MuiButton-endIcon>*:nth-of-type(1)': {
+                                                                                                                fontSize: '25px'
+                                                                                                            },
+                                                                                                            '&:hover': {
+                                                                                                                backgroundColor: '#ffffff'
+                                                                                                            }
+
+                                                                                                        }}
+
+                                                                                                    >
+                                                                                                        Refine Search
+                                                                                                    </Button>
                                                                                                 </Box>
-
-                                                                                                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                                                                                                    <Box>
-                                                                                                        <AccessTimeIcon sx={{ fontSize: '15px' }} />
-                                                                                                    </Box>
-                                                                                                    <Box sx={{ pl: '10px' }}>
-                                                                                                        <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{job.companyDisplayName_}</Typography>
-                                                                                                    </Box>
-                                                                                                </Box>
-
                                                                                             </Stack>
 
-                                                                                            <Box>
-                                                                                                <Button
-                                                                                                    disableRipple
-                                                                                                    onClick={() => handleReadMore(job, msgObj.isDisabled)}
-                                                                                                    endIcon={<KeyboardArrowRightIcon />}
-                                                                                                    sx={{
-                                                                                                        textTransform: 'capitalize',
-                                                                                                        '& .MuiButton-endIcon': {
-                                                                                                            mr: 0,
-                                                                                                            ml: '-5px'
-                                                                                                        },
-                                                                                                        '& .MuiButton-endIcon>*:nth-of-type(1)': {
-                                                                                                            fontSize: '25px'
-                                                                                                        },
-                                                                                                        '&:hover': {
-                                                                                                            backgroundColor: '#ffffff'
-                                                                                                        }
-
-                                                                                                    }}
-
-                                                                                                >
-                                                                                                    Read More
-                                                                                                </Button>
-                                                                                            </Box>
-
-                                                                                            <Box sx={{ textAlign: 'center', pb: 3, pl: 1, pr: 1 }}>
-                                                                                                <Button
-                                                                                                    variant="contained"
-                                                                                                    onClick={() => sendJobValue(job)}
-                                                                                                    sx={{
-                                                                                                        borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0, width: '100%',
-                                                                                                        '&:hover': {
-                                                                                                            backgroundColor: '#146EF6',
-                                                                                                            boxShadow: 0
-                                                                                                        }
-                                                                                                    }}
-                                                                                                    disabled={msgObj.isDisabled}
-                                                                                                >
-
-                                                                                                    I'm Interested
-                                                                                                </Button>
-
-                                                                                                <Button
-                                                                                                    disableRipple
-                                                                                                    onClick={() => refineSearchJob(msgObj)}
-                                                                                                    sx={{
-                                                                                                        textTransform: 'capitalize',
-                                                                                                        textDecoration: 'underline',
-                                                                                                        '& .MuiButton-endIcon': {
-                                                                                                            mr: 0,
-                                                                                                            ml: '-5px'
-                                                                                                        },
-                                                                                                        '& .MuiButton-endIcon>*:nth-of-type(1)': {
-                                                                                                            fontSize: '25px'
-                                                                                                        },
-                                                                                                        '&:hover': {
-                                                                                                            backgroundColor: '#ffffff'
-                                                                                                        }
-
-                                                                                                    }}
-
-                                                                                                >
-                                                                                                    Refine Search
-                                                                                                </Button>
-                                                                                            </Box>
                                                                                         </Stack>
+                                                                                    </Stack> : <Stack sx={{ minHeight: '300px', minWidth: '300px' }}>
+                                                                                        <Stack sx={{
+                                                                                            backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
+                                                                                            boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', height: '10px',
+                                                                                        }}>
+                                                                                            <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', textAlign: 'center', p: 2 }}>
 
-                                                                                    </Stack>
-                                                                                </Stack> : <Stack sx={{ minHeight: '300px', minWidth: '300px' }}>
-                                                                                    <Stack sx={{
-                                                                                        backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
-                                                                                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', height: '10px',
-                                                                                    }}>
-                                                                                        <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', textAlign: 'center', p: 2 }}>
+                                                                                                <Stack sx={{ mt: 1 }}>
+                                                                                                    <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                                                                                        <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                                                                        <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                                                                        <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                                                                    </Stack>
 
-                                                                                            <Stack sx={{ mt: 1 }}>
-                                                                                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
-                                                                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                                                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                                                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                                                                    <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                                                                                        <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                                                                        <SearchIcon sx={{ fontSize: '50px' }} />
+                                                                                                        <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                                                                    </Stack>
+
+                                                                                                    <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
+                                                                                                        <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                                                                        <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                                                                        <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
+                                                                                                    </Stack>
+
                                                                                                 </Stack>
 
-                                                                                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
-                                                                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                                                                                    <SearchIcon sx={{ fontSize: '50px' }} />
-                                                                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                                                                                </Stack>
+                                                                                                <Typography sx={{ mt: 1, mb: 1, fontSize: '16px', fontWeight: 600 }}>Here's what you can do.</Typography>
 
-                                                                                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
-                                                                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                                                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                                                                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                                                                                </Stack>
+                                                                                                <Box sx={{ mr: 1, ml: 1 }}>
 
+                                                                                                    <Button variant="contained"
+                                                                                                        disableRipple
+                                                                                                        sx={{
+                                                                                                            width: '100%', mb: 1, backgroundColor: '#146EF6', boxShadow: 0,
+                                                                                                            fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
+                                                                                                            '&:hover': {
+                                                                                                                backgroundColor: '#146EF6',
+                                                                                                                boxShadow: 0
+                                                                                                            }
+                                                                                                        }}
+
+                                                                                                        onClick={() => refineSearchJob(msgObj)}
+                                                                                                        disabled={msgObj.isDisabled}
+                                                                                                    >
+                                                                                                        Refine Job Search
+                                                                                                    </Button>
+                                                                                                </Box>
                                                                                             </Stack>
 
-                                                                                            <Typography sx={{ mt: 1, mb: 1, fontSize: '16px', fontWeight: 600 }}>Here's what you can do.</Typography>
-
-                                                                                            <Box sx={{ mr: 1, ml: 1 }}>
-
-                                                                                                <Button variant="contained"
-                                                                                                    disableRipple
-                                                                                                    sx={{
-                                                                                                        width: '100%', mb: 1, backgroundColor: '#146EF6', boxShadow: 0,
-                                                                                                        fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
-                                                                                                        '&:hover': {
-                                                                                                            backgroundColor: '#146EF6',
-                                                                                                            boxShadow: 0
-                                                                                                        }
-                                                                                                    }}
-
-                                                                                                    onClick={() => refineSearchJob(msgObj)}
-                                                                                                    disabled={msgObj.isDisabled}
-                                                                                                >
-                                                                                                    Refine Job Search
-                                                                                                </Button>
-                                                                                            </Box>
                                                                                         </Stack>
-
-                                                                                    </Stack>
-                                                                                </Stack>}
+                                                                                    </Stack>}
 
 
-                                                                            </Paper>
+                                                                                </Paper>
 
-                                                                        </Slide>
+                                                                            </Slide>
 
-                                                                    </>
-                                                                })
-                                                            }
+                                                                        </>
+                                                                    })
+                                                                }
 
-                                                            <Box sx={{
+                                                                <Box sx={{
 
-                                                                display: activeStep[msgObj.slideCount]?.stepNumber === msgObj.maxSteps - 1 ? 'none' : 'block',
-                                                                mb: '60px',
+                                                                    display: activeStep[msgObj.slideCount]?.stepNumber === msgObj.maxSteps - 1 ? 'none' : 'block',
+                                                                    mb: '60px',
 
-                                                            }}>
-                                                                <Button
-                                                                    size="small"
-                                                                    variant="contained"
-                                                                    onClick={() => handleNext(msgObj.slideCount)}
-                                                                    sx={{
-                                                                        position: 'absolute',
-                                                                        right: '1px',
-                                                                        zIndex: 2,
-                                                                        minWidth: '30px',
-                                                                        backgroundColor: '#ffffff',
-                                                                        color: '#146EF6',
-                                                                        height: '60px',
-                                                                        p: '5px',
-                                                                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
-                                                                        display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
-                                                                        '&:hover': {
-                                                                            backgroundColor: '#146EF6',
-                                                                            color: '#ffffff',
-                                                                        }
-                                                                    }}
-                                                                    disableRipple
-                                                                >
-                                                                    {theme.direction === 'rtl' ? (
-                                                                        <KeyboardArrowLeftIcon />
-                                                                    ) : (
-                                                                        <KeyboardArrowRightIcon />
-                                                                    )}
-                                                                </Button>
+                                                                }}>
+                                                                    <Button
+                                                                        size="small"
+                                                                        variant="contained"
+                                                                        onClick={() => handleNext(msgObj.slideCount)}
+                                                                        sx={{
+                                                                            position: 'absolute',
+                                                                            right: '1px',
+                                                                            zIndex: 2,
+                                                                            minWidth: '30px',
+                                                                            backgroundColor: '#ffffff',
+                                                                            color: '#146EF6',
+                                                                            height: '60px',
+                                                                            p: '5px',
+                                                                            boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
+                                                                            display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
+                                                                            '&:hover': {
+                                                                                backgroundColor: '#146EF6',
+                                                                                color: '#ffffff',
+                                                                            }
+                                                                        }}
+                                                                        disableRipple
+                                                                    >
+                                                                        {theme.direction === 'rtl' ? (
+                                                                            <KeyboardArrowLeftIcon />
+                                                                        ) : (
+                                                                            <KeyboardArrowRightIcon />
+                                                                        )}
+                                                                    </Button>
 
-                                                            </Box>
-                                                        </Box>
-
-
-
-                                                        <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', mb: 2 }}
-                                                            direction='row' spacing={2}
-                                                        >
-
-                                                            <Box sx={{ textAlign: 'center', ml: '70px' }}>
-                                                                <Typography variant="body2" color="text.secondary">
-                                                                    {`${activeStep[msgObj.slideCount]?.stepNumber + 1} of ${msgObj.maxSteps}`}
-                                                                </Typography>
+                                                                </Box>
                                                             </Box>
 
-                                                            <Box>
-                                                                <MobileStepper
-                                                                    variant="progress"
-                                                                    steps={msgObj.maxSteps}
-                                                                    position="static"
-                                                                    sx={{ width: '160px', }}
-                                                                    activeStep={activeStep[sliderCount]?.stepNumber}
-                                                                    nextButton={null}
-                                                                    backButton={null}
-                                                                />
-                                                            </Box>
 
-                                                        </Stack>
-                                                    </>) :
-                                                    (
-                                                        <>
+
+                                                            <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', mb: 2 }}
+                                                                direction='row' spacing={2}
+                                                            >
+
+                                                                <Box sx={{ textAlign: 'center', ml: '70px' }}>
+                                                                    <Typography variant="body2" color="text.secondary">
+                                                                        {`${activeStep[msgObj.slideCount]?.stepNumber + 1} of ${msgObj.maxSteps}`}
+                                                                    </Typography>
+                                                                </Box>
+
+                                                                <Box>
+                                                                    <MobileStepper
+                                                                        variant="progress"
+                                                                        steps={msgObj.maxSteps}
+                                                                        position="static"
+                                                                        sx={{ width: '160px', }}
+                                                                        activeStep={activeStep[sliderCount]?.stepNumber}
+                                                                        nextButton={null}
+                                                                        backButton={null}
+                                                                    />
+                                                                </Box>
+
+                                                            </Stack>
+                                                        </>) :
+                                                        (
                                                             <>
-                                                                {msgObj.text ? (
-                                                                    <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
+                                                                <>
+                                                                    {msgObj.text ? (
+                                                                        <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
-                                                                        <Stack>
-                                                                            <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
+                                                                            <Stack>
+                                                                                <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
+                                                                            </Stack>
+                                                                            <Stack sx=
+                                                                                {{
+                                                                                    backgroundColor: '#eaeeed', borderRadius: '24px', p: 0.5, borderBottomLeftRadius: "5px", outline: "1px solid transparent"
+                                                                                }}
+                                                                            >
+                                                                                <Typography component='p' sx={{ color: 'black', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
+                                                                                    {msgObj.text}
+                                                                                </Typography>
+                                                                            </Stack>
                                                                         </Stack>
-                                                                        <Stack sx=
-                                                                            {{
-                                                                                backgroundColor: '#eaeeed', borderRadius: '24px', p: 0.5, borderBottomLeftRadius: "5px", outline: "1px solid transparent"
-                                                                            }}
-                                                                        >
-                                                                            <Typography component='p' sx={{ color: 'black', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
-                                                                                {msgObj.text}
-                                                                            </Typography>
-                                                                        </Stack>
-                                                                    </Stack>
-                                                                ) : (<></>)}
+                                                                    ) : (<></>)}
 
+                                                                </>
+
+                                                                <>
+                                                                    {(msgObj.buttons && msgObj.buttons.length && !msgObj.hideBtns) ?
+                                                                        (
+                                                                            <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} ml={3}>
+                                                                                {msgObj.buttons.map((btnObj: any) => (
+                                                                                    <Button variant="outlined" onClick={() => sendMessage(btnObj, msgObj)} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '13px', width: 'auto', outline: "1px solid transparent" }}>
+                                                                                        {btnObj.title}
+                                                                                    </Button>
+                                                                                ))}
+                                                                            </Stack>
+                                                                        ) :
+                                                                        (<></>)}
+                                                                </>
                                                             </>
 
-                                                            <>
-                                                                {(msgObj.buttons && msgObj.buttons.length && !msgObj.hideBtns) ?
-                                                                    (
-                                                                        <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} ml={3}>
-                                                                            {msgObj.buttons.map((btnObj: any) => (
-                                                                                <Button variant="outlined" onClick={() => sendMessage(btnObj, msgObj)} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '13px', width: 'auto', outline: "1px solid transparent" }}>
-                                                                                    {btnObj.title}
-                                                                                </Button>
-                                                                            ))}
-                                                                        </Stack>
-                                                                    ) :
-                                                                    (<></>)}
-                                                            </>
-                                                        </>
 
+                                                        )
+                                                    }
+                                                </>)
+                                            }
+                                        </>)}
+                                </>
+                            ))}
+                            {loaded ?
+                                (<><Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
-                                                    )
-                                                }
-                                            </>)
+                                    <Stack>
+                                        <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
+                                    </Stack>
+                                    <Stack sx=
+                                        {{
+                                            p: 0.5
+                                        }}
+                                    >
+                                        <Loader />
+                                    </Stack>
+                                </Stack></>)
+                                : (<></>)
+                            }
+                        </ReactScrolableFeed>
+                    </Stack>
+
+                    <Stack
+                        id='send-container'
+                        direction="row" alignItems="center" pt='2%' mr={1} ml={1} pb='2%'
+                        sx={{ borderTop: '1px solid lightgrey', bottom: '0px' }}
+                        spacing={1}
+                        position='sticky'
+                        zIndex={1}
+                        maxHeight={suggesationObj.type === "job_location" ? "70px" : "50px"}
+                    >
+                        <Box sx={{ cursor: 'pointer' }} onClick={handleOpenMenu}>
+                            <MenuIcon fontSize="large" sx={{ color: '#919191' }} />
+                        </Box>
+                        {
+                            enableAuto ? suggesationObj.type === "job_title" ?
+                                <Autocomplete
+                                    open={openAutoComplete}
+                                    onOpen={
+                                        openPopper
+                                    }
+                                    defaultValue={defaultTitle}
+                                    onClose={closePopper}
+                                    filterOptions={(options, state) => {
+                                        let filterArr = options.filter((opt) => opt.toLowerCase().includes(state.inputValue.toLowerCase()))
+                                        if (!filterArr.length) {
+                                            setIsShowResults(true)
                                         }
-                                    </>)}
-                            </>
-                        ))}
-                        {loaded ?
-                            (<><Stack direction='row' spacing={0.5} p={0.5} mr={5}>
-
-                                <Stack>
-                                    <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
-                                </Stack>
-                                <Stack sx=
-                                    {{
-                                        p: 0.5
+                                        else {
+                                            setIsShowResults(false)
+                                        }
+                                        return ["Searched job title", ...filterArr]
                                     }}
-                                >
-                                    <Loader />
-                                </Stack>
-                            </Stack></>)
-                            : (<></>)
-                        }
-                    </ReactScrolableFeed>
-                </Stack>
-                <Stack
-                    id='send-container'
-                    direction="row" alignItems="center" pt='2%' mr={1} ml={1} pb='2%'
-                    sx={{ borderTop: '1px solid lightgrey', bottom: '0px' }}
-                    spacing={1}
-                    position='sticky'
-                    zIndex={1}
-                    maxHeight={suggesationObj.type === "job_location" ? "70px" : "50px"}
-                >
-                    <Box sx={{ cursor: 'pointer' }} onClick={handleOpenMenu}>
-                        <MenuIcon fontSize="large" sx={{ color: '#919191' }} />
-                    </Box>
-                    {
-                        enableAuto ? suggesationObj.type === "job_title" ?
-                            <Autocomplete
-                                open={openAutoComplete}
-                                onOpen={
-                                    openPopper
-                                }
-                                defaultValue={defaultTitle}
-                                onClose={closePopper}
-                                filterOptions={(options, state) => {
-                                    let filterArr = options.filter((opt) => opt.toLowerCase().includes(state.inputValue.toLowerCase()))
-                                    if (!filterArr.length) {
-                                        setIsShowResults(true)
-                                    }
-                                    else {
-                                        setIsShowResults(false)
-                                    }
-                                    return ["Searched job title", ...filterArr]
-                                }}
-                                PaperComponent={({ children }) => {
-                                    return (
-                                        <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none", fontSize: "13px" }} className="auto-cls">
+                                    PaperComponent={({ children }) => {
+                                        return (
+                                            <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", boxShadow: "none", fontSize: "13px" }} className="auto-cls">
 
-                                            {children}
-                                        </Paper>
-                                    )
-                                }}
-                                sx={{ overflowX: "hidden !important" }}
-                                id="free-solo-demo"
-                                onChange={(e, value) => sendValue(e, value)}
-                                freeSolo
-                                fullWidth
-                                getOptionDisabled={option => option === "Searched job title"}
-                                options={suggesationObj.titles.map((suggesation) => suggesation)}
-                                renderOption={(props, option, { inputValue }) => {
-                                    const matches = match(option, inputValue, { insideWords: true });
-                                    const parts = parse(option, matches);
-                                    return (
-                                        <>
-                                            {option !== "Searched job title" ?
-                                                <li {...props}>
-                                                    <Box sx={{
-                                                        width: "100%", textTransform: "capitalize"
-                                                    }}>
-                                                        {parts.map((part, index) => (
-                                                            <span
-                                                                key={index}
-                                                                style={{
-                                                                    fontWeight: part.highlight ? 700 : 400,
-                                                                }}
-                                                            >
-                                                                {part.text}
-                                                            </span>
-                                                        ))}
+                                                {children}
+                                            </Paper>
+                                        )
+                                    }}
+                                    sx={{ overflowX: "hidden !important" }}
+                                    id="free-solo-demo"
+                                    onChange={(e, value) => sendValue(e, value)}
+                                    freeSolo
+                                    fullWidth
+                                    getOptionDisabled={option => option === "Searched job title"}
+                                    options={suggesationObj.titles.map((suggesation) => suggesation)}
+                                    renderOption={(props, option, { inputValue }) => {
+                                        const matches = match(option, inputValue, { insideWords: true });
+                                        const parts = parse(option, matches);
+                                        return (
+                                            <>
+                                                {option !== "Searched job title" ?
+                                                    <li {...props}>
+                                                        <Box sx={{
+                                                            width: "100%", textTransform: "capitalize"
+                                                        }}>
+                                                            {parts.map((part, index) => (
+                                                                <span
+                                                                    key={index}
+                                                                    style={{
+                                                                        fontWeight: part.highlight ? 700 : 400,
+                                                                    }}
+                                                                >
+                                                                    {part.text}
+                                                                </span>
+                                                            ))}
+                                                        </Box>
+                                                    </li>
+                                                    :
+
+                                                    <Box
+                                                        sx={{
+                                                            width: "100%"
+                                                        }}
+
+                                                    >
+                                                        <Box sx={{ clear: "both", position: "relative", borderBottom: "1px solid black", paddingBottom: "4px", cursor: "pointer" }}>
+                                                            <Typography sx={{ paddingLeft: "15px", fontWeight: "600", fontSize: "13px" }}>{option}</Typography>
+
+                                                            <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer', position: "absolute", right: "5px", bottom: "2px" }}
+                                                                onClick={() => {
+
+                                                                    setOpenAutoComplete(false)
+                                                                }
+                                                                } />
+                                                        </Box>
+                                                        {isShowNoResults && <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "50px" }}>
+                                                            <Typography sx={{ fontWeight: 700, fontSize: "13px" }}>
+                                                                No results found
+                                                            </Typography>
+                                                        </Box>
+                                                        }
                                                     </Box>
-                                                </li>
-                                                :
 
-                                                <Box
-                                                    sx={{
-                                                        width: "100%"
-                                                    }}
+                                                }
 
-                                                >
-                                                    <Box sx={{ clear: "both", position: "relative", borderBottom: "1px solid black", paddingBottom: "4px", cursor: "pointer" }}>
-                                                        <Typography sx={{ paddingLeft: "15px", fontWeight: "600", fontSize: "13px" }}>{option}</Typography>
+                                            </>
+                                        );
+                                    }}
 
-                                                        <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer', position: "absolute", right: "5px", bottom: "2px" }}
-                                                            onClick={() => {
+                                    renderInput={(params) =>
+                                        <TextField
+                                            {...params}
+                                            defaultValue={defaultTitle}
+                                            placeholder="Type your message..."
+                                            onChange={handleTitleChange}
+                                            sx={{
+                                                '& .MuiInputBase-input.MuiOutlinedInput-input': {
+                                                    padding: '5px 10px',
+                                                    height: "10px",
+                                                    fontSize: "13px"
 
-                                                                setOpenAutoComplete(false)
-                                                            }
-                                                            } />
+                                                },
+                                                '& .MuiInputBase-root.MuiOutlinedInput-root ': {
+                                                    borderRadius: '15px',
+                                                    backgroundColor: '#fff'
+                                                },
+                                                '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#E6E6E6',
+
+                                                },
+                                                '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#E6E6E6',
+                                                    borderWidth: '1px'
+
+                                                },
+
+                                            }}
+                                            InputProps={{
+                                                ...params.InputProps,
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        {!defaultTitle ? <TelegramIcon sx={{ cursor: 'pointer', color: '#919191', position: "fixed", right: "20px" }} /> :
+                                                            <TelegramIcon sx={{ cursor: 'pointer', color: '#919191', position: "fixed", right: "20px" }} onClick={(value) => sendValue(null, defaultTitle)} />
+                                                        }
+
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                        />}
+
+                                />
+                                :
+                                <Autocomplete
+                                    multiple
+                                    open={openAutoComplete}
+                                    onOpen={openPopper}
+                                    onClose={closePopper}
+                                    onChange={sendLocation}
+
+                                    filterOptions={(options, state) => {
+                                        let filterArr = options.filter((opt) => (
+                                            opt.name.toLowerCase().includes(state.inputValue.toLowerCase()) ||
+                                            opt.key.toLowerCase().includes(state.inputValue.toLowerCase())
+                                        ))
+                                        if (!filterArr.length) {
+                                            setIsShowResults(true)
+                                        }
+                                        else {
+                                            setIsShowResults(false)
+                                        }
+
+                                        return [{ name: "Searched job location", key: "" }, ...filterArr]
+                                    }}
+                                    PaperComponent={({ children }) => {
+                                        return (
+                                            <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", fontSize: "13px" }} className="auto-shadow auto-cls" >
+
+                                                {children}
+                                            </Paper>
+                                        )
+                                    }}
+                                    sx={{ overflowX: "hidden !important" }}
+                                    id="free-solo-demo"
+                                    freeSolo
+                                    fullWidth
+                                    getOptionDisabled={option => option.name === "Searched job location"}
+                                    options={suggesationObj.titles.map((suggesation) => suggesation)}
+                                    getOptionLabel={(option) => {
+                                        return option.name
+                                    }}
+                                    renderOption={(props, option, { inputValue }) => {
+                                        const matches = match(option?.name, inputValue, { insideWords: true });
+                                        const parts = parse(option?.name, matches);
+                                        return (
+                                            <>
+                                                {option?.name !== "Searched job location" ?
+                                                    <li {...props}>
+                                                        <Box sx={{
+                                                            width: "100%", textTransform: "capitalize"
+                                                        }}>
+                                                            {parts.map((part, index) => (
+                                                                <span
+                                                                    key={index}
+                                                                    style={{
+                                                                        fontWeight: part.highlight ? 700 : 400,
+                                                                    }}
+                                                                >
+                                                                    {part.text}
+                                                                </span>
+                                                            ))}
+                                                        </Box>
+                                                    </li>
+                                                    :
+
+                                                    <Box
+                                                        sx={{
+                                                            width: "100%"
+                                                        }}
+
+                                                    >
+                                                        <Box sx={{ clear: "both", position: "relative", borderBottom: "1px solid black", paddingBottom: "4px", cursor: "pointer" }}>
+                                                            <Typography sx={{ paddingLeft: "15px", fontWeight: "600", fontSize: "13px" }}>{option.name}</Typography>
+
+                                                            <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer', position: "absolute", right: "5px", bottom: "2px" }}
+                                                                onClick={() => {
+
+                                                                    setOpenAutoComplete(false)
+                                                                }
+                                                                } />
+                                                        </Box>
+                                                        {isShowNoResults && <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "50px" }}>
+                                                            <Typography sx={{ fontWeight: 700, fontSize: "13px" }}>
+                                                                No results found
+                                                            </Typography>
+                                                        </Box>
+                                                        }
                                                     </Box>
-                                                    {isShowNoResults && <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "50px" }}>
-                                                        <Typography sx={{ fontWeight: 700, fontSize: "13px" }}>
-                                                            No results found
-                                                        </Typography>
-                                                    </Box>
-                                                    }
-                                                </Box>
 
-                                            }
+                                                }
 
-                                        </>
-                                    );
-                                }}
+                                            </>
+                                        );
+                                    }}
 
-                                renderInput={(params) =>
-                                    <TextField
-                                        {...params}
-                                        defaultValue={defaultTitle}
-                                        placeholder="Type your message..."
-                                        onChange={handleTitleChange}
-                                        sx={{
-                                            '& .MuiInputBase-input.MuiOutlinedInput-input': {
-                                                padding: '5px 10px',
-                                                height: "10px",
-                                                fontSize: "13px"
+                                    renderInput={(params) =>
+                                        <TextField
+                                            {...params}
 
-                                            },
-                                            '& .MuiInputBase-root.MuiOutlinedInput-root ': {
-                                                borderRadius: '15px',
-                                                backgroundColor: '#fff'
-                                            },
-                                            '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-                                                borderColor: '#E6E6E6',
+                                            placeholder="Type your message..."
 
-                                            },
-                                            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                                borderColor: '#E6E6E6',
-                                                borderWidth: '1px'
+                                            sx={{
+                                                '& .MuiInputBase-input.MuiOutlinedInput-input': {
+                                                    padding: '5px 10px',
+                                                    height: "10px"
 
-                                            },
+                                                },
+                                                '& .MuiInputBase-root.MuiOutlinedInput-root ': {
+                                                    borderRadius: '15px',
+                                                    backgroundColor: '#fff'
+                                                },
+                                                '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#E6E6E6',
 
-                                        }}
-                                        InputProps={{
-                                            ...params.InputProps,
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    {!defaultTitle ? <TelegramIcon sx={{ cursor: 'pointer', color: '#919191', position: "fixed", right: "20px" }} /> :
-                                                        <TelegramIcon sx={{ cursor: 'pointer', color: '#919191', position: "fixed", right: "20px" }} onClick={(value) => sendValue(null, defaultTitle)} />
-                                                    }
+                                                },
+                                                '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#E6E6E6',
+                                                    borderWidth: '1px'
 
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                    />}
+                                                },
+                                                maxHeight: "80px",
+                                                overflowY: "auto"
+                                            }}
+                                            className="multi-location"
+                                            InputProps={{
+                                                ...params.InputProps,
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <TelegramIcon onClick={sendLocationData} sx={{ cursor: 'pointer', color: '#919191', position: "fixed", right: "20px", bottom: "15px" }} />
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                        />}
 
-                            />
-                            :
-                            <Autocomplete
-                                multiple
-                                open={openAutoComplete}
-                                onOpen={openPopper}
-                                onClose={closePopper}
-                                onChange={sendLocation}
+                                />
 
-                                filterOptions={(options, state) => {
-                                    let filterArr = options.filter((opt) => (
-                                        opt.name.toLowerCase().includes(state.inputValue.toLowerCase()) ||
-                                        opt.key.toLowerCase().includes(state.inputValue.toLowerCase())
-                                    ))
-                                    if (!filterArr.length) {
-                                        setIsShowResults(true)
-                                    }
-                                    else {
-                                        setIsShowResults(false)
-                                    }
+                                :
 
-                                    return [{ name: "Searched job location", key: "" }, ...filterArr]
-                                }}
-                                PaperComponent={({ children }) => {
-                                    return (
-                                        <Paper sx={{ width: "375px", position: "relative", right: "50px", borderRadius: "0px", top: "10px", fontSize: "13px" }} className="auto-shadow auto-cls" >
-
-                                            {children}
-                                        </Paper>
-                                    )
-                                }}
-                                sx={{ overflowX: "hidden !important" }}
-                                id="free-solo-demo"
-                                freeSolo
-                                fullWidth
-                                getOptionDisabled={option => option.name === "Searched job location"}
-                                options={suggesationObj.titles.map((suggesation) => suggesation)}
-                                getOptionLabel={(option) => {
-                                    return option.name
-                                }}
-                                renderOption={(props, option, { inputValue }) => {
-                                    const matches = match(option?.name, inputValue, { insideWords: true });
-                                    const parts = parse(option?.name, matches);
-                                    return (
-                                        <>
-                                            {option?.name !== "Searched job location" ?
-                                                <li {...props}>
-                                                    <Box sx={{
-                                                        width: "100%", textTransform: "capitalize"
-                                                    }}>
-                                                        {parts.map((part, index) => (
-                                                            <span
-                                                                key={index}
-                                                                style={{
-                                                                    fontWeight: part.highlight ? 700 : 400,
-                                                                }}
-                                                            >
-                                                                {part.text}
-                                                            </span>
-                                                        ))}
-                                                    </Box>
-                                                </li>
-                                                :
-
-                                                <Box
-                                                    sx={{
-                                                        width: "100%"
-                                                    }}
-
-                                                >
-                                                    <Box sx={{ clear: "both", position: "relative", borderBottom: "1px solid black", paddingBottom: "4px", cursor: "pointer" }}>
-                                                        <Typography sx={{ paddingLeft: "15px", fontWeight: "600", fontSize: "13px" }}>{option.name}</Typography>
-
-                                                        <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer', position: "absolute", right: "5px", bottom: "2px" }}
-                                                            onClick={() => {
-
-                                                                setOpenAutoComplete(false)
-                                                            }
-                                                            } />
-                                                    </Box>
-                                                    {isShowNoResults && <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "50px" }}>
-                                                        <Typography sx={{ fontWeight: 700, fontSize: "13px" }}>
-                                                            No results found
-                                                        </Typography>
-                                                    </Box>
-                                                    }
-                                                </Box>
-
-                                            }
-
-                                        </>
-                                    );
-                                }}
-
-                                renderInput={(params) =>
-                                    <TextField
-                                        {...params}
-
-                                        placeholder="Type your message..."
-
-                                        sx={{
-                                            '& .MuiInputBase-input.MuiOutlinedInput-input': {
-                                                padding: '5px 10px',
-                                                height: "10px"
-
-                                            },
-                                            '& .MuiInputBase-root.MuiOutlinedInput-root ': {
-                                                borderRadius: '15px',
-                                                backgroundColor: '#fff'
-                                            },
-                                            '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-                                                borderColor: '#E6E6E6',
-
-                                            },
-                                            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                                borderColor: '#E6E6E6',
-                                                borderWidth: '1px'
-
-                                            },
-                                            maxHeight: "80px",
-                                            overflowY: "auto"
-                                        }}
-                                        className="multi-location"
-                                        InputProps={{
-                                            ...params.InputProps,
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <TelegramIcon onClick={sendLocationData} sx={{ cursor: 'pointer', color: '#919191', position: "fixed", right: "20px", bottom: "15px" }} />
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                    />}
-
-                            />
-
-                            :
-                            (
                                 <TextField
-
                                     placeholder={placeHolderText}
                                     onKeyDown={handleKeyDown}
                                     fullWidth
@@ -2664,246 +2760,259 @@ const Chatbot = () => {
                                         },
                                     }}
                                 />
-                            )
-                    }
+                        }
 
 
 
 
 
-                    {/* <Box sx={{ cursor: 'pointer' }}>
+                        {/* <Box sx={{ cursor: 'pointer' }}>
                         <AttachFileRoundedIcon sx={{ fontSize: '18px', color: '#919191' }} />
                     </Box> */}
 
-                    <Menu
-                        id="basic-menu"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleCloseMenu}
-                        MenuListProps={{
-                            'aria-labelledby': 'basic-button',
-                            sx: { py: 0 }
-                        }}
-                        sx={{ transform: "translateY(-50px) translateX(15px)", padding: "5px 2px" }}
-
-                    >
-                        <MenuItem sx={{ padding: "4px 5px" }} onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[1].payload : '', (initialButtons && initialButtons.length) ? initialButtons[1] : '')}>
-                            <ListItemIcon>
-                                <SearchIcon fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText><span style={{ fontSize: "13px" }}>{(initialButtons && initialButtons.length) ? initialButtons[1].title : ''}</span></ListItemText> </MenuItem>
-                        <Divider sx={{ marginTop: "1px !important", marginBottom: "1px !important" }} />
-                        <MenuItem sx={{ padding: "4px 5px" }} onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[0].payload : '', (initialButtons && initialButtons.length) ? initialButtons[0] : '')}>
-                            <ListItemIcon><HelpOutlineIcon fontSize="small" /></ListItemIcon>
-                            <ListItemText><span style={{ fontSize: "13px" }}>{(initialButtons && initialButtons.length) ? initialButtons[0].title : ''}</span></ListItemText></MenuItem>
-
-                    </Menu>
-                </Stack>
-
-            </Card >
-
-
-            <Card
-                sx={{
-                    width: '375px',
-                    '& .MuiPaper-root.MuiCard-root ': {
-                        pt: 0,
-                    },
-                    borderTopLeftRadius: '15px',
-                    borderTopRightRadius: '15px',
-                    borderBottomLeftRadius: '15px',
-                    position: 'fixed',
-                    boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
-                    right: '80px',
-                    transform: 'translateY(-20%)',
-                    display: isReadmore ? 'block' : 'none',
-                }}
-                className="set-width"
-            >
-
-                <Stack
-                    sx={{
-                        backgroundImage: 'linear-gradient(to right,#2731DD, #137CED)', display: 'flex', flexDirection: 'row', alignItems: 'center'
-                    }}
-                    p='15px'
-                    maxHeight='30px'
-                >
-                    <Stack onClick={() => handleReadMore('', '')} sx={{ cursor: 'pointer' }}>
-                        <KeyboardArrowLeftIcon sx={{ fontSize: '30px', color: '#ffffff', fontWeight: 600 }} />
-                    </Stack>
-                    <Stack
-                        sx={{ ml: '100px' }}
-                    >
-                        <Typography sx={{ color: '#ffffff' }}>View Jobs</Typography>
-                    </Stack>
-
-                </Stack>
-
-                <Stack
-                    sx={{
-                        backgroundColor: '#ffffff', overflowY: 'scroll', maxHeight: '300px', minHeight: '300px', mb: '5px', p: 3
-                    }} >
-
-                    <Stack sx={{ pb: '15px', borderBottom: '1px solid lightgrey' }} direction='column' spacing={2}>
-
-                        <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{selectedJobData[0]?.title_}</Typography>
-
-
-                        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                            <Box>
-                                <CalendarTodayIcon sx={{ fontSize: '15px' }} />
-                            </Box>
-                            <Box sx={{ pl: '10px' }}>
-                                <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted {formatDate(selectedJobData[0]?.postingCreateTime_.seconds_)}</Typography>
-                            </Box>
-                        </Box>
-
-                        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                            <Box>
-                                <AccessTimeIcon sx={{ fontSize: '15px' }} />
-                            </Box>
-                            <Box sx={{ pl: '10px' }}>
-                                <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{selectedJobData[0]?.companyDisplayName_}</Typography>
-                            </Box>
-                        </Box>
-
-                    </Stack>
-
-
-                    <Stack>
-                        <Box sx={{ mt: '5px', fontSize: '16px', fontWeight: 600 }}>
-                            <Typography>Let's Grow Together</Typography>
-                        </Box>
-
-                        <Box sx={{ mt: '5px' }}>
-                            <Typography sx={{ fontSize: '14px' }}>
-                                <span dangerouslySetInnerHTML={{ __html: selectedJobData[0]?.description_ }} />
-                                {/* {selectedJobData[0]?.description} */}
-                            </Typography>
-                        </Box>
-                    </Stack>
-                </Stack>
-
-                <Stack
-                    sx={{ bottom: '0px', p: 1 }}
-                    position='sticky'
-                    zIndex={1}
-                    maxHeight='50px'
-                >
-                    <Button
-                        variant="contained"
-                        disableRipple
-                        // onClick={()=>handleReadMore('')}
-                        onClick={() => (sendJobValue(selectedJobData[0]), handleReadMore('', ''))}
-                        sx={{
-                            borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0, width: '100%',
-                            '&:hover': {
-                                backgroundColor: '#146EF6',
-                                boxShadow: 0
-                            }
-                        }}
-                        disabled={selectedJobData[0]?.isDisabled}
-                    >
-                        I'm Interested
-                    </Button>
-                </Stack>
-
-            </Card >
-
-
-            {
-                !isChatbotOpen ? (
-
-                    <Stack sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: "30px", cursor: 'pointer' }} className="bottom-cls">
-
-                        <Box
-                            component="div"
-                            sx={{
-                                height: '50px',
-                                width: '50px',
-                                borderRadius: '50%',
-                                backgroundImage: `url("${c1}")`,
-                                backgroundSize: 'cover',
-                                cursor: 'pointer',
-                                transition: 'transform 0.3s, opacity 0.3s',
-                                transform: isChatbotOpen ? 'translateY(20%)' : 'none',
-                                opacity: isChatbotOpen ? 0 : 1,
-                                margin: '20px',
-                                position: 'relative',
-                                zIndex: 5,
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleCloseMenu}
+                            MenuListProps={{
+                                'aria-labelledby': 'basic-button',
+                                sx: { py: 0 }
                             }}
-                            onClick={intializeChatBot}
-                        ></Box>
-                        {(initialButtons && initialButtons.length) ?
-                            (<>
-                                <Stack >
-                                    <Box component='div' sx={{ backgroundColor: '#ffffff', display: 'flex', flexDirection: 'row', borderRadius: '20px', boxShadow: 'rgb(0 0 0 / 16%) 0px 1px 15px 2px' }} onClick={intializeChatBot}>
-                                        <Box component='div' sx={{ p: '18px 22px 16px 18px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                            <Typography sx={{ fontSize: '14px', color: '#1A1A1A' }}>{initialText} </Typography>
-                                        </Box>
+                            sx={{ transform: "translateY(-50px) translateX(15px)", padding: "5px 2px" }}
 
-                                        <Box component='div' sx={{ pr: '7px', pt: '18px' }}>
-                                            <CloseSharpIcon sx={{ fontSize: '20px' }} />
-                                        </Box>
-                                    </Box>
-                                    <Stack mt={1} sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                        <Button
-                                            variant="outlined"
-                                            disableRipple
-                                            startIcon={<SearchIcon />}
-                                            sx={{
-                                                borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '12px', height: '34px', whiteSpace: 'nowrap',
-                                                '&:hover': {
-                                                    backgroundColor: '#146EF6',
-                                                    borderColor: '#146EF6',
-                                                    color: '#ffffff'
-                                                }
-                                            }}
-                                            className="chat-button"
-                                            onClick={() => sendPayload(initialButtons[0].payload, initialButtons[0])}
-                                        >
-                                            {(initialButtons && initialButtons.length) ? initialButtons[0].title : ''}
-                                        </Button>
-                                        <Button variant="outlined"
-                                            onClick={() => sendPayload(initialButtons[1].payload, initialButtons[1])}
-                                            sx={{
-                                                borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '12px', height: '34px', whiteSpace: 'nowrap',
-                                                '&:hover': {
-                                                    backgroundColor: '#146EF6',
-                                                    borderColor: '#146EF6',
-                                                    color: '#ffffff'
-                                                }
-                                            }}
-                                            disableRipple
-                                            startIcon={<HelpOutlineIcon />}
-                                        >
-                                            {(initialButtons && initialButtons.length) ? initialButtons[1].title : ''}
-                                        </Button>
-                                    </Stack>
-                                </Stack>
-                            </>)
-                            :
-                            (<></>)}
+                        >
+                            <MenuItem sx={{ padding: "4px 5px" }} onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[1].payload : '', (initialButtons && initialButtons.length) ? initialButtons[1] : '')}>
+                                <ListItemIcon>
+                                    <SearchIcon fontSize="small" />
+                                </ListItemIcon>
+                                <ListItemText><span style={{ fontSize: "13px" }}>{(initialButtons && initialButtons.length) ? initialButtons[1].title : ''}</span></ListItemText> </MenuItem>
+                            <Divider sx={{ marginTop: "1px !important", marginBottom: "1px !important" }} />
+                            <MenuItem sx={{ padding: "4px 5px" }} onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[0].payload : '', (initialButtons && initialButtons.length) ? initialButtons[0] : '')}>
+                                <ListItemIcon><HelpOutlineIcon fontSize="small" /></ListItemIcon>
+                                <ListItemText><span style={{ fontSize: "13px" }}>{(initialButtons && initialButtons.length) ? initialButtons[0].title : ''}</span></ListItemText></MenuItem>
 
-                    </Stack>) : <Stack></Stack>
-            }
-            <div>
-                <Snackbar onClose={() => setOpen(false)}
-                    anchorOrigin={{ vertical, horizontal }}
+                        </Menu>
+                    </Stack>
 
-                    key={vertical + horizontal}
-                    open={toaster}
-                    autoHideDuration={4000}
+                    <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', mb: 0.5, cursor: 'default' }}>
+                        <Typography sx={{ color: '#919191', fontSize: '14px', fontWeight: 500, cursor: 'pointer' }}
+                            onClick={handleTermsCardOpen}
+                        >
+                            Terms
+                        </Typography>
+                        <Box sx={{ borderRight: '1.5px solid lightgrey', ml: 1, mr: 1 }}></Box>
+                        <Typography
+                            sx={{ color: '#919191', fontSize: '14px', fontWeight: 500 }}
+                        >
+                            Powered by <Box component='span' sx={{ fontWeight: 600 }}>Curately.AI</Box>
+                        </Typography>
+                    </Stack>
+                </Card >
+
+
+                <Card
+                    sx={{
+                        width: '375px',
+                        '& .MuiPaper-root.MuiCard-root ': {
+                            pt: 0,
+                        },
+                        borderTopLeftRadius: '15px',
+                        borderTopRightRadius: '15px',
+                        borderBottomLeftRadius: '15px',
+                        position: 'fixed',
+                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
+                        right: '80px',
+                        transform: 'translateY(-20%)',
+                        display: isReadmore ? 'block' : 'none',
+                    }}
+                    className="set-width"
                 >
-                    {
-                        (<Alert severity="error">{toastrMessage}</Alert>)
 
-                    }
+                    <Stack
+                        sx={{
+                            backgroundImage: 'linear-gradient(to right,#2731DD, #137CED)', display: 'flex', flexDirection: 'row', alignItems: 'center'
+                        }}
+                        p='15px'
+                        maxHeight='30px'
+                    >
+                        <Stack onClick={() => handleReadMore('', '')} sx={{ cursor: 'pointer' }}>
+                            <KeyboardArrowLeftIcon sx={{ fontSize: '30px', color: '#ffffff', fontWeight: 600 }} />
+                        </Stack>
+                        <Stack
+                            sx={{ ml: '100px' }}
+                        >
+                            <Typography sx={{ color: '#ffffff' }}>View Jobs</Typography>
+                        </Stack>
 
-                </Snackbar>
-            </div>
+                    </Stack>
 
-        </Stack >
+                    <Stack
+                        sx={{
+                            backgroundColor: '#ffffff', overflowY: 'scroll', maxHeight: '300px', minHeight: '300px', mb: '5px', p: 3
+                        }} >
+
+                        <Stack sx={{ pb: '15px', borderBottom: '1px solid lightgrey' }} direction='column' spacing={2}>
+
+                            <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{selectedJobData[0]?.title_}</Typography>
+
+
+                            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                <Box>
+                                    <CalendarTodayIcon sx={{ fontSize: '15px' }} />
+                                </Box>
+                                <Box sx={{ pl: '10px' }}>
+                                    <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted {formatDate(selectedJobData[0]?.postingCreateTime_.seconds_)}</Typography>
+                                </Box>
+                            </Box>
+
+                            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                <Box>
+                                    <AccessTimeIcon sx={{ fontSize: '15px' }} />
+                                </Box>
+                                <Box sx={{ pl: '10px' }}>
+                                    <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{selectedJobData[0]?.companyDisplayName_}</Typography>
+                                </Box>
+                            </Box>
+
+                        </Stack>
+
+
+                        <Stack>
+                            <Box sx={{ mt: '5px', fontSize: '16px', fontWeight: 600 }}>
+                                <Typography>Let's Grow Together</Typography>
+                            </Box>
+
+                            <Box sx={{ mt: '5px' }}>
+                                <Typography sx={{ fontSize: '14px' }}>
+                                    <span dangerouslySetInnerHTML={{ __html: selectedJobData[0]?.description_ }} />
+                                    {/* {selectedJobData[0]?.description} */}
+                                </Typography>
+                            </Box>
+                        </Stack>
+                    </Stack>
+
+                    <Stack
+                        sx={{ bottom: '0px', p: 1 }}
+                        position='sticky'
+                        zIndex={1}
+                        maxHeight='50px'
+                    >
+                        <Button
+                            variant="contained"
+                            disableRipple
+                            // onClick={()=>handleReadMore('')}
+                            onClick={() => (sendJobValue(selectedJobData[0]), handleReadMore('', ''))}
+                            sx={{
+                                borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0, width: '100%',
+                                '&:hover': {
+                                    backgroundColor: '#146EF6',
+                                    boxShadow: 0
+                                }
+                            }}
+                            disabled={selectedJobData[0]?.isDisabled}
+                        >
+                            I'm Interested
+                        </Button>
+                    </Stack>
+
+                </Card >
+
+                {
+                    !isChatbotOpen ? (
+
+                        <Stack sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: "30px", cursor: 'pointer' }} className="bottom-cls">
+
+                            <Box
+                                component="div"
+                                sx={{
+                                    height: '50px',
+                                    width: '50px',
+                                    borderRadius: '50%',
+                                    backgroundImage: `url("${c1}")`,
+                                    backgroundSize: 'cover',
+                                    cursor: 'pointer',
+                                    transition: 'transform 0.3s, opacity 0.3s',
+                                    transform: isChatbotOpen ? 'translateY(20%)' : 'none',
+                                    opacity: isChatbotOpen ? 0 : 1,
+                                    margin: '20px',
+                                    position: 'relative',
+                                    zIndex: 5,
+                                }}
+                                onClick={intializeChatBot}
+                            ></Box>
+                            {(initialButtons && initialButtons.length) ?
+                                (<>
+                                    <Stack >
+                                        <Box component='div' sx={{ backgroundColor: '#ffffff', display: 'flex', flexDirection: 'row', borderRadius: '20px', boxShadow: 'rgb(0 0 0 / 16%) 0px 1px 15px 2px' }} onClick={intializeChatBot}>
+                                            <Box component='div' sx={{ p: '18px 22px 16px 18px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                                <Typography sx={{ fontSize: '14px', color: '#1A1A1A' }}>{initialText} </Typography>
+                                            </Box>
+
+                                            <Box component='div' sx={{ pr: '7px', pt: '18px' }}>
+                                                <CloseSharpIcon sx={{ fontSize: '20px' }} />
+                                            </Box>
+                                        </Box>
+                                        <Stack mt={1} sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                            <Button
+                                                variant="outlined"
+                                                disableRipple
+                                                startIcon={<SearchIcon />}
+                                                sx={{
+                                                    borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '12px', height: '34px', whiteSpace: 'nowrap',
+                                                    '&:hover': {
+                                                        backgroundColor: '#146EF6',
+                                                        borderColor: '#146EF6',
+                                                        color: '#ffffff'
+                                                    }
+                                                }}
+                                                className="chat-button"
+                                                onClick={() => sendPayload(initialButtons[0].payload, initialButtons[0])}
+                                            >
+                                                {(initialButtons && initialButtons.length) ? initialButtons[0].title : ''}
+                                            </Button>
+                                            <Button variant="outlined"
+                                                onClick={() => sendPayload(initialButtons[1].payload, initialButtons[1])}
+                                                sx={{
+                                                    borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '12px', height: '34px', whiteSpace: 'nowrap',
+                                                    '&:hover': {
+                                                        backgroundColor: '#146EF6',
+                                                        borderColor: '#146EF6',
+                                                        color: '#ffffff'
+                                                    }
+                                                }}
+                                                disableRipple
+                                                startIcon={<HelpOutlineIcon />}
+                                            >
+                                                {(initialButtons && initialButtons.length) ? initialButtons[1].title : ''}
+                                            </Button>
+                                        </Stack>
+                                    </Stack>
+                                </>)
+                                :
+                                (<></>)}
+
+                        </Stack>) : <Stack></Stack>
+                }
+                <div>
+                    <Snackbar onClose={() => setOpen(false)}
+                        anchorOrigin={{ vertical, horizontal }}
+
+                        key={vertical + horizontal}
+                        open={toaster}
+                        autoHideDuration={4000}
+                    >
+                        {
+                            (<Alert severity="error">{toastrMessage}</Alert>)
+
+                        }
+
+                    </Snackbar>
+                </div>
+
+            </Stack>
+
+        </Stack>
     );
 };
 

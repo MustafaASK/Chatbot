@@ -167,7 +167,8 @@ const Chatbot = () => {
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const queryParam = params.get('job_id');
-    //   alert(queryParam);
+    const chatbotType = params.get('type');
+    //   alert(chatbotType);
     const valueRef = useRef()
 
     const [isChatbotOpen, setIsChatbotOpen] = useState(false);
@@ -208,6 +209,7 @@ const Chatbot = () => {
     const [fileInputData, setFileData] = React.useState<any | never>(null)
     const [isShowNoResults, setIsShowResults] = useState(false)
     const [defaultTitle, setDefaultTitle] = useState("");
+    const [ipLocation, setIpLocation] = useState("");
     const [isReload, setIsReload] = useState(false)
     const handleCloseMenu = (msg: any, msgObj: any) => {
         setAnchorEl(null);
@@ -220,9 +222,10 @@ const Chatbot = () => {
                     "job_id": (queryParam ? queryParam : "1")
                 }
             }
-            dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
+            
             setMessagesList(prevArray => [...prevArray, obj]);
             dataToPass.message = msg;
+            dataToPass.metadata.job_location = ipLocation;
             getTableData();
         }
 
@@ -234,21 +237,25 @@ const Chatbot = () => {
             try {
                 let response = await apiService.getIpAddress();
                 let data = response.data;
+                dataToPass.metadata.job_location = data.region;
+                setIpLocation(data.region);
+                console.log(data.region)
+                getTableData();
                 // console.log(ip_address, 'ip_address', ip_address.headers["X-Rl"])
-                let formatted_string = `${data.city},${data.region},${data.country},${data.postal}`;
-                let filter_str = formatted_string.split(",");
-                let final_loc = ""
-                for (let i = 0; i < filter_str.length; i++) {
-                    if (filter_str[i] !== "undefined") {
-                        if (i !== filter_str.length - 1) {
-                            final_loc += filter_str[i] + ","
-                        }
-                        else {
-                            final_loc += filter_str[i];
-                        }
-                    }
-                }
-                // console.log(filter_str, final_loc, 'ff')
+                // let formatted_string = `${data.city},${data.region},${data.country},${data.postal}`;
+                // let filter_str = formatted_string.split(",");
+                // let final_loc = ""
+                // for (let i = 0; i < filter_str.length; i++) {
+                //     if (filter_str[i] !== "undefined") {
+                //         if (i !== filter_str.length - 1) {
+                //             final_loc += filter_str[i] + ","
+                //         }
+                //         else {
+                //             final_loc += filter_str[i];
+                //         }
+                //     }
+                // }
+                // console.log(filter_str)
             }
             catch (e) {
 
@@ -415,10 +422,11 @@ const Chatbot = () => {
                     "job_id": (queryParam ? queryParam : "1")
                 }
             }
-            dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
+            
             setMessagesList(prevArray => [...prevArray, obj]);
             value = (value.search("candid") !== -1) ? value.split(" ")[1] : value;
             dataToPass.message = `/${intentType}{"${entityType}": "${value}"}`
+            dataToPass.metadata.job_location = ipLocation;
             // dataToPass.message = type === "input_job_title" ? `/${type}{"job_title": "${value}"}` : `/${type}{"job_location": "${value}"}`;
             getTableData();
 
@@ -449,9 +457,10 @@ const Chatbot = () => {
                 "job_id": (queryParam ? queryParam : "1")
             }
         }
-        dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
+        
         setMessagesList(prevArray => [...prevArray, obj]);
         dataToPass.message = `/${intentType}{"${entityType}": "${formattedeKyValue}"}`
+        dataToPass.metadata.job_location = ipLocation;
         getTableData();
     }
     const sendLocation = (e: any, value: any) => {
@@ -492,9 +501,10 @@ const Chatbot = () => {
                 "job_id": (queryParam ? queryParam : "1")
             }
         }
-        dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
+        
         setMessagesList(prevArray => [...prevArray, obj]);
         dataToPass.message = `/input_select_job{"select_job": "${jobData.requisitionId_}"}`
+        dataToPass.metadata.job_location = ipLocation;
         // dataToPass.message = type === "input_job_title" ? `/${type}{"job_title": "${value}"}` : `/${type}{"job_location": "${value}"}`;
         getTableData();
 
@@ -512,9 +522,10 @@ const Chatbot = () => {
                 "job_id": (queryParam ? queryParam : "1")
             }
         }
-        dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
+        
         setMessagesList(prevArray => [...prevArray, obj]);
         dataToPass.message = type === "input_job_title" ? `/${type}{"job_title": "${value}"}` : `/${type}{"job_location": "${value}"}`;
+        dataToPass.metadata.job_location = ipLocation;
         getTableData();
 
         // 
@@ -544,9 +555,11 @@ const Chatbot = () => {
             "sender": `${randStr}`,
             "message": refine_job_search_message,
             "metadata": {
-                "job_id": (queryParam ? queryParam : "1")
+                "chatbot_type": chatbotType ? chatbotType : "1",
+                "job_location":ipLocation
             }
         };
+        dataToPass.metadata.job_location = ipLocation;
         getTableData();
     }
 
@@ -973,9 +986,10 @@ const Chatbot = () => {
 
     const generateRandomNumber = () => {
         const randomNumber = Math.floor(1000000000 + Math.random() * 9000000000); // Generate a random number between 1,000,000,000 and 9,999,999,999
+        localStorage.setItem("uuid",randomNumber.toString());
         return (randomNumber); // You can remove this line if you don't want to display the number in the console
     }
-    let generateNum = generateRandomNumber();
+    let generateNum = localStorage.getItem("uuid") ? localStorage.getItem("uuid") :  generateRandomNumber();
 
 
     const [randStr, setRandStr] = useState(generateNum);
@@ -1007,7 +1021,7 @@ const Chatbot = () => {
         }
         // let oldObj =  msgObj;  
         msgObj['hideBtns'] = true;
-        dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
+        
         setMessagesList(prevArray => {
             prevArray.forEach((arr: any) => {
                 if (arr.slideCount) {
@@ -1021,6 +1035,7 @@ const Chatbot = () => {
         }
         );
         dataToPass.message = msg.payload;
+        dataToPass.metadata.job_location = ipLocation;
         getTableData();
 
         // dataToPass.message = `/${intentType}{"${entityType}": "${formattedeKyValue}"}`
@@ -1040,7 +1055,7 @@ const Chatbot = () => {
         // console.log(msgObj);
         // // let oldObj =  msgObj;  
         // msgObj['hideBtns'] = true;
-        dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
+        
         setMessagesList(prevArray => {
             // prevArray.forEach((arr: any) => {
             //     if (arr.slideCount) {
@@ -1054,6 +1069,7 @@ const Chatbot = () => {
         }
         );
         dataToPass.message = msg;
+        dataToPass.metadata.job_location = ipLocation;
         getTableData();
 
     }
@@ -1107,7 +1123,8 @@ const Chatbot = () => {
                 // dataToPass.message = type === "input_job_location" ?  `/${type}{"job_location": "${event.target.value}"}` : `${event.target.value}`;
                 // dataToPass.message = event.target.value;
                 // console.log(event.target.value);
-                dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
+            dataToPass.metadata.job_location = ipLocation;
+                
                 getTableData();
             }
         }
@@ -1142,8 +1159,9 @@ const Chatbot = () => {
             } else {
                 dataToPass.message = inputValue;
             }
+            dataToPass.metadata.job_location = ipLocation;
 
-            dataToPass.metadata.job_id = (queryParam ? queryParam : "1");
+            
             getTableData();
         }
 
@@ -1156,7 +1174,8 @@ const Chatbot = () => {
         "sender": `${randStr}`,
         "message": "/greet",
         "metadata": {
-            "job_id": (queryParam ? queryParam : "1")
+            "chatbot_type": chatbotType ? chatbotType : "1",
+            "job_location":""
         }
     };
 
@@ -1178,10 +1197,12 @@ const Chatbot = () => {
             "sender": `${randStr}`,
             "message": cancel_message,
             "metadata": {
-                "job_id": (queryParam ? queryParam : "1")
+                "chatbot_type": chatbotType ? chatbotType : "1",
+                "job_location":ipLocation
             }
         };
         setFileData(null)
+        dataToPass.metadata.job_location = ipLocation;
         getTableData();
     }
 
@@ -1361,7 +1382,7 @@ const Chatbot = () => {
     }
     React.useEffect(() => {
         if (!checkUseEffectLoad) {
-            getTableData();
+            // getTableData();
         }
         sessionStorage.setItem("isChatBotIntialized", "false")
         checkUseEffectLoad = true;
@@ -1384,8 +1405,8 @@ const Chatbot = () => {
             alignItems: 'flex-end', right: 500
         }}>
 
-            <Stack sx={{ display: isTermOpen ? 'block' : 'none' }}>
-                <Card sx={{ width: '350px' }}>
+            <Stack sx={{ display: isTermOpen ? 'block' : 'none',height: '90vh',bottom: '20px' }}>
+                <Card sx={{ width: '350px',position:'relative',right:'40px' }}>
                     <Stack sx={{ display: 'flex', flexDirection: 'row', borderBottom: '1px solid lightgrey', p: 1, maxHeight: '80px' }}>
                         <Box>
                             <img
@@ -1406,7 +1427,7 @@ const Chatbot = () => {
                         </Typography>
                     </Stack>
 
-                    <Stack sx={{ p: 1, pl: 2, pr: 2, maxHeight: '270px', overflowY: 'scroll' }}>
+                    <Stack sx={{ p: 1, pl: 2, pr: 2 }}>
                         <Typography sx={{ fontSize: '12px', fontStyle: 'italic', mt: 1 }}>
                             By using our chatbot, you understand that Bristal-Myers Squibb (BMS)
                             will collect certain information that includes personal data about you
@@ -1492,10 +1513,10 @@ const Chatbot = () => {
                         borderTopLeftRadius: '15px',
                         borderTopRightRadius: '15px',
                         borderBottomLeftRadius: '15px',
-                        position: 'fixed',
+                        position: 'relative',
                         zIndex: isChatbotOpen ? 4 : -1,
                         boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
-                        right: '40px',
+                        // right: '40px',
                         transform: isChatbotOpen ? 'translate(-5%,-5%)' : 'translateY(5%)',
                         transition: 'all .1s ease-out',
                         transformOrigin: "bottom right",
@@ -2879,9 +2900,9 @@ const Chatbot = () => {
 
 
                         <Stack>
-                            <Box sx={{ mt: '5px', fontSize: '16px', fontWeight: 600 }}>
+                            {/* <Box sx={{ mt: '5px', fontSize: '16px', fontWeight: 600 }}>
                                 <Typography>Let's Grow Together</Typography>
-                            </Box>
+                            </Box> */}
 
                             <Box sx={{ mt: '5px' }}>
                                 <Typography sx={{ fontSize: '14px' }}>

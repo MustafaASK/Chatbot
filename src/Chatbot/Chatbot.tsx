@@ -222,7 +222,7 @@ const Chatbot = () => {
                     "job_id": (queryParam ? queryParam : "1")
                 }
             }
-            
+
             setMessagesList(prevArray => [...prevArray, obj]);
             dataToPass.message = msg;
             dataToPass.metadata.job_location = ipLocation;
@@ -422,7 +422,7 @@ const Chatbot = () => {
                     "job_id": (queryParam ? queryParam : "1")
                 }
             }
-            
+
             setMessagesList(prevArray => [...prevArray, obj]);
             value = (value.search("candid") !== -1) ? value.split(" ")[1] : value;
             dataToPass.message = `/${intentType}{"${entityType}": "${value}"}`
@@ -457,7 +457,7 @@ const Chatbot = () => {
                 "job_id": (queryParam ? queryParam : "1")
             }
         }
-        
+
         setMessagesList(prevArray => [...prevArray, obj]);
         dataToPass.message = `/${intentType}{"${entityType}": "${formattedeKyValue}"}`
         dataToPass.metadata.job_location = ipLocation;
@@ -501,7 +501,7 @@ const Chatbot = () => {
                 "job_id": (queryParam ? queryParam : "1")
             }
         }
-        
+
         setMessagesList(prevArray => [...prevArray, obj]);
         dataToPass.message = `/input_select_job{"select_job": "${jobData.requisitionId_}"}`
         dataToPass.metadata.job_location = ipLocation;
@@ -522,7 +522,7 @@ const Chatbot = () => {
                 "job_id": (queryParam ? queryParam : "1")
             }
         }
-        
+
         setMessagesList(prevArray => [...prevArray, obj]);
         dataToPass.message = type === "input_job_title" ? `/${type}{"job_title": "${value}"}` : `/${type}{"job_location": "${value}"}`;
         dataToPass.metadata.job_location = ipLocation;
@@ -556,7 +556,7 @@ const Chatbot = () => {
             "message": refine_job_search_message,
             "metadata": {
                 "chatbot_type": chatbotType ? chatbotType : "1",
-                "job_location":ipLocation
+                "job_location": ipLocation
             }
         };
         dataToPass.metadata.job_location = ipLocation;
@@ -986,10 +986,10 @@ const Chatbot = () => {
 
     const generateRandomNumber = () => {
         const randomNumber = Math.floor(1000000000 + Math.random() * 9000000000); // Generate a random number between 1,000,000,000 and 9,999,999,999
-        localStorage.setItem("uuid",randomNumber.toString());
+        localStorage.setItem("uuid", randomNumber.toString());
         return (randomNumber); // You can remove this line if you don't want to display the number in the console
     }
-    let generateNum = localStorage.getItem("uuid") ? localStorage.getItem("uuid") :  generateRandomNumber();
+    let generateNum = localStorage.getItem("uuid") ? localStorage.getItem("uuid") : generateRandomNumber();
 
 
     const [randStr, setRandStr] = useState(generateNum);
@@ -1021,7 +1021,7 @@ const Chatbot = () => {
         }
         // let oldObj =  msgObj;  
         msgObj['hideBtns'] = true;
-        
+
         setMessagesList(prevArray => {
             prevArray.forEach((arr: any) => {
                 if (arr.slideCount) {
@@ -1055,7 +1055,7 @@ const Chatbot = () => {
         // console.log(msgObj);
         // // let oldObj =  msgObj;  
         // msgObj['hideBtns'] = true;
-        
+
         setMessagesList(prevArray => {
             // prevArray.forEach((arr: any) => {
             //     if (arr.slideCount) {
@@ -1123,8 +1123,8 @@ const Chatbot = () => {
                 // dataToPass.message = type === "input_job_location" ?  `/${type}{"job_location": "${event.target.value}"}` : `${event.target.value}`;
                 // dataToPass.message = event.target.value;
                 // console.log(event.target.value);
-            dataToPass.metadata.job_location = ipLocation;
-                
+                dataToPass.metadata.job_location = ipLocation;
+
                 getTableData();
             }
         }
@@ -1161,7 +1161,7 @@ const Chatbot = () => {
             }
             dataToPass.metadata.job_location = ipLocation;
 
-            
+
             getTableData();
         }
 
@@ -1175,7 +1175,7 @@ const Chatbot = () => {
         "message": "/greet",
         "metadata": {
             "chatbot_type": chatbotType ? chatbotType : "1",
-            "job_location":""
+            "job_location": ""
         }
     };
 
@@ -1198,7 +1198,7 @@ const Chatbot = () => {
             "message": cancel_message,
             "metadata": {
                 "chatbot_type": chatbotType ? chatbotType : "1",
-                "job_location":ipLocation
+                "job_location": ipLocation
             }
         };
         setFileData(null)
@@ -1271,22 +1271,27 @@ const Chatbot = () => {
                                         setInputValue('');
                                         setEnableAuto(false);
                                         newObject.newJobs = [];
-                                        newObject.maxSteps = newObject.custom?.jobs ? newObject.custom?.jobs?.length + 1 : 1;
+                                        newObject.maxSteps = newObject.custom?.jobs ? newObject.custom?.jobs?.length : 1;
 
                                         newObject.jobs = newObject.custom?.jobs ? newObject.custom?.jobs : [];
+
                                         newObject.jobs.forEach((job: any) => {
                                             job.isRealJob = true
                                         })
+                                        if (!newObject.jobs.length) {
+                                            newObject.jobs.push({ "isRealJob": false })
+                                        }
 
                                         newObject.jobs.push({ "isRealJob": false })
                                         // if (sessionStorage.getItem("isLoadedFirsttime") === "false") {
+                                        // if (sessionStorage.getItem("isLoadedFirsttime") === "true") {
                                             setActiveStep((prevState) => [...prevState, { "stepNumber": 0 }])
                                             setSliderCount((prevState) => prevState + 1)
                                             newObject.slideCount = sliderCount + 1;
                                             isLoadedFirstTime = false
                                         // }
 
-
+                                        console.log(newObject, 'newObject')
                                     }
                                     sessionStorage.setItem("isLoadedFirsttime", 'false')
 
@@ -1405,8 +1410,8 @@ const Chatbot = () => {
             alignItems: 'flex-end', right: 500
         }}>
 
-            <Stack sx={{ display: isTermOpen ? 'block' : 'none',height: '90vh',bottom: '20px' }}>
-                <Card sx={{ width: '350px',position:'relative',right:'40px' }}>
+            <Stack sx={{ display: isTermOpen ? 'block' : 'none', height: '90vh', bottom: '20px' }}>
+                <Card sx={{ width: '350px', position: 'relative', right: '40px' }}>
                     <Stack sx={{ display: 'flex', flexDirection: 'row', borderBottom: '1px solid lightgrey', p: 1, maxHeight: '80px' }}>
                         <Box>
                             <img

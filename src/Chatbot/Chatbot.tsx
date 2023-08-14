@@ -1279,12 +1279,12 @@ const Chatbot = () => {
                                         })
 
                                         newObject.jobs.push({ "isRealJob": false })
-                                        if (sessionStorage.getItem("isLoadedFirsttime") === "false") {
+                                        // if (sessionStorage.getItem("isLoadedFirsttime") === "false") {
                                             setActiveStep((prevState) => [...prevState, { "stepNumber": 0 }])
                                             setSliderCount((prevState) => prevState + 1)
                                             newObject.slideCount = sliderCount + 1;
                                             isLoadedFirstTime = false
-                                        }
+                                        // }
 
 
                                     }

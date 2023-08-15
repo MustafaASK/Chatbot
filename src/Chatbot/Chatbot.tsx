@@ -34,6 +34,8 @@ import WestRoundedIcon from '@mui/icons-material/WestRounded';
 import Link from '@mui/material/Link'
 
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
+import cxNinjaLogo from '../cxninja-logo.png'
+import cxNinjaLogo1 from '../image_2023_08_15T08_37_10_603Z.png'
 import c from '../Rectangle 99@2x.svg';
 import c1 from '../Rectangle 99@2x-1.png'
 import profileIcon from '../profile.jpg';
@@ -1598,20 +1600,42 @@ const Chatbot = () => {
                                     src={Chatbotlogo}
                                     alt='avatar'
                                     style={{
-                                        height: '35px',
-                                        width: '40px',
+                                        height: '30px',
+                                        width: '35px',
                                     }}
                                 />
                             </Box>
                             <Typography
-                                sx={{ color: '#ffffff', fontSize: '17px', fontWeight: 700 }}
+                                sx={{ color: '#ffffff', fontSize: '17px', fontWeight: 500 }}
                             >
-                                CXninja <Box component='span' sx={{ fontWeight: 400 }}>SmartBot</Box>
+                                {/* CXninja <Box component='span' sx={{ fontWeight: 400 }}>SmartBot</Box> */}
+                                Ripley
                             </Typography>
                         </Stack>
-                        <Box component='div' onClick={handleExitChatbot} >
-                            <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer' }} />
-                        </Box>
+
+                        <Stack
+                            direction='row'
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItems: 'center'
+                            }}
+                            spacing={2}
+                        >
+                            <Box>
+                                <img
+                                    src={cxNinjaLogo}
+                                    alt='cxNinja'
+                                    style={{
+                                        height: '30px',
+                                        width: '120px',
+                                    }}
+                                />
+                            </Box>
+                            <Box component='div' onClick={handleExitChatbot} >
+                                <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer' }} />
+                            </Box>
+                        </Stack>
                     </Stack>
 
                     {/* {isTermAccept ? */}

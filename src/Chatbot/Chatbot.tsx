@@ -1271,7 +1271,7 @@ const Chatbot = () => {
                                         setInputValue('');
                                         setEnableAuto(false);
                                         newObject.newJobs = [];
-                                        newObject.maxSteps = newObject.custom?.jobs ? newObject.custom?.jobs?.length : 1;
+                                        newObject.maxSteps = newObject.custom?.jobs.length ? newObject.custom?.jobs?.length : 1;
 
                                         newObject.jobs = newObject.custom?.jobs ? newObject.custom?.jobs : [];
 
@@ -1285,10 +1285,10 @@ const Chatbot = () => {
                                         newObject.jobs.push({ "isRealJob": false })
                                         // if (sessionStorage.getItem("isLoadedFirsttime") === "false") {
                                         // if (sessionStorage.getItem("isLoadedFirsttime") === "true") {
-                                            setActiveStep((prevState) => [...prevState, { "stepNumber": 0 }])
-                                            setSliderCount((prevState) => prevState + 1)
-                                            newObject.slideCount = sliderCount + 1;
-                                            isLoadedFirstTime = false
+                                        setActiveStep((prevState) => [...prevState, { "stepNumber": 0 }])
+                                        setSliderCount((prevState) => prevState + 1)
+                                        newObject.slideCount = sliderCount + 1;
+                                        isLoadedFirstTime = false
                                         // }
 
                                         console.log(newObject, 'newObject')
@@ -2381,31 +2381,31 @@ const Chatbot = () => {
 
                                                                 </Box>
                                                             </Box>
-                                                            {msgObj.maxSteps ? 
-                                                            (<>
-                                                            <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', mb: 2 }}
-                                                                direction='row' spacing={2}
-                                                            >
+                                                            {msgObj.maxSteps ?
+                                                                (<>
+                                                                    <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', mb: 2 }}
+                                                                        direction='row' spacing={2}
+                                                                    >
 
-                                                                <Box sx={{ textAlign: 'center', ml: '70px' }}>
-                                                                    <Typography variant="body2" color="text.secondary">
-                                                                        {`${activeStep[msgObj.slideCount]?.stepNumber + 1} of ${msgObj.maxSteps}`}
-                                                                    </Typography>
-                                                                </Box>
+                                                                        <Box sx={{ textAlign: 'center', ml: '70px' }}>
+                                                                            <Typography variant="body2" color="text.secondary">
+                                                                                {`${activeStep[msgObj.slideCount]?.stepNumber + 1} of ${msgObj.maxSteps}`}
+                                                                            </Typography>
+                                                                        </Box>
 
-                                                                <Box>
-                                                                    <MobileStepper
-                                                                        variant="progress"
-                                                                        steps={msgObj.maxSteps}
-                                                                        position="static"
-                                                                        sx={{ width: '160px', }}
-                                                                        activeStep={activeStep[sliderCount]?.stepNumber}
-                                                                        nextButton={null}
-                                                                        backButton={null}
-                                                                    />
-                                                                </Box>
+                                                                        <Box>
+                                                                            <MobileStepper
+                                                                                variant="progress"
+                                                                                steps={msgObj.maxSteps}
+                                                                                position="static"
+                                                                                sx={{ width: '160px', }}
+                                                                                activeStep={activeStep[sliderCount]?.stepNumber}
+                                                                                nextButton={null}
+                                                                                backButton={null}
+                                                                            />
+                                                                        </Box>
 
-                                                            </Stack></>) : (<></>)}
+                                                                    </Stack></>) : (<></>)}
 
                                                         </>) :
                                                         (

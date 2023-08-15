@@ -1622,13 +1622,13 @@ const Chatbot = () => {
                             }}
                             spacing={2}
                         >
-                            <Box>
+                            <Box sx={{ backgroundColor: '#ffffff', p: 0.5, borderRadius: '30px', display: 'flex', justifyContent: 'center', flexDirection: 'row', alignItems: 'center' }}>
                                 <img
                                     src={cxNinjaLogo}
                                     alt='cxNinja'
                                     style={{
-                                        height: '30px',
-                                        width: '120px',
+                                        height: '25px',
+                                        width: '100px',
                                     }}
                                 />
                             </Box>

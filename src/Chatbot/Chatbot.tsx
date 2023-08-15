@@ -1462,7 +1462,7 @@ const Chatbot = () => {
         }}>
 
             <Stack sx={{ display: isTermCardOpen ? 'block' : 'none', height: '90vh', bottom: '20px' }}>
-                <Card sx={{ width: '350px', position: 'relative', right: '40px' }}>
+                <Card sx={{ width: '350px', position: 'relative', right: '400px' }}>
                     <Stack sx={{ display: 'flex', flexDirection: 'row', borderBottom: '1px solid lightgrey', p: 1, maxHeight: '80px' }}>
                         <Box>
                             <img
@@ -1570,7 +1570,7 @@ const Chatbot = () => {
                         borderTopLeftRadius: '15px',
                         borderTopRightRadius: '15px',
                         borderBottomLeftRadius: '15px',
-                        position: 'relative',
+                        position: 'absolute',
                         zIndex: isChatbotOpen ? 4 : -1,
                         boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
                         // right: '40px',
@@ -1633,13 +1633,13 @@ const Chatbot = () => {
                             }}
                             spacing={2}
                         >
-                            <Box>
+                            <Box sx={{ backgroundColor: '#ffffff', p: 0.5, borderRadius: '30px', display: 'flex', justifyContent: 'center', flexDirection: 'row', alignItems: 'center' }}>
                                 <img
                                     src={cxNinjaLogo}
                                     alt='cxNinja'
                                     style={{
-                                        height: '30px',
-                                        width: '120px',
+                                        height: '25px',
+                                        width: '100px',
                                     }}
                                 />
                             </Box>

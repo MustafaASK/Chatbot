@@ -171,7 +171,8 @@ const Chatbot = () => {
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const queryParam = params.get('job_id');
-    const chatbotType = params.get('type');
+    let tempchatbotType = null;
+    const chatbotType = localStorage.getItem("chatbotType");//params.get('type');
     //   alert(chatbotType);
     const valueRef = useRef()
 
@@ -266,6 +267,16 @@ const Chatbot = () => {
             }
         }
         getLocation()
+
+        // alert(params.get('type'));
+        // tempchatbotType = 
+        let paramType = params.get('type') ? params.get('type') : "1";
+        if(localStorage.getItem("chatbotType") !== params.get('type') && paramType){
+            localStorage.setItem("chatbotType", paramType);
+            generateNum = generateRandomNumber();
+        } else {
+            generateNum = localStorage.getItem("uuid");
+        }
 
     }, [])
 
@@ -993,7 +1004,7 @@ const Chatbot = () => {
         localStorage.setItem("uuid", randomNumber.toString());
         return (randomNumber); // You can remove this line if you don't want to display the number in the console
     }
-    let generateNum = localStorage.getItem("uuid") ? localStorage.getItem("uuid") : generateRandomNumber();
+    let generateNum = null; //localStorage.getItem("uuid") ? localStorage.getItem("uuid") : generateRandomNumber();
 
 
     const [randStr, setRandStr] = useState(generateNum);

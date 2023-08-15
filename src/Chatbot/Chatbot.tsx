@@ -29,7 +29,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
-
+import CancelIcon from '@mui/icons-material/Cancel';
+import WestRoundedIcon from '@mui/icons-material/WestRounded';
+import Link from '@mui/material/Link'
 
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import c from '../Rectangle 99@2x.svg';
@@ -998,9 +1000,16 @@ const Chatbot = () => {
     // setRandStr(generateNum);
 
     const toggleChatbot = () => {
-        setIsChatbotOpen(!isChatbotOpen);
+        setIsChatbotOpen(true);
+        // setIsTermCardOpen(true)
         localStorage.setItem("isChatOpened", "true")
     };
+
+    const handleExitChatbot = () => {
+        setIsChatbotOpen(false)
+        setIsTermCardOpen(false)
+    }
+
     const handleInputChange = (event: any) => {
         setInputValue(event.target.value);
     };
@@ -1394,15 +1403,44 @@ const Chatbot = () => {
         // setLoaded(true);
     }, []);
 
-    const [isTermOpen, setIsTermOpen] = useState(false)
+    const [isTermCardOpen, setIsTermCardOpen] = useState(false)
+    const [isTermAccept, setIsTermAccept] = useState(false)
+    const [isTermDecline, setIsTermDecline] = useState(false)
 
-    const handleTermsCardOpen = () => {
-        setIsTermOpen(true)
+    const handleIsReviewTerm = () => {
+        setIsTermCardOpen(true)
+        setIsChatbotOpen(true)
+        setIsTermAccept(false)
+        setIsTermDecline(false)
     }
 
-    const handleTermsCardClose = () => {
-        setIsTermOpen(false)
+    const handleIsTermDeclined = () => {
+        setIsTermAccept(false)
+        setIsTermDecline(true)
+        setIsTermCardOpen(false)
     }
+
+    const handleTermAccept = () => {
+        setIsTermAccept(true)
+        setIsTermCardOpen(false)
+        setIsTermDecline(false)
+    }
+
+
+    const monthNames = [
+        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ]
+
+    const currentTime = new Date()
+    const currentDate = currentTime.getDate()
+    const currentYear = currentTime.getFullYear()
+    const currentMonth = monthNames[currentTime.getMonth()]
+    const currentHours24 = currentTime.getHours()
+    const currentHours12 = (currentHours24 % 12) || 12
+    const currentMinutes = currentTime.getMinutes() < 10 ? `0${currentTime.getMinutes()}` : currentTime.getMinutes()
+    const amOrPm = currentHours24 >= 12 ? 'PM' : 'Am'
+
+
 
     return (
         <Stack sx={{
@@ -1410,7 +1448,7 @@ const Chatbot = () => {
             alignItems: 'flex-end', right: 500
         }}>
 
-            <Stack sx={{ display: isTermOpen ? 'block' : 'none', height: '90vh', bottom: '20px' }}>
+            <Stack sx={{ display: isTermCardOpen ? 'block' : 'none', height: '90vh', bottom: '20px' }}>
                 <Card sx={{ width: '350px', position: 'relative', right: '40px' }}>
                     <Stack sx={{ display: 'flex', flexDirection: 'row', borderBottom: '1px solid lightgrey', p: 1, maxHeight: '80px' }}>
                         <Box>
@@ -1432,7 +1470,7 @@ const Chatbot = () => {
                         </Typography>
                     </Stack>
 
-                    <Stack sx={{ p: 1, pl: 2, pr: 2 }}>
+                    <Stack sx={{ p: 1, pl: 2, pr: 2, maxHeight: '270px', overflowY: 'scroll' }}>
                         <Typography sx={{ fontSize: '12px', fontStyle: 'italic', mt: 1 }}>
                             By using our chatbot, you understand that Bristal-Myers Squibb (BMS)
                             will collect certain information that includes personal data about you
@@ -1457,7 +1495,7 @@ const Chatbot = () => {
 
                     <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', p: 1, borderTop: '1px solid lightgrey' }}>
                         <Button
-                            onClick={handleTermsCardClose}
+                            onClick={handleIsTermDeclined}
                             variant="contained"
                             disableRipple
                             sx={{
@@ -1488,6 +1526,7 @@ const Chatbot = () => {
                                     boxShadow: 0,
                                 }
                             }}
+                            onClick={handleTermAccept}
                         >
                             Accept
                         </Button>
@@ -1570,16 +1609,16 @@ const Chatbot = () => {
                                 CXninja <Box component='span' sx={{ fontWeight: 400 }}>SmartBot</Box>
                             </Typography>
                         </Stack>
-                        <Box component='div' onClick={toggleChatbot} >
+                        <Box component='div' onClick={handleExitChatbot} >
                             <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer' }} />
                         </Box>
                     </Stack>
 
-
+                    {/* {isTermAccept ? */}
                     <Stack ref={scrollRef}
                         id='content-container'
                         sx={{
-                            backgroundColor: '#ffffff', overflowY: 'scroll', maxHeight: '385px', minHeight: '350px', mb: '5px'
+                            backgroundColor: '#ffffff', overflowY: 'scroll', maxHeight: '385px', minHeight: '350px', mb: '5px', display: isTermDecline ? 'none' : 'block'
                         }} >
 
                         <ReactScrolableFeed >
@@ -2472,7 +2511,122 @@ const Chatbot = () => {
                             }
                         </ReactScrolableFeed>
                     </Stack>
+                    {/* :
+                        <> */}
+                    <Stack
+                        sx={{
+                            backgroundColor: '#ffffff', overflowY: 'scroll', minHeight: '350px', mb: '5px', display: isTermDecline ? 'flex' : 'none', flexDirection: 'center', justifyContent: 'center', alignItems: 'center'
+                        }}
+                    >
+                        <CancelIcon sx={{ height: '100px', width: '100px' }} />
+                        <Typography
+                            sx={{
+                                fontSize: '20px',
+                                fontWeight: 600,
+                                mt: 1
+                            }}
+                        >
+                            Declined
+                        </Typography>
+                        <Typography
+                            sx={{
+                                fontSize: '15px',
+                                fontWeight: 400
+                            }}
+                        >
+                            CXninja SmartBot will not keep your information.
+                        </Typography>
+                        <Typography
+                            sx={{
+                                fontSize: '15px',
+                                fontWeight: 400
+                            }}
+                        >
+                            If you change your mind, you can
+                        </Typography>
+                        <Typography
+                            sx={{
+                                fontSize: '15px',
+                                fontWeight: 400
+                            }}
+                        >
+                            review the terms again.
+                        </Typography>
 
+                        <Button
+                            variant="contained"
+                            disableRipple
+                            onClick={handleIsReviewTerm}
+                            sx={{
+                                backgroundColor: '#146EF6',
+                                width: '130px',
+                                height: '35px',
+                                whiteSpace: 'nowrap',
+                                fontWeight: 600,
+                                fontSize: '14px',
+                                textTransform: 'capitalize',
+                                boxShadow: 0,
+                                mt: 3,
+                                '&:hover': {
+                                    backgroundColor: '#146EF6',
+                                    boxShadow: 0,
+                                }
+                            }}
+                        >
+                            Review Terms
+                        </Button>
+                    </Stack>
+
+                    {/* <Stack sx={{ minHeight: '350px', mb: 1, mt: 1, display: isTermDecline ? 'none' : 'block' }}>
+                                <Stack sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '10vh', flexDirection: 'row' }}>
+                                    <Box sx={{ borderTop: '1px solid lightgrey', width: '30%', mr: '2px' }}></Box>
+                                    <Box>
+                                        <Typography
+                                            sx={{
+                                                fontSize: '12px'
+                                            }}
+                                        >
+                                            {`${currentMonth} ${currentDate}, ${currentYear} at ${currentHours12}:${currentMinutes} ${amOrPm}`}
+                                        </Typography>
+                                    </Box>
+                                    <Box sx={{ borderTop: '1px solid lightgrey', width: '25%', ml: '2px' }}></Box>
+                                </Stack>
+                                <Stack direction='row' spacing={0.5} sx={{ display: 'flex', flexDirection: 'row' }}>
+                                    <img
+                                        src={Chatbotlogo}
+                                        alt='avatar'
+                                        style={{
+                                            height: '18px',
+                                            width: '18px',
+                                        }}
+                                    />
+
+                                    <Stack sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+
+                                        <Box sx={{
+                                            backgroundColor: '#eaeeed', borderRadius: '24px', p: 0.8, borderBottomLeftRadius: "5px", outline: "1px solid transparent", width: '80%'
+                                        }}>
+                                            <Typography
+                                                sx={{
+                                                    fontSize: '14px'
+                                                }}
+                                            >
+                                                Hello! I’m CXninja SmartBot, your job assistant at Bristol Myers Squibb. Do you have any questions? You can ask me anything about our careers, culture, company and more.
+                                            </Typography>
+                                        </Box>
+
+                                        <Stack sx={{ ml: 1 }}>
+                                            <WestRoundedIcon sx={{ height: '35px', width: '35px', color: '#919191' }} />
+                                            <Typography sx={{ fontSize: '12px' }}>REVIEW</Typography>
+                                        </Stack>
+
+                                    </Stack>
+                                </Stack>
+
+
+                            </Stack> */}
+                    {/* </>
+                    } */}
                     <Stack
                         id='send-container'
                         direction="row" alignItems="center" pt='2%' mr={1} ml={1} pb='2%'
@@ -2618,6 +2772,7 @@ const Chatbot = () => {
                                 :
                                 <Autocomplete
                                     multiple
+                                    disabled={isTermAccept ? false : true}
                                     open={openAutoComplete}
                                     onOpen={openPopper}
                                     onClose={closePopper}
@@ -2753,6 +2908,7 @@ const Chatbot = () => {
 
                                 <TextField
                                     placeholder={placeHolderText}
+                                    // disabled={isTermAccept ? false : true}
                                     onKeyDown={handleKeyDown}
                                     fullWidth
                                     // disabled={disableBtn}
@@ -2821,12 +2977,13 @@ const Chatbot = () => {
                         </Menu>
                     </Stack>
 
-                    <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', mb: 0.5, cursor: 'default' }}>
-                        <Typography sx={{ color: '#919191', fontSize: '14px', fontWeight: 500, cursor: 'pointer' }}
-                            onClick={handleTermsCardOpen}
+                    <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', mb: 0.5 }}>
+                        <Link sx={{ color: '#919191', fontSize: '14px', fontWeight: 500, cursor: 'pointer' }}
+                            underline="none"
+                            onClick={handleIsReviewTerm}
                         >
                             Terms
-                        </Typography>
+                        </Link>
                         <Box sx={{ borderRight: '1.5px solid lightgrey', ml: 1, mr: 1 }}></Box>
                         <Typography
                             sx={{ color: '#919191', fontSize: '14px', fontWeight: 500 }}

@@ -2381,9 +2381,8 @@ const Chatbot = () => {
 
                                                                 </Box>
                                                             </Box>
-
-
-
+                                                            {msgObj.maxSteps ? 
+                                                            (<>
                                                             <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', mb: 2 }}
                                                                 direction='row' spacing={2}
                                                             >
@@ -2406,7 +2405,8 @@ const Chatbot = () => {
                                                                     />
                                                                 </Box>
 
-                                                            </Stack>
+                                                            </Stack></>) : (<></>)}
+
                                                         </>) :
                                                         (
                                                             <>

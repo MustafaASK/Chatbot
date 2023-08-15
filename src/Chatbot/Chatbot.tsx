@@ -238,6 +238,23 @@ const Chatbot = () => {
 
     useEffect(() => {
 
+        let paramType = params.get('type') ? params.get('type') : "1";
+        if(localStorage.getItem("chatbotType") !== params.get('type') && paramType){
+            localStorage.setItem("chatbotType", paramType);
+            generateNum = generateRandomNumber();
+        } else {
+            generateNum = localStorage.getItem("uuid");
+        }
+        if(generateNum){
+            generateNum = generateNum.toString();
+            dataToPass.sender = generateNum ? generateNum.toString() : "";
+            setRandStr(generateNum);
+        }
+        dataToPass.metadata.chatbot_type = "1"
+        if(paramType){            
+            dataToPass.metadata.chatbot_type = paramType
+        }
+        
         const getLocation = async () => {
             try {
                 let response = await apiService.getIpAddress();
@@ -270,13 +287,6 @@ const Chatbot = () => {
 
         // alert(params.get('type'));
         // tempchatbotType = 
-        let paramType = params.get('type') ? params.get('type') : "1";
-        if(localStorage.getItem("chatbotType") !== params.get('type') && paramType){
-            localStorage.setItem("chatbotType", paramType);
-            generateNum = generateRandomNumber();
-        } else {
-            generateNum = localStorage.getItem("uuid");
-        }
 
     }, [])
 
@@ -621,7 +631,7 @@ const Chatbot = () => {
                                             <AccessTimeIcon sx={{ fontSize: '15px' }} />
                                         </Box>
                                         <Box sx={{ pl: '10px' }}>
-                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{job.companyDisplayName_}</Typography>
+                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{job.customAttributes_.mapData.jobType.stringValues_[0]}</Typography>
                                         </Box>
                                     </Box>
 
@@ -1007,7 +1017,7 @@ const Chatbot = () => {
     let generateNum = null; //localStorage.getItem("uuid") ? localStorage.getItem("uuid") : generateRandomNumber();
 
 
-    const [randStr, setRandStr] = useState(generateNum);
+    const [randStr, setRandStr] = useState("");
     // let randStr = generateRandomNumber();
 
     // setRandStr(generateNum);
@@ -1192,7 +1202,7 @@ const Chatbot = () => {
 
 
     let checkUseEffectLoad = false;
-    let dataToPass = {
+    let dataToPass = { 
         "sender": `${randStr}`,
         "message": "/greet",
         "metadata": {
@@ -1658,7 +1668,7 @@ const Chatbot = () => {
 
                         <ReactScrolableFeed >
 
-                            <Stack sx={{ pl: '10px', pb: '10px', pt: '10px' }}>
+                            {/* <Stack sx={{ pl: '10px', pb: '10px', pt: '10px' }}>
                                 <Typography component='p' sx={{ fontSize: '13px', color: '#374458' }}>
                                     The information you provide to the careers website <br />
                                     and chatbot will be collected to improve your <br />
@@ -1685,7 +1695,7 @@ const Chatbot = () => {
                                         Terms of Use.
                                     </Box>
                                 </Typography>
-                            </Stack>
+                            </Stack> */}
 
                             {/* <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }}>
                             <Box sx={{ backgroundColor: '#e2e2e2', height: '100px', width: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: '50%', mb: '15px' }}>
@@ -2085,7 +2095,7 @@ const Chatbot = () => {
                                 <>
                                     {msgObj.sent ?
                                         (<>
-                                            <Stack direction='column' p={0.5} alignItems='flex-end' >
+                                            <Stack  sx={{pt: '10px'}}  direction='column' p={0.5} alignItems='flex-end' >
                                                 <Stack direction='row' spacing={0.5} mr={1}>
                                                     <Stack sx=
                                                         {{
@@ -2281,7 +2291,7 @@ const Chatbot = () => {
                                                                                                             <AccessTimeIcon sx={{ fontSize: '15px' }} />
                                                                                                         </Box>
                                                                                                         <Box sx={{ pl: '10px' }}>
-                                                                                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{job.companyDisplayName_}</Typography>
+                                                                                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{job.customAttributes_.mapData.jobType.stringValues_[0]}</Typography>
                                                                                                         </Box>
                                                                                                     </Box>
 
@@ -3003,7 +3013,7 @@ const Chatbot = () => {
                                 <ListItemIcon>
                                     <SearchIcon fontSize="small" />
                                 </ListItemIcon>
-                                <ListItemText><span style={{ fontSize: "13px" }}>{(initialButtons && initialButtons.length) ? initialButtons[1].title : ''}</span></ListItemText> </MenuItem>
+                                <ListItemText sx={{pr:"15px"}}><span style={{ fontSize: "13px" }}>{(initialButtons && initialButtons.length) ? initialButtons[1].title : ''}</span></ListItemText> </MenuItem>
                             <Divider sx={{ marginTop: "1px !important", marginBottom: "1px !important" }} />
                             <MenuItem sx={{ padding: "4px 5px" }} onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[0].payload : '', (initialButtons && initialButtons.length) ? initialButtons[0] : '')}>
                                 <ListItemIcon><HelpOutlineIcon fontSize="small" /></ListItemIcon>
@@ -3089,7 +3099,7 @@ const Chatbot = () => {
                                     <AccessTimeIcon sx={{ fontSize: '15px' }} />
                                 </Box>
                                 <Box sx={{ pl: '10px' }}>
-                                    <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{selectedJobData[0]?.companyDisplayName_}</Typography>
+                                    <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{selectedJobData[0]?.customAttributes_.mapData.jobType.stringValues_[0]}</Typography>
                                 </Box>
                             </Box>
 

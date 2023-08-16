@@ -235,6 +235,71 @@ const Chatbot = () => {
         }
 
     };
+    const stateList:any = {
+        'Alabama': 'AL',
+        'Alaska': 'AK',
+        'American Samoa': 'AS',
+        'Arizona': 'AZ',
+        'Arkansas': 'AR',
+        'Armed Forces Americas': 'AA',
+        'Armed Forces Europe': 'AE',
+        'Armed Forces Pacific': 'AP',
+        'California': 'CA',
+        'Colorado': 'CO',
+        'Connecticut': 'CT',
+        'Delaware': 'DE',
+        'District Of Columbia': 'DC',
+        'Florida': 'FL',
+        'Georgia': 'GA',
+        'Guam': 'GU',
+        'Hawaii': 'HI',
+        'Idaho': 'ID',
+        'Illinois': 'IL',
+        'Indiana': 'IN',
+        'Iowa': 'IA',
+        'Kansas': 'KS',
+        'Kentucky': 'KY',
+        'Louisiana': 'LA',
+        'Maine': 'ME',
+        'Marshall Islands': 'MH',
+        'Maryland': 'MD',
+        'Massachusetts': 'MA',
+        'Michigan': 'MI',
+        'Minnesota': 'MN',
+        'Mississippi': 'MS',
+        'Missouri': 'MO',
+        'Montana': 'MT',
+        'Nebraska': 'NE',
+        'Nevada': 'NV',
+        'New Hampshire': 'NH',
+        'New Jersey': 'NJ',
+        'New Mexico': 'NM',
+        'New York': 'NY',
+        'North Carolina': 'NC',
+        'North Dakota': 'ND',
+        'Northern Mariana Islands': 'NP',
+        'Ohio': 'OH',
+        'Oklahoma': 'OK',
+        'Oregon': 'OR',
+        'Pennsylvania': 'PA',
+        'Puerto Rico': 'PR',
+        'Rhode Island': 'RI',
+        'South Carolina': 'SC',
+        'South Dakota': 'SD',
+        'Tennessee': 'TN',
+        'Texas': 'TX',
+        'US Virgin Islands': 'VI',
+        'Utah': 'UT',
+        'Vermont': 'VT',
+        'Virginia': 'VA',
+        'Washington': 'WA',
+        'West Virginia': 'WV',
+        'Wisconsin': 'WI',
+        'Wyoming': 'WY',
+    };
+    const convertAbbreviationToFullName = (abbreviation:any) => {
+        return stateList[abbreviation] || abbreviation;
+      };
 
     useEffect(() => {
 
@@ -259,8 +324,8 @@ const Chatbot = () => {
             try {
                 let response = await apiService.getIpAddress();
                 let data = response.data;
-                dataToPass.metadata.job_location = data.region;
-                setIpLocation(data.region);
+                dataToPass.metadata.job_location = (data.city) + "," +convertAbbreviationToFullName(data.region);
+                setIpLocation(dataToPass.metadata.job_location);
                 console.log(data.region)
                 getTableData();
                 // console.log(ip_address, 'ip_address', ip_address.headers["X-Rl"])
@@ -2188,7 +2253,8 @@ const Chatbot = () => {
                                                 (<>
                                                     {msgObj.jobs && msgObj.jobs.length ?
                                                         (<>
-                                                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '350px', position: 'relative', mr: 1, ml: 1, overflow: 'hidden' }}>
+                                                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', overflow: (msgObj.jobs[0].isRealJob ? "hidden" : ''), height: (msgObj.jobs[0].isRealJob ? "350px" : '100px'), position: 'relative', mr: 1, ml: 1 }}>
+                                                            {/* , overflow: 'hidden' */}
 
                                                                 <Stack
                                                                     sx={{
@@ -2365,14 +2431,17 @@ const Chatbot = () => {
                                                                                             </Stack>
 
                                                                                         </Stack>
-                                                                                    </Stack> : <Stack sx={{ minHeight: '300px', minWidth: '300px' }}>
+                                                                                    </Stack> :
+                                                                                     <Stack sx={{  minWidth: '300px' }}>
+                                                                                        {/* minHeight: '300px', */}
                                                                                         <Stack sx={{
                                                                                             backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
-                                                                                            boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', height: '10px',
+                                                                                             height: '10px',
                                                                                         }}>
-                                                                                            <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', textAlign: 'center', p: 2 }}>
-
-                                                                                                <Stack sx={{ mt: 1 }}>
+                                                                                            {/* boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', */}
+                                                                                            <Stack sx={{ backgroundColor: '#ffffff',  borderRadius: '2px',  textAlign: 'center', p: 2 }}>
+                                                                                            {/* boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', mt: 1, height: '350px',*/}
+                                                                                                {/* <Stack sx={{ mt: 1 }}>
                                                                                                     <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
                                                                                                         <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
                                                                                                         <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
@@ -2391,9 +2460,9 @@ const Chatbot = () => {
                                                                                                         <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
                                                                                                     </Stack>
 
-                                                                                                </Stack>
+                                                                                                </Stack> */}
 
-                                                                                                <Typography sx={{ mt: 1, mb: 1, fontSize: '16px', fontWeight: 600 }}>Here's what you can do.</Typography>
+                                                                                                {/* <Typography sx={{ mt: 1, mb: 1, fontSize: '16px', fontWeight: 600 }}>Here's what you can do.</Typography> */}
 
                                                                                                 <Box sx={{ mr: 1, ml: 1 }}>
 

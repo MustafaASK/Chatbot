@@ -235,7 +235,7 @@ const Chatbot = () => {
         }
 
     };
-    const stateList:any = {
+    const stateList: any = {
         'Alabama': 'AL',
         'Alaska': 'AK',
         'American Samoa': 'AS',
@@ -297,9 +297,9 @@ const Chatbot = () => {
         'Wisconsin': 'WI',
         'Wyoming': 'WY',
     };
-    const convertAbbreviationToFullName = (abbreviation:any) => {
+    const convertAbbreviationToFullName = (abbreviation: any) => {
         return stateList[abbreviation] || abbreviation;
-      };
+    };
 
     useEffect(() => {
 
@@ -324,7 +324,7 @@ const Chatbot = () => {
             try {
                 let response = await apiService.getIpAddress();
                 let data = response.data;
-                dataToPass.metadata.job_location = (data.city) + "," +convertAbbreviationToFullName(data.region);
+                dataToPass.metadata.job_location = (data.city) + "," + convertAbbreviationToFullName(data.region);
                 setIpLocation(dataToPass.metadata.job_location);
                 console.log(data.region)
                 getTableData();
@@ -1496,7 +1496,7 @@ const Chatbot = () => {
     const [isTermDecline, setIsTermDecline] = useState(false)
 
     const handleIsReviewTerm = () => {
-        setIsTermCardOpen(true)
+        setIsTermCardOpen(!isTermCardOpen)
         setIsChatbotOpen(true)
         setIsTermAccept(false)
         setIsTermDecline(false)
@@ -1536,29 +1536,34 @@ const Chatbot = () => {
             alignItems: 'flex-end', right: 500
         }}>
 
-            <Stack sx={{ display: isTermCardOpen ? 'block' : 'none', height: '90vh', bottom: '20px' }}>
-                <Card sx={{ width: '350px', position: 'relative', right: '400px' }}>
-                    <Stack sx={{ display: 'flex', flexDirection: 'row', borderBottom: '1px solid lightgrey', p: 1, maxHeight: '80px' }}>
-                        <Box>
-                            <img
-                                src={Chatbotlogo}
-                                alt='avatar'
-                                style={{
-                                    height: '30px',
-                                    width: '35px',
-                                }}
-                            />
+            <Stack sx={{ display: isTermCardOpen ? 'block' : 'none', height: '500px', bottom: '20px' }}>
+                <Card sx={{ width: '350px', position: 'relative', right: '415px' }}>
+                    <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderBottom: '1px solid lightgrey', p: 1, maxHeight: '80px' }}>
+                        <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
+                            <Box>
+                                <img
+                                    src={Chatbotlogo}
+                                    alt='avatar'
+                                    style={{
+                                        height: '30px',
+                                        width: '35px',
+                                    }}
+                                />
+                            </Box>
+                            <Typography
+                                sx={{ fontSize: '12px' }}
+                            >
+                                Hello, I'm CXninja SmartBot, your personal recruiting assistant. Before we
+                                get started i'd like to make sure you have had a chance to
+                                read and agree to the terms below:
+                            </Typography>
+                        </Stack>
+                        <Box sx={{ cursor: 'pointer' }}>
+                            <CloseSharpIcon sx={{ fontSize: '15px' }} onClick={handleIsReviewTerm} />
                         </Box>
-                        <Typography
-                            sx={{ fontSize: '12px' }}
-                        >
-                            Hello, I'm CXninja SmartBot, your personal recruiting assistant. Before we
-                            get started i'd like to make sure you have had a chance to
-                            read and agree to the terms below:
-                        </Typography>
                     </Stack>
 
-                    <Stack sx={{ p: 1, pl: 2, pr: 2, maxHeight: '270px', overflowY: 'scroll' }}>
+                    <Stack sx={{ p: 1, pl: 2, pr: 2, maxHeight: '300px', overflowY: 'scroll' }}>
                         <Typography sx={{ fontSize: '12px', fontStyle: 'italic', mt: 1 }}>
                             By using our chatbot, you understand that Bristal-Myers Squibb (BMS)
                             will collect certain information that includes personal data about you
@@ -2254,7 +2259,7 @@ const Chatbot = () => {
                                                     {msgObj.jobs && msgObj.jobs.length ?
                                                         (<>
                                                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', overflow: (msgObj.jobs[0].isRealJob ? "hidden" : ''), height: (msgObj.jobs[0].isRealJob ? "350px" : '100px'), position: 'relative', mr: 1, ml: 1 }}>
-                                                            {/* , overflow: 'hidden' */}
+                                                                {/* , overflow: 'hidden' */}
 
                                                                 <Stack
                                                                     sx={{
@@ -2432,16 +2437,16 @@ const Chatbot = () => {
 
                                                                                         </Stack>
                                                                                     </Stack> :
-                                                                                     <Stack sx={{  minWidth: '300px' }}>
-                                                                                        {/* minHeight: '300px', */}
-                                                                                        <Stack sx={{
-                                                                                            backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
-                                                                                             height: '10px',
-                                                                                        }}>
-                                                                                            {/* boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', */}
-                                                                                            <Stack sx={{ backgroundColor: '#ffffff',  borderRadius: '2px',  textAlign: 'center', p: 2 }}>
-                                                                                            {/* boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', mt: 1, height: '350px',*/}
-                                                                                                {/* <Stack sx={{ mt: 1 }}>
+                                                                                        <Stack sx={{ minWidth: '300px' }}>
+                                                                                            {/* minHeight: '300px', */}
+                                                                                            <Stack sx={{
+                                                                                                backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
+                                                                                                height: '10px',
+                                                                                            }}>
+                                                                                                {/* boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', */}
+                                                                                                <Stack sx={{ backgroundColor: '#ffffff', borderRadius: '2px', textAlign: 'center', p: 2 }}>
+                                                                                                    {/* boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', mt: 1, height: '350px',*/}
+                                                                                                    {/* <Stack sx={{ mt: 1 }}>
                                                                                                     <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
                                                                                                         <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
                                                                                                         <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
@@ -2460,33 +2465,33 @@ const Chatbot = () => {
                                                                                                         <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
                                                                                                     </Stack>
 
-                                                                                                </Stack> */}
+                                                                                   </Stack> */}
 
-                                                                                                {/* <Typography sx={{ mt: 1, mb: 1, fontSize: '16px', fontWeight: 600 }}>Here's what you can do.</Typography> */}
+                                                                                                    {/* <Typography sx={{ mt: 1, mb: 1, fontSize: '16px', fontWeight: 600 }}>Here's what you can do.</Typography> */}
 
-                                                                                                <Box sx={{ mr: 1, ml: 1 }}>
+                                                                                                    <Box sx={{ mr: 1, ml: 1 }}>
 
-                                                                                                    <Button variant="contained"
-                                                                                                        disableRipple
-                                                                                                        sx={{
-                                                                                                            width: '100%', mb: 1, backgroundColor: '#146EF6', boxShadow: 0,
-                                                                                                            fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
-                                                                                                            '&:hover': {
-                                                                                                                backgroundColor: '#146EF6',
-                                                                                                                boxShadow: 0
-                                                                                                            }
-                                                                                                        }}
+                                                                                                        <Button variant="contained"
+                                                                                                            disableRipple
+                                                                                                            sx={{
+                                                                                                                width: '100%', mb: 1, backgroundColor: '#146EF6', boxShadow: 0,
+                                                                                                                fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
+                                                                                                                '&:hover': {
+                                                                                                                    backgroundColor: '#146EF6',
+                                                                                                                    boxShadow: 0
+                                                                                                                }
+                                                                                                            }}
 
-                                                                                                        onClick={() => refineSearchJob(msgObj)}
-                                                                                                        disabled={msgObj.isDisabled}
-                                                                                                    >
-                                                                                                        Refine Job Search
-                                                                                                    </Button>
-                                                                                                </Box>
+                                                                                                            onClick={() => refineSearchJob(msgObj)}
+                                                                                                            disabled={msgObj.isDisabled}
+                                                                                                        >
+                                                                                                            Refine Job Search
+                                                                                                        </Button>
+                                                                                                    </Box>
+                                                                                                </Stack>
+
                                                                                             </Stack>
-
-                                                                                        </Stack>
-                                                                                    </Stack>}
+                                                                                        </Stack>}
 
 
                                                                                 </Paper>

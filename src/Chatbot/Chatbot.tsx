@@ -1537,7 +1537,7 @@ const Chatbot = () => {
         }}>
 
             <Stack sx={{ display: isTermCardOpen ? 'block' : 'none', height: '500px', bottom: '20px' }}>
-                <Card sx={{ width: '350px', position: 'relative', right: '415px' }}>
+                <Card sx={{ width: '350px', position: 'relative', right: '415px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', }}>
                     <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderBottom: '1px solid lightgrey', p: 1, maxHeight: '80px' }}>
                         <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
                             <Box>
@@ -1565,24 +1565,24 @@ const Chatbot = () => {
 
                     <Stack sx={{ p: 1, pl: 2, pr: 2, maxHeight: '300px', overflowY: 'scroll' }}>
                         <Typography sx={{ fontSize: '12px', fontStyle: 'italic', mt: 1 }}>
-                            By using our chatbot, you understand that Bristal-Myers Squibb (BMS)
+                            By using our chatbot, you understand that Curately
                             will collect certain information that includes personal data about you
                             like your job interest, location, your contact details, and other
                             information that you share through this tool. This tool is managed by
-                            Curately.AI, a BMS approved third party. Our recruiters and hiring
+                            Curately.AI, a Curately approved third party. Our recruiters and hiring
                             managers will use this information for recruiting, where needed to get in
                             touch with you, and for statistical and improvement purposes.
                         </Typography>
 
                         <Typography sx={{ fontSize: '12px', fontStyle: 'italic', mt: 2 }}>
                             <Box component='span' sx={{ fontWeight: 600 }}>Terms:</Box> By using this tool, you agree to these terms and understand how
-                            BMS will use your personal data for these purposes.
+                            Curately will use your personal data for these purposes.
                         </Typography>
 
                         <Typography sx={{ fontSize: '12px', fontStyle: 'italic', mt: 4, mb: 4 }}>
-                            <Box component='span' sx={{ fontWeight: 600 }}>Privacy</Box> For more information about how BMS handles your personal
+                            <Box component='span' sx={{ fontWeight: 600 }}>Privacy</Box> For more information about how Curately handles your personal
                             data or to exercise your rights, please visit our <Box component='span' sx={{ color: '#146EF6' }}>privacy Notice Center</Box> or
-                            contact our Data Protection officer <Box component='span' sx={{ color: '#146EF6' }}>dpo@bms.com</Box>
+                            contact our Data Protection officer <Box component='span' sx={{ color: '#146EF6' }}>dpo@curately.com</Box>
                         </Typography>
                     </Stack>
 

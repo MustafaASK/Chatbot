@@ -304,22 +304,22 @@ const Chatbot = () => {
     useEffect(() => {
 
         let paramType = params.get('type') ? params.get('type') : "1";
-        if(localStorage.getItem("chatbotType") !== params.get('type') && paramType){
+        if (localStorage.getItem("chatbotType") !== params.get('type') && paramType) {
             localStorage.setItem("chatbotType", paramType);
             generateNum = generateRandomNumber();
         } else {
             generateNum = localStorage.getItem("uuid");
         }
-        if(generateNum){
+        if (generateNum) {
             generateNum = generateNum.toString();
             dataToPass.sender = generateNum ? generateNum.toString() : "";
             setRandStr(generateNum);
         }
         dataToPass.metadata.chatbot_type = "1"
-        if(paramType){            
+        if (paramType) {
             dataToPass.metadata.chatbot_type = paramType
         }
-        
+
         const getLocation = async () => {
             try {
                 let response = await apiService.getIpAddress();
@@ -1267,7 +1267,7 @@ const Chatbot = () => {
 
 
     let checkUseEffectLoad = false;
-    let dataToPass = { 
+    let dataToPass = {
         "sender": `${randStr}`,
         "message": "/greet",
         "metadata": {
@@ -1581,7 +1581,7 @@ const Chatbot = () => {
                         </Typography>
                     </Stack>
 
-                    <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', p: 1, borderTop: '1px solid lightgrey' }}>
+                    {/* <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', p: 1, borderTop: '1px solid lightgrey' }}>
                         <Button
                             onClick={handleIsTermDeclined}
                             variant="contained"
@@ -1618,7 +1618,7 @@ const Chatbot = () => {
                         >
                             Accept
                         </Button>
-                    </Stack>
+                    </Stack> */}
                 </Card>
             </Stack>
 
@@ -2160,7 +2160,7 @@ const Chatbot = () => {
                                 <>
                                     {msgObj.sent ?
                                         (<>
-                                            <Stack  sx={{pt: '10px'}}  direction='column' p={0.5} alignItems='flex-end' >
+                                            <Stack sx={{ pt: '10px' }} direction='column' p={0.5} alignItems='flex-end' >
                                                 <Stack direction='row' spacing={0.5} mr={1}>
                                                     <Stack sx=
                                                         {{
@@ -3082,7 +3082,7 @@ const Chatbot = () => {
                                 <ListItemIcon>
                                     <SearchIcon fontSize="small" />
                                 </ListItemIcon>
-                                <ListItemText sx={{pr:"15px"}}><span style={{ fontSize: "13px" }}>{(initialButtons && initialButtons.length) ? initialButtons[1].title : ''}</span></ListItemText> </MenuItem>
+                                <ListItemText sx={{ pr: "15px" }}><span style={{ fontSize: "13px" }}>{(initialButtons && initialButtons.length) ? initialButtons[1].title : ''}</span></ListItemText> </MenuItem>
                             <Divider sx={{ marginTop: "1px !important", marginBottom: "1px !important" }} />
                             <MenuItem sx={{ padding: "4px 5px" }} onClick={() => handleCloseMenu((initialButtons && initialButtons.length) ? initialButtons[0].payload : '', (initialButtons && initialButtons.length) ? initialButtons[0] : '')}>
                                 <ListItemIcon><HelpOutlineIcon fontSize="small" /></ListItemIcon>

@@ -35,10 +35,12 @@ import Link from '@mui/material/Link'
 
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import cxNinjaLogo from '../cxninja-logo.png'
+import clientLogo from '../bms_logo_rgb_pos-with-border.jpg';
 import cxNinjaLogo1 from '../image_2023_08_15T08_37_10_603Z.png'
 import c from '../Rectangle 99@2x.svg';
 import c1 from '../Rectangle 99@2x-1.png'
 import profileIcon from '../profile.jpg';
+import customerFace from '../chatbot_face.png';
 import Chatbotlogo from '../Rectangle 98@2x.svg';
 import apiService from "../shared/api/apiService";
 import { States } from "./utills/helper";
@@ -1542,7 +1544,7 @@ const Chatbot = () => {
                         <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
                             <Box>
                                 <img
-                                    src={Chatbotlogo}
+                                    src={customerFace}
                                     alt='avatar'
                                     style={{
                                         height: '30px',
@@ -1686,13 +1688,14 @@ const Chatbot = () => {
                             }}
                             spacing={2}
                         >
-                            <Box sx={{ border: '3px solid #CDE4FD', borderRadius: '50%' }}>
+                            <Box>
                                 <img
-                                    src={Chatbotlogo}
+                                    src={customerFace}
                                     alt='avatar'
                                     style={{
                                         height: '30px',
                                         width: '35px',
+                                        borderRadius: '50%'
                                     }}
                                 />
                             </Box>
@@ -1713,18 +1716,19 @@ const Chatbot = () => {
                             }}
                             spacing={2}
                         >
-                            <Box sx={{ backgroundColor: '#ffffff', p: 0.5, borderRadius: '30px', display: 'flex', justifyContent: 'center', flexDirection: 'row', alignItems: 'center' }}>
+                            <Stack >
                                 <img
-                                    src={cxNinjaLogo}
+                                    src={clientLogo}
                                     alt='cxNinja'
                                     style={{
-                                        height: '25px',
-                                        width: '100px',
+                                        height: '47px',
+                                        width: '150px',
+                                        borderRadius: '50%'
                                     }}
                                 />
-                            </Box>
+                            </Stack>
                             <Box component='div' onClick={handleExitChatbot} >
-                                <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer' }} />
+                                <CloseSharpIcon sx={{ color: '#ffffff', fontSize: '18px', cursor: 'pointer' }} />
                             </Box>
                         </Stack>
                     </Stack>
@@ -2356,15 +2360,17 @@ const Chatbot = () => {
                                                                                                             <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted on {formatDate(job.postingPublishTime_?.seconds_)}</Typography>
                                                                                                         </Box>
                                                                                                     </Box>
-
-                                                                                                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                                                                                    {job.customAttributes_.mapData.jobType?.stringValues_[0] ? 
+                                                                                                    (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                                                                                                         <Box>
                                                                                                             <AccessTimeIcon sx={{ fontSize: '15px' }} />
                                                                                                         </Box>
                                                                                                         <Box sx={{ pl: '10px' }}>
-                                                                                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{job.customAttributes_.mapData.jobType.stringValues_[0]}</Typography>
+                                                                                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{job.customAttributes_.mapData.jobType?.stringValues_[0]}</Typography>
                                                                                                         </Box>
-                                                                                                    </Box>
+                                                                                                    </Box>) :
+                                                                                                    (<></>)
+                                                                                                    }
 
                                                                                                 </Stack>
 
@@ -2573,7 +2579,7 @@ const Chatbot = () => {
                                                                         <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
                                                                             <Stack>
-                                                                                <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
+                                                                                <img src={customerFace} style={{ height: '30px', width: '35px', borderRadius:"50%" }} alt="chatbot" />
                                                                             </Stack>
                                                                             <Stack sx=
                                                                                 {{
@@ -2616,7 +2622,7 @@ const Chatbot = () => {
                                 (<><Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
                                     <Stack>
-                                        <img src={Chatbotlogo} style={{ height: '18px', width: '18px' }} alt="chatbot" />
+                                                                                <img src={customerFace} style={{ height: '30px', width: '35px', borderRadius:"50%" }} alt="chatbot" />
                                     </Stack>
                                     <Stack sx=
                                         {{
@@ -2825,7 +2831,7 @@ const Chatbot = () => {
                                                         <Box sx={{ clear: "both", position: "relative", borderBottom: "1px solid black", paddingBottom: "4px", cursor: "pointer" }}>
                                                             <Typography sx={{ paddingLeft: "15px", fontWeight: "600", fontSize: "13px" }}>{option}</Typography>
 
-                                                            <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer', position: "absolute", right: "5px", bottom: "2px" }}
+                                                            <CloseSharpIcon sx={{ color: '#ffffff', fontSize: '18px', cursor: 'pointer', position: "absolute", right: "5px", bottom: "2px" }}
                                                                 onClick={() => {
 
                                                                     setOpenAutoComplete(false)
@@ -2961,7 +2967,7 @@ const Chatbot = () => {
                                                         <Box sx={{ clear: "both", position: "relative", borderBottom: "1px solid black", paddingBottom: "4px", cursor: "pointer" }}>
                                                             <Typography sx={{ paddingLeft: "15px", fontWeight: "600", fontSize: "13px" }}>{option.name}</Typography>
 
-                                                            <CloseSharpIcon sx={{ color: '#001C46', fontSize: '18px', cursor: 'pointer', position: "absolute", right: "5px", bottom: "2px" }}
+                                                            <CloseSharpIcon sx={{ color: '#ffffff', fontSize: '18px', cursor: 'pointer', position: "absolute", right: "5px", bottom: "2px" }}
                                                                 onClick={() => {
 
                                                                     setOpenAutoComplete(false)
@@ -3167,15 +3173,18 @@ const Chatbot = () => {
                                     <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted {formatDate(selectedJobData[0]?.postingCreateTime_.seconds_)}</Typography>
                                 </Box>
                             </Box>
-
-                            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                            {selectedJobData[0]?.customAttributes_.mapData.jobType?.stringValues_[0] ? 
+                            (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                                 <Box>
                                     <AccessTimeIcon sx={{ fontSize: '15px' }} />
                                 </Box>
                                 <Box sx={{ pl: '10px' }}>
-                                    <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{selectedJobData[0]?.customAttributes_.mapData.jobType.stringValues_[0]}</Typography>
+                                    <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{selectedJobData[0]?.customAttributes_.mapData.jobType?.stringValues_[0]}</Typography>
                                 </Box>
-                            </Box>
+                            </Box>)
+                            : (<></>)
+
+                            }
 
                         </Stack>
 
@@ -3231,7 +3240,7 @@ const Chatbot = () => {
                                     height: '50px',
                                     width: '50px',
                                     borderRadius: '50%',
-                                    backgroundImage: `url("${c1}")`,
+                                    backgroundImage: `url("${customerFace}")`,
                                     backgroundSize: 'cover',
                                     cursor: 'pointer',
                                     transition: 'transform 0.3s, opacity 0.3s',

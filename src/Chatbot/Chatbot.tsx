@@ -3115,7 +3115,7 @@ const Chatbot = () => {
                         <Typography
                             sx={{ color: '#919191', fontSize: '14px', fontWeight: 500 }}
                         >
-                            Powered byyyyyy <Box component='span' sx={{ fontWeight: 600 }}>Curately.AI</Box>
+                            Powered by <Box component='span' sx={{ fontWeight: 600 }}>Curately.AI</Box>
                         </Typography>
                     </Stack>
                 </Card >

@@ -1631,11 +1631,13 @@ const Chatbot = () => {
 
             <Stack
                 sx={{
-                    height: '100vh',
+                    //height: '100vh',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'flex-end',
                     alignItems: 'flex-end',
+                    position: 'absolute',
+                    bottom: 0
                 }}
                 mr={5}
                 className="main_cls"
@@ -2359,16 +2361,16 @@ const Chatbot = () => {
                                                                                                             <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted on {formatDate(job.postingPublishTime_?.seconds_)}</Typography>
                                                                                                         </Box>
                                                                                                     </Box>
-                                                                                                    {job.customAttributes_.mapData.jobType?.stringValues_[0] ? 
-                                                                                                    (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                                                                                                        <Box>
-                                                                                                            <AccessTimeIcon sx={{ fontSize: '15px' }} />
-                                                                                                        </Box>
-                                                                                                        <Box sx={{ pl: '10px' }}>
-                                                                                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{job.customAttributes_.mapData.jobType?.stringValues_[0]}</Typography>
-                                                                                                        </Box>
-                                                                                                    </Box>) :
-                                                                                                    (<></>)
+                                                                                                    {job.customAttributes_.mapData.jobType?.stringValues_[0] ?
+                                                                                                        (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                                                                                            <Box>
+                                                                                                                <AccessTimeIcon sx={{ fontSize: '15px' }} />
+                                                                                                            </Box>
+                                                                                                            <Box sx={{ pl: '10px' }}>
+                                                                                                                <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{job.customAttributes_.mapData.jobType?.stringValues_[0]}</Typography>
+                                                                                                            </Box>
+                                                                                                        </Box>) :
+                                                                                                        (<></>)
                                                                                                     }
 
                                                                                                 </Stack>
@@ -2578,7 +2580,7 @@ const Chatbot = () => {
                                                                         <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
                                                                             <Stack>
-                                                                                <img src={customerFace} style={{ height: '30px', width: '30px', borderRadius:"50%",boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' }} alt="chatbot" />
+                                                                                <img src={customerFace} style={{ height: '30px', width: '35px', borderRadius:"50%",boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' }} alt="chatbot" />
                                                                             </Stack>
                                                                             <Stack sx=
                                                                                 {{
@@ -2621,7 +2623,7 @@ const Chatbot = () => {
                                 (<><Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
                                     <Stack>
-                                                                                <img src={customerFace} style={{  height: '30px', width: '30px', borderRadius:"50%",boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' }} alt="chatbot" />
+                                                                                <img src={customerFace} style={{  height: '30px', width: '35px', borderRadius:"50%",boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' }} alt="chatbot" />
                                     </Stack>
                                     <Stack sx=
                                         {{
@@ -3172,16 +3174,16 @@ const Chatbot = () => {
                                     <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted {formatDate(selectedJobData[0]?.postingCreateTime_.seconds_)}</Typography>
                                 </Box>
                             </Box>
-                            {selectedJobData[0]?.customAttributes_.mapData.jobType?.stringValues_[0] ? 
-                            (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                                <Box>
-                                    <AccessTimeIcon sx={{ fontSize: '15px' }} />
-                                </Box>
-                                <Box sx={{ pl: '10px' }}>
-                                    <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{selectedJobData[0]?.customAttributes_.mapData.jobType?.stringValues_[0]}</Typography>
-                                </Box>
-                            </Box>)
-                            : (<></>)
+                            {selectedJobData[0]?.customAttributes_.mapData.jobType?.stringValues_[0] ?
+                                (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                    <Box>
+                                        <AccessTimeIcon sx={{ fontSize: '15px' }} />
+                                    </Box>
+                                    <Box sx={{ pl: '10px' }}>
+                                        <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{selectedJobData[0]?.customAttributes_.mapData.jobType?.stringValues_[0]}</Typography>
+                                    </Box>
+                                </Box>)
+                                : (<></>)
 
                             }
 

@@ -35,7 +35,7 @@ import Link from '@mui/material/Link'
 
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import cxNinjaLogo from '../cxninja-logo.png'
-import clientLogo from '../bms_logo_rgb_pos-with-border.jpg';
+import clientLogo from '../bms_logo_rgb_pos-with-border.png';
 import cxNinjaLogo1 from '../image_2023_08_15T08_37_10_603Z.png'
 import c from '../Rectangle 99@2x.svg';
 import c1 from '../Rectangle 99@2x-1.png'
@@ -1693,9 +1693,10 @@ const Chatbot = () => {
                                     src={customerFace}
                                     alt='avatar'
                                     style={{
-                                        height: '30px',
-                                        width: '35px',
-                                        borderRadius: '50%'
+                                        boxShadow: '0px 5px 10px 0px rgba(255, 255, 255, 0.5)',
+                                        height: '32px',
+                                        width: '32px',
+                                        borderRadius: '50%',
                                     }}
                                 />
                             </Box>
@@ -1717,15 +1718,13 @@ const Chatbot = () => {
                             spacing={2}
                         >
                             <Stack >
-                                <img
+                                {/* <img
                                     src={clientLogo}
                                     alt='cxNinja'
                                     style={{
-                                        height: '47px',
-                                        width: '150px',
-                                        borderRadius: '50%'
+                                        width: '150px'
                                     }}
-                                />
+                                /> */}
                             </Stack>
                             <Box component='div' onClick={handleExitChatbot} >
                                 <CloseSharpIcon sx={{ color: '#ffffff', fontSize: '18px', cursor: 'pointer' }} />
@@ -2579,7 +2578,7 @@ const Chatbot = () => {
                                                                         <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
                                                                             <Stack>
-                                                                                <img src={customerFace} style={{ height: '30px', width: '35px', borderRadius:"50%" }} alt="chatbot" />
+                                                                                <img src={customerFace} style={{ height: '30px', width: '30px', borderRadius:"50%",boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' }} alt="chatbot" />
                                                                             </Stack>
                                                                             <Stack sx=
                                                                                 {{
@@ -2622,7 +2621,7 @@ const Chatbot = () => {
                                 (<><Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
                                     <Stack>
-                                                                                <img src={customerFace} style={{ height: '30px', width: '35px', borderRadius:"50%" }} alt="chatbot" />
+                                                                                <img src={customerFace} style={{  height: '30px', width: '30px', borderRadius:"50%",boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' }} alt="chatbot" />
                                     </Stack>
                                     <Stack sx=
                                         {{

@@ -528,8 +528,13 @@ const Chatbot = () => {
 
     }
 
+    const sendToParent = (message:boolean) => {
+        window.parent.postMessage(message, "*");
+    }
+
     const intializeChatBot = () => {
         setIsChatbotOpen(true)
+        sendToParent(true)
         let isIntialized = sessionStorage.getItem("isChatBotIntialized");
         if (isIntialized === "false") {
             setMessagesList(prevState => [...prevState, ...intialData])
@@ -1091,12 +1096,14 @@ const Chatbot = () => {
 
     const toggleChatbot = () => {
         setIsChatbotOpen(true);
+        sendToParent(true)
         // setIsTermCardOpen(true)
         localStorage.setItem("isChatOpened", "true")
     };
 
     const handleExitChatbot = () => {
         setIsChatbotOpen(false)
+        sendToParent(false)
         setIsTermCardOpen(false)
     }
 
@@ -1500,6 +1507,7 @@ const Chatbot = () => {
     const handleIsReviewTerm = () => {
         setIsTermCardOpen(!isTermCardOpen)
         setIsChatbotOpen(true)
+        sendToParent(true)
         setIsTermAccept(false)
         setIsTermDecline(false)
     }
@@ -1631,13 +1639,13 @@ const Chatbot = () => {
 
             <Stack
                 sx={{
-                    //height: '100vh',
+                    height: '100vh',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'flex-end',
                     alignItems: 'flex-end',
-                    position: 'absolute',
-                    bottom: 0
+                    // position: 'absolute',
+                    // bottom: 0
                 }}
                 mr={5}
                 className="main_cls"
@@ -3233,7 +3241,7 @@ const Chatbot = () => {
                 {
                     !isChatbotOpen ? (
 
-                        <Stack sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: "30px", cursor: 'pointer' }} className="bottom-cls">
+                        <Stack sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: "30px", cursor: 'pointer',backgroundColor: '#ffffff', padding: '10px 4px' }} className="bottom-cls">
 
                             <Box
                                 component="div"

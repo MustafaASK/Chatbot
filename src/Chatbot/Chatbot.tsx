@@ -528,7 +528,7 @@ const Chatbot = () => {
 
     }
 
-    const sendToParent = (message:boolean) => {
+    const sendToParent = (message: boolean) => {
         window.parent.postMessage(message, "*");
     }
 
@@ -709,7 +709,7 @@ const Chatbot = () => {
 
                                 </Stack>
 
-                                <Box>
+                                <Box >
                                     <Button
                                         disableRipple
                                         onClick={() => handleReadMore(job, '')}
@@ -1538,6 +1538,14 @@ const Chatbot = () => {
     const currentMinutes = currentTime.getMinutes() < 10 ? `0${currentTime.getMinutes()}` : currentTime.getMinutes()
     const amOrPm = currentHours24 >= 12 ? 'PM' : 'Am'
 
+    const checkZipZeros = (str: any) => {
+        if (str && str.length) {
+            str = str.replace(/, 00000/g, '');
+            str = str.replace(/, 0000/g, '');
+        }
+
+        return str;
+    }
 
 
     return (
@@ -1545,7 +1553,6 @@ const Chatbot = () => {
             display: 'flex', flexDirection: 'row', justifyContent: 'flex-end',
             alignItems: 'flex-end', right: 500
         }}>
-
             <Stack sx={{ display: isTermCardOpen ? 'block' : 'none', height: '500px', bottom: '20px' }}>
                 <Card sx={{ width: '350px', position: 'relative', right: '415px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', }}>
                     <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderBottom: '1px solid lightgrey', p: 1, maxHeight: '80px' }}>
@@ -2355,7 +2362,8 @@ const Chatbot = () => {
                                                                                                             <LocationOnOutlinedIcon sx={{ fontSize: '20px' }} />
                                                                                                         </Box>
                                                                                                         <Box sx={{ pl: '10px' }}>
-                                                                                                            <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>{job.addresses_ && job.addresses_[0]}</Typography>
+                                                                                                            <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>{checkZipZeros(job.addresses_ && job.addresses_[0])}</Typography>
+
                                                                                                             {/* <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography> */}
                                                                                                         </Box>
                                                                                                     </Box>
@@ -2390,6 +2398,7 @@ const Chatbot = () => {
                                                                                                         endIcon={<KeyboardArrowRightIcon />}
                                                                                                         sx={{
                                                                                                             textTransform: 'capitalize',
+                                                                                                            marginLeft: '20px',
                                                                                                             '& .MuiButton-endIcon': {
                                                                                                                 mr: 0,
                                                                                                                 ml: '-5px'
@@ -2588,7 +2597,7 @@ const Chatbot = () => {
                                                                         <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
                                                                             <Stack>
-                                                                                <img src={customerFace} style={{ height: '30px', width: '35px', borderRadius:"50%",boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' }} alt="chatbot" />
+                                                                                <img src={customerFace} style={{ height: '30px', width: '35px', borderRadius: "50%", boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' }} alt="chatbot" />
                                                                             </Stack>
                                                                             <Stack sx=
                                                                                 {{
@@ -2631,7 +2640,7 @@ const Chatbot = () => {
                                 (<><Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
                                     <Stack>
-                                                                                <img src={customerFace} style={{  height: '30px', width: '35px', borderRadius:"50%",boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' }} alt="chatbot" />
+                                        <img src={customerFace} style={{ height: '30px', width: '35px', borderRadius: "50%", boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' }} alt="chatbot" />
                                     </Stack>
                                     <Stack sx=
                                         {{
@@ -3130,16 +3139,19 @@ const Chatbot = () => {
 
                 <Card
                     sx={{
-                        width: '375px',
+                        // width: '375px',
                         '& .MuiPaper-root.MuiCard-root ': {
                             pt: 0,
                         },
                         borderTopLeftRadius: '15px',
                         borderTopRightRadius: '15px',
                         borderBottomLeftRadius: '15px',
-                        position: 'fixed',
+                        position: 'absolute',
                         boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
-                        right: '80px',
+                        // right: '80px',
+                        bottom: '-65px',
+                        left: 0,
+                        right: 0,
                         transform: 'translateY(-20%)',
                         display: isReadmore ? 'block' : 'none',
                     }}
@@ -3241,7 +3253,7 @@ const Chatbot = () => {
                 {
                     !isChatbotOpen ? (
 
-                        <Stack sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: "30px", cursor: 'pointer',backgroundColor: '#ffffff', padding: '10px 4px' }} className="bottom-cls">
+                        <Stack sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: "30px", cursor: 'pointer', backgroundColor: 'transparent', padding: '10px 4px' }} className="bottom-cls">
 
                             <Box
                                 component="div"
@@ -3279,7 +3291,7 @@ const Chatbot = () => {
                                                 disableRipple
                                                 startIcon={<SearchIcon />}
                                                 sx={{
-                                                    borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '12px', height: '34px', whiteSpace: 'nowrap',
+                                                    borderRadius: '20px', backgroundColor: '#ffffff', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '12px', height: '34px', whiteSpace: 'nowrap',
                                                     '&:hover': {
                                                         backgroundColor: '#146EF6',
                                                         borderColor: '#146EF6',
@@ -3290,11 +3302,14 @@ const Chatbot = () => {
                                                 onClick={() => sendPayload(initialButtons[0].payload, initialButtons[0])}
                                             >
                                                 {(initialButtons && initialButtons.length) ? initialButtons[0].title : ''}
+
                                             </Button>
                                             <Button variant="outlined"
                                                 onClick={() => sendPayload(initialButtons[1].payload, initialButtons[1])}
                                                 sx={{
-                                                    borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '12px', height: '34px', whiteSpace: 'nowrap',
+                                                    borderRadius: '20px',
+                                                    backgroundColor: '#ffffff',
+                                                    textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '12px', height: '34px', whiteSpace: 'nowrap',
                                                     '&:hover': {
                                                         backgroundColor: '#146EF6',
                                                         borderColor: '#146EF6',

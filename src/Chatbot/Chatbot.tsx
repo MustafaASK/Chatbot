@@ -217,7 +217,8 @@ const Chatbot = () => {
     const [isShowNoResults, setIsShowResults] = useState(false)
     const [defaultTitle, setDefaultTitle] = useState("");
     const [ipLocation, setIpLocation] = useState("");
-    const [isReload, setIsReload] = useState(false)
+    const [isReload, setIsReload] = useState(false);
+    const [onlyImage, setOnlyImage] = useState(false);
     const handleCloseMenu = (msg: any, msgObj: any) => {
         setAnchorEl(null);
         if (typeof msg !== 'object') {
@@ -528,13 +529,15 @@ const Chatbot = () => {
 
     }
 
-    const sendToParent = (message: boolean) => {
+    const sendToParent = (message: any) => {
+        // let sendVar = message ? message : false;
         window.parent.postMessage(message, "*");
     }
 
     const intializeChatBot = () => {
         setIsChatbotOpen(true)
         sendToParent(true)
+        setOnlyImage(false)
         let isIntialized = sessionStorage.getItem("isChatBotIntialized");
         if (isIntialized === "false") {
             setMessagesList(prevState => [...prevState, ...intialData])
@@ -3273,16 +3276,17 @@ const Chatbot = () => {
                                 }}
                                 onClick={intializeChatBot}
                             ></Box>
-                            {(initialButtons && initialButtons.length) ?
+                            {!onlyImage && (initialButtons && initialButtons.length) ?
                                 (<>
                                     <Stack >
-                                        <Box component='div' sx={{ backgroundColor: '#ffffff', display: 'flex', flexDirection: 'row', borderRadius: '20px', boxShadow: 'rgb(0 0 0 / 16%) 0px 1px 15px 2px' }} onClick={intializeChatBot}>
-                                            <Box component='div' sx={{ p: '18px 22px 16px 18px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                        <Box component='div' sx={{ backgroundColor: '#ffffff', display: 'flex', flexDirection: 'row', borderRadius: '20px', boxShadow: 'rgb(0 0 0 / 16%) 0px 1px 15px 2px' }}>
+                                            
+                                            <Box component='div' sx={{ p: '18px 22px 16px 18px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }} onClick={intializeChatBot}>
                                                 <Typography sx={{ fontSize: '14px', color: '#1A1A1A' }}>{initialText} </Typography>
                                             </Box>
 
                                             <Box component='div' sx={{ pr: '7px', pt: '18px' }}>
-                                                <CloseSharpIcon sx={{ fontSize: '20px' }} />
+                                                <CloseSharpIcon sx={{ fontSize: '20px' }}  onClick={()=>(setOnlyImage(true), sendToParent("short"))}/>
                                             </Box>
                                         </Box>
                                         <Stack mt={1} sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>

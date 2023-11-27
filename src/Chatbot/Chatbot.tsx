@@ -3088,6 +3088,7 @@ const Chatbot = () => {
                                     sx={{
                                         '& .MuiInputBase-input.MuiOutlinedInput-input': {
                                             padding: '5px 10px',
+                                            fontSize: '14px',
 
                                         },
                                         '& .MuiInputBase-root.MuiOutlinedInput-root ': {

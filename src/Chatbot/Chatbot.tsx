@@ -304,15 +304,24 @@ const Chatbot = () => {
         return stateList[abbreviation] || abbreviation;
     };
 
+
     useEffect(() => {
 
-        let paramType = params.get('type') ? params.get('type') : "1";
-        if (localStorage.getItem("chatbotType") !== params.get('type') && paramType) {
+        let paramType: any = params.get('type') ? params.get('type') : "1";
+        // debugger
+        // if (localStorage.getItem("chatbotType") !== params.get('type') && paramType) {
+        //     localStorage.setItem("chatbotType", paramType);
+        //     generateNum = generateRandomNumber();
+        // } else {
+        //     generateNum = localStorage.getItem("uuid");
+        // }
+        if (localStorage.getItem("uuid") === '' || localStorage.getItem("uuid") === null) {
             localStorage.setItem("chatbotType", paramType);
             generateNum = generateRandomNumber();
         } else {
             generateNum = localStorage.getItem("uuid");
         }
+
         if (generateNum) {
             generateNum = generateNum.toString();
             dataToPass.sender = generateNum ? generateNum.toString() : "";
@@ -329,7 +338,9 @@ const Chatbot = () => {
                 let data = response.data;
                 dataToPass.metadata.job_location = (data.city) + "," + convertAbbreviationToFullName(data.region);
                 setIpLocation(dataToPass.metadata.job_location);
-                console.log(data.region)
+                dataToPass.metadata.ip_address = data.ip
+                console.log('aaassssssssss', response.data)
+                setIpAddress(dataToPass.metadata.ip_address)
                 getTableData();
                 // console.log(ip_address, 'ip_address', ip_address.headers["X-Rl"])
                 // let formatted_string = `${data.city},${data.region},${data.country},${data.postal}`;
@@ -656,7 +667,8 @@ const Chatbot = () => {
             "message": refine_job_search_message,
             "metadata": {
                 "chatbot_type": chatbotType ? chatbotType : "1",
-                "job_location": ipLocation
+                "job_location": ipLocation,
+                "ip_address": ipAddress ? ipAddress : ""
             }
         };
         dataToPass.metadata.job_location = ipLocation;
@@ -1089,7 +1101,7 @@ const Chatbot = () => {
         localStorage.setItem("uuid", randomNumber.toString());
         return (randomNumber); // You can remove this line if you don't want to display the number in the console
     }
-    let generateNum = null; //localStorage.getItem("uuid") ? localStorage.getItem("uuid") : generateRandomNumber();
+    let generateNum: any = null; //localStorage.getItem("uuid") ? localStorage.getItem("uuid") : generateRandomNumber();
 
 
     const [randStr, setRandStr] = useState("");
@@ -1241,6 +1253,9 @@ const Chatbot = () => {
 
     //send text as input 
 
+    const [ipAddress, setIpAddress] = useState('')
+    console.log('ipAddress', ipAddress)
+
     const sendTextMessage = () => {
         setIsReload((prevState) => !prevState)
         setActiveStep((prevState) => [...prevState])
@@ -1284,7 +1299,8 @@ const Chatbot = () => {
         "message": "/greet",
         "metadata": {
             "chatbot_type": chatbotType ? chatbotType : "1",
-            "job_location": ""
+            "job_location": "",
+            "ip_address": ipAddress ? ipAddress : ""
         }
     };
 
@@ -1307,7 +1323,8 @@ const Chatbot = () => {
             "message": cancel_message,
             "metadata": {
                 "chatbot_type": chatbotType ? chatbotType : "1",
-                "job_location": ipLocation
+                "job_location": ipLocation,
+                "ip_address": ipAddress ? ipAddress : ""
             }
         };
         setFileData(null)
@@ -2298,7 +2315,7 @@ const Chatbot = () => {
                                                 (<>
                                                     {msgObj.jobs && msgObj.jobs.length ?
                                                         (<>
-                                                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', overflow: (msgObj.jobs[0].isRealJob ? "hidden" : ''), height: (msgObj.jobs[0].isRealJob ? "350px" : '100px'), position: 'relative', mr: 1, ml: 1 }}>
+                                                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', overflow: (msgObj.jobs[0].isRealJob ? "hidden" : ''), height: (msgObj.jobs[0].isRealJob ? "300px" : '100px'), position: 'relative', mr: 1, ml: 1 }}>
                                                                 {/* , overflow: 'hidden' */}
 
                                                                 <Stack
@@ -2364,7 +2381,7 @@ const Chatbot = () => {
                                                                                 >
 
                                                                                     {/* {step.container} */}
-                                                                                    {job.isRealJob ? <Stack sx={{ minHeight: '300px', minWidth: '300px' }}>
+                                                                                    {job.isRealJob ? <Stack sx={{ minHeight: '240px', minWidth: '300px' }}>
                                                                                         <Stack sx={{
                                                                                             backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
                                                                                             boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)', height: '10px',
@@ -2377,7 +2394,7 @@ const Chatbot = () => {
                                                                                                 <Stack sx={{ p: '10px' }} direction='column' spacing={2}>
 
                                                                                                     <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{job.title_}</Typography>
-                                                                                                    <Box sx={{ display: 'flex', flexDirection: 'row', }}>
+                                                                                                    <Box sx={{ display: 'flex', flexDirection: 'row', pl: '25px' }}>
                                                                                                         <Box>
                                                                                                             <LocationOnOutlinedIcon sx={{ fontSize: '20px' }} />
                                                                                                         </Box>
@@ -2388,7 +2405,7 @@ const Chatbot = () => {
                                                                                                         </Box>
                                                                                                     </Box>
 
-                                                                                                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', ml: 2 }}>
+                                                                                                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', ml: 2, pl: '25px' }}>
                                                                                                         <Box>
                                                                                                             <CalendarTodayIcon sx={{ fontSize: '15px' }} />
                                                                                                         </Box>
@@ -2589,8 +2606,8 @@ const Chatbot = () => {
                                                                         direction='row' spacing={2}
                                                                     >
 
-                                                                        <Box sx={{ textAlign: 'center', ml: '70px' }}>
-                                                                            <Typography variant="body2" color="text.secondary">
+                                                                        <Box sx={{ textAlign: 'center', ml: '70px', }}>
+                                                                            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
                                                                                 {`${activeStep[msgObj.slideCount]?.stepNumber + 1} of ${msgObj.maxSteps}`}
                                                                             </Typography>
                                                                         </Box>
@@ -2899,7 +2916,7 @@ const Chatbot = () => {
                                             sx={{
                                                 '& .MuiInputBase-input.MuiOutlinedInput-input': {
                                                     padding: '5px 10px',
-                                                    height: "10px",
+                                                    height: "13px",
                                                     fontSize: "13px"
 
                                                 },
@@ -3074,7 +3091,7 @@ const Chatbot = () => {
                                     // disabled={isTermAccept ? false : true}
                                     onKeyDown={handleKeyDown}
                                     fullWidth
-                                    // disabled={disableBtn}
+                                    disabled={disableBtn}
                                     value={inputValue}
                                     onChange={handleInputChange}
                                     InputProps={{
@@ -3088,6 +3105,7 @@ const Chatbot = () => {
                                     sx={{
                                         '& .MuiInputBase-input.MuiOutlinedInput-input': {
                                             padding: '5px 10px',
+                                            fontSize: '14px',
 
                                         },
                                         '& .MuiInputBase-root.MuiOutlinedInput-root ': {
@@ -3295,15 +3313,15 @@ const Chatbot = () => {
                             ></Box>
                             {!onlyImage && (initialButtons && initialButtons.length) ?
                                 (<>
-                                    <Stack >
+                                    <Stack className="hide-initial-card">
                                         <Box component='div' sx={{ backgroundColor: '#ffffff', display: 'flex', flexDirection: 'row', borderRadius: '20px', boxShadow: 'rgb(0 0 0 / 16%) 0px 1px 15px 2px' }}>
-                                            
+
                                             <Box component='div' sx={{ p: '18px 22px 16px 18px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }} onClick={intializeChatBot}>
                                                 <Typography sx={{ fontSize: '14px', color: '#1A1A1A' }}>{initialText} </Typography>
                                             </Box>
 
                                             <Box component='div' sx={{ pr: '7px', pt: '18px' }}>
-                                                <CloseSharpIcon sx={{ fontSize: '20px' }}  onClick={()=>(setOnlyImage(true), sendToParent("short"))}/>
+                                                <CloseSharpIcon sx={{ fontSize: '20px' }} onClick={() => (setOnlyImage(true), sendToParent("short"))} />
                                             </Box>
                                         </Box>
                                         <Stack mt={1} sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>

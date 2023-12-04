@@ -1380,7 +1380,7 @@ const Chatbot = () => {
                                         setInputValue('');
                                         setEnableAuto(false);
                                         newObject.newJobs = [];
-                                        newObject.maxSteps = newObject.custom?.jobs.length ? newObject.custom?.jobs?.length : 1;
+                                        newObject.maxSteps = (newObject.custom?.jobs && newObject.custom?.jobs.length) ? newObject.custom?.jobs?.length : 1;
 
                                         newObject.jobs = newObject.custom?.jobs ? newObject.custom?.jobs : [];
 
@@ -1450,6 +1450,23 @@ const Chatbot = () => {
                         //    setDisableBtn((newObject.buttons && newObject.buttons.length) ? true : false);
 
 
+                    } else {
+                        setLoaded(false);
+                        generateNum = generateRandomNumber();
+                        generateNum = generateNum.toString();
+                        setRandStr(generateNum);
+                        dataToPass.sender = `${generateNum}`;  
+                        dataToPass.message = "/greet";
+    // let dataToPass = {
+    //     "sender": `${randStr}`,
+    //     "message": "/greet",
+    //     "metadata": {
+    //         "chatbot_type": chatbotType ? chatbotType : "1",
+    //         "job_location": ""
+    //     }
+    // };
+
+                        getTableData();
                     }
 
                 }

@@ -1472,16 +1472,16 @@ const Chatbot = () => {
                         generateNum = generateRandomNumber();
                         generateNum = generateNum.toString();
                         setRandStr(generateNum);
-                        dataToPass.sender = `${generateNum}`;  
+                        dataToPass.sender = `${generateNum}`;
                         dataToPass.message = "/greet";
-    // let dataToPass = {
-    //     "sender": `${randStr}`,
-    //     "message": "/greet",
-    //     "metadata": {
-    //         "chatbot_type": chatbotType ? chatbotType : "1",
-    //         "job_location": ""
-    //     }
-    // };
+                        // let dataToPass = {
+                        //     "sender": `${randStr}`,
+                        //     "message": "/greet",
+                        //     "metadata": {
+                        //         "chatbot_type": chatbotType ? chatbotType : "1",
+                        //         "job_location": ""
+                        //     }
+                        // };
 
                         getTableData();
                     }
@@ -2505,7 +2505,8 @@ const Chatbot = () => {
                                                                                                 height: '10px',
                                                                                             }}>
                                                                                                 {/* boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', */}
-                                                                                                <Stack sx={{ backgroundColor: '#ffffff', borderRadius: '2px', textAlign: 'center', p: 2 }}>
+                                                                                                <Stack sx={{ backgroundColor: '#ffffff', textAlign: 'center', p: 2 }}>
+                                                                                                    {/* borderRadius: '2px', */}
                                                                                                     {/* boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', mt: 1, height: '350px',*/}
                                                                                                     {/* <Stack sx={{ mt: 1 }}>
                                                                                                     <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
@@ -2915,7 +2916,7 @@ const Chatbot = () => {
                                             onChange={handleTitleChange}
                                             sx={{
                                                 '& .MuiInputBase-input.MuiOutlinedInput-input': {
-                                                    padding: '5px 10px',
+                                                    padding: '6px 10px',
                                                     height: "13px",
                                                     fontSize: "13px"
 
@@ -3052,7 +3053,7 @@ const Chatbot = () => {
                                             sx={{
                                                 '& .MuiInputBase-input.MuiOutlinedInput-input': {
                                                     padding: '5px 10px',
-                                                    height: "10px"
+                                                    height: "13px"
 
                                                 },
                                                 '& .MuiInputBase-root.MuiOutlinedInput-root ': {
@@ -3106,7 +3107,7 @@ const Chatbot = () => {
                                         '& .MuiInputBase-input.MuiOutlinedInput-input': {
                                             padding: '5px 10px',
                                             fontSize: '14px',
-
+                                            height: '20px'
                                         },
                                         '& .MuiInputBase-root.MuiOutlinedInput-root ': {
                                             borderRadius: '15px',

@@ -3178,7 +3178,7 @@ const Chatbot = () => {
 
                 <Card
                     sx={{
-                        // width: '375px',
+                        width: '375px',
                         '& .MuiPaper-root.MuiCard-root ': {
                             pt: 0,
                         },
@@ -3188,13 +3188,15 @@ const Chatbot = () => {
                         position: 'absolute',
                         boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
                         // right: '80px',
-                        bottom: '-65px',
-                        left: 0,
-                        right: 0,
-                        transform: 'translateY(-20%)',
+                        // bottom: '-65px',
+                        // left: 0,
+                        // right: 0,
+                        transition: 'all .1s ease-out',
+                        transformOrigin: "bottom right",
+                        transform: 'translate(-5%,-5%)',
                         display: isReadmore ? 'block' : 'none',
                     }}
-                    className="set-width"
+                    className="chat-width"
                 >
 
                     <Stack
@@ -3216,6 +3218,7 @@ const Chatbot = () => {
                     </Stack>
 
                     <Stack
+                        id='readmore-content'
                         sx={{
                             backgroundColor: '#ffffff', overflowY: 'scroll', maxHeight: '300px', minHeight: '300px', mb: '5px', p: 3
                         }} >

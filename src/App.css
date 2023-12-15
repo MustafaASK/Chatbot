@@ -137,6 +137,11 @@
     min-height: calc(100vh - 120px) !important;
   }
 
+  #readmore-content {
+    max-height: calc(100vh - 120px) !important;
+    min-height: calc(100vh - 120px) !important;
+  }
+
   .main_cls {
     margin-right: 5px !important;
     /* height: 100% !important; */
@@ -157,6 +162,11 @@
     min-height: calc(100dvh - 120px) !important;
   }
 
+  #readmore-content {
+    max-height: calc(100dvh - 120px) !important;
+    min-height: calc(100dvh - 120px) !important;
+  }
+
   .bottom-cls {
     margin-bottom: 5px !important;
   }
@@ -167,6 +177,11 @@
 @media only screen and (max-width: 900px) and (min-width: 601px) {
 
   #content-container {
+    max-height: calc(94vh - 120px) !important;
+    min-height: calc(94vh - 120px) !important;
+  }
+
+  #readmore-content {
     max-height: calc(94vh - 120px) !important;
     min-height: calc(94vh - 120px) !important;
   }

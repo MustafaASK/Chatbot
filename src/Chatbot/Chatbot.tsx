@@ -3312,6 +3312,8 @@ const Chatbot = () => {
                                     margin: '20px',
                                     position: 'relative',
                                     zIndex: 5,
+                                    boxShadow: '0 0 5px 5px rgb(0 0 0 / 36%)'
+                                    // rgba(0, 0, 0, 0.2)
                                 }}
                                 onClick={intializeChatBot}
                             ></Box>

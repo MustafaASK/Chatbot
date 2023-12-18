@@ -3311,9 +3311,15 @@ const Chatbot = () => {
                                     opacity: isChatbotOpen ? 0 : 1,
                                     margin: '20px',
                                     position: 'relative',
-                                    zIndex: 5,
-                                    boxShadow: '0 0 5px 5px rgb(0 0 0 / 36%)'
-                                    // rgba(0, 0, 0, 0.2)
+                                    boxShadow: '0 0 5px 5px rgb(0 0 0 / 36%)',
+                                    '&:hover': {
+                                        animation: 'ripples 1s linear infinite',
+                                    },
+                                    '@keyframes ripples': {
+                                        to: {
+                                            boxShadow: '0 0 0 4px rgba(0, 0, 0, 0.2), 0 0 0 6px rgba(0, 0, 0, 0.2), 0 0 0 8px rgba(0, 0, 0, 0.2), 0 0 0 10px rgba(0, 0, 0, 0.2)'
+                                        }
+                                    }
                                 }}
                                 onClick={intializeChatBot}
                             ></Box>
@@ -3392,7 +3398,7 @@ const Chatbot = () => {
 
             </Stack>
 
-        </Stack>
+        </Stack >
     );
 };
 

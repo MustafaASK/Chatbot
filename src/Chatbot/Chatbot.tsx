@@ -32,7 +32,8 @@ import match from 'autosuggest-highlight/match';
 import CancelIcon from '@mui/icons-material/Cancel';
 import WestRoundedIcon from '@mui/icons-material/WestRounded';
 import Link from '@mui/material/Link'
-
+import openchat from '../mp/openchatbot.mp3'
+import closechat from '../mp/closechatbot.mp3'
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import cxNinjaLogo from '../cxninja-logo.png'
 import clientLogo from '../bms_logo_rgb_pos-with-border.png';
@@ -545,8 +546,15 @@ const Chatbot = () => {
         window.parent.postMessage(message, "*");
     }
 
+    // const openChatMp3 = ""
+    // const closeChatMp3 = ""
+
+    const audioElementOpen = new Audio(openchat);
+    const audioElementClose = new Audio(closechat);
+
     const intializeChatBot = () => {
         setIsChatbotOpen(true)
+        audioElementOpen.play();
         sendToParent(true)
         setOnlyImage(false)
         let isIntialized = sessionStorage.getItem("isChatBotIntialized");
@@ -1118,6 +1126,7 @@ const Chatbot = () => {
 
     const handleExitChatbot = () => {
         setIsChatbotOpen(false)
+        audioElementClose.play()
         sendToParent(false)
         setIsTermCardOpen(false)
     }

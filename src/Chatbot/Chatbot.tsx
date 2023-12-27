@@ -376,9 +376,9 @@ const Chatbot = () => {
         fileInput.click();
     };
 
-    const readFile = async (e: any) => {
-
-        let fileData = e.target.files ? e.target.files[0] : e.dataTransfer.files[0]
+    const readFile = async (event: any) => {
+        // console.log(e, "eeee")
+        let fileData = event.target.files ? event.target.files[0] : event.dataTransfer.files[0]
         setFileData(fileData)
 
 

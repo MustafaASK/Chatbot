@@ -1,7 +1,7 @@
 {
   "name": "chatbot",
   "version": "0.1.0",
-  "homepage": "http://52.34.40.39:8900/cxninja-bot/",
+  "homepage": "https://careers.curately.ai/cxninja-bot-demo/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.0",

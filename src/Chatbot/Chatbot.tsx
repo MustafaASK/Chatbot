@@ -674,7 +674,8 @@ const Chatbot = () => {
             "metadata": {
                 "chatbot_type": chatbotType ? chatbotType : "1",
                 "job_location": ipLocation,
-                "ip_address": ipAddress ? ipAddress : ""
+                "ip_address": ipAddress ? ipAddress : "",
+                "client_id": "2",
             }
         };
         dataToPass.metadata.job_location = ipLocation;
@@ -1307,7 +1308,8 @@ const Chatbot = () => {
         "metadata": {
             "chatbot_type": chatbotType ? chatbotType : "1",
             "job_location": "",
-            "ip_address": ipAddress ? ipAddress : ""
+            "ip_address": ipAddress ? ipAddress : "",
+            "client_id": "2",
         }
     };
 
@@ -1331,7 +1333,8 @@ const Chatbot = () => {
             "metadata": {
                 "chatbot_type": chatbotType ? chatbotType : "1",
                 "job_location": ipLocation,
-                "ip_address": ipAddress ? ipAddress : ""
+                "ip_address": ipAddress ? ipAddress : "",
+                "client_id": "2",
             }
         };
         setFileData(null)

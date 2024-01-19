@@ -371,13 +371,22 @@ const Chatbot = () => {
     }, [])
 
 
-    const handleFileUpload = () => {
-        const fileInput = document.getElementById('file-upload') as HTMLInputElement;
-        fileInput.click();
+    const handleFileUpload = (id: any) => {
+        // const fileInput = document.getElementById('file-upload') as HTMLInputElement;
+        // fileInput.click();
+        if (id === "file-upload") {
+            // console.log('Button Triggered')
+            return true;
+        } else {
+            // console.log("Button not Triggered");
+            return false;
+        }
+
+
     };
 
-    const readFile = async (event: any) => {
-        // console.log(e, "eeee")
+    const readFile = async (event: React.ChangeEvent<HTMLInputElement> | any) => {
+        console.log(event, "event")
         let fileData = event.target.files ? event.target.files[0] : event.dataTransfer.files[0]
         setFileData(fileData)
 
@@ -2282,10 +2291,10 @@ const Chatbot = () => {
                                                                 accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={{ display: 'none' }} onChange={readFile} />
                                                             <label htmlFor="file-upload">
                                                                 <Button
-                                                                    onClick={handleFileUpload}
+                                                                    onClick={() => handleFileUpload("file-upload")}
                                                                     variant="contained"
                                                                     disableRipple
-
+                                                                    component='span'
                                                                     sx={{
                                                                         borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '14px', height: '34px', boxShadow: 0,
                                                                         '&:hover': {

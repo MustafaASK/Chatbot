@@ -1,0 +1,82 @@
+.carousel-main-card {
+    min-height: 240px !important;
+    min-width: 300px !important;
+}
+
+.carousel-child-card-1 {
+    background-color: #146EF6 !important;
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5) !important;
+    height: 10px !important;
+}
+
+.carousel-child-card-2 {
+    background-color: #ffffff !important;
+    margin-top: 8px !important;
+    border-radius: 2px !important;
+    height: 350px !important;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) !important;
+}
+
+.carousel-detail-card {
+    padding: 10px 10px 10px 10px !important;
+    display: block !important;
+    /* flex-direction: column !important;
+    justify-content: center !important; */
+}
+
+.carousel-card-job-title-text {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+}
+
+.carousel-card-location-con {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    padding-left: 25px !important;
+}
+
+.carousel-card-details-con {
+    padding-left: 10px !important;
+    margin-top: 14px !important;
+}
+
+.carousel-card-loc-icon {
+    font-size: 20px !important;
+    margin-top: 14px !important;
+}
+
+.carousel-card-loc-details-text {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+}
+
+.carousel-card-calender-details-con {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    /* margin-left: 16px !important; */
+    padding-left: 29px !important;
+}
+
+.carousel-card-calender-icon {
+    font-size: 15px !important;
+    margin-top: 14px !important;
+}
+
+.carousel-card-calender-details-text {
+    font-size: 12px !important;
+    font-weight: 400 !important;
+}
+
+.read-more-btn {
+    margin-left: 20px !important;
+    margin-right: 1px !important;
+}
+
+
+.read-more-btn-icon {
+    font-size: 25px !important;
+}

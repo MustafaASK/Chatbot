@@ -50,6 +50,7 @@ import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { formatDate } from "./utills/helper";
 
+import './Chatbot.css'
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -1602,7 +1603,8 @@ const Chatbot = () => {
 
         return str;
     }
-
+    console.log('activeSteppppppppppp', activeStep)
+    console.log('messagesListssssssss', messagesList)
 
     return (
         <Stack sx={{
@@ -2400,37 +2402,34 @@ const Chatbot = () => {
                                                                                 >
 
                                                                                     {/* {step.container} */}
-                                                                                    {job.isRealJob ? <Stack sx={{ minHeight: '240px', minWidth: '300px' }}>
-                                                                                        <Stack sx={{
-                                                                                            backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
-                                                                                            boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)', height: '10px',
-                                                                                        }}>
-                                                                                            <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)' }}>
+                                                                                    {job.isRealJob ? <Stack className="carousel-main-card">
+                                                                                        <Stack className="carousel-child-card-1">
+                                                                                            <Stack className="carousel-child-card-2">
                                                                                                 {/* <Box sx={{ p: 1 }}>
                                         <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>Sales</Typography>
                                     </Box> */}
 
-                                                                                                <Stack sx={{ p: '10px' }} direction='column' spacing={2}>
+                                                                                                <Stack className="carousel-detail-card">
 
-                                                                                                    <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{job.title_}</Typography>
-                                                                                                    <Box sx={{ display: 'flex', flexDirection: 'row', pl: '25px' }}>
+                                                                                                    <Typography className="carousel-card-job-title-text">{job.title_}</Typography>
+                                                                                                    <Box className='carousel-card-location-con'>
                                                                                                         <Box>
-                                                                                                            <LocationOnOutlinedIcon sx={{ fontSize: '20px' }} />
+                                                                                                            <LocationOnOutlinedIcon className="carousel-card-loc-icon" />
                                                                                                         </Box>
-                                                                                                        <Box sx={{ pl: '10px' }}>
-                                                                                                            <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>{checkZipZeros(job.addresses_ && job.addresses_[0])}</Typography>
+                                                                                                        <Box className='carousel-card-details-con'>
+                                                                                                            <Typography className="carousel-card-loc-details-text">{checkZipZeros(job.addresses_ && job.addresses_[0])}</Typography>
 
                                                                                                             {/* <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography> */}
                                                                                                         </Box>
                                                                                                     </Box>
 
-                                                                                                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', ml: 2, pl: '25px' }}>
+                                                                                                    <Box className="carousel-card-calender-details-con">
                                                                                                         <Box>
-                                                                                                            <CalendarTodayIcon sx={{ fontSize: '15px' }} />
+                                                                                                            <CalendarTodayIcon className="carousel-card-calender-icon" />
                                                                                                         </Box>
-                                                                                                        <Box sx={{ pl: '10px' }}>
+                                                                                                        <Box className='carousel-card-details-con'>
 
-                                                                                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted on {formatDate(job.postingPublishTime_?.seconds_)}</Typography>
+                                                                                                            <Typography className="carousel-card-calender-details-text">Posted on {formatDate(job.postingPublishTime_?.seconds_)}</Typography>
                                                                                                         </Box>
                                                                                                     </Box>
                                                                                                     {job.customAttributes_.mapData.jobType?.stringValues_[0] ?
@@ -2451,17 +2450,18 @@ const Chatbot = () => {
                                                                                                     <Button
                                                                                                         disableRipple
                                                                                                         onClick={() => handleReadMore(job, msgObj.isDisabled)}
-                                                                                                        endIcon={<KeyboardArrowRightIcon />}
+                                                                                                        endIcon={<KeyboardArrowRightIcon className="read-more-btn-icon" />}
+                                                                                                        className="read-more-btn"
                                                                                                         sx={{
                                                                                                             textTransform: 'capitalize',
-                                                                                                            marginLeft: '20px',
+
                                                                                                             '& .MuiButton-endIcon': {
-                                                                                                                mr: 0,
-                                                                                                                ml: '-5px'
+                                                                                                                marginRight: 0,
+                                                                                                                marginLeft: '-5px'
                                                                                                             },
-                                                                                                            '& .MuiButton-endIcon>*:nth-of-type(1)': {
-                                                                                                                fontSize: '25px'
-                                                                                                            },
+                                                                                                            // '& .MuiButton-endIcon>*:nth-of-type(1)': {
+                                                                                                            //     fontSize: '25px'
+                                                                                                            // },
                                                                                                             '&:hover': {
                                                                                                                 backgroundColor: '#ffffff'
                                                                                                             }

@@ -572,7 +572,7 @@ const Chatbot = () => {
     // const audioElementClose = new Audio(closechat);
 
     useEffect(() => {
-        sendToParent(true)
+
         setOnlyImage(false)
         let isIntialized = sessionStorage.getItem("isChatBotIntialized");
         if (isIntialized === "false" || isIntialized == null || Object.is(isIntialized, null)) {
@@ -592,6 +592,7 @@ const Chatbot = () => {
 
     const intializeChatBot = () => {
         setIsChatbotOpen(true)
+        sendToParent(true)
         // audioElementOpen.play();
 
     }

@@ -566,7 +566,9 @@ const Chatbot = () => {
         sendToParent(true)
         setOnlyImage(false)
         let isIntialized = sessionStorage.getItem("isChatBotIntialized");
-        if (isIntialized === "false") {
+        console.log('isIntialized', isIntialized)
+        console.log('isIntialized', typeof isIntialized)
+        if (isIntialized === "false" || isIntialized === null) {
             setMessagesList(prevState => [...prevState, ...intialData])
             sessionStorage.setItem("isChatBotIntialized", "true")
         }
@@ -1374,6 +1376,7 @@ const Chatbot = () => {
                     dataToPass.message = "/job_screening";
                     checkUseEffectLoad = false;
                     // getTableData()
+                    console.log('aaaaaaaaaaaa', response.data)
 
                 } else {
                     if (response.data && response.data.length) {

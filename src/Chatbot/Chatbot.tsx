@@ -173,13 +173,14 @@ type CustomObj = {
 const Chatbot = () => {
 
     const location = useLocation();
+    let checkUseEffectLoad = false;
     const params = new URLSearchParams(location.search);
     const queryParam = params.get('job_id');
     let tempchatbotType = null;
     const chatbotType = localStorage.getItem("chatbotType");//params.get('type');
     //   alert(chatbotType);
     const valueRef = useRef()
-
+    const [isLoadedData, setIsLoadedData] = useState(false)
     const [isChatbotOpen, setIsChatbotOpen] = useState(false);
     const [messagesList, setMessagesList] = React.useState<any[] | never[]>([]);
     const [initialButtons, setInitialButtons] = React.useState<any[] | never[]>([]);
@@ -306,6 +307,14 @@ const Chatbot = () => {
         return stateList[abbreviation] || abbreviation;
     };
 
+    React.useEffect(() => {
+        if (!checkUseEffectLoad) {
+            // getTableData();
+        }
+        sessionStorage.setItem("isChatBotIntialized", "false")
+        checkUseEffectLoad = true;
+        // setLoaded(true);
+    }, [checkUseEffectLoad]);
 
     useEffect(() => {
 
@@ -333,6 +342,8 @@ const Chatbot = () => {
         if (paramType) {
             dataToPass.metadata.chatbot_type = paramType
         }
+
+
 
         const getLocation = async () => {
             try {
@@ -560,20 +571,32 @@ const Chatbot = () => {
     // const audioElementOpen = new Audio(openchat);
     // const audioElementClose = new Audio(closechat);
 
-    const intializeChatBot = () => {
-        setIsChatbotOpen(true)
-        // audioElementOpen.play();
+    useEffect(() => {
         sendToParent(true)
         setOnlyImage(false)
         let isIntialized = sessionStorage.getItem("isChatBotIntialized");
-        // console.log('isIntialized', isIntialized)
-        // console.log('isIntialized', typeof isIntialized)
-        if (isIntialized === "false" || isIntialized === null) {
-            setMessagesList(prevState => [...prevState, ...intialData])
-            sessionStorage.setItem("isChatBotIntialized", "true")
+        if (isIntialized === "false" || isIntialized == null || Object.is(isIntialized, null)) {
+            // console.log("is comin her", intialData)
+            if (intialData.length) {
+                setMessagesList(prevState => [...prevState, ...intialData])
+                sessionStorage.setItem("isChatBotIntialized", "true")
+            }
+            // else {
+            //     sessionStorage.setItem("isChatBotIntialized", "false")
+            //     getTableData()
+            // }
+
         }
         setLoaded(false);
+    }, [isLoadedData, isChatbotOpen])
+
+    const intializeChatBot = () => {
+        setIsChatbotOpen(true)
+        // audioElementOpen.play();
+
     }
+
+
     const sendLocationData = () => {
         let locations = locationData.map((val) => val.key);
         let formattedValue = locationData.map((val) => val.name).join();
@@ -1313,7 +1336,7 @@ const Chatbot = () => {
     }
 
 
-    let checkUseEffectLoad = false;
+
     let dataToPass = {
         "sender": `${randStr}`,
         "message": "/greet",
@@ -1360,7 +1383,8 @@ const Chatbot = () => {
         sessionStorage.setItem("isLoadedFirsttime", 'true')
     }, [])
 
-    const [slideObj, setSlideObj] = useState({})
+
+
     const getTableData = () => {
         // alert(randStr);
         setInputValue('');
@@ -1368,15 +1392,16 @@ const Chatbot = () => {
         setLoaded(true);
         apiService.sendMessage(dataToPass).then((response: any) => {
             if (!response.error) {
-
+                console.log(checkUseEffectLoad, 'checkUseEffectLoadcheckUseEffectLoad')
                 if (checkUseEffectLoad) {
                     setInitialButtons(response.data[0].buttons);
                     setInitialText(response.data[0].text);
                     setIntialData(response.data)
+                    setIsLoadedData(true)
                     dataToPass.message = "/job_screening";
                     checkUseEffectLoad = false;
                     // getTableData()
-                    console.log('aaaaaaaaaaaa', response.data)
+                    // console.log('aaaaaaaaaaaa', response.data)
 
                 } else {
                     if (response.data && response.data.length) {
@@ -1551,14 +1576,7 @@ const Chatbot = () => {
             }
         })
     }
-    React.useEffect(() => {
-        if (!checkUseEffectLoad) {
-            // getTableData();
-        }
-        sessionStorage.setItem("isChatBotIntialized", "false")
-        checkUseEffectLoad = true;
-        // setLoaded(true);
-    }, []);
+
 
     const [isTermCardOpen, setIsTermCardOpen] = useState(false)
     const [isTermAccept, setIsTermAccept] = useState(false)
@@ -2238,7 +2256,6 @@ const Chatbot = () => {
                             // onMouseLeave={() => setIsButtonHover(false)} */}
 
 
-                            {/* {isButtonHover && */}
 
 
 

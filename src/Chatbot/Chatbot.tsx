@@ -566,8 +566,8 @@ const Chatbot = () => {
         sendToParent(true)
         setOnlyImage(false)
         let isIntialized = sessionStorage.getItem("isChatBotIntialized");
-        console.log('isIntialized', isIntialized)
-        console.log('isIntialized', typeof isIntialized)
+        // console.log('isIntialized', isIntialized)
+        // console.log('isIntialized', typeof isIntialized)
         if (isIntialized === "false" || isIntialized === null) {
             setMessagesList(prevState => [...prevState, ...intialData])
             sessionStorage.setItem("isChatBotIntialized", "true")
@@ -1606,8 +1606,8 @@ const Chatbot = () => {
 
         return str;
     }
-    console.log('activeSteppppppppppp', activeStep)
-    console.log('messagesListssssssss', messagesList)
+    // console.log('activeSteppppppppppp', activeStep)
+    // console.log('messagesListssssssss', messagesList)
 
     return (
         <Stack sx={{

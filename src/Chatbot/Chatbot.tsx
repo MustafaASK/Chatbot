@@ -314,7 +314,7 @@ const Chatbot = () => {
         sessionStorage.setItem("isChatBotIntialized", "false")
         checkUseEffectLoad = true;
         // setLoaded(true);
-    }, [checkUseEffectLoad]);
+    }, []);
 
     useEffect(() => {
 

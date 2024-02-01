@@ -2265,7 +2265,7 @@ const Chatbot = () => {
                                     {msgObj.sent ?
                                         (<>
                                             <Stack sx={{ pt: '10px' }} direction='column' p={0.5} alignItems='flex-end' >
-                                                <Stack direction='row' spacing={0.5} mr={1}>
+                                                <Stack direction='row' spacing={0.5} mr={1} ml={1}>
                                                     <Stack sx=
                                                         {{
                                                             backgroundColor: '#146EF6', borderRadius: '24px', p: 0.5, display: 'flex', flexDirection: 'row', justifyContent: 'center', borderBottomRightRadius: "5px", outline: "1px solid transparent"
@@ -2674,7 +2674,7 @@ const Chatbot = () => {
                                                                     {msgObj.text ? (
                                                                         <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
-                                                                            <Stack>
+                                                                            <Stack sx={{ pl: '6px' }}>
                                                                                 <img src={customerFace} style={{ height: '30px', width: '35px', borderRadius: "50%", boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' }} alt="chatbot" />
                                                                             </Stack>
                                                                             <Stack sx=
@@ -2694,9 +2694,9 @@ const Chatbot = () => {
                                                                 <>
                                                                     {(msgObj.buttons && msgObj.buttons.length && !msgObj.hideBtns) ?
                                                                         (
-                                                                            <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} ml={3}>
+                                                                            <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} sx={{ ml: '40px', mr: '20px' }}>
                                                                                 {msgObj.buttons.map((btnObj: any) => (
-                                                                                    <Button variant="outlined" onClick={() => sendMessage(btnObj, msgObj)} sx={{ borderRadius: '20px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '13px', width: 'auto', outline: "1px solid transparent" }}>
+                                                                                    <Button variant="outlined" onClick={() => sendMessage(btnObj, msgObj)} sx={{ borderRadius: '20px', p: '5px 8px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '13px', width: 'auto', outline: "1px solid transparent" }}>
                                                                                         {btnObj.title}
                                                                                     </Button>
                                                                                 ))}

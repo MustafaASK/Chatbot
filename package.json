@@ -30,7 +30,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
     "start-dev": "env-cmd -f .env react-scripts start",
     "build-dev": "env-cmd -f .env react-scripts build",
     "start-qa": "env-cmd qa react-scripts start",

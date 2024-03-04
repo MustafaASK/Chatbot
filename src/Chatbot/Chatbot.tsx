@@ -335,6 +335,7 @@ const Chatbot = () => {
 
         if (generateNum) {
             generateNum = generateNum.toString();
+            restartDataToPass.sender = generateNum ? generateNum.toString() : "";
             dataToPass.sender = generateNum ? generateNum.toString() : "";
             setRandStr(generateNum);
         }
@@ -349,6 +350,8 @@ const Chatbot = () => {
             try {
                 let response = await apiService.getIpAddress();
                 let data = response.data;
+                restartDataToPass.metadata.ip_address = data.ip
+                restartDataToPass.metadata.job_location = (data.city) + "," + convertAbbreviationToFullName(data.region);
                 dataToPass.metadata.job_location = (data.city) + "," + convertAbbreviationToFullName(data.region);
                 setIpLocation(dataToPass.metadata.job_location);
                 dataToPass.metadata.ip_address = data.ip
@@ -694,6 +697,7 @@ const Chatbot = () => {
     // const handleSlideIn = () => {
     //     return (Number(activeStep) === 0 || Number(activeStep)) ? true : false;
     // };
+    const clientId = process.env.REACT_APP_CLIENT_ID
 
     const refineSearchJob = (value: any) => {
 
@@ -711,7 +715,7 @@ const Chatbot = () => {
                 "chatbot_type": chatbotType ? chatbotType : "1",
                 "job_location": ipLocation,
                 "ip_address": ipAddress ? ipAddress : "",
-                "client_id": "2",
+                "client_id": clientId,
             }
         };
         dataToPass.metadata.job_location = ipLocation;
@@ -1345,9 +1349,29 @@ const Chatbot = () => {
             "chatbot_type": chatbotType ? chatbotType : "1",
             "job_location": "",
             "ip_address": ipAddress ? ipAddress : "",
-            "client_id": "2",
+            "client_id": clientId,
         }
     };
+
+
+    let restartDataToPass = {
+        "sender": `${randStr}`,
+        "message": "/restart",
+        "metadata": {
+            "chatbot_type": chatbotType ? chatbotType : "1",
+            "job_location": "",
+            "ip_address": ipAddress ? ipAddress : "",
+            "client_id": clientId,
+        }
+    };
+
+    const [restart, setRestart] = useState(true)
+
+    const restartData = () => {
+        apiService.sendMessage(restartDataToPass).then((response: any) => {
+            setRestart(false)
+        })
+    }
 
     const cancelUpload = (value: any) => {
         let { cancel_message } = value.custom
@@ -1370,7 +1394,7 @@ const Chatbot = () => {
                 "chatbot_type": chatbotType ? chatbotType : "1",
                 "job_location": ipLocation,
                 "ip_address": ipAddress ? ipAddress : "",
-                "client_id": "2",
+                "client_id": clientId,
             }
         };
         setFileData(null)
@@ -1391,6 +1415,11 @@ const Chatbot = () => {
         setInputValue('');
         setEnableAuto(false);
         setLoaded(true);
+
+        if (restart) {
+            restartData()
+        }
+
         apiService.sendMessage(dataToPass).then((response: any) => {
             if (!response.error) {
                 console.log(checkUseEffectLoad, 'checkUseEffectLoadcheckUseEffectLoad')
@@ -1627,6 +1656,15 @@ const Chatbot = () => {
     }
     // console.log('activeSteppppppppppp', activeStep)
     // console.log('messagesListssssssss', messagesList)
+
+    const removeTags = (text: any) => {
+        const doc = new DOMParser().parseFromString(text, 'text/html');
+        if (doc.body.children.length > 0) {
+            return doc.body.textContent || "";
+        } else {
+            return text; // No tags found, return original content
+        }
+    }
 
     return (
         <Stack sx={{
@@ -2683,7 +2721,7 @@ const Chatbot = () => {
                                                                                 }}
                                                                             >
                                                                                 <Typography component='p' sx={{ color: 'black', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
-                                                                                    {msgObj.text}
+                                                                                    {removeTags(msgObj.text)}
                                                                                 </Typography>
                                                                             </Stack>
                                                                         </Stack>

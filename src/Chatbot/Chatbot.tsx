@@ -556,6 +556,7 @@ const Chatbot = () => {
             value = (value.search("candid") !== -1) ? value.split(" ")[1] : value;
             dataToPass.message = `/${intentType}{"${entityType}": "${value}"}`
             dataToPass.metadata.job_location = ipLocation;
+            setFileData(null)
             // dataToPass.message = type === "input_job_title" ? `/${type}{"job_title": "${value}"}` : `/${type}{"job_location": "${value}"}`;
             getTableData();
 

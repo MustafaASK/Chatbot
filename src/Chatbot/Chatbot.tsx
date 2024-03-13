@@ -222,6 +222,8 @@ const Chatbot = () => {
     const [ipLocation, setIpLocation] = useState("");
     const [isReload, setIsReload] = useState(false);
     const [onlyImage, setOnlyImage] = useState(false);
+    const [clientIdfromParent, setClientId] = useState<any>(null)
+
     const handleCloseMenu = (msg: any, msgObj: any) => {
         setAnchorEl(null);
         if (typeof msg !== 'object') {
@@ -316,34 +318,14 @@ const Chatbot = () => {
         // setLoaded(true);
     }, []);
 
+    React.useEffect(() => {
+        // let href = "https://careers.curately.ai/careers/jobs/QADemo/find-jobs"
+
+
+        // console.log(href.split("careers/")[1].split("/"))
+    }, [])
+
     useEffect(() => {
-
-        let paramType: any = params.get('type') ? params.get('type') : "1";
-        // debugger
-        // if (localStorage.getItem("chatbotType") !== params.get('type') && paramType) {
-        //     localStorage.setItem("chatbotType", paramType);
-        //     generateNum = generateRandomNumber();
-        // } else {
-        //     generateNum = localStorage.getItem("uuid");
-        // }
-        if (localStorage.getItem("uuid") === '' || localStorage.getItem("uuid") === null) {
-            localStorage.setItem("chatbotType", paramType);
-            generateNum = generateRandomNumber();
-        } else {
-            generateNum = localStorage.getItem("uuid");
-        }
-
-        if (generateNum) {
-            generateNum = generateNum.toString();
-            restartDataToPass.sender = generateNum ? generateNum.toString() : "";
-            dataToPass.sender = generateNum ? generateNum.toString() : "";
-            setRandStr(generateNum);
-        }
-        dataToPass.metadata.chatbot_type = "1"
-        if (paramType) {
-            dataToPass.metadata.chatbot_type = paramType
-        }
-
 
 
         const getLocation = async () => {
@@ -378,7 +360,63 @@ const Chatbot = () => {
 
             }
         }
-        getLocation()
+
+
+        let locationHref = window.parent.location.href;
+        console.log(locationHref, 'locationHref')
+        const getClientDetails = async (shortName: any) => {
+            try {
+                const resp = await apiService.getClientIdByShortName(shortName)
+                if (resp.data) {
+                    let clientIdtoString = resp.data.clientId.toString()
+                    setClientId(clientIdtoString)
+                    if (!dataToPass.metadata.client_id) {
+                        dataToPass.metadata.client_id = clientIdtoString;
+                    }
+                    if (!restartDataToPass.metadata.client_id) {
+                        restartDataToPass.metadata.client_id = clientIdtoString;
+                    }
+
+                    getLocation()
+                }
+            }
+            catch (e) {
+                console.log(e, "errr")
+            }
+        }
+        if (locationHref) {
+            let shortName = locationHref.split('/').slice(-2)[0]
+            getClientDetails(shortName)
+        }
+
+        let paramType: any = params.get('type') ? params.get('type') : "1";
+        // debugger
+        // if (localStorage.getItem("chatbotType") !== params.get('type') && paramType) {
+        //     localStorage.setItem("chatbotType", paramType);
+        //     generateNum = generateRandomNumber();
+        // } else {
+        //     generateNum = localStorage.getItem("uuid");
+        // }
+        if (localStorage.getItem("uuid") === '' || localStorage.getItem("uuid") === null) {
+            localStorage.setItem("chatbotType", paramType);
+            generateNum = generateRandomNumber();
+        } else {
+            generateNum = localStorage.getItem("uuid");
+        }
+
+        if (generateNum) {
+            generateNum = generateNum.toString();
+            restartDataToPass.sender = generateNum ? generateNum.toString() : "";
+            dataToPass.sender = generateNum ? generateNum.toString() : "";
+            setRandStr(generateNum);
+        }
+        dataToPass.metadata.chatbot_type = "1"
+        if (paramType) {
+            dataToPass.metadata.chatbot_type = paramType
+        }
+
+
+
 
         // alert(params.get('type'));
         // tempchatbotType = 
@@ -698,7 +736,7 @@ const Chatbot = () => {
     // const handleSlideIn = () => {
     //     return (Number(activeStep) === 0 || Number(activeStep)) ? true : false;
     // };
-    const clientId = process.env.REACT_APP_CLIENT_ID
+    // const clientId = process.env.REACT_APP_CLIENT_ID
 
     const refineSearchJob = (value: any) => {
 
@@ -716,7 +754,7 @@ const Chatbot = () => {
                 "chatbot_type": chatbotType ? chatbotType : "1",
                 "job_location": ipLocation,
                 "ip_address": ipAddress ? ipAddress : "",
-                "client_id": clientId,
+                "client_id": clientIdfromParent,
             }
         };
         dataToPass.metadata.job_location = ipLocation;
@@ -1350,7 +1388,7 @@ const Chatbot = () => {
             "chatbot_type": chatbotType ? chatbotType : "1",
             "job_location": "",
             "ip_address": ipAddress ? ipAddress : "",
-            "client_id": clientId,
+            "client_id": clientIdfromParent,
         }
     };
 
@@ -1362,7 +1400,7 @@ const Chatbot = () => {
             "chatbot_type": chatbotType ? chatbotType : "1",
             "job_location": "",
             "ip_address": ipAddress ? ipAddress : "",
-            "client_id": clientId,
+            "client_id": clientIdfromParent,
         }
     };
 
@@ -1395,7 +1433,7 @@ const Chatbot = () => {
                 "chatbot_type": chatbotType ? chatbotType : "1",
                 "job_location": ipLocation,
                 "ip_address": ipAddress ? ipAddress : "",
-                "client_id": clientId,
+                "client_id": clientIdfromParent,
             }
         };
         setFileData(null)
@@ -1605,6 +1643,10 @@ const Chatbot = () => {
                 setToastrMessage(response.message);
                 setOpen(true);
             }
+        }).catch((error: any) => {
+            setSeverity("error");
+            setToastrMessage("something went wrong");
+            setOpen(true);
         })
     }
 

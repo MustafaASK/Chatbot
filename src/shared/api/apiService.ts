@@ -92,6 +92,10 @@ class ApiService {
         return axios.get('https://ipinfo.io/json?token=8f59664b32e94b');
     }
 
+    getClientIdByShortName(shortName: any) {
+        return axios.get(`https://api.curately.ai/QADemoCurately/byShortName/${shortName}`)
+    }
+
 }
 
 // [Yesterday 16:42] Anil Kunde https://www4.accuick.com/ChatBot/jobTitleSearch.jsp?search=Angular

@@ -14,7 +14,8 @@ root.render(
   // </React.StrictMode>
   // basename='cxninja-bot'
   //basename='cxninja-bot-demo'
-  <BrowserRouter basename='cxninja-bot-demo'>
+  //careers-bot
+  <BrowserRouter basename='careers-bot'>
     <App />
   </BrowserRouter>
 );

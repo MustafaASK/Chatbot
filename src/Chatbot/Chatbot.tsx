@@ -32,6 +32,7 @@ import match from 'autosuggest-highlight/match';
 import CancelIcon from '@mui/icons-material/Cancel';
 import WestRoundedIcon from '@mui/icons-material/WestRounded';
 import Link from '@mui/material/Link'
+import moment from 'moment';
 // import openchat from '../mp/openchatbot.mp3'
 // import closechat from '../mp/closechatbot.mp3'
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
@@ -220,9 +221,29 @@ const Chatbot = () => {
     const [isShowNoResults, setIsShowResults] = useState(false)
     const [defaultTitle, setDefaultTitle] = useState("");
     const [ipLocation, setIpLocation] = useState("");
+    const [customerLogo, setCustomerLogo] = useState("");
     const [isReload, setIsReload] = useState(false);
     const [onlyImage, setOnlyImage] = useState(false);
-    const [clientIdfromParent, setClientId] = useState<any>(null)
+    const [clientIdfromParent, setClientId] = useState<any>(null);
+    const [jobTypesList, setJobTypesList] = useState<any>({
+        "1": "Full Time",
+        "2": "Part Time",
+      });
+      const [workTypesList, setWorkTypesList] = useState<any>( {
+        "1": "Remote",
+        "2": "Hybrid",
+        "3": "On-site",
+  
+      });
+    
+
+//   workTypesList: any =
+//     {
+//       "1": "Remote",
+//       "2": "Hybrid",
+//       "3": "On-site",
+
+//     };
 
     const handleCloseMenu = (msg: any, msgObj: any) => {
         setAnchorEl(null);
@@ -365,6 +386,7 @@ const Chatbot = () => {
         let locationHref = window.parent.location.href;
         console.log(locationHref, 'locationHref')
         const getClientDetails = async (shortName: any) => {
+            shortName = "demo";
             try {
                 const resp = await apiService.getClientIdByShortName(shortName)
                 if (resp.data) {
@@ -375,6 +397,9 @@ const Chatbot = () => {
                     }
                     if (!restartDataToPass.metadata.client_id) {
                         restartDataToPass.metadata.client_id = clientIdtoString;
+                    }
+                    if(resp.data.chatLogo){
+                        setCustomerLogo(resp.data.chatLogo);
                     }
 
                     getLocation()
@@ -689,7 +714,7 @@ const Chatbot = () => {
 
     const sendJobValue = (jobData: any) => {
         let obj = {
-            "text": jobData.title_,
+            "text": jobData.jobTitle,
             "payload": '',
             "sent": true,
             "metadata": {
@@ -778,13 +803,13 @@ const Chatbot = () => {
 
                                 <Stack sx={{ p: '10px' }} direction='column' spacing={2}>
 
-                                    <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{job.title_}</Typography>
+                                    <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{job.jobTitle}</Typography>
                                     <Box sx={{ display: 'flex', flexDirection: 'row', }}>
                                         <Box>
                                             <LocationOnOutlinedIcon sx={{ fontSize: '20px' }} />
                                         </Box>
                                         <Box sx={{ pl: '10px' }}>
-                                            <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>{job.addresses_ && job.addresses_[0]}</Typography>
+                                            <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>{job.workCity + ', ' + job.workState}</Typography>
                                             {/* <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography> */}
                                         </Box>
                                     </Box>
@@ -795,7 +820,7 @@ const Chatbot = () => {
                                         </Box>
                                         <Box sx={{ pl: '10px' }}>
 
-                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted on {formatDate(job.postingPublishTime_?.seconds_)}</Typography>
+                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted on {getDateFormat(job.createDate)}</Typography>
                                         </Box>
                                     </Box>
 
@@ -804,7 +829,7 @@ const Chatbot = () => {
                                             <AccessTimeIcon sx={{ fontSize: '15px' }} />
                                         </Box>
                                         <Box sx={{ pl: '10px' }}>
-                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{job.customAttributes_.mapData.jobType.stringValues_[0]}</Typography>
+                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{jobTypesList[job.jobType]}</Typography>
                                         </Box>
                                     </Box>
 
@@ -1343,6 +1368,15 @@ const Chatbot = () => {
     const [ipAddress, setIpAddress] = useState('')
     console.log('ipAddress', ipAddress)
 
+    const getDateFormat = (date: string) => {
+        if (date) {
+            return moment(date).format("MM-DD-YYYY")
+        //   return new Date(date.replace(' ', 'T')).toISOString();
+        } else {
+          return date;
+        }
+      }
+
     const sendTextMessage = () => {
         setIsReload((prevState) => !prevState)
         setActiveStep((prevState) => [...prevState])
@@ -1720,7 +1754,7 @@ const Chatbot = () => {
                         <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
                             <Box>
                                 <img
-                                    src={customerFace}
+                                    src={customerLogo ? customerLogo : customerFace}
                                     alt='avatar'
                                     style={{
                                         height: '30px',
@@ -1868,7 +1902,7 @@ const Chatbot = () => {
                         >
                             <Box>
                                 <img
-                                    src={customerFace}
+                                    src={customerLogo ? customerLogo : customerFace}
                                     alt='avatar'
                                     style={{
                                         boxShadow: '0px 5px 10px 0px rgba(255, 255, 255, 0.5)',
@@ -2513,13 +2547,13 @@ const Chatbot = () => {
 
                                                                                                 <Stack className="carousel-detail-card">
 
-                                                                                                    <Typography className="carousel-card-job-title-text">{job.title_}</Typography>
+                                                                                                    <Typography className="carousel-card-job-title-text">{job.jobTitle}</Typography>
                                                                                                     <Box className='carousel-card-location-con'>
                                                                                                         <Box>
                                                                                                             <LocationOnOutlinedIcon className="carousel-card-loc-icon" />
                                                                                                         </Box>
                                                                                                         <Box className='carousel-card-details-con'>
-                                                                                                            <Typography className="carousel-card-loc-details-text">{checkZipZeros(job.addresses_ && job.addresses_[0])}</Typography>
+                                                                                                            <Typography className="carousel-card-loc-details-text">{job.workCity + ', ' + job.workState}</Typography>
 
                                                                                                             {/* <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography> */}
                                                                                                         </Box>
@@ -2531,16 +2565,16 @@ const Chatbot = () => {
                                                                                                         </Box>
                                                                                                         <Box className='carousel-card-details-con'>
 
-                                                                                                            <Typography className="carousel-card-calender-details-text">Posted on {formatDate(job.postingPublishTime_?.seconds_)}</Typography>
+                                                                                                            <Typography className="carousel-card-calender-details-text">Posted on {getDateFormat(job.createDate)}</Typography>
                                                                                                         </Box>
                                                                                                     </Box>
-                                                                                                    {job.customAttributes_.mapData.jobType?.stringValues_[0] ?
+                                                                                                    {job.jobType ?
                                                                                                         (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                                                                                                             <Box>
                                                                                                                 <AccessTimeIcon sx={{ fontSize: '15px' }} />
                                                                                                             </Box>
                                                                                                             <Box sx={{ pl: '10px' }}>
-                                                                                                                <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{job.customAttributes_.mapData.jobType?.stringValues_[0]}</Typography>
+                                                                                                                <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{jobTypesList[job.jobType]}</Typography>
                                                                                                             </Box>
                                                                                                         </Box>) :
                                                                                                         (<></>)
@@ -2578,7 +2612,7 @@ const Chatbot = () => {
                                                                                                 <Box sx={{ textAlign: 'center', pb: 3, pl: 1, pr: 1 }}>
                                                                                                     <Button
                                                                                                         variant="contained"
-                                                                                                        onClick={() => sendJobValue(job)}
+                                                                                                        onClick={() => sendJobValue(job)} 
                                                                                                         sx={{
                                                                                                             borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0, width: '100%',
                                                                                                             '&:hover': {
@@ -2594,7 +2628,8 @@ const Chatbot = () => {
 
                                                                                                     <Button
                                                                                                         disableRipple
-                                                                                                        onClick={() => refineSearchJob(msgObj)}
+                                                                                                        onClick={() => refineSearchJob(msgObj)} 
+                                                                                                        disabled={msgObj.isDisabled}
                                                                                                         sx={{
                                                                                                             textTransform: 'capitalize',
                                                                                                             textDecoration: 'underline',
@@ -2756,7 +2791,7 @@ const Chatbot = () => {
                                                                         <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
                                                                             <Stack sx={{ pl: '6px' }}>
-                                                                                <img src={customerFace} style={{ height: '30px', width: '35px', borderRadius: "50%", boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' }} alt="chatbot" />
+                                                                                <img src={customerLogo ? customerLogo : customerFace} style={{ height: '30px', width: '35px', borderRadius: "50%", boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' }} alt="chatbot" />
                                                                             </Stack>
                                                                             <Stack sx=
                                                                                 {{
@@ -2799,7 +2834,7 @@ const Chatbot = () => {
                                 (<><Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
                                     <Stack>
-                                        <img src={customerFace} style={{ height: '30px', width: '35px', borderRadius: "50%", boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' }} alt="chatbot" />
+                                        <img src={customerLogo ? customerLogo : customerFace} style={{ height: '30px', width: '35px', borderRadius: "50%", boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' }} alt="chatbot" />
                                     </Stack>
                                     <Stack sx=
                                         {{
@@ -3346,7 +3381,7 @@ const Chatbot = () => {
 
                         <Stack sx={{ pb: '15px', borderBottom: '1px solid lightgrey' }} direction='column' spacing={2}>
 
-                            <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{selectedJobData[0]?.title_}</Typography>
+                            <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{selectedJobData[0]?.jobTitle}</Typography>
 
 
                             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -3354,16 +3389,16 @@ const Chatbot = () => {
                                     <CalendarTodayIcon sx={{ fontSize: '15px' }} />
                                 </Box>
                                 <Box sx={{ pl: '10px' }}>
-                                    <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted {formatDate(selectedJobData[0]?.postingCreateTime_.seconds_)}</Typography>
+                                    <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted {getDateFormat(selectedJobData[0]?.createDate)}</Typography>
                                 </Box>
                             </Box>
-                            {selectedJobData[0]?.customAttributes_.mapData.jobType?.stringValues_[0] ?
+                            {selectedJobData[0]?.jobType ?
                                 (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                                     <Box>
                                         <AccessTimeIcon sx={{ fontSize: '15px' }} />
                                     </Box>
                                     <Box sx={{ pl: '10px' }}>
-                                        <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{selectedJobData[0]?.customAttributes_.mapData.jobType?.stringValues_[0]}</Typography>
+                                        <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{jobTypesList[selectedJobData[0]?.jobType]}</Typography>
                                     </Box>
                                 </Box>)
                                 : (<></>)
@@ -3380,7 +3415,7 @@ const Chatbot = () => {
 
                             <Box sx={{ mt: '5px' }}>
                                 <Typography sx={{ fontSize: '14px' }}>
-                                    <span dangerouslySetInnerHTML={{ __html: selectedJobData[0]?.description_ }} />
+                                    <span dangerouslySetInnerHTML={{ __html: selectedJobData[0]?.publicJobDescr }} />
                                     {/* {selectedJobData[0]?.description} */}
                                 </Typography>
                             </Box>
@@ -3424,7 +3459,7 @@ const Chatbot = () => {
                                     height: '50px',
                                     width: '50px',
                                     borderRadius: '50%',
-                                    backgroundImage: `url("${customerFace}")`,
+                                    backgroundImage: `url("${customerLogo ? customerLogo : customerFace}")`,
                                     backgroundSize: 'cover',
                                     cursor: 'pointer',
                                     transition: 'transform 0.3s, opacity 0.3s',

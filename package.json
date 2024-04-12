@@ -1,7 +1,7 @@
 {
   "name": "chatbot",
   "version": "0.1.0",
-  "homepage": "https://careers.curately.ai/cxninja-bot-demo/",
+  "homepage": "https://careers.curately.ai/careers-bot/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.0",

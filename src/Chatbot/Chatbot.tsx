@@ -723,7 +723,7 @@ const Chatbot = () => {
         }
 
         setMessagesList(prevArray => [...prevArray, obj]);
-        dataToPass.message = `/input_select_job{"select_job": "${jobData.requisitionId_}"}`
+        dataToPass.message = `/input_select_job{"select_job": "${jobData.jobId}"}`
         dataToPass.metadata.job_location = ipLocation;
         // dataToPass.message = type === "input_job_title" ? `/${type}{"job_title": "${value}"}` : `/${type}{"job_location": "${value}"}`;
         getTableData();

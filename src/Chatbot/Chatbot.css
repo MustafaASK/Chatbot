@@ -80,3 +80,161 @@
 .read-more-btn-icon {
     font-size: 25px !important;
 }
+
+.seek-main-con {
+    display: flex;
+    flex-direction: row;
+    /* align-items: center; */
+}
+
+.seek-text-con {
+    background-color: #EAEEED;
+    border-radius: 18px 18px 18px 5px;
+    padding: 10px 19px 10px 19px;
+    width: max-content;
+    box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.12);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.seek-para-text {
+    margin: 0px !important;
+    font-family: 'Segoe UI' !important;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 18px;
+    text-align: left;
+    color: #374458;
+}
+
+.seek-span-text {
+    font-size: 12px;
+    font-style: italic;
+}
+
+.seek-btn-con {
+    display: flex;
+    flex-direction: column;
+}
+
+.seek-btn-unselect {
+    width: max-content;
+    border-radius: 50px !important;
+    text-transform: capitalize !important;
+    font-family: 'Segoe UI' !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    line-height: 21px !important;
+    text-align: left;
+    margin-bottom: 5px !important;
+    color: #146EF6 !important;
+    border-color: #146EF6 !important;
+}
+
+.seek-btn-unselect:hover {
+    color: #146EF6 !important;
+    border-color: #146EF6 !important;
+    background-color: transparent !important;
+}
+
+.seek-btn-select {
+    width: max-content;
+    border-radius: 50px !important;
+    text-transform: capitalize !important;
+    font-family: 'Segoe UI' !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    line-height: 21px !important;
+    text-align: left;
+    margin-bottom: 5px !important;
+    color: #ffffff !important;
+    background-color: #146EF6 !important;
+}
+
+.seek-btn-select:hover {
+    color: #ffffff !important;
+    background-color: #146EF6 !important;
+}
+
+
+.seek-submit-con {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.seek-btns {
+    height: 35px;
+    width: 130px;
+    border-radius: 5px !important;
+    font-family: 'Segoe UI' !important;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+    text-align: left;
+    text-transform: capitalize !important;
+}
+
+.seek-back-btn {
+    border-color: #CACACC !important;
+    color: #374458 !important;
+    background-color: transparent !important;
+}
+
+.seek-back-btn:hover {
+    border-color: #CACACC !important;
+    color: #374458 !important;
+    background-color: transparent !important;
+}
+
+.seek-submit-btn {
+    background-color: #146EF6 !important;
+    color: #ffffff !important;
+    opacity: 0px !important;
+}
+
+.seek-submit-btn:hover {
+    background-color: #146EF6 !important;
+    color: #ffffff !important;
+}
+
+.submtd-emply-main-con {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: end;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.submtd-emply-con {
+    background-color: #146EF6;
+    border-radius: 18px 18px 5px 18px;
+    padding: 8px 21px 8px 21px;
+    width: max-content;
+    box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.12);
+}
+
+.seek-emply-para-con {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* justify-content: center; */
+}
+
+.seek-check-icon {
+    font-size: 13px !important;
+    color: #ffffff;
+    margin-right: 5px;
+}
+
+.seek-emply-text {
+    margin: 0px !important;
+    font-family: 'Segoe UI' !important;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 18px;
+    text-align: left;
+    color: #ffffff;
+}

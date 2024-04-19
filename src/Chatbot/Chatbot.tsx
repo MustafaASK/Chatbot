@@ -49,6 +49,8 @@ import { States } from "./utills/helper";
 import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+import CheckIcon from '@mui/icons-material/Check';
 import { formatDate } from "./utills/helper";
 
 import './Chatbot.css'
@@ -171,6 +173,14 @@ type CustomObj = {
     type: string
 }
 
+const seek = [
+    { btnText: 'Full-time Contract' },
+    { btnText: 'Part-time Contract' },
+    { btnText: 'Full-time Employee' },
+    { btnText: 'Freelancer' },
+    { btnText: 'All the Above' },
+]
+
 const Chatbot = () => {
 
     const location = useLocation();
@@ -228,22 +238,22 @@ const Chatbot = () => {
     const [jobTypesList, setJobTypesList] = useState<any>({
         "1": "Full Time",
         "2": "Part Time",
-      });
-      const [workTypesList, setWorkTypesList] = useState<any>( {
+    });
+    const [workTypesList, setWorkTypesList] = useState<any>({
         "1": "Remote",
         "2": "Hybrid",
         "3": "On-site",
-  
-      });
-    
 
-//   workTypesList: any =
-//     {
-//       "1": "Remote",
-//       "2": "Hybrid",
-//       "3": "On-site",
+    });
 
-//     };
+
+    //   workTypesList: any =
+    //     {
+    //       "1": "Remote",
+    //       "2": "Hybrid",
+    //       "3": "On-site",
+
+    //     };
 
     const handleCloseMenu = (msg: any, msgObj: any) => {
         setAnchorEl(null);
@@ -398,7 +408,7 @@ const Chatbot = () => {
                     if (!restartDataToPass.metadata.client_id) {
                         restartDataToPass.metadata.client_id = clientIdtoString;
                     }
-                    if(resp.data.chatLogo){
+                    if (resp.data.chatLogo) {
                         setCustomerLogo(resp.data.chatLogo);
                     }
 
@@ -1371,11 +1381,11 @@ const Chatbot = () => {
     const getDateFormat = (date: string) => {
         if (date) {
             return moment(date).format("MM-DD-YYYY")
-        //   return new Date(date.replace(' ', 'T')).toISOString();
+            //   return new Date(date.replace(' ', 'T')).toISOString();
         } else {
-          return date;
+            return date;
         }
-      }
+    }
 
     const sendTextMessage = () => {
         setIsReload((prevState) => !prevState)
@@ -1741,6 +1751,23 @@ const Chatbot = () => {
         } else {
             return text; // No tags found, return original content
         }
+    }
+
+    const [selectedSeekBtns, setSelectedSeekBtns] = useState<any>([]);
+    const [seekEmployementSubmt, setseekEmployementSubmt] = useState(false)
+
+    const handleSeekBtn = (btn: any) => {
+        if (!seekEmployementSubmt) {
+            if (selectedSeekBtns.includes(btn)) {
+                setSelectedSeekBtns(selectedSeekBtns.filter((selectedBtn: any) => selectedBtn !== btn));
+            } else {
+                setSelectedSeekBtns([...selectedSeekBtns, btn]);
+            }
+        }
+    }
+
+    const seekSubmit = () => {
+        setseekEmployementSubmt(true)
     }
 
     return (
@@ -2374,65 +2401,82 @@ const Chatbot = () => {
 
 
 
+                            <div style={{ display: 'none' }}>
+                                {messagesList.map((msgObj) => (
+                                    <>
+                                        {msgObj.sent ?
+                                            (<>
+                                                <Stack sx={{ pt: '10px' }} direction='column' p={0.5} alignItems='flex-end' >
+                                                    <Stack direction='row' spacing={0.5} mr={1} ml={1}>
+                                                        <Stack sx=
+                                                            {{
+                                                                backgroundColor: '#146EF6', borderRadius: '24px', p: 0.5, display: 'flex', flexDirection: 'row', justifyContent: 'center', borderBottomRightRadius: "5px", outline: "1px solid transparent"
+                                                            }}
 
-                            {messagesList.map((msgObj) => (
-                                <>
-                                    {msgObj.sent ?
-                                        (<>
-                                            <Stack sx={{ pt: '10px' }} direction='column' p={0.5} alignItems='flex-end' >
-                                                <Stack direction='row' spacing={0.5} mr={1} ml={1}>
-                                                    <Stack sx=
-                                                        {{
-                                                            backgroundColor: '#146EF6', borderRadius: '24px', p: 0.5, display: 'flex', flexDirection: 'row', justifyContent: 'center', borderBottomRightRadius: "5px", outline: "1px solid transparent"
-                                                        }}
+                                                        >
+                                                            <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
+                                                                {msgObj.text}
+                                                            </Typography>
+                                                        </Stack>
 
-                                                    >
-                                                        <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
-                                                            {msgObj.text}
-                                                        </Typography>
-                                                    </Stack>
-
-                                                    <Stack>
-                                                        <img src={profileIcon} style={{ height: '30px', width: '30px' }} alt="chatbot" />
+                                                        <Stack>
+                                                            <img src={profileIcon} style={{ height: '30px', width: '30px' }} alt="chatbot" />
+                                                        </Stack>
                                                     </Stack>
                                                 </Stack>
-                                            </Stack>
-                                        </>) :
-                                        (<>
-                                            {msgObj.custom?.ui_component === 'resume_upload' ?
-                                                (<>
-                                                    <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }} ref={dropContainer} style={{ border: isDrag ? '5px dotted #e2e2e2' : '1px solid #e2e2e2', backgroundColor: isDrag ? 'rgba(255,255,255,.8)' : '#fbfbfb' }}>
-                                                        <Box sx={{ backgroundColor: '#e2e2e2', height: '100px', width: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: '50%', mb: '15px', }}>
-                                                            {fileInputData ?
-                                                                <Box sx={{ position: "relative" }}>
-                                                                    <InsertDriveFileOutlinedIcon sx={{
-                                                                        fontSize: '45px',
-                                                                        color: 'grey',
-                                                                        // fill: "green"
-                                                                    }} />
-                                                                    <CheckCircleIcon sx={{ fill: "#6fd4ab", fontSize: "15px", position: "absolute", right: "14px", top: "18px" }} />
-                                                                </Box> :
-                                                                <Box >
-                                                                    <UploadFileIcon sx={{
-                                                                        fontSize: '40px',
-                                                                        color: 'white',
+                                            </>) :
+                                            (<>
+                                                {msgObj.custom?.ui_component === 'resume_upload' ?
+                                                    (<>
+                                                        <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }} ref={dropContainer} style={{ border: isDrag ? '5px dotted #e2e2e2' : '1px solid #e2e2e2', backgroundColor: isDrag ? 'rgba(255,255,255,.8)' : '#fbfbfb' }}>
+                                                            <Box sx={{ backgroundColor: '#e2e2e2', height: '100px', width: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: '50%', mb: '15px', }}>
+                                                                {fileInputData ?
+                                                                    <Box sx={{ position: "relative" }}>
+                                                                        <InsertDriveFileOutlinedIcon sx={{
+                                                                            fontSize: '45px',
+                                                                            color: 'grey',
+                                                                            // fill: "green"
+                                                                        }} />
+                                                                        <CheckCircleIcon sx={{ fill: "#6fd4ab", fontSize: "15px", position: "absolute", right: "14px", top: "18px" }} />
+                                                                    </Box> :
+                                                                    <Box >
+                                                                        <UploadFileIcon sx={{
+                                                                            fontSize: '40px',
+                                                                            color: 'white',
 
-                                                                    }} />
-                                                                </Box>
+                                                                        }} />
+                                                                    </Box>
 
-                                                            }
+                                                                }
 
-                                                        </Box>
-                                                        {fileInputData ? <Typography sx={{ fontSize: "14px" }}>{fileInputData.name}</Typography> : <Typography sx={{ fontSize: "14px" }}>Drag & drop file to upload</Typography>}
-                                                        {!fileInputData ? <Box sx={{ mt: '15px', mb: '15px' }} >
-                                                            <input type="file" id="file-upload"
-                                                                accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={{ display: 'none' }} onChange={readFile} />
-                                                            <label htmlFor="file-upload">
+                                                            </Box>
+                                                            {fileInputData ? <Typography sx={{ fontSize: "14px" }}>{fileInputData.name}</Typography> : <Typography sx={{ fontSize: "14px" }}>Drag & drop file to upload</Typography>}
+                                                            {!fileInputData ? <Box sx={{ mt: '15px', mb: '15px' }} >
+                                                                <input type="file" id="file-upload"
+                                                                    accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style={{ display: 'none' }} onChange={readFile} />
+                                                                <label htmlFor="file-upload">
+                                                                    <Button
+                                                                        onClick={() => handleFileUpload("file-upload")}
+                                                                        variant="contained"
+                                                                        disableRipple
+                                                                        component='span'
+                                                                        sx={{
+                                                                            borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '14px', height: '34px', boxShadow: 0,
+                                                                            '&:hover': {
+                                                                                backgroundColor: '#146EF6',
+                                                                                boxShadow: 0
+                                                                            }
+                                                                        }}>
+                                                                        Upload new Resume
+
+                                                                    </Button>
+                                                                </label>
+                                                            </Box> : <Box sx={{ mt: '15px', mb: '15px' }} >
                                                                 <Button
-                                                                    onClick={() => handleFileUpload("file-upload")}
+                                                                    onClick={submitFile}
                                                                     variant="contained"
                                                                     disableRipple
-                                                                    component='span'
+
                                                                     sx={{
                                                                         borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '14px', height: '34px', boxShadow: 0,
                                                                         '&:hover': {
@@ -2440,231 +2484,214 @@ const Chatbot = () => {
                                                                             boxShadow: 0
                                                                         }
                                                                     }}>
-                                                                    Upload new Resume
+                                                                    Submit
 
                                                                 </Button>
-                                                            </label>
-                                                        </Box> : <Box sx={{ mt: '15px', mb: '15px' }} >
-                                                            <Button
-                                                                onClick={submitFile}
-                                                                variant="contained"
-                                                                disableRipple
 
-                                                                sx={{
-                                                                    borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '14px', height: '34px', boxShadow: 0,
-                                                                    '&:hover': {
-                                                                        backgroundColor: '#146EF6',
-                                                                        boxShadow: 0
-                                                                    }
-                                                                }}>
-                                                                Submit
+                                                            </Box>}
 
-                                                            </Button>
+                                                            {msgObj.custom.is_cancel_allowed && <Typography sx={{ fontWeight: 400, fontSize: '14px', textDecoration: 'underline', cursor: 'pointer' }} onClick={() => cancelUpload(msgObj)} >
+                                                                Cancel
+                                                            </Typography>}
 
-                                                        </Box>}
+                                                        </Stack>
+                                                    </>) :
+                                                    (<>
+                                                        {msgObj.jobs && msgObj.jobs.length ?
+                                                            (<>
+                                                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', overflow: (msgObj.jobs[0].isRealJob ? "hidden" : ''), height: (msgObj.jobs[0].isRealJob ? "300px" : '100px'), position: 'relative', mr: 1, ml: 1 }}>
+                                                                    {/* , overflow: 'hidden' */}
 
-                                                        {msgObj.custom.is_cancel_allowed && <Typography sx={{ fontWeight: 400, fontSize: '14px', textDecoration: 'underline', cursor: 'pointer' }} onClick={() => cancelUpload(msgObj)} >
-                                                            Cancel
-                                                        </Typography>}
-
-                                                    </Stack>
-                                                </>) :
-                                                (<>
-                                                    {msgObj.jobs && msgObj.jobs.length ?
-                                                        (<>
-                                                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', overflow: (msgObj.jobs[0].isRealJob ? "hidden" : ''), height: (msgObj.jobs[0].isRealJob ? "300px" : '100px'), position: 'relative', mr: 1, ml: 1 }}>
-                                                                {/* , overflow: 'hidden' */}
-
-                                                                <Stack
-                                                                    sx={{
-                                                                        display: activeStep[msgObj.slideCount]?.stepNumber === 0 ? 'none' : 'block',
-                                                                        mb: '60px'
-                                                                    }}
-                                                                >
-                                                                    <Button
-                                                                        disableRipple
-                                                                        size="small"
-                                                                        variant="contained"
-                                                                        onClick={() => handleBack(msgObj.slideCount)}
+                                                                    <Stack
                                                                         sx={{
-                                                                            position: 'absolute',
-                                                                            left: '1px',
-                                                                            zIndex: 2,
-                                                                            minWidth: '30px',
-                                                                            p: '5px',
-                                                                            backgroundColor: '#ffffff',
-                                                                            color: '#146EF6',
-                                                                            height: '60px',
-                                                                            boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
-                                                                            display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
-                                                                            '&:hover': {
-                                                                                backgroundColor: '#146EF6',
-                                                                                color: '#ffffff',
-
-                                                                            }
+                                                                            display: activeStep[msgObj.slideCount]?.stepNumber === 0 ? 'none' : 'block',
+                                                                            mb: '60px'
                                                                         }}
                                                                     >
-                                                                        {theme.direction === 'rtl' ? (
-                                                                            <KeyboardArrowRightIcon />
-                                                                        ) : (
-                                                                            <KeyboardArrowLeftIcon />
-                                                                        )}
-                                                                    </Button>
-                                                                    {/* } */}
-                                                                </Stack>
+                                                                        <Button
+                                                                            disableRipple
+                                                                            size="small"
+                                                                            variant="contained"
+                                                                            onClick={() => handleBack(msgObj.slideCount)}
+                                                                            sx={{
+                                                                                position: 'absolute',
+                                                                                left: '1px',
+                                                                                zIndex: 2,
+                                                                                minWidth: '30px',
+                                                                                p: '5px',
+                                                                                backgroundColor: '#ffffff',
+                                                                                color: '#146EF6',
+                                                                                height: '60px',
+                                                                                boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
+                                                                                display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
+                                                                                '&:hover': {
+                                                                                    backgroundColor: '#146EF6',
+                                                                                    color: '#ffffff',
 
-                                                                {
-                                                                    msgObj.jobs.map((job: any, i: any) => {
-                                                                        return <>
+                                                                                }
+                                                                            }}
+                                                                        >
+                                                                            {theme.direction === 'rtl' ? (
+                                                                                <KeyboardArrowRightIcon />
+                                                                            ) : (
+                                                                                <KeyboardArrowLeftIcon />
+                                                                            )}
+                                                                        </Button>
+                                                                        {/* } */}
+                                                                    </Stack>
 
-                                                                            <Slide direction={slideDirection} in={i === activeStep[msgObj.slideCount]?.stepNumber} mountOnEnter unmountOnExit
-                                                                                timeout={{ appear: 0, enter: 300, exit: 0 }}
-                                                                            >
+                                                                    {
+                                                                        msgObj.jobs.map((job: any, i: any) => {
+                                                                            return <>
 
-                                                                                <Paper
-                                                                                    square
-                                                                                    elevation={0}
-                                                                                    sx={{
-                                                                                        display: (i === activeStep[msgObj.slideCount]?.stepNumber) ? 'flex' : 'none',
-                                                                                        alignItems: 'center',
-                                                                                        height: '100%',
-                                                                                        bgcolor: 'background.default',
-                                                                                        position: 'relative',
-                                                                                        zIndex: 1,
-                                                                                        // transition: 'transform 0.5s ease-in-out',
-                                                                                        // transform: `translateX(-${activeStep * (100 / steps.length)}%)`,
-
-                                                                                    }}
+                                                                                <Slide direction={slideDirection} in={i === activeStep[msgObj.slideCount]?.stepNumber} mountOnEnter unmountOnExit
+                                                                                    timeout={{ appear: 0, enter: 300, exit: 0 }}
                                                                                 >
 
-                                                                                    {/* {step.container} */}
-                                                                                    {job.isRealJob ? <Stack className="carousel-main-card">
-                                                                                        <Stack className="carousel-child-card-1">
-                                                                                            <Stack className="carousel-child-card-2">
-                                                                                                {/* <Box sx={{ p: 1 }}>
+                                                                                    <Paper
+                                                                                        square
+                                                                                        elevation={0}
+                                                                                        sx={{
+                                                                                            display: (i === activeStep[msgObj.slideCount]?.stepNumber) ? 'flex' : 'none',
+                                                                                            alignItems: 'center',
+                                                                                            height: '100%',
+                                                                                            bgcolor: 'background.default',
+                                                                                            position: 'relative',
+                                                                                            zIndex: 1,
+                                                                                            // transition: 'transform 0.5s ease-in-out',
+                                                                                            // transform: `translateX(-${activeStep * (100 / steps.length)}%)`,
+
+                                                                                        }}
+                                                                                    >
+
+                                                                                        {/* {step.container} */}
+                                                                                        {job.isRealJob ? <Stack className="carousel-main-card">
+                                                                                            <Stack className="carousel-child-card-1">
+                                                                                                <Stack className="carousel-child-card-2">
+                                                                                                    {/* <Box sx={{ p: 1 }}>
                                         <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>Sales</Typography>
                                     </Box> */}
 
-                                                                                                <Stack className="carousel-detail-card">
+                                                                                                    <Stack className="carousel-detail-card">
 
-                                                                                                    <Typography className="carousel-card-job-title-text">{job.jobTitle}</Typography>
-                                                                                                    <Box className='carousel-card-location-con'>
-                                                                                                        <Box>
-                                                                                                            <LocationOnOutlinedIcon className="carousel-card-loc-icon" />
-                                                                                                        </Box>
-                                                                                                        <Box className='carousel-card-details-con'>
-                                                                                                            <Typography className="carousel-card-loc-details-text">{job.workCity + ', ' + job.workState}</Typography>
-
-                                                                                                            {/* <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography> */}
-                                                                                                        </Box>
-                                                                                                    </Box>
-
-                                                                                                    <Box className="carousel-card-calender-details-con">
-                                                                                                        <Box>
-                                                                                                            <CalendarTodayIcon className="carousel-card-calender-icon" />
-                                                                                                        </Box>
-                                                                                                        <Box className='carousel-card-details-con'>
-
-                                                                                                            <Typography className="carousel-card-calender-details-text">Posted on {getDateFormat(job.createDate)}</Typography>
-                                                                                                        </Box>
-                                                                                                    </Box>
-                                                                                                    {job.jobType ?
-                                                                                                        (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                                                                                        <Typography className="carousel-card-job-title-text">{job.jobTitle}</Typography>
+                                                                                                        <Box className='carousel-card-location-con'>
                                                                                                             <Box>
-                                                                                                                <AccessTimeIcon sx={{ fontSize: '15px' }} />
+                                                                                                                <LocationOnOutlinedIcon className="carousel-card-loc-icon" />
                                                                                                             </Box>
-                                                                                                            <Box sx={{ pl: '10px' }}>
-                                                                                                                <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{jobTypesList[job.jobType]}</Typography>
-                                                                                                            </Box>
-                                                                                                        </Box>) :
-                                                                                                        (<></>)
-                                                                                                    }
+                                                                                                            <Box className='carousel-card-details-con'>
+                                                                                                                <Typography className="carousel-card-loc-details-text">{job.workCity + ', ' + job.workState}</Typography>
 
+                                                                                                                {/* <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography> */}
+                                                                                                            </Box>
+                                                                                                        </Box>
+
+                                                                                                        <Box className="carousel-card-calender-details-con">
+                                                                                                            <Box>
+                                                                                                                <CalendarTodayIcon className="carousel-card-calender-icon" />
+                                                                                                            </Box>
+                                                                                                            <Box className='carousel-card-details-con'>
+
+                                                                                                                <Typography className="carousel-card-calender-details-text">Posted on {getDateFormat(job.createDate)}</Typography>
+                                                                                                            </Box>
+                                                                                                        </Box>
+                                                                                                        {job.jobType ?
+                                                                                                            (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                                                                                                <Box>
+                                                                                                                    <AccessTimeIcon sx={{ fontSize: '15px' }} />
+                                                                                                                </Box>
+                                                                                                                <Box sx={{ pl: '10px' }}>
+                                                                                                                    <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{jobTypesList[job.jobType]}</Typography>
+                                                                                                                </Box>
+                                                                                                            </Box>) :
+                                                                                                            (<></>)
+                                                                                                        }
+
+                                                                                                    </Stack>
+
+                                                                                                    <Box>
+                                                                                                        <Button
+                                                                                                            disableRipple
+                                                                                                            onClick={() => handleReadMore(job, msgObj.isDisabled)}
+                                                                                                            endIcon={<KeyboardArrowRightIcon className="read-more-btn-icon" />}
+                                                                                                            className="read-more-btn"
+                                                                                                            sx={{
+                                                                                                                textTransform: 'capitalize',
+
+                                                                                                                '& .MuiButton-endIcon': {
+                                                                                                                    marginRight: 0,
+                                                                                                                    marginLeft: '-5px'
+                                                                                                                },
+                                                                                                                // '& .MuiButton-endIcon>*:nth-of-type(1)': {
+                                                                                                                //     fontSize: '25px'
+                                                                                                                // },
+                                                                                                                '&:hover': {
+                                                                                                                    backgroundColor: '#ffffff'
+                                                                                                                }
+
+                                                                                                            }}
+
+                                                                                                        >
+                                                                                                            Read More
+                                                                                                        </Button>
+                                                                                                    </Box>
+
+                                                                                                    <Box sx={{ textAlign: 'center', pb: 3, pl: 1, pr: 1 }}>
+                                                                                                        <Button
+                                                                                                            variant="contained"
+                                                                                                            onClick={() => sendJobValue(job)}
+                                                                                                            sx={{
+                                                                                                                borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0, width: '100%',
+                                                                                                                '&:hover': {
+                                                                                                                    backgroundColor: '#146EF6',
+                                                                                                                    boxShadow: 0
+                                                                                                                }
+                                                                                                            }}
+                                                                                                            disabled={msgObj.isDisabled}
+                                                                                                        >
+
+                                                                                                            I'm Interested
+                                                                                                        </Button>
+
+                                                                                                        <Button
+                                                                                                            disableRipple
+                                                                                                            onClick={() => refineSearchJob(msgObj)}
+                                                                                                            disabled={msgObj.isDisabled}
+                                                                                                            sx={{
+                                                                                                                textTransform: 'capitalize',
+                                                                                                                textDecoration: 'underline',
+                                                                                                                '& .MuiButton-endIcon': {
+                                                                                                                    mr: 0,
+                                                                                                                    ml: '-5px'
+                                                                                                                },
+                                                                                                                '& .MuiButton-endIcon>*:nth-of-type(1)': {
+                                                                                                                    fontSize: '25px'
+                                                                                                                },
+                                                                                                                '&:hover': {
+                                                                                                                    backgroundColor: '#ffffff'
+                                                                                                                }
+
+                                                                                                            }}
+
+                                                                                                        >
+                                                                                                            Refine Search
+                                                                                                        </Button>
+                                                                                                    </Box>
                                                                                                 </Stack>
 
-                                                                                                <Box>
-                                                                                                    <Button
-                                                                                                        disableRipple
-                                                                                                        onClick={() => handleReadMore(job, msgObj.isDisabled)}
-                                                                                                        endIcon={<KeyboardArrowRightIcon className="read-more-btn-icon" />}
-                                                                                                        className="read-more-btn"
-                                                                                                        sx={{
-                                                                                                            textTransform: 'capitalize',
-
-                                                                                                            '& .MuiButton-endIcon': {
-                                                                                                                marginRight: 0,
-                                                                                                                marginLeft: '-5px'
-                                                                                                            },
-                                                                                                            // '& .MuiButton-endIcon>*:nth-of-type(1)': {
-                                                                                                            //     fontSize: '25px'
-                                                                                                            // },
-                                                                                                            '&:hover': {
-                                                                                                                backgroundColor: '#ffffff'
-                                                                                                            }
-
-                                                                                                        }}
-
-                                                                                                    >
-                                                                                                        Read More
-                                                                                                    </Button>
-                                                                                                </Box>
-
-                                                                                                <Box sx={{ textAlign: 'center', pb: 3, pl: 1, pr: 1 }}>
-                                                                                                    <Button
-                                                                                                        variant="contained"
-                                                                                                        onClick={() => sendJobValue(job)} 
-                                                                                                        sx={{
-                                                                                                            borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0, width: '100%',
-                                                                                                            '&:hover': {
-                                                                                                                backgroundColor: '#146EF6',
-                                                                                                                boxShadow: 0
-                                                                                                            }
-                                                                                                        }}
-                                                                                                        disabled={msgObj.isDisabled}
-                                                                                                    >
-
-                                                                                                        I'm Interested
-                                                                                                    </Button>
-
-                                                                                                    <Button
-                                                                                                        disableRipple
-                                                                                                        onClick={() => refineSearchJob(msgObj)} 
-                                                                                                        disabled={msgObj.isDisabled}
-                                                                                                        sx={{
-                                                                                                            textTransform: 'capitalize',
-                                                                                                            textDecoration: 'underline',
-                                                                                                            '& .MuiButton-endIcon': {
-                                                                                                                mr: 0,
-                                                                                                                ml: '-5px'
-                                                                                                            },
-                                                                                                            '& .MuiButton-endIcon>*:nth-of-type(1)': {
-                                                                                                                fontSize: '25px'
-                                                                                                            },
-                                                                                                            '&:hover': {
-                                                                                                                backgroundColor: '#ffffff'
-                                                                                                            }
-
-                                                                                                        }}
-
-                                                                                                    >
-                                                                                                        Refine Search
-                                                                                                    </Button>
-                                                                                                </Box>
                                                                                             </Stack>
-
-                                                                                        </Stack>
-                                                                                    </Stack> :
-                                                                                        <Stack sx={{ minWidth: '300px' }}>
-                                                                                            {/* minHeight: '300px', */}
-                                                                                            <Stack sx={{
-                                                                                                backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
-                                                                                                height: '10px',
-                                                                                            }}>
-                                                                                                {/* boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', */}
-                                                                                                <Stack sx={{ backgroundColor: '#ffffff', textAlign: 'center', p: 2 }}>
-                                                                                                    {/* borderRadius: '2px', */}
-                                                                                                    {/* boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', mt: 1, height: '350px',*/}
-                                                                                                    {/* <Stack sx={{ mt: 1 }}>
+                                                                                        </Stack> :
+                                                                                            <Stack sx={{ minWidth: '300px' }}>
+                                                                                                {/* minHeight: '300px', */}
+                                                                                                <Stack sx={{
+                                                                                                    backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
+                                                                                                    height: '10px',
+                                                                                                }}>
+                                                                                                    {/* boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', */}
+                                                                                                    <Stack sx={{ backgroundColor: '#ffffff', textAlign: 'center', p: 2 }}>
+                                                                                                        {/* borderRadius: '2px', */}
+                                                                                                        {/* boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', mt: 1, height: '350px',*/}
+                                                                                                        {/* <Stack sx={{ mt: 1 }}>
                                                                                                     <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
                                                                                                         <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
                                                                                                         <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
@@ -2685,167 +2712,278 @@ const Chatbot = () => {
 
                                                                                    </Stack> */}
 
-                                                                                                    {/* <Typography sx={{ mt: 1, mb: 1, fontSize: '16px', fontWeight: 600 }}>Here's what you can do.</Typography> */}
+                                                                                                        {/* <Typography sx={{ mt: 1, mb: 1, fontSize: '16px', fontWeight: 600 }}>Here's what you can do.</Typography> */}
 
-                                                                                                    <Box sx={{ mr: 1, ml: 1 }}>
+                                                                                                        <Box sx={{ mr: 1, ml: 1 }}>
 
-                                                                                                        <Button variant="contained"
-                                                                                                            disableRipple
-                                                                                                            sx={{
-                                                                                                                width: '100%', mb: 1, backgroundColor: '#146EF6', boxShadow: 0,
-                                                                                                                fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
-                                                                                                                '&:hover': {
-                                                                                                                    backgroundColor: '#146EF6',
-                                                                                                                    boxShadow: 0
-                                                                                                                }
-                                                                                                            }}
+                                                                                                            <Button variant="contained"
+                                                                                                                disableRipple
+                                                                                                                sx={{
+                                                                                                                    width: '100%', mb: 1, backgroundColor: '#146EF6', boxShadow: 0,
+                                                                                                                    fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
+                                                                                                                    '&:hover': {
+                                                                                                                        backgroundColor: '#146EF6',
+                                                                                                                        boxShadow: 0
+                                                                                                                    }
+                                                                                                                }}
 
-                                                                                                            onClick={() => refineSearchJob(msgObj)}
-                                                                                                            disabled={msgObj.isDisabled}
-                                                                                                        >
-                                                                                                            Refine Job Search
-                                                                                                        </Button>
-                                                                                                    </Box>
+                                                                                                                onClick={() => refineSearchJob(msgObj)}
+                                                                                                                disabled={msgObj.isDisabled}
+                                                                                                            >
+                                                                                                                Refine Job Search
+                                                                                                            </Button>
+                                                                                                        </Box>
+                                                                                                    </Stack>
+
                                                                                                 </Stack>
-
-                                                                                            </Stack>
-                                                                                        </Stack>}
+                                                                                            </Stack>}
 
 
-                                                                                </Paper>
+                                                                                    </Paper>
 
-                                                                            </Slide>
+                                                                                </Slide>
 
-                                                                        </>
-                                                                    })
-                                                                }
+                                                                            </>
+                                                                        })
+                                                                    }
 
-                                                                <Box sx={{
+                                                                    <Box sx={{
 
-                                                                    display: activeStep[msgObj.slideCount]?.stepNumber === msgObj.maxSteps - 1 ? 'none' : 'block',
-                                                                    mb: '60px',
+                                                                        display: activeStep[msgObj.slideCount]?.stepNumber === msgObj.maxSteps - 1 ? 'none' : 'block',
+                                                                        mb: '60px',
 
-                                                                }}>
-                                                                    <Button
-                                                                        size="small"
-                                                                        variant="contained"
-                                                                        onClick={() => handleNext(msgObj.slideCount)}
-                                                                        sx={{
-                                                                            position: 'absolute',
-                                                                            right: '1px',
-                                                                            zIndex: 2,
-                                                                            minWidth: '30px',
-                                                                            backgroundColor: '#ffffff',
-                                                                            color: '#146EF6',
-                                                                            height: '60px',
-                                                                            p: '5px',
-                                                                            boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
-                                                                            display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
-                                                                            '&:hover': {
-                                                                                backgroundColor: '#146EF6',
-                                                                                color: '#ffffff',
-                                                                            }
-                                                                        }}
-                                                                        disableRipple
-                                                                    >
-                                                                        {theme.direction === 'rtl' ? (
-                                                                            <KeyboardArrowLeftIcon />
-                                                                        ) : (
-                                                                            <KeyboardArrowRightIcon />
-                                                                        )}
-                                                                    </Button>
+                                                                    }}>
+                                                                        <Button
+                                                                            size="small"
+                                                                            variant="contained"
+                                                                            onClick={() => handleNext(msgObj.slideCount)}
+                                                                            sx={{
+                                                                                position: 'absolute',
+                                                                                right: '1px',
+                                                                                zIndex: 2,
+                                                                                minWidth: '30px',
+                                                                                backgroundColor: '#ffffff',
+                                                                                color: '#146EF6',
+                                                                                height: '60px',
+                                                                                p: '5px',
+                                                                                boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
+                                                                                display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
+                                                                                '&:hover': {
+                                                                                    backgroundColor: '#146EF6',
+                                                                                    color: '#ffffff',
+                                                                                }
+                                                                            }}
+                                                                            disableRipple
+                                                                        >
+                                                                            {theme.direction === 'rtl' ? (
+                                                                                <KeyboardArrowLeftIcon />
+                                                                            ) : (
+                                                                                <KeyboardArrowRightIcon />
+                                                                            )}
+                                                                        </Button>
 
+                                                                    </Box>
                                                                 </Box>
-                                                            </Box>
-                                                            {msgObj.maxSteps ?
-                                                                (<>
-                                                                    <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', mb: 2 }}
-                                                                        direction='row' spacing={2}
-                                                                    >
+                                                                {msgObj.maxSteps ?
+                                                                    (<>
+                                                                        <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', mb: 2 }}
+                                                                            direction='row' spacing={2}
+                                                                        >
 
-                                                                        <Box sx={{ textAlign: 'center', ml: '70px', }}>
-                                                                            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
-                                                                                {`${activeStep[msgObj.slideCount]?.stepNumber + 1} of ${msgObj.maxSteps}`}
-                                                                            </Typography>
-                                                                        </Box>
-
-                                                                        <Box>
-                                                                            <MobileStepper
-                                                                                variant="progress"
-                                                                                steps={msgObj.maxSteps}
-                                                                                position="static"
-                                                                                sx={{ width: '160px', }}
-                                                                                activeStep={activeStep[sliderCount]?.stepNumber}
-                                                                                nextButton={null}
-                                                                                backButton={null}
-                                                                            />
-                                                                        </Box>
-
-                                                                    </Stack></>) : (<></>)}
-
-                                                        </>) :
-                                                        (
-                                                            <>
-                                                                <>
-                                                                    {msgObj.text ? (
-                                                                        <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
-
-                                                                            <Stack sx={{ pl: '6px' }}>
-                                                                                <img src={customerLogo ? customerLogo : customerFace} style={{ height: '30px', width: '35px', borderRadius: "50%", boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' }} alt="chatbot" />
-                                                                            </Stack>
-                                                                            <Stack sx=
-                                                                                {{
-                                                                                    backgroundColor: '#eaeeed', borderRadius: '24px', p: 0.5, borderBottomLeftRadius: "5px", outline: "1px solid transparent"
-                                                                                }}
-                                                                            >
-                                                                                <Typography component='p' sx={{ color: 'black', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
-                                                                                    {removeTags(msgObj.text)}
+                                                                            <Box sx={{ textAlign: 'center', ml: '70px', }}>
+                                                                                <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
+                                                                                    {`${activeStep[msgObj.slideCount]?.stepNumber + 1} of ${msgObj.maxSteps}`}
                                                                                 </Typography>
-                                                                            </Stack>
-                                                                        </Stack>
-                                                                    ) : (<></>)}
+                                                                            </Box>
 
-                                                                </>
+                                                                            <Box>
+                                                                                <MobileStepper
+                                                                                    variant="progress"
+                                                                                    steps={msgObj.maxSteps}
+                                                                                    position="static"
+                                                                                    sx={{ width: '160px', }}
+                                                                                    activeStep={activeStep[sliderCount]?.stepNumber}
+                                                                                    nextButton={null}
+                                                                                    backButton={null}
+                                                                                />
+                                                                            </Box>
 
+                                                                        </Stack></>) : (<></>)}
+
+                                                            </>) :
+                                                            (
                                                                 <>
-                                                                    {(msgObj.buttons && msgObj.buttons.length && !msgObj.hideBtns) ?
-                                                                        (
-                                                                            <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} sx={{ ml: '40px', mr: '20px' }}>
-                                                                                {msgObj.buttons.map((btnObj: any) => (
-                                                                                    <Button variant="outlined" onClick={() => sendMessage(btnObj, msgObj)} sx={{ borderRadius: '20px', p: '5px 8px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '13px', width: 'auto', outline: "1px solid transparent" }}>
-                                                                                        {btnObj.title}
-                                                                                    </Button>
-                                                                                ))}
+                                                                    <>
+                                                                        {msgObj.text ? (
+                                                                            <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
+
+                                                                                <Stack sx={{ pl: '6px' }}>
+                                                                                    <img src={customerLogo ? customerLogo : customerFace} style={{ height: '30px', width: '35px', borderRadius: "50%", boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' }} alt="chatbot" />
+                                                                                </Stack>
+                                                                                <Stack sx=
+                                                                                    {{
+                                                                                        backgroundColor: '#eaeeed', borderRadius: '24px', p: 0.5, borderBottomLeftRadius: "5px", outline: "1px solid transparent"
+                                                                                    }}
+                                                                                >
+                                                                                    <Typography component='p' sx={{ color: 'black', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
+                                                                                        {removeTags(msgObj.text)}
+                                                                                    </Typography>
+                                                                                </Stack>
                                                                             </Stack>
-                                                                        ) :
-                                                                        (<></>)}
+                                                                        ) : (<></>)}
+
+                                                                    </>
+
+                                                                    <>
+                                                                        {(msgObj.buttons && msgObj.buttons.length && !msgObj.hideBtns) ?
+                                                                            (
+                                                                                <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} sx={{ ml: '40px', mr: '20px' }}>
+                                                                                    {msgObj.buttons.map((btnObj: any) => (
+                                                                                        <Button variant="outlined" onClick={() => sendMessage(btnObj, msgObj)} sx={{ borderRadius: '20px', p: '5px 8px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '13px', width: 'auto', outline: "1px solid transparent" }}>
+                                                                                            {btnObj.title}
+                                                                                        </Button>
+                                                                                    ))}
+                                                                                </Stack>
+                                                                            ) :
+                                                                            (<></>)}
+                                                                    </>
                                                                 </>
-                                                            </>
 
 
-                                                        )
-                                                    }
-                                                </>)
-                                            }
-                                        </>)}
-                                </>
-                            ))}
-                            {loaded ?
-                                (<><Stack direction='row' spacing={0.5} p={0.5} mr={5}>
+                                                            )
+                                                        }
+                                                    </>)
+                                                }
+                                            </>)}
+                                    </>
+                                ))}
+                                {loaded ?
+                                    (<><Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
-                                    <Stack>
-                                        <img src={customerLogo ? customerLogo : customerFace} style={{ height: '30px', width: '35px', borderRadius: "50%", boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' }} alt="chatbot" />
-                                    </Stack>
-                                    <Stack sx=
-                                        {{
-                                            p: 0.5
-                                        }}
-                                    >
-                                        <Loader />
-                                    </Stack>
-                                </Stack></>)
-                                : (<></>)
-                            }
+                                        <Stack>
+                                            <img src={customerLogo ? customerLogo : customerFace} style={{ height: '30px', width: '35px', borderRadius: "50%", boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' }} alt="chatbot" />
+                                        </Stack>
+                                        <Stack sx=
+                                            {{
+                                                p: 0.5
+                                            }}
+                                        >
+                                            <Loader />
+                                        </Stack>
+                                    </Stack></>)
+                                    : (<></>)
+                                }
+                            </div>
+
+                            {/* Latest Employment design  Updated */}
+
+                            <div className="seek-main-con">
+                                <div>
+                                    <img src={profileIcon} style={{ height: '30px', width: '30px', marginTop: '12px', marginRight: '4px' }} alt="chatbot" />
+                                </div>
+
+                                <div>
+
+                                    <div className="seek-text-con">
+                                        <p className="seek-para-text">Okay!</p>
+                                    </div>
+
+                                    <div className="seek-text-con">
+                                        <p className="seek-para-text">
+                                            What type of employment are you seeking? <br />
+                                            <span className="seek-span-text">(you can select multiple options)</span>
+                                        </p>
+                                    </div>
+
+                                    {!seekEmployementSubmt &&
+                                        <>
+                                            <div className="seek-btn-con">
+                                                {seek.map((btn: any) => (
+                                                    <Button
+                                                        disableRipple
+                                                        key={btn.btnText}
+                                                        variant={selectedSeekBtns.includes(btn.btnText) ? 'contained' : 'outlined'}
+                                                        className={selectedSeekBtns.includes(btn.btnText) ? 'seek-btn-select' : 'seek-btn-unselect'}
+                                                        startIcon={selectedSeekBtns.includes(btn.btnText) ? <CheckCircleIcon /> : <CircleOutlinedIcon />}
+                                                        onClick={() => handleSeekBtn(btn.btnText)}
+                                                        style={{ boxShadow: 'none' }}
+                                                    >
+                                                        {btn.btnText}
+                                                    </Button>
+                                                ))}
+                                            </div>
+
+
+                                            <div className="seek-submit-con">
+                                                <Button
+                                                    variant="contained"
+                                                    disableRipple
+                                                    className="seek-submit-btn seek-btns"
+                                                    style={{
+                                                        boxShadow: 'none',
+                                                        opacity: selectedSeekBtns.length !== 0 ? 1 : 0.5,
+                                                        pointerEvents: selectedSeekBtns.length !== 0 ? 'auto' : 'none'
+                                                    }}
+                                                    onClick={seekSubmit}
+                                                >
+                                                    Submit
+                                                </Button>
+
+                                                <Button
+                                                    variant="outlined"
+                                                    disableRipple
+                                                    className="seek-back-btn seek-btns"
+                                                    style={{ boxShadow: 'none' }}
+                                                >
+                                                    Back
+                                                </Button>
+                                            </div>
+                                        </>
+                                    }
+
+
+                                </div>
+                            </div>
+
+
+                            <div className="submtd-emply-main-con">
+                                {seekEmployementSubmt &&
+                                    <div className="submtd-emply-con">
+
+                                        {selectedSeekBtns.map((employment: any) => (
+                                            <div
+                                                key={employment}
+                                                className="seek-emply-para-con"
+                                            >
+                                                <CheckIcon className="seek-check-icon" />
+                                                <p
+                                                    className="seek-emply-text"
+                                                >
+                                                    {employment}
+                                                </p>
+                                            </div>
+                                        ))}
+
+                                    </div>
+                                }
+                            </div>
+
+                            <div className="seek-main-con">
+                                {seekEmployementSubmt &&
+                                    <>
+                                        <div>
+                                            <img src={profileIcon} style={{ height: '30px', width: '30px', marginTop: '12px', marginRight: '4px' }} alt="chatbot" />
+                                        </div>
+
+
+                                        <div className="seek-text-con">
+                                            <p className="seek-para-text">Sounds Good!</p>
+                                        </div>
+
+
+                                    </>
+                                }
+                            </div>
                         </ReactScrolableFeed>
                     </Stack>
                     {/* :

@@ -1629,7 +1629,7 @@ const Chatbot = () => {
                         if (response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) {
                             setDisableBtn((response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) ? true : false);
 
-                        }else if(checkMultiple){
+                        } else if (checkMultiple) {
                             setDisableBtn(true)
                         } else {
                             setDisableBtn((response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) ? false : false);
@@ -2793,7 +2793,7 @@ const Chatbot = () => {
                                                                                                                     </Box>
                                                                                                                 </Box>
                                                                                                                 {job.jobType ?
-                                                                                                                    (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                                                                                                    (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingLeft: '29px', marginTop: '5px' }}>
                                                                                                                         <Box>
                                                                                                                             <AccessTimeIcon sx={{ fontSize: '15px' }} />
                                                                                                                         </Box>

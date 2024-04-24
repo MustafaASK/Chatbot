@@ -1803,8 +1803,9 @@ const Chatbot = () => {
         }
 
         setMessagesList(prevArray => [...prevArray, obj]);
-        dataToPass.message = `/input-multi-select{"multi-select": "${formattedeKyValue}"}`
+        dataToPass.message = `${formattedeKyValue}`
         dataToPass.metadata.job_location = ipLocation;
+        setSelectedSeekBtns([]);
         getTableData();
     }
 
@@ -2995,8 +2996,8 @@ const Chatbot = () => {
                             
 
 
-                            <div className="submtd-emply-main-con" style={{display:'none'}}>
-                                {seekEmployementSubmt &&
+                            <div className="submtd-emply-main-con" style={{display:"none"}}>
+                                {
                                     <div className="submtd-emply-con">
 
                                         {selectedSeekBtns.map((employment: any) => (

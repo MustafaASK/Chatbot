@@ -173,13 +173,6 @@ type CustomObj = {
     type: string
 }
 
-const seek = [
-    { btnText: 'Full-time Contract' },
-    { btnText: 'Part-time Contract' },
-    { btnText: 'Full-time Employee' },
-    { btnText: 'Freelancer' },
-    { btnText: 'All the Above' },
-]
 
 const Chatbot = () => {
 
@@ -245,6 +238,9 @@ const Chatbot = () => {
         "3": "On-site",
 
     });
+    
+    const [seek, setSeek]= useState<any>([
+      ]);
 
 
     //   workTypesList: any =
@@ -396,7 +392,7 @@ const Chatbot = () => {
         let locationHref = window.parent.location.href;
         console.log(locationHref, 'locationHref')
         const getClientDetails = async (shortName: any) => {
-            shortName = "demo";
+            shortName = "qademo";
             try {
                 const resp = await apiService.getClientIdByShortName(shortName)
                 if (resp.data) {
@@ -1545,6 +1541,17 @@ const Chatbot = () => {
                                         // console.log(`${entityType}`);
                                     }
 
+                                    if (obj.custom?.ui_component && obj.custom.ui_component === "multi-select") {
+                                        // setEnableAuto(true);
+                                        // setSuggesations({
+                                        //     titles: [...States],
+                                        //     type: obj.custom.ui_component
+                                        // });
+                                        // obj.custom.options
+                                        setSeek(obj.custom.options);
+                                        setseekEmployementSubmt(false)
+                                    }
+
                                     if (obj.custom?.ui_component && obj.custom.ui_component === "job_location") {
                                         // setEnableAuto(true);
                                         // setSuggesations({
@@ -1754,7 +1761,7 @@ const Chatbot = () => {
     }
 
     const [selectedSeekBtns, setSelectedSeekBtns] = useState<any>([]);
-    const [seekEmployementSubmt, setseekEmployementSubmt] = useState(false)
+    const [seekEmployementSubmt, setseekEmployementSubmt] = useState(true)
 
     const handleSeekBtn = (btn: any) => {
         if (!seekEmployementSubmt) {
@@ -1767,7 +1774,38 @@ const Chatbot = () => {
     }
 
     const seekSubmit = () => {
-        setseekEmployementSubmt(true)
+        // setseekEmployementSubmt(true) 
+        
+        let formattedeKyValue = selectedSeekBtns.join();
+        let formatValues:any = [];
+        
+        selectedSeekBtns.forEach((job: any) => {
+            // job.isRealJob = true
+            console.log(job);
+            let filterArr = seek.filter((data: any) => data.value == job)
+            if(filterArr && filterArr.length){
+                formatValues.push(filterArr[0].key);
+            }
+            console.log(filterArr);
+            // seek.
+            // formatValues.push()
+        })
+
+        let textVal = formatValues.join();
+        
+        let obj = {
+            "text": textVal,
+            "payload": '',
+            "sent": true,
+            "metadata": {
+                "job_id": (queryParam ? queryParam : "1")
+            }
+        }
+
+        setMessagesList(prevArray => [...prevArray, obj]);
+        dataToPass.message = `/input-multi-select{"multi-select": "${formattedeKyValue}"}`
+        dataToPass.metadata.job_location = ipLocation;
+        getTableData();
     }
 
     return (
@@ -2401,7 +2439,7 @@ const Chatbot = () => {
 
 
 
-                            <div style={{ display: 'none' }}>
+                            <div >
                                 {messagesList.map((msgObj) => (
                                     <>
                                         {msgObj.sent ?
@@ -2426,7 +2464,82 @@ const Chatbot = () => {
                                                 </Stack>
                                             </>) :
                                             (<>
-                                                {msgObj.custom?.ui_component === 'resume_upload' ?
+                                            {msgObj.custom?.ui_component === 'multi-select' ? 
+                                            (<>
+                                                {
+                                                    <div className="seek-main-con">
+                                                        <div>
+                                                            {/* <img src={profileIcon} style={{ height: '30px', width: '30px', marginTop: '12px', marginRight: '4px' }} alt="chatbot" /> */}
+                                                        </div>
+
+                                                        <div>
+
+                                                            {/* <div className="seek-text-con">
+                                                                <p className="seek-para-text">Okay!</p>
+                                                            </div>
+
+                                                            <div className="seek-text-con">
+                                                                <p className="seek-para-text">
+                                                                    What type of employment are you seeking? <br />
+                                                                    <span className="seek-span-text">(you can select multiple options)</span>
+                                                                </p>
+                                                            </div> */}
+
+                                                            {!seekEmployementSubmt &&
+                                                                <>
+                                                                    <div className="seek-btn-con">
+                                                                        { 
+                                                                        seek.map((btn: any) => (
+                                                                            <Button
+                                                                                disableRipple
+                                                                                key={btn.value}
+                                                                                variant={selectedSeekBtns.includes(btn.value) ? 'contained' : 'outlined'}
+                                                                                className={selectedSeekBtns.includes(btn.value) ? 'seek-btn-select' : 'seek-btn-unselect'}
+                                                                                startIcon={selectedSeekBtns.includes(btn.value) ? <CheckCircleIcon /> : <CircleOutlinedIcon />}
+                                                                                onClick={() => handleSeekBtn(btn.value)}
+                                                                                style={{ boxShadow: 'none' }}
+                                                                            >
+                                                                                {btn.key}
+                                                                            </Button>
+                                                                        ))
+                                                                        }
+                                                                    </div>
+
+
+                                                                    <div className="seek-submit-con">
+                                                                        <Button
+                                                                            variant="contained"
+                                                                            disableRipple
+                                                                            className="seek-submit-btn seek-btns"
+                                                                            style={{
+                                                                                boxShadow: 'none',
+                                                                                opacity: selectedSeekBtns.length !== 0 ? 1 : 0.5,
+                                                                                pointerEvents: selectedSeekBtns.length !== 0 ? 'auto' : 'none'
+                                                                            }}
+                                                                            onClick={seekSubmit}
+                                                                        >
+                                                                            Submit
+                                                                        </Button>
+
+                                                                        <Button
+                                                                            variant="outlined"
+                                                                            disableRipple
+                                                                            className="seek-back-btn seek-btns"
+                                                                            style={{ boxShadow: 'none' }}
+                                                                        >
+                                                                            Back
+                                                                        </Button>
+                                                                    </div>
+                                                                </>
+                                                            }
+
+
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </>) :
+                                            (<>
+                                            {msgObj.custom?.ui_component === 'resume_upload' ?
                                                     (<>
                                                         <Stack sx={{ backgroundColor: '#fbfbfb', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', m: '25px', borderRadius: '30px', border: '1px solid #e2e2e2', borderStyle: 'dashed' }} ref={dropContainer} style={{ border: isDrag ? '5px dotted #e2e2e2' : '1px solid #e2e2e2', backgroundColor: isDrag ? 'rgba(255,255,255,.8)' : '#fbfbfb' }}>
                                                             <Box sx={{ backgroundColor: '#e2e2e2', height: '100px', width: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: '50%', mb: '15px', }}>
@@ -2854,6 +2967,9 @@ const Chatbot = () => {
                                                         }
                                                     </>)
                                                 }
+                                            </>)
+                                            }
+                                                
                                             </>)}
                                     </>
                                 ))}
@@ -2876,77 +2992,10 @@ const Chatbot = () => {
                             </div>
 
                             {/* Latest Employment design  Updated */}
-
-                            <div className="seek-main-con">
-                                <div>
-                                    <img src={profileIcon} style={{ height: '30px', width: '30px', marginTop: '12px', marginRight: '4px' }} alt="chatbot" />
-                                </div>
-
-                                <div>
-
-                                    <div className="seek-text-con">
-                                        <p className="seek-para-text">Okay!</p>
-                                    </div>
-
-                                    <div className="seek-text-con">
-                                        <p className="seek-para-text">
-                                            What type of employment are you seeking? <br />
-                                            <span className="seek-span-text">(you can select multiple options)</span>
-                                        </p>
-                                    </div>
-
-                                    {!seekEmployementSubmt &&
-                                        <>
-                                            <div className="seek-btn-con">
-                                                {seek.map((btn: any) => (
-                                                    <Button
-                                                        disableRipple
-                                                        key={btn.btnText}
-                                                        variant={selectedSeekBtns.includes(btn.btnText) ? 'contained' : 'outlined'}
-                                                        className={selectedSeekBtns.includes(btn.btnText) ? 'seek-btn-select' : 'seek-btn-unselect'}
-                                                        startIcon={selectedSeekBtns.includes(btn.btnText) ? <CheckCircleIcon /> : <CircleOutlinedIcon />}
-                                                        onClick={() => handleSeekBtn(btn.btnText)}
-                                                        style={{ boxShadow: 'none' }}
-                                                    >
-                                                        {btn.btnText}
-                                                    </Button>
-                                                ))}
-                                            </div>
+                            
 
 
-                                            <div className="seek-submit-con">
-                                                <Button
-                                                    variant="contained"
-                                                    disableRipple
-                                                    className="seek-submit-btn seek-btns"
-                                                    style={{
-                                                        boxShadow: 'none',
-                                                        opacity: selectedSeekBtns.length !== 0 ? 1 : 0.5,
-                                                        pointerEvents: selectedSeekBtns.length !== 0 ? 'auto' : 'none'
-                                                    }}
-                                                    onClick={seekSubmit}
-                                                >
-                                                    Submit
-                                                </Button>
-
-                                                <Button
-                                                    variant="outlined"
-                                                    disableRipple
-                                                    className="seek-back-btn seek-btns"
-                                                    style={{ boxShadow: 'none' }}
-                                                >
-                                                    Back
-                                                </Button>
-                                            </div>
-                                        </>
-                                    }
-
-
-                                </div>
-                            </div>
-
-
-                            <div className="submtd-emply-main-con">
+                            <div className="submtd-emply-main-con" style={{display:'none'}}>
                                 {seekEmployementSubmt &&
                                     <div className="submtd-emply-con">
 
@@ -2968,7 +3017,7 @@ const Chatbot = () => {
                                 }
                             </div>
 
-                            <div className="seek-main-con">
+                            <div className="seek-main-con" style={{display:'none'}}>
                                 {seekEmployementSubmt &&
                                     <>
                                         <div>

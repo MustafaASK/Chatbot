@@ -84,6 +84,7 @@
 .seek-main-con {
     display: flex;
     flex-direction: row;
+    padding-left: 13%;
     /* align-items: center; */
 }
 

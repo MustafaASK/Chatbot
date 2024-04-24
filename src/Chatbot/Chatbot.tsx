@@ -1796,6 +1796,7 @@ const Chatbot = () => {
         let obj = {
             "text": textVal,
             "payload": '',
+            "multiSelect":formatValues,
             "sent": true,
             "metadata": {
                 "job_id": (queryParam ? queryParam : "1")
@@ -2454,9 +2455,39 @@ const Chatbot = () => {
                                                             }}
 
                                                         >
-                                                            <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
+                                                            {
+                                                                msgObj?.multiSelect && msgObj?.multiSelect.length ?
+                                                                <>
+                                                                <div className="submtd-emply-main-con">
+                                
+
+                                <div className="submtd-emply-con">
+
+                                    {msgObj.multiSelect.map((employment: any) => (
+                                        <div
+                                            key={employment}
+                                            className="seek-emply-para-con"
+                                        >
+                                            <CheckIcon className="seek-check-icon" />
+                                            <p
+                                                className="seek-emply-text"
+                                            >
+                                                {employment}
+                                            </p>
+                                        </div>
+                                    ))}
+
+                                </div>
+                            
+                        </div>
+                        </>
+                                                                :
+                                                                <><Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
                                                                 {msgObj.text}
-                                                            </Typography>
+                                                            </Typography></>
+                                                            }
+                                                            
+                                                            
                                                         </Stack>
 
                                                         <Stack>

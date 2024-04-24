@@ -1773,14 +1773,14 @@ const Chatbot = () => {
     const [anyText, setAnyText] = useState("")
 
     const handleSeekBtn = (btn: any) => {
-        if (!seekEmployementSubmt && !selectedAnyBtn.length) {
+        if (!seekEmployementSubmt) {
             if (selectedSeekBtns.includes(btn)) {
                 setSelectedSeekBtns(selectedSeekBtns.filter((selectedBtn: any) => selectedBtn !== btn));
             } else {
                 setSelectedSeekBtns([...selectedSeekBtns, btn]);
             }
 
-
+            setSelectedAnyBtn([])
         }
     }
 

@@ -1548,7 +1548,8 @@ const Chatbot = () => {
                                         //     type: obj.custom.ui_component
                                         // });
                                         // obj.custom.options
-                                        newObject.seek = obj?.custom?.options ? obj.custom.options : []
+                                        newObject.seek = obj?.custom?.options ? obj.custom.options : [];
+                                        newObject.show = true;
                                         setSeek(obj.custom.options);
                                         setseekEmployementSubmt(false)
                                     }
@@ -1774,7 +1775,7 @@ const Chatbot = () => {
         }
     }
 
-    const seekSubmit = () => {
+    const seekSubmit = (msgObj:any) => {
         // setseekEmployementSubmt(true) 
 
         let formattedeKyValue = selectedSeekBtns.join();
@@ -1803,6 +1804,7 @@ const Chatbot = () => {
                 "job_id": (queryParam ? queryParam : "1")
             }
         }
+        msgObj['show'] = false;
 
         setMessagesList(prevArray => [...prevArray, obj]);
         dataToPass.message = `${formattedeKyValue}`
@@ -2521,7 +2523,7 @@ const Chatbot = () => {
 
                                                                     {
                                                                         <>
-                                                                            <div className="seek-btn-con">
+                                                                            <div className="seek-btn-con" style={{display:msgObj.show ? "block": "none"}}>
                                                                                 {
                                                                                     msgObj?.seek?.map((btn: any) => (
                                                                                         <Button
@@ -2540,7 +2542,7 @@ const Chatbot = () => {
                                                                             </div>
 
 
-                                                                            <div className="seek-submit-con">
+                                                                            <div className="seek-submit-con" style={{display:msgObj.show ? "block": "none"}}>
                                                                                 <Button
                                                                                     variant="contained"
                                                                                     disableRipple
@@ -2550,7 +2552,7 @@ const Chatbot = () => {
                                                                                         opacity: selectedSeekBtns.length !== 0 ? 1 : 0.5,
                                                                                         pointerEvents: selectedSeekBtns.length !== 0 ? 'auto' : 'none'
                                                                                     }}
-                                                                                    onClick={seekSubmit}
+                                                                                    onClick={()=>seekSubmit(msgObj)}
                                                                                 >
                                                                                     Submit
                                                                                 </Button>

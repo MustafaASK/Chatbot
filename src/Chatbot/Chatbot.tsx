@@ -1548,6 +1548,7 @@ const Chatbot = () => {
                                         //     type: obj.custom.ui_component
                                         // });
                                         // obj.custom.options
+                                        newObject.seek = obj?.custom?.options ? obj.custom.options : []
                                         setSeek(obj.custom.options);
                                         setseekEmployementSubmt(false)
                                     }
@@ -2461,26 +2462,26 @@ const Chatbot = () => {
                                                                 <div className="submtd-emply-main-con">
                                 
 
-                                <div className="submtd-emply-con">
+                                                                <div className="submtd-emply-con">
 
-                                    {msgObj.multiSelect.map((employment: any) => (
-                                        <div
-                                            key={employment}
-                                            className="seek-emply-para-con"
-                                        >
-                                            <CheckIcon className="seek-check-icon" />
-                                            <p
-                                                className="seek-emply-text"
-                                            >
-                                                {employment}
-                                            </p>
-                                        </div>
-                                    ))}
+                                                                    {msgObj.multiSelect.map((employment: any) => (
+                                                                        <div
+                                                                            key={employment}
+                                                                            className="seek-emply-para-con"
+                                                                        >
+                                                                            <CheckIcon className="seek-check-icon" />
+                                                                            <p
+                                                                                className="seek-emply-text"
+                                                                            >
+                                                                                {employment}
+                                                                            </p>
+                                                                        </div>
+                                                                    ))}
 
-                                </div>
-                            
-                        </div>
-                        </>
+                                                                </div>
+                                                            
+                                                        </div>
+                                                        </>
                                                                 :
                                                                 <><Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
                                                                 {msgObj.text}
@@ -2518,11 +2519,11 @@ const Chatbot = () => {
                                                                 </p>
                                                             </div> */}
 
-                                                                    {!seekEmployementSubmt &&
+                                                                    {
                                                                         <>
                                                                             <div className="seek-btn-con">
                                                                                 {
-                                                                                    seek.map((btn: any) => (
+                                                                                    msgObj?.seek?.map((btn: any) => (
                                                                                         <Button
                                                                                             disableRipple
                                                                                             key={btn.value}

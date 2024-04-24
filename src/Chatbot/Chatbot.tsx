@@ -1622,10 +1622,15 @@ const Chatbot = () => {
                             //   console.log(response.data[0]);
 
                         })
-                        // console.log(messagesList);
+                        let checkMultiple = response.data.some((obj: any) => {
+                            return obj.custom?.ui_component === "multi-select";
+                        });
+
                         if (response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) {
                             setDisableBtn((response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) ? true : false);
 
+                        }else if(checkMultiple){
+                            setDisableBtn(true)
                         } else {
                             setDisableBtn((response.data[response.data.length - 1].buttons && response.data[response.data.length - 1].buttons.length) ? false : false);
 

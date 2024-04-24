@@ -1763,17 +1763,42 @@ const Chatbot = () => {
     }
 
     const [selectedSeekBtns, setSelectedSeekBtns] = useState<any>([]);
+    const [selectedAnyBtn, setSelectedAnyBtn] = useState<any>([]);
     const [seekEmployementSubmt, setseekEmployementSubmt] = useState(false)
+    const [anyText, setAnyText] = useState("")
 
     const handleSeekBtn = (btn: any) => {
-        if (!seekEmployementSubmt) {
+        if (!seekEmployementSubmt && !selectedAnyBtn.length) {
             if (selectedSeekBtns.includes(btn)) {
                 setSelectedSeekBtns(selectedSeekBtns.filter((selectedBtn: any) => selectedBtn !== btn));
             } else {
                 setSelectedSeekBtns([...selectedSeekBtns, btn]);
             }
+
+
         }
     }
+
+    const handelSelectAny = (btn: any, key: any) => {
+        if (!seekEmployementSubmt) {
+            if (selectedAnyBtn.includes(btn)) {
+                setSelectedAnyBtn(selectedAnyBtn.filter((selectedBtn: any) => selectedBtn !== btn));
+
+            } else {
+                setSelectedAnyBtn([...selectedAnyBtn, btn]);
+            }
+
+            setAnyText(key)
+        }
+    }
+
+    useEffect(() => {
+        if (selectedAnyBtn.length) {
+            setSelectedSeekBtns([]);
+            setSelectedSeekBtns([...selectedAnyBtn])
+        }
+
+    }, [JSON.stringify(selectedAnyBtn)])
 
     const seekSubmit = (msgObj: any) => {
         // setseekEmployementSubmt(true) 
@@ -1792,8 +1817,14 @@ const Chatbot = () => {
             // seek.
             // formatValues.push()
         })
+        let textVal = ''
+        if (selectedAnyBtn.length) {
+            textVal = anyText;
+        }
+        else {
+            textVal = formatValues.join();
+        }
 
-        let textVal = formatValues.join();
 
         let obj = {
             "text": textVal,
@@ -1810,6 +1841,7 @@ const Chatbot = () => {
         dataToPass.message = `${formattedeKyValue}`
         dataToPass.metadata.job_location = ipLocation;
         setSelectedSeekBtns([]);
+        setSelectedAnyBtn([])
         getTableData();
         setseekEmployementSubmt(true)
     }
@@ -2524,6 +2556,17 @@ const Chatbot = () => {
                                                                     {
                                                                         <>
                                                                             <div className="seek-btn-con" style={{ display: msgObj.show ? "flex" : "none" }}>
+                                                                                {msgObj.custom.anyRadioButton ? <Button
+                                                                                    disableRipple
+                                                                                    key={msgObj.custom.anyRadioButton.Name}
+                                                                                    variant={selectedAnyBtn.includes(msgObj.custom.anyRadioButton.LookupId) ? 'contained' : 'outlined'}
+                                                                                    className={selectedAnyBtn.includes(msgObj.custom.anyRadioButton.LookupId) ? 'seek-btn-select' : 'seek-btn-unselect'}
+                                                                                    startIcon={selectedAnyBtn.includes(msgObj.custom.anyRadioButton.LookupId) ? <CheckCircleIcon /> : <CircleOutlinedIcon />}
+                                                                                    onClick={() => handelSelectAny(msgObj.custom.anyRadioButton.LookupId, msgObj.custom.anyRadioButton.Name)}
+                                                                                    style={{ boxShadow: 'none' }}
+                                                                                >
+                                                                                    {msgObj.custom.anyRadioButton.Name}
+                                                                                </Button> : null}
                                                                                 {
                                                                                     msgObj?.seek?.map((btn: any) => (
                                                                                         <Button

@@ -210,11 +210,13 @@
 }
 
 .submtd-emply-con {
-    background-color: #146EF6;
+    /* background-color: #146EF6;
     border-radius: 18px 18px 5px 18px;
     padding: 8px 21px 8px 21px;
     width: max-content;
-    box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.12); */
+    padding: 0px 5px 0px 5px;
+    width: max-content;
 }
 
 .seek-emply-para-con {

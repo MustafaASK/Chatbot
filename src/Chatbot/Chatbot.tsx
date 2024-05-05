@@ -52,7 +52,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import CheckIcon from '@mui/icons-material/Check';
 import { formatDate } from "./utills/helper";
-
+import bmslogo from '../bms-logo/Bristol Myers Squibb_id0t67LYTA_1 1.png'
 import './Chatbot.css'
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -78,7 +78,12 @@ interface State extends SnackbarOrigin {
 //     label: suggestion.label
 // }));
 
-const Loader = () => {
+interface LoaderProps {
+    isBms: boolean;
+    // other props...
+}
+
+const Loader: React.FC<LoaderProps> = ({ isBms }) => {
     return (<>
         <Box
             sx={{
@@ -93,7 +98,7 @@ const Loader = () => {
             <Box
                 sx={{
                     animation: 'pulse 1s infinite',
-                    color: '#2731DD',
+                    color: isBms ? '#BC2BB8' : '#2731DD',
                     '@keyframes pulse': {
                         '0%': {
                             opacity: 0.2,
@@ -116,7 +121,7 @@ const Loader = () => {
             <Box
                 sx={{
                     animation: 'typing 1s infinite',
-                    color: '#2731DD',
+                    color: isBms ? '#BC2BB8' : '#2731DD',
                     '@keyframes typing': {
                         '0%': {
                             opacity: 0.2,
@@ -139,7 +144,7 @@ const Loader = () => {
             <Box
                 sx={{
                     animation: 'typing 1s infinite',
-                    color: '#2731DD',
+                    color: isBms ? '#BC2BB8' : '#2731DD',
                     '@keyframes typing': {
                         '0%': {
                             opacity: 0.2,
@@ -238,6 +243,11 @@ const Chatbot = () => {
         "3": "On-site",
 
     });
+
+    const isBms = clientIdfromParent === '2' ? true : false
+
+    console.log('sssssssss', clientIdfromParent)
+    console.log('aaaaa', isBms)
 
     const [seek, setSeek] = useState<any>([
     ]);
@@ -407,7 +417,6 @@ const Chatbot = () => {
                     if (resp.data.chatLogo) {
                         setCustomerLogo(resp.data.chatLogo);
                     }
-
                     getLocation()
                 }
             }
@@ -1805,7 +1814,7 @@ const Chatbot = () => {
 
     }, [JSON.stringify(selectedAnyBtn)])
 
-    const seekSubmit = (msgObj: any, text:String) => {
+    const seekSubmit = (msgObj: any, text: String) => {
         // setseekEmployementSubmt(true) 
 
         let formattedeKyValue = selectedSeekBtns.join();
@@ -1841,10 +1850,10 @@ const Chatbot = () => {
             }
         }
 
-        if(text == 'cancel'){
+        if (text == 'cancel') {
             dataToPass.message = 'back';
             obj.text = 'Cancelled';
-            delete obj.multiSelect; 
+            delete obj.multiSelect;
 
         } else {
             dataToPass.message = `${formattedeKyValue}`;
@@ -1996,7 +2005,8 @@ const Chatbot = () => {
                 >
                     <Stack id='header-container'
                         sx={{
-                            backgroundImage: 'linear-gradient(to right,#2731DD, #137CED)',
+                            backgroundImage: isBms ? 'none' : 'linear-gradient(to right,#2731DD, #137CED)',
+                            backgroundColor: isBms ? '#EDE7E7' : 'none',
                             display: 'flex',
                             flexDirection: 'row',
                             justifyContent: 'space-between',
@@ -2029,10 +2039,10 @@ const Chatbot = () => {
                                 />
                             </Box>
                             <Typography
-                                sx={{ color: '#ffffff', fontSize: '17px', fontWeight: 500 }}
+                                sx={{ color: isBms ? '#111111' : '#ffffff', fontSize: '17px', fontWeight: 500 }}
                             >
                                 {/* CXninja <Box component='span' sx={{ fontWeight: 400 }}>SmartBot</Box> */}
-                                Ripley
+                                {isBms ? 'Bimsy' : 'Ripley'}
                             </Typography>
                         </Stack>
 
@@ -2054,9 +2064,14 @@ const Chatbot = () => {
                                     }}
                                 /> */}
                             </Stack>
-                            <Box component='div' onClick={handleExitChatbot} >
-                                <CloseSharpIcon sx={{ color: '#ffffff', fontSize: '18px', cursor: 'pointer' }} />
-                            </Box>
+                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                <div >
+                                    {isBms ? <img src={bmslogo} alt="" style={{ height: '20px', marginRight: '10px' }} /> : ""}
+                                </div>
+                                <Box component='div' onClick={handleExitChatbot} >
+                                    <CloseSharpIcon sx={{ color: isBms ? '#333333' : '#ffffff', fontSize: '18px', cursor: 'pointer' }} />
+                                </Box>
+                            </div>
                         </Stack>
                     </Stack>
 
@@ -2499,7 +2514,7 @@ const Chatbot = () => {
                                                     <Stack direction='row' spacing={0.5} mr={1} ml={1}>
                                                         <Stack sx=
                                                             {{
-                                                                backgroundColor: '#146EF6', borderRadius: '24px', p: 0.5, display: 'flex', flexDirection: 'row', justifyContent: 'center', borderBottomRightRadius: "5px", outline: "1px solid transparent"
+                                                                backgroundColor: isBms ? '#BC2BB8' : '#146EF6', borderRadius: '24px', p: 0.5, display: 'flex', flexDirection: 'row', justifyContent: 'center', borderBottomRightRadius: "5px", outline: "1px solid transparent", boxShadow: isBms ? '0px 2px 3px 0px #0000001F' : ''
                                                             }}
 
                                                         >
@@ -2573,7 +2588,7 @@ const Chatbot = () => {
                                                                                     disableRipple
                                                                                     key={msgObj.custom.anyRadioButton.Name}
                                                                                     variant={selectedAnyBtn.includes(msgObj.custom.anyRadioButton.LookupId) ? 'contained' : 'outlined'}
-                                                                                    className={selectedAnyBtn.includes(msgObj.custom.anyRadioButton.LookupId) ? 'seek-btn-select' : 'seek-btn-unselect'}
+                                                                                    className={selectedAnyBtn.includes(msgObj.custom.anyRadioButton.LookupId) ? (isBms ? 'seek-btn-select isBms-seek-btn-select' : 'seek-btn-select not-bms-seek-btn-select') : (isBms ? 'seek-btn-unselect isBms-seek-btn-unselect' : 'seek-btn-unselect not-bms-seek-btn-unselect')}
                                                                                     startIcon={selectedAnyBtn.includes(msgObj.custom.anyRadioButton.LookupId) ? <CheckCircleIcon /> : <CircleOutlinedIcon />}
                                                                                     onClick={() => handelSelectAny(msgObj.custom.anyRadioButton.LookupId, msgObj.custom.anyRadioButton.Name)}
                                                                                     style={{ boxShadow: 'none' }}
@@ -2586,10 +2601,12 @@ const Chatbot = () => {
                                                                                             disableRipple
                                                                                             key={btn.value}
                                                                                             variant={selectedSeekBtns.includes(btn.value) ? 'contained' : 'outlined'}
-                                                                                            className={selectedSeekBtns.includes(btn.value) ? 'seek-btn-select' : 'seek-btn-unselect'}
+                                                                                            className={selectedSeekBtns.includes(btn.value) ? (isBms ? 'seek-btn-select isBms-seek-btn-select' : 'seek-btn-select not-bms-seek-btn-select') : (isBms ? 'seek-btn-unselect isBms-seek-btn-unselect' : 'seek-btn-unselect not-bms-seek-btn-unselect')}
                                                                                             startIcon={selectedSeekBtns.includes(btn.value) ? <CheckCircleIcon /> : <CircleOutlinedIcon />}
                                                                                             onClick={() => handleSeekBtn(btn.value)}
-                                                                                            style={{ boxShadow: 'none' }}
+                                                                                            sx={{
+                                                                                                boxShadow: 'none'
+                                                                                            }}
                                                                                         >
                                                                                             {btn.key}
                                                                                         </Button>
@@ -2602,13 +2619,13 @@ const Chatbot = () => {
                                                                                 <Button
                                                                                     variant="contained"
                                                                                     disableRipple
-                                                                                    className="seek-submit-btn seek-btns"
+                                                                                    className={isBms ? "isBms-seek-submit-btn seek-btns" : "seek-submit-btn seek-btns"}
                                                                                     style={{
                                                                                         boxShadow: 'none',
                                                                                         opacity: selectedSeekBtns.length !== 0 ? 1 : 0.5,
                                                                                         pointerEvents: selectedSeekBtns.length !== 0 ? 'auto' : 'none'
                                                                                     }}
-                                                                                    onClick={() => seekSubmit(msgObj,'submit')}
+                                                                                    onClick={() => seekSubmit(msgObj, 'submit')}
                                                                                 >
                                                                                     Submit
                                                                                 </Button>
@@ -2617,8 +2634,8 @@ const Chatbot = () => {
                                                                                     variant="outlined"
                                                                                     disableRipple
                                                                                     className="seek-back-btn seek-btns"
-                                                                                    onClick={() => seekSubmit(msgObj,'cancel')}
-                                                                                    style={{ boxShadow: 'none', marginLeft: '5px', display:(msgObj.custom?.is_back_button_enabled ? 'initial' : 'none') }}
+                                                                                    onClick={() => seekSubmit(msgObj, 'cancel')}
+                                                                                    style={{ boxShadow: 'none', marginLeft: '5px', display: (msgObj.custom?.is_back_button_enabled ? 'initial' : 'none'), textAlign: 'center' }}
                                                                                 >
                                                                                     Back
                                                                                 </Button>
@@ -2667,9 +2684,9 @@ const Chatbot = () => {
                                                                                 disableRipple
                                                                                 component='span'
                                                                                 sx={{
-                                                                                    borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '14px', height: '34px', boxShadow: 0,
+                                                                                    borderRadius: '5px', textTransform: 'capitalize', backgroundColor: isBms ? '#BC2BB8' : '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '14px', height: '34px', boxShadow: 0,
                                                                                     '&:hover': {
-                                                                                        backgroundColor: '#146EF6',
+                                                                                        backgroundColor: isBms ? '#BC2BB8' : '#146EF6',
                                                                                         boxShadow: 0
                                                                                     }
                                                                                 }}>
@@ -2684,9 +2701,9 @@ const Chatbot = () => {
                                                                             disableRipple
 
                                                                             sx={{
-                                                                                borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '14px', height: '34px', boxShadow: 0,
+                                                                                borderRadius: '5px', textTransform: 'capitalize', backgroundColor: isBms ? '#BC2BB8' : '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '14px', height: '34px', boxShadow: 0,
                                                                                 '&:hover': {
-                                                                                    backgroundColor: '#146EF6',
+                                                                                    backgroundColor: isBms ? '#BC2BB8' : '#146EF6',
                                                                                     boxShadow: 0
                                                                                 }
                                                                             }}>
@@ -2726,12 +2743,12 @@ const Chatbot = () => {
                                                                                         minWidth: '30px',
                                                                                         p: '5px',
                                                                                         backgroundColor: '#ffffff',
-                                                                                        color: '#146EF6',
+                                                                                        color: isBms ? '#AD3EB2' : '#146EF6',
                                                                                         height: '60px',
                                                                                         boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
                                                                                         display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
                                                                                         '&:hover': {
-                                                                                            backgroundColor: '#146EF6',
+                                                                                            backgroundColor: isBms ? '#AD3EB2' : '#146EF6',
                                                                                             color: '#ffffff',
 
                                                                                         }
@@ -2772,7 +2789,7 @@ const Chatbot = () => {
 
                                                                                                 {/* {step.container} */}
                                                                                                 {job.isRealJob ? <Stack className="carousel-main-card">
-                                                                                                    <Stack className="carousel-child-card-1">
+                                                                                                    <Stack className={isBms ? "isBms-carousel-child-card-1" : "carousel-child-card-1"}>
                                                                                                         <Stack className="carousel-child-card-2">
                                                                                                             {/* <Box sx={{ p: 1 }}>
                                         <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>Sales</Typography>
@@ -2819,8 +2836,8 @@ const Chatbot = () => {
                                                                                                                 <Button
                                                                                                                     disableRipple
                                                                                                                     onClick={() => handleReadMore(job, msgObj.isDisabled)}
-                                                                                                                    endIcon={<KeyboardArrowRightIcon className="read-more-btn-icon" />}
-                                                                                                                    className="read-more-btn"
+                                                                                                                    endIcon={<KeyboardArrowRightIcon className={isBms ? "isBms-read-more-btn-icon" : "read-more-btn-icon"} />}
+                                                                                                                    className={isBms ? "isBms-read-more-btn" : "read-more-btn"}
                                                                                                                     sx={{
                                                                                                                         textTransform: 'capitalize',
 
@@ -2847,9 +2864,9 @@ const Chatbot = () => {
                                                                                                                     variant="contained"
                                                                                                                     onClick={() => sendJobValue(job)}
                                                                                                                     sx={{
-                                                                                                                        borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0, width: '100%',
+                                                                                                                        borderRadius: '5px', textTransform: 'capitalize', backgroundColor: isBms ? '#BC2BB8' : '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0, width: '100%',
                                                                                                                         '&:hover': {
-                                                                                                                            backgroundColor: '#146EF6',
+                                                                                                                            backgroundColor: isBms ? '#BC2BB8' : '#146EF6',
                                                                                                                             boxShadow: 0
                                                                                                                         }
                                                                                                                     }}
@@ -2866,6 +2883,7 @@ const Chatbot = () => {
                                                                                                                     sx={{
                                                                                                                         textTransform: 'capitalize',
                                                                                                                         textDecoration: 'underline',
+                                                                                                                        color: isBms ? '#AD3EB2' : '#146EF6',
                                                                                                                         '& .MuiButton-endIcon': {
                                                                                                                             mr: 0,
                                                                                                                             ml: '-5px'
@@ -2925,10 +2943,10 @@ const Chatbot = () => {
                                                                                                                     <Button variant="contained"
                                                                                                                         disableRipple
                                                                                                                         sx={{
-                                                                                                                            width: '100%', mb: 1, backgroundColor: '#146EF6', boxShadow: 0,
+                                                                                                                            width: '100%', mb: 1, backgroundColor: isBms ? '#BC2BB8' : '#146EF6', boxShadow: 0,
                                                                                                                             fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
                                                                                                                             '&:hover': {
-                                                                                                                                backgroundColor: '#146EF6',
+                                                                                                                                backgroundColor: isBms ? '#BC2BB8' : '#146EF6',
                                                                                                                                 boxShadow: 0
                                                                                                                             }
                                                                                                                         }}
@@ -2969,13 +2987,13 @@ const Chatbot = () => {
                                                                                         zIndex: 2,
                                                                                         minWidth: '30px',
                                                                                         backgroundColor: '#ffffff',
-                                                                                        color: '#146EF6',
+                                                                                        color: isBms ? '#AD3EB2' : '#146EF6',
                                                                                         height: '60px',
                                                                                         p: '5px',
                                                                                         boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
                                                                                         display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
                                                                                         '&:hover': {
-                                                                                            backgroundColor: '#146EF6',
+                                                                                            backgroundColor: isBms ? '#AD3EB2' : '#146EF6',
                                                                                             color: '#ffffff',
                                                                                         }
                                                                                     }}
@@ -3007,7 +3025,16 @@ const Chatbot = () => {
                                                                                             variant="progress"
                                                                                             steps={msgObj.maxSteps}
                                                                                             position="static"
-                                                                                            sx={{ width: '160px', }}
+                                                                                            sx={{
+                                                                                                width: '160px',
+                                                                                                '& .css-5xe99f-MuiLinearProgress-bar1': {
+                                                                                                    backgroundColor: isBms ? '#BC2BB8' : '#146EF6',
+                                                                                                },
+
+                                                                                                '& .MuiMobileStepper-progress': {
+                                                                                                    backgroundColor: isBms ? 'rgba(188, 43, 184, 0.3)' : 'rgba(20, 110, 246,  0.3)',
+                                                                                                }
+                                                                                            }}
                                                                                             activeStep={activeStep[sliderCount]?.stepNumber}
                                                                                             nextButton={null}
                                                                                             backButton={null}
@@ -3024,14 +3051,15 @@ const Chatbot = () => {
                                                                                     <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
                                                                                         <Stack sx={{ pl: '6px' }}>
-                                                                                            <img src={customerLogo ? customerLogo : customerFace} style={{ height: '35px', width: '35px',
-                                                                                             borderRadius: "50%", 
-                                                                                            // boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' 
+                                                                                            <img src={customerLogo ? customerLogo : customerFace} style={{
+                                                                                                height: '35px', width: '35px',
+                                                                                                borderRadius: "50%",
+                                                                                                // boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' 
                                                                                             }} alt="chatbot" />
                                                                                         </Stack>
                                                                                         <Stack sx=
                                                                                             {{
-                                                                                                backgroundColor: '#eaeeed', borderRadius: '24px', p: 0.5, borderBottomLeftRadius: "5px", outline: "1px solid transparent"
+                                                                                                backgroundColor: isBms ? '#F9F2F2' : '#eaeeed', borderRadius: '24px', p: 0.5, borderBottomLeftRadius: "5px", outline: "1px solid transparent", boxShadow: isBms ? '0px 2px 3px 0px #0000001F' : '',
                                                                                             }}
                                                                                         >
                                                                                             <Typography component='p' sx={{ color: 'black', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
@@ -3048,7 +3076,15 @@ const Chatbot = () => {
                                                                                     (
                                                                                         <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} sx={{ ml: '40px', mr: '20px' }}>
                                                                                             {msgObj.buttons.map((btnObj: any) => (
-                                                                                                <Button variant="outlined" onClick={() => sendMessage(btnObj, msgObj)} sx={{ borderRadius: '20px', p: '5px 8px', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '13px', width: 'auto', outline: "1px solid transparent" }}>
+                                                                                                <Button variant="outlined" onClick={() => sendMessage(btnObj, msgObj)} sx={{
+                                                                                                    borderRadius: '20px', p: '5px 8px', textTransform: 'capitalize', borderColor: isBms ? '#AD3EB2' : '#146EF6', color: isBms ? '#AD3EB2' : '#146EF6', fontWeight: 400, fontSize: '13px', width: 'auto', outline: "1px solid transparent",
+                                                                                                    '&:hover': {
+                                                                                                        borderColor: isBms ? '#AD3EB2' : '#146EF6',
+                                                                                                        color: isBms ? '#AD3EB2' : '#146EF6',
+                                                                                                        backgroundColor: 'transparent',
+                                                                                                        boxShadow: 0
+                                                                                                    }
+                                                                                                }}>
                                                                                                     {btnObj.title}
                                                                                                 </Button>
                                                                                             ))}
@@ -3072,17 +3108,18 @@ const Chatbot = () => {
                                 {loaded ?
                                     (<><Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
-                                        <Stack style={{paddingLeft:"6px"}}>
-                                            <img src={customerLogo ? customerLogo : customerFace} style={{ height: '35px', width: '35px', borderRadius: "50%",
-                                            //  boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)'
-                                              }} alt="chatbot" />
+                                        <Stack style={{ paddingLeft: "6px" }}>
+                                            <img src={customerLogo ? customerLogo : customerFace} style={{
+                                                height: '35px', width: '35px', borderRadius: "50%",
+                                                //  boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)'
+                                            }} alt="chatbot" />
                                         </Stack>
                                         <Stack sx=
                                             {{
                                                 p: 0.5
                                             }}
                                         >
-                                            <Loader />
+                                            <Loader isBms={isBms} />
                                         </Stack>
                                     </Stack></>)
                                     : (<></>)
@@ -3539,7 +3576,7 @@ const Chatbot = () => {
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position="end">
-                                                <TelegramIcon sx={{ cursor: 'pointer', color: '#919191' }} onClick={sendTextMessage} />
+                                                <TelegramIcon sx={{ cursor: 'pointer', color: isBms ? '#BC2BB8' : '#919191' }} onClick={sendTextMessage} />
                                             </InputAdornment>
                                         ),
                                     }}
@@ -3642,18 +3679,20 @@ const Chatbot = () => {
 
                     <Stack
                         sx={{
-                            backgroundImage: 'linear-gradient(to right,#2731DD, #137CED)', display: 'flex', flexDirection: 'row', alignItems: 'center'
+                            backgroundImage: isBms ? 'none' : 'linear-gradient(to right,#2731DD, #137CED)',
+                            backgroundColor: isBms ? '#EDE7E7' : 'none',
+                            display: 'flex', flexDirection: 'row', alignItems: 'center'
                         }}
                         p='15px'
                         maxHeight='30px'
                     >
                         <Stack onClick={() => handleReadMore('', '')} sx={{ cursor: 'pointer' }}>
-                            <KeyboardArrowLeftIcon sx={{ fontSize: '30px', color: '#ffffff', fontWeight: 600 }} />
+                            <KeyboardArrowLeftIcon sx={{ fontSize: '30px', color: isBms ? '#111111' : '#ffffff', fontWeight: 600 }} />
                         </Stack>
                         <Stack
                             sx={{ ml: '100px' }}
                         >
-                            <Typography sx={{ color: '#ffffff' }}>View Jobs</Typography>
+                            <Typography sx={{ color: isBms ? '#111111' : '#ffffff' }}>View Jobs</Typography>
                         </Stack>
 
                     </Stack>
@@ -3719,9 +3758,9 @@ const Chatbot = () => {
                             // onClick={()=>handleReadMore('')}
                             onClick={() => (sendJobValue(selectedJobData[0]), handleReadMore('', ''))}
                             sx={{
-                                borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0, width: '100%',
+                                borderRadius: '5px', textTransform: 'capitalize', backgroundColor: isBms ? '#BC2BB8' : '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0, width: '100%',
                                 '&:hover': {
-                                    backgroundColor: '#146EF6',
+                                    backgroundColor: isBms ? '#BC2BB8' : '#146EF6',
                                     boxShadow: 0
                                 }
                             }}
@@ -3783,10 +3822,10 @@ const Chatbot = () => {
                                                 disableRipple
                                                 startIcon={<SearchIcon />}
                                                 sx={{
-                                                    borderRadius: '20px', backgroundColor: '#ffffff', textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '12px', height: '34px', whiteSpace: 'nowrap',
+                                                    borderRadius: '20px', backgroundColor: '#ffffff', textTransform: 'capitalize', borderColor: isBms ? '#AD3EB2' : '#146EF6', color: isBms ? '#AD3EB2' : '#146EF6', fontWeight: 400, fontSize: '12px', height: '34px', whiteSpace: 'nowrap',
                                                     '&:hover': {
-                                                        backgroundColor: '#146EF6',
-                                                        borderColor: '#146EF6',
+                                                        backgroundColor: isBms ? '#AD3EB2' : '#146EF6',
+                                                        borderColor: isBms ? '#AD3EB2' : '#146EF6',
                                                         color: '#ffffff'
                                                     }
                                                 }}
@@ -3801,10 +3840,10 @@ const Chatbot = () => {
                                                 sx={{
                                                     borderRadius: '20px',
                                                     backgroundColor: '#ffffff',
-                                                    textTransform: 'capitalize', borderColor: '#146EF6', color: '#146EF6', fontWeight: 400, fontSize: '12px', height: '34px', whiteSpace: 'nowrap',
+                                                    textTransform: 'capitalize', borderColor: isBms ? '#AD3EB2' : '#146EF6', color: isBms ? '#AD3EB2' : '#146EF6', fontWeight: 400, fontSize: '12px', height: '34px', whiteSpace: 'nowrap',
                                                     '&:hover': {
-                                                        backgroundColor: '#146EF6',
-                                                        borderColor: '#146EF6',
+                                                        backgroundColor: isBms ? '#AD3EB2' : '#146EF6',
+                                                        borderColor: isBms ? '#AD3EB2' : '#146EF6',
                                                         color: '#ffffff'
                                                     }
                                                 }}

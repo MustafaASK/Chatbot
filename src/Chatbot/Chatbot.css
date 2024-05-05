@@ -11,6 +11,14 @@
     height: 10px !important;
 }
 
+.isBms-carousel-child-card-1 {
+    background-color: #BC2BB8 !important;
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5) !important;
+    height: 10px !important;
+}
+
 .carousel-child-card-2 {
     background-color: #ffffff !important;
     margin-top: 8px !important;
@@ -72,12 +80,25 @@
 }
 
 .read-more-btn {
+    color: #146EF6 !important;
     margin-left: 20px !important;
     margin-right: 1px !important;
 }
 
 
 .read-more-btn-icon {
+    color: #146EF6 !important;
+    font-size: 25px !important;
+}
+
+.isBms-read-more-btn {
+    color: #AD3EB2 !important;
+    margin-left: 20px !important;
+    margin-right: 1px !important;
+}
+
+.isBms-read-more-btn-icon {
+    color: #AD3EB2 !important;
     font-size: 25px !important;
 }
 
@@ -128,13 +149,27 @@
     line-height: 21px !important;
     text-align: left;
     margin-bottom: 5px !important;
+}
+
+.not-bms-seek-btn-unselect {
     color: #146EF6 !important;
     border-color: #146EF6 !important;
 }
 
-.seek-btn-unselect:hover {
+.not-bms-seek-btn-unselect:hover {
     color: #146EF6 !important;
     border-color: #146EF6 !important;
+    background-color: transparent !important;
+}
+
+.isBms-seek-btn-unselect {
+    color: #BC2BB8 !important;
+    border-color: #BC2BB8 !important;
+}
+
+.isBms-seek-btn-unselect:hover {
+    color: #BC2BB8 !important;
+    border-color: #BC2BB8 !important;
     background-color: transparent !important;
 }
 
@@ -149,12 +184,24 @@
     text-align: left;
     margin-bottom: 5px !important;
     color: #ffffff !important;
+}
+
+.not-bms-seek-btn-select {
     background-color: #146EF6 !important;
 }
 
-.seek-btn-select:hover {
+.not-bms-seek-btn-select:hover {
     color: #ffffff !important;
     background-color: #146EF6 !important;
+}
+
+.isBms-seek-btn-select {
+    background-color: #BC2BB8 !important;
+}
+
+.isBms-seek-btn-select:hover {
+    color: #ffffff !important;
+    background-color: #BC2BB8 !important;
 }
 
 
@@ -197,6 +244,17 @@
 
 .seek-submit-btn:hover {
     background-color: #146EF6 !important;
+    color: #ffffff !important;
+}
+
+.isBms-seek-submit-btn {
+    background-color: #BC2BB8 !important;
+    color: #ffffff !important;
+    /* opacity: 0px !important; */
+}
+
+.isBms-seek-submit-btn:hover {
+    background-color: #BC2BB8 !important;
     color: #ffffff !important;
 }
 

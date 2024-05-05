@@ -246,8 +246,8 @@ const Chatbot = () => {
 
     const isBms = clientIdfromParent === '2' ? true : false
 
-    console.log('sssssssss', clientIdfromParent)
-    console.log('aaaaa', isBms)
+    // console.log('sssssssss', clientIdfromParent)
+    // console.log('isBms', isBms)
 
     const [seek, setSeek] = useState<any>([
     ]);
@@ -402,7 +402,7 @@ const Chatbot = () => {
         let locationHref = window.parent.location.href;
         console.log(locationHref, 'locationHref')
         const getClientDetails = async (shortName: any) => {
-            // shortName = "qademo";
+            shortName = "qademo";
             try {
                 const resp = await apiService.getClientIdByShortName(shortName)
                 if (resp.data) {

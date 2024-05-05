@@ -392,7 +392,7 @@ const Chatbot = () => {
         let locationHref = window.parent.location.href;
         console.log(locationHref, 'locationHref')
         const getClientDetails = async (shortName: any) => {
-            shortName = "qademo";
+            // shortName = "qademo";
             try {
                 const resp = await apiService.getClientIdByShortName(shortName)
                 if (resp.data) {
@@ -1805,7 +1805,7 @@ const Chatbot = () => {
 
     }, [JSON.stringify(selectedAnyBtn)])
 
-    const seekSubmit = (msgObj: any) => {
+    const seekSubmit = (msgObj: any, text:String) => {
         // setseekEmployementSubmt(true) 
 
         let formattedeKyValue = selectedSeekBtns.join();
@@ -1840,10 +1840,18 @@ const Chatbot = () => {
                 "job_id": (queryParam ? queryParam : "1")
             }
         }
+
+        if(text == 'cancel'){
+            dataToPass.message = 'back';
+            obj.text = 'Cancelled';
+            delete obj.multiSelect; 
+
+        } else {
+            dataToPass.message = `${formattedeKyValue}`;
+        }
         msgObj['show'] = false;
 
         setMessagesList(prevArray => [...prevArray, obj]);
-        dataToPass.message = `${formattedeKyValue}`
         dataToPass.metadata.job_location = ipLocation;
         setSelectedSeekBtns([]);
         setSelectedAnyBtn([])
@@ -1865,7 +1873,7 @@ const Chatbot = () => {
                                     src={customerLogo ? customerLogo : customerFace}
                                     alt='avatar'
                                     style={{
-                                        height: '30px',
+                                        height: '35px',
                                         width: '35px',
                                     }}
                                 />
@@ -2600,7 +2608,7 @@ const Chatbot = () => {
                                                                                         opacity: selectedSeekBtns.length !== 0 ? 1 : 0.5,
                                                                                         pointerEvents: selectedSeekBtns.length !== 0 ? 'auto' : 'none'
                                                                                     }}
-                                                                                    onClick={() => seekSubmit(msgObj)}
+                                                                                    onClick={() => seekSubmit(msgObj,'submit')}
                                                                                 >
                                                                                     Submit
                                                                                 </Button>
@@ -2609,7 +2617,8 @@ const Chatbot = () => {
                                                                                     variant="outlined"
                                                                                     disableRipple
                                                                                     className="seek-back-btn seek-btns"
-                                                                                    style={{ boxShadow: 'none', marginLeft: '5px' }}
+                                                                                    onClick={() => seekSubmit(msgObj,'cancel')}
+                                                                                    style={{ boxShadow: 'none', marginLeft: '5px', display:(msgObj.custom?.is_back_button_enabled ? 'initial' : 'none') }}
                                                                                 >
                                                                                     Back
                                                                                 </Button>
@@ -3015,7 +3024,10 @@ const Chatbot = () => {
                                                                                     <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
                                                                                         <Stack sx={{ pl: '6px' }}>
-                                                                                            <img src={customerLogo ? customerLogo : customerFace} style={{ height: '30px', width: '35px', borderRadius: "50%", boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' }} alt="chatbot" />
+                                                                                            <img src={customerLogo ? customerLogo : customerFace} style={{ height: '35px', width: '35px',
+                                                                                             borderRadius: "50%", 
+                                                                                            // boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' 
+                                                                                            }} alt="chatbot" />
                                                                                         </Stack>
                                                                                         <Stack sx=
                                                                                             {{
@@ -3060,8 +3072,10 @@ const Chatbot = () => {
                                 {loaded ?
                                     (<><Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
-                                        <Stack>
-                                            <img src={customerLogo ? customerLogo : customerFace} style={{ height: '30px', width: '35px', borderRadius: "50%", boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' }} alt="chatbot" />
+                                        <Stack style={{paddingLeft:"6px"}}>
+                                            <img src={customerLogo ? customerLogo : customerFace} style={{ height: '35px', width: '35px', borderRadius: "50%",
+                                            //  boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)'
+                                              }} alt="chatbot" />
                                         </Stack>
                                         <Stack sx=
                                             {{
@@ -3738,9 +3752,9 @@ const Chatbot = () => {
                                     opacity: isChatbotOpen ? 0 : 1,
                                     margin: '20px',
                                     position: 'relative',
-                                    boxShadow: '0 0 5px 5px rgb(0 0 0 / 36%)',
+                                    // boxShadow: '0 0 5px 5px rgb(0 0 0 / 36%)',
                                     '&:hover': {
-                                        animation: 'ripples 1s linear infinite',
+                                        // animation: 'ripples 1s linear infinite',
                                     },
                                     '@keyframes ripples': {
                                         to: {

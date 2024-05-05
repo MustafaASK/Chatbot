@@ -192,7 +192,7 @@
 .seek-submit-btn {
     background-color: #146EF6 !important;
     color: #ffffff !important;
-    opacity: 0px !important;
+    /* opacity: 0px !important; */
 }
 
 .seek-submit-btn:hover {

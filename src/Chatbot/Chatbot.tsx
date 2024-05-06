@@ -243,11 +243,13 @@ const Chatbot = () => {
         "3": "On-site",
 
     });
+    const [isBms, setIsBms] = useState(false);
 
-    const isBms = clientIdfromParent === '2' ? true : false
 
-    // console.log('sssssssss', clientIdfromParent)
-    // console.log('isBms', isBms)
+    // const isBms = clientIdfromParent === '2' ? true : false
+
+    console.log('sssssssss', clientIdfromParent)
+    console.log('isBms', isBms)
 
     const [seek, setSeek] = useState<any>([
     ]);
@@ -402,12 +404,13 @@ const Chatbot = () => {
         let locationHref = window.parent.location.href;
         console.log(locationHref, 'locationHref')
         const getClientDetails = async (shortName: any) => {
-            shortName = "qademo";
+            // shortName = "qademo";
             try {
                 const resp = await apiService.getClientIdByShortName(shortName)
                 if (resp.data) {
                     let clientIdtoString = resp.data.clientId.toString()
                     setClientId(clientIdtoString)
+                    setIsBms(clientIdtoString === '2' ? true : false)
                     if (!dataToPass.metadata.client_id) {
                         dataToPass.metadata.client_id = clientIdtoString;
                     }

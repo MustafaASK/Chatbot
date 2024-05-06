@@ -3030,7 +3030,7 @@ const Chatbot = () => {
                                                                                             position="static"
                                                                                             sx={{
                                                                                                 width: '160px',
-                                                                                                '& .css-5xe99f-MuiLinearProgress-bar1': {
+                                                                                                '& .MuiLinearProgress-bar': {
                                                                                                     backgroundColor: isBms ? '#BC2BB8' : '#146EF6',
                                                                                                 },
 

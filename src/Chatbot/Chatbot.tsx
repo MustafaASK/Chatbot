@@ -244,7 +244,9 @@ const Chatbot = () => {
 
     });
 
-    const isBms = clientIdfromParent === '2' ? true : false
+    const [isBms, setIsBms] = useState(false)
+
+    // const isBms = clientIdfromParent === '3' ? true : false
 
     // console.log('sssssssss', clientIdfromParent)
     // console.log('isBms', isBms)
@@ -402,12 +404,13 @@ const Chatbot = () => {
         let locationHref = window.parent.location.href;
         console.log(locationHref, 'locationHref')
         const getClientDetails = async (shortName: any) => {
-            shortName = "qademo";
+            // shortName = "qademo";
             try {
                 const resp = await apiService.getClientIdByShortName(shortName)
                 if (resp.data) {
                     let clientIdtoString = resp.data.clientId.toString()
                     setClientId(clientIdtoString)
+                    setIsBms(clientIdtoString === '2' ? true : false)
                     if (!dataToPass.metadata.client_id) {
                         dataToPass.metadata.client_id = clientIdtoString;
                     }
@@ -3027,7 +3030,7 @@ const Chatbot = () => {
                                                                                             position="static"
                                                                                             sx={{
                                                                                                 width: '160px',
-                                                                                                '& .css-5xe99f-MuiLinearProgress-bar1': {
+                                                                                                '& .MuiLinearProgress-bar': {
                                                                                                     backgroundColor: isBms ? '#BC2BB8' : '#146EF6',
                                                                                                 },
 

@@ -406,14 +406,14 @@ const Chatbot = () => {
         let locationHref = window.parent.location.href;
         console.log(locationHref, 'locationHref')
         const getClientDetails = async (shortName: any) => {
-            // shortName = "qademo";
+            shortName = "qademo";
             try {
                 const resp = await apiService.getClientIdByShortName(shortName)
                 if (resp.data) {
                     let clientIdtoString = resp.data.clientId.toString()
                     setClientId(clientIdtoString);
                     let isbmspage = locationHref.indexOf("bms");
-                    let checkbms = (isbmspage !== -1) ? true : false;
+                    let checkbms = (isbmspage !== -1) ? true : true;
                     console.log("checkbms");
                     console.log(checkbms);
                     setIsBms(checkbms)
@@ -3143,10 +3143,17 @@ const Chatbot = () => {
                                     (<><Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
                                         <Stack style={{ paddingLeft: "6px" }}>
-                                            <img src={customerLogo ? customerLogo : customerFace} style={{
-                                                height: '35px', width: '35px', borderRadius: "50%",
-                                                //  boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)'
-                                            }} alt="chatbot" />
+                                            {isBms ?
+                                                (<img src={bmsChildLogo} style={{
+                                                    height: '35px', width: '35px', borderRadius: "50%",
+                                                    //  boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)'
+                                                }} alt="chatbot" />)
+                                                :
+                                                (<img src={customerLogo ? customerLogo : customerFace} style={{
+                                                    height: '35px', width: '35px', borderRadius: "50%",
+                                                    //  boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)'
+                                                }} alt="chatbot" />)}
+
                                         </Stack>
                                         <Stack sx=
                                             {{

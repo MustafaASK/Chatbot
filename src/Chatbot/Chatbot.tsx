@@ -409,8 +409,14 @@ const Chatbot = () => {
                 const resp = await apiService.getClientIdByShortName(shortName)
                 if (resp.data) {
                     let clientIdtoString = resp.data.clientId.toString()
-                    setClientId(clientIdtoString)
-                    setIsBms(clientIdtoString === '2' ? true : false)
+                    setClientId(clientIdtoString);
+                    let isbmspage = locationHref.indexOf("bms");
+                    let checkbms = (isbmspage !== -1) ? true : false;
+                    console.log("checkbms");
+                    console.log(checkbms);
+                    setIsBms(checkbms)
+                    // setIsBms(clientIdtoString === '2' ? true : false)
+
                     if (!dataToPass.metadata.client_id) {
                         dataToPass.metadata.client_id = clientIdtoString;
                     }

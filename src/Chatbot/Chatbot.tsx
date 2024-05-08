@@ -53,6 +53,8 @@ import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import CheckIcon from '@mui/icons-material/Check';
 import { formatDate } from "./utills/helper";
 import bmslogo from '../bms-logo/Bristol Myers Squibb_id0t67LYTA_1 1.png'
+import bmsMainLogo from '../bms-logo/woman-svgrepo-com 1.jpg'
+import bmsChildLogo from '../bms-logo/woman-svgrepo-com 1@2x.svg'
 import './Chatbot.css'
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -404,7 +406,7 @@ const Chatbot = () => {
         let locationHref = window.parent.location.href;
         console.log(locationHref, 'locationHref')
         const getClientDetails = async (shortName: any) => {
-            // shortName = "qademo";
+            shortName = "qademo";
             try {
                 const resp = await apiService.getClientIdByShortName(shortName)
                 if (resp.data) {
@@ -2036,16 +2038,29 @@ const Chatbot = () => {
                             spacing={2}
                         >
                             <Box>
-                                <img
-                                    src={customerLogo ? customerLogo : customerFace}
-                                    alt='avatar'
-                                    style={{
-                                        boxShadow: '0px 5px 10px 0px rgba(255, 255, 255, 0.5)',
-                                        height: '32px',
-                                        width: '32px',
-                                        borderRadius: '50%',
-                                    }}
-                                />
+                                {isBms ?
+                                    (<img
+                                        src={bmsChildLogo}
+                                        alt='avatar'
+                                        style={{
+                                            height: '32px',
+                                            width: '40px',
+                                            borderRadius: '50%',
+
+                                        }}
+
+                                    />) : (<img
+                                        src={customerLogo ? customerLogo : customerFace}
+                                        alt='avatar'
+                                        style={{
+                                            boxShadow: '0px 5px 10px 0px rgba(255, 255, 255, 0.5)',
+                                            height: '32px',
+                                            width: '32px',
+                                            borderRadius: '50%',
+                                        }}
+
+                                    />)
+                                }
                             </Box>
                             <Typography
                                 sx={{ color: isBms ? '#111111' : '#ffffff', fontSize: '17px', fontWeight: 500 }}
@@ -3060,11 +3075,21 @@ const Chatbot = () => {
                                                                                     <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
                                                                                         <Stack sx={{ pl: '6px' }}>
-                                                                                            <img src={customerLogo ? customerLogo : customerFace} style={{
-                                                                                                height: '35px', width: '35px',
-                                                                                                borderRadius: "50%",
-                                                                                                // boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' 
-                                                                                            }} alt="chatbot" />
+                                                                                            {isBms ?
+                                                                                                (<img src={bmsChildLogo} style={{
+                                                                                                    height: '35px', width: '35px',
+                                                                                                    borderRadius: "50%",
+                                                                                                    // boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' 
+                                                                                                }} alt="chatbot" />)
+                                                                                                :
+                                                                                                (
+                                                                                                    <img src={customerLogo ? customerLogo : customerFace} style={{
+                                                                                                        height: '35px', width: '35px',
+                                                                                                        borderRadius: "50%",
+                                                                                                        // boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' 
+                                                                                                    }} alt="chatbot" />
+                                                                                                )}
+
                                                                                         </Stack>
                                                                                         <Stack sx=
                                                                                             {{
@@ -3785,33 +3810,62 @@ const Chatbot = () => {
                     !isChatbotOpen ? (
 
                         <Stack sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: "30px", cursor: 'pointer', backgroundColor: 'transparent', padding: '10px 4px' }} className="bottom-cls">
-
-                            <Box
-                                component="div"
-                                sx={{
-                                    height: '50px',
-                                    width: '50px',
-                                    borderRadius: '50%',
-                                    backgroundImage: `url("${customerLogo ? customerLogo : customerFace}")`,
-                                    backgroundSize: 'cover',
-                                    cursor: 'pointer',
-                                    transition: 'transform 0.3s, opacity 0.3s',
-                                    transform: isChatbotOpen ? 'translateY(20%)' : 'none',
-                                    opacity: isChatbotOpen ? 0 : 1,
-                                    margin: '20px',
-                                    position: 'relative',
-                                    // boxShadow: '0 0 5px 5px rgb(0 0 0 / 36%)',
-                                    '&:hover': {
-                                        // animation: 'ripples 1s linear infinite',
-                                    },
-                                    '@keyframes ripples': {
-                                        to: {
-                                            boxShadow: '0 0 0 4px rgba(0, 0, 0, 0.2), 0 0 0 6px rgba(0, 0, 0, 0.2), 0 0 0 8px rgba(0, 0, 0, 0.2), 0 0 0 10px rgba(0, 0, 0, 0.2)'
+                            {isBms ?
+                                (<Box
+                                    component="div"
+                                    sx={{
+                                        height: '50px',
+                                        width: '50px',
+                                        borderRadius: '50%',
+                                        backgroundImage: `url("${bmsMainLogo}")`,
+                                        backgroundSize: 'cover',
+                                        cursor: 'pointer',
+                                        transition: 'transform 0.3s, opacity 0.3s',
+                                        transform: isChatbotOpen ? 'translateY(20%)' : 'none',
+                                        opacity: isChatbotOpen ? 0 : 1,
+                                        margin: '20px',
+                                        position: 'relative',
+                                        // boxShadow: '0 0 5px 5px rgb(0 0 0 / 36%)',
+                                        '&:hover': {
+                                            // animation: 'ripples 1s linear infinite',
+                                        },
+                                        '@keyframes ripples': {
+                                            to: {
+                                                boxShadow: '0 0 0 4px rgba(0, 0, 0, 0.2), 0 0 0 6px rgba(0, 0, 0, 0.2), 0 0 0 8px rgba(0, 0, 0, 0.2), 0 0 0 10px rgba(0, 0, 0, 0.2)'
+                                            }
                                         }
-                                    }
-                                }}
-                                onClick={intializeChatBot}
-                            ></Box>
+                                    }}
+                                    onClick={intializeChatBot}
+                                ></Box>)
+                                :
+                                (<Box
+                                    component="div"
+                                    sx={{
+                                        height: '50px',
+                                        width: '50px',
+                                        borderRadius: '50%',
+                                        backgroundImage: `url("${customerLogo ? customerLogo : customerFace}")`,
+                                        backgroundSize: 'cover',
+                                        cursor: 'pointer',
+                                        transition: 'transform 0.3s, opacity 0.3s',
+                                        transform: isChatbotOpen ? 'translateY(20%)' : 'none',
+                                        opacity: isChatbotOpen ? 0 : 1,
+                                        margin: '20px',
+                                        position: 'relative',
+                                        // boxShadow: '0 0 5px 5px rgb(0 0 0 / 36%)',
+                                        '&:hover': {
+                                            // animation: 'ripples 1s linear infinite',
+                                        },
+                                        '@keyframes ripples': {
+                                            to: {
+                                                boxShadow: '0 0 0 4px rgba(0, 0, 0, 0.2), 0 0 0 6px rgba(0, 0, 0, 0.2), 0 0 0 8px rgba(0, 0, 0, 0.2), 0 0 0 10px rgba(0, 0, 0, 0.2)'
+                                            }
+                                        }
+                                    }}
+                                    onClick={intializeChatBot}
+                                ></Box>)
+                            }
+
                             {!onlyImage && (initialButtons && initialButtons.length) ?
                                 (<>
                                     <Stack className="hide-initial-card">

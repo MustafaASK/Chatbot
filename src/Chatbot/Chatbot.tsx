@@ -234,6 +234,7 @@ const Chatbot = () => {
     const [customerLogo, setCustomerLogo] = useState("");
     const [isReload, setIsReload] = useState(false);
     const [onlyImage, setOnlyImage] = useState(false);
+    const [apiLoaded, setApiLoaded] = useState(false);
     const [clientIdfromParent, setClientId] = useState<any>(null);
     const [jobTypesList, setJobTypesList] = useState<any>({
         "1": "Full Time",
@@ -409,6 +410,7 @@ const Chatbot = () => {
             // shortName = "qademo";
             try {
                 const resp = await apiService.getClientIdByShortName(shortName)
+                setApiLoaded(true)
                 if (resp.data) {
                     let clientIdtoString = resp.data.clientId.toString()
                     setClientId(clientIdtoString);
@@ -432,6 +434,7 @@ const Chatbot = () => {
                 }
             }
             catch (e) {
+                setApiLoaded(true)
                 console.log(e, "errr")
             }
         }
@@ -1778,7 +1781,20 @@ const Chatbot = () => {
     // console.log('activeSteppppppppppp', activeStep)
     // console.log('messagesListssssssss', messagesList)
 
+    const textWithLineBreaks = (props: any) => {
+        console.log(props);
+        const textWithBreaks = props?.split('\n').map((text:any, index:any) => (
+          <React.Fragment key={index}>
+            {text}
+            <br />
+          </React.Fragment>
+        ));
+      
+        return <div>{textWithBreaks}</div>;
+      }
+
     const removeTags = (text: any) => {
+        return text;
         const doc = new DOMParser().parseFromString(text, 'text/html');
         if (doc.body.children.length > 0) {
             return doc.body.textContent || "";
@@ -1863,7 +1879,7 @@ const Chatbot = () => {
 
         if (text == 'cancel') {
             dataToPass.message = 'back';
-            obj.text = 'Cancelled';
+            obj.text = 'Back';
             delete obj.multiSelect;
 
         } else {
@@ -1881,7 +1897,7 @@ const Chatbot = () => {
 
     return (
         <Stack sx={{
-            display: 'flex', flexDirection: 'row', justifyContent: 'flex-end',
+            display: (apiLoaded ? 'flex' : 'none'), flexDirection: 'row', justifyContent: 'flex-end',
             alignItems: 'flex-end', right: 500
         }}>
             <Stack sx={{ display: isTermCardOpen ? 'block' : 'none', height: '500px', bottom: '20px' }}>
@@ -3097,7 +3113,7 @@ const Chatbot = () => {
                                                                                             }}
                                                                                         >
                                                                                             <Typography component='p' sx={{ color: 'black', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
-                                                                                                {removeTags(msgObj.text)}
+                                                                                                {textWithLineBreaks(msgObj.text)}
                                                                                             </Typography>
                                                                                         </Stack>
                                                                                     </Stack>

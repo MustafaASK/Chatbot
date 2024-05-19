@@ -405,7 +405,7 @@ const Chatbot = () => {
                         restartDataToPass.metadata.client_id = clientIdtoString;
                     }
                     if (resp.data.chatLogo) {
-                        setCustomerLogo(resp.data.chatLogo);
+                        setCustomerLogo(`https://ova-qatest.s3.us-west-2.amazonaws.com/curately/${resp.data.chatLogo}`);
                     }
 
                     getLocation()
@@ -1805,7 +1805,7 @@ const Chatbot = () => {
 
     }, [JSON.stringify(selectedAnyBtn)])
 
-    const seekSubmit = (msgObj: any, text:String) => {
+    const seekSubmit = (msgObj: any, text: String) => {
         // setseekEmployementSubmt(true) 
 
         let formattedeKyValue = selectedSeekBtns.join();
@@ -1841,10 +1841,10 @@ const Chatbot = () => {
             }
         }
 
-        if(text == 'cancel'){
+        if (text == 'cancel') {
             dataToPass.message = 'back';
             obj.text = 'Cancelled';
-            delete obj.multiSelect; 
+            delete obj.multiSelect;
 
         } else {
             dataToPass.message = `${formattedeKyValue}`;
@@ -2608,7 +2608,7 @@ const Chatbot = () => {
                                                                                         opacity: selectedSeekBtns.length !== 0 ? 1 : 0.5,
                                                                                         pointerEvents: selectedSeekBtns.length !== 0 ? 'auto' : 'none'
                                                                                     }}
-                                                                                    onClick={() => seekSubmit(msgObj,'submit')}
+                                                                                    onClick={() => seekSubmit(msgObj, 'submit')}
                                                                                 >
                                                                                     Submit
                                                                                 </Button>
@@ -2617,8 +2617,8 @@ const Chatbot = () => {
                                                                                     variant="outlined"
                                                                                     disableRipple
                                                                                     className="seek-back-btn seek-btns"
-                                                                                    onClick={() => seekSubmit(msgObj,'cancel')}
-                                                                                    style={{ boxShadow: 'none', marginLeft: '5px', display:(msgObj.custom?.is_back_button_enabled ? 'initial' : 'none') }}
+                                                                                    onClick={() => seekSubmit(msgObj, 'cancel')}
+                                                                                    style={{ boxShadow: 'none', marginLeft: '5px', display: (msgObj.custom?.is_back_button_enabled ? 'initial' : 'none') }}
                                                                                 >
                                                                                     Back
                                                                                 </Button>
@@ -3024,9 +3024,10 @@ const Chatbot = () => {
                                                                                     <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
                                                                                         <Stack sx={{ pl: '6px' }}>
-                                                                                            <img src={customerLogo ? customerLogo : customerFace} style={{ height: '35px', width: '35px',
-                                                                                             borderRadius: "50%", 
-                                                                                            // boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' 
+                                                                                            <img src={customerLogo ? customerLogo : customerFace} style={{
+                                                                                                height: '35px', width: '35px',
+                                                                                                borderRadius: "50%",
+                                                                                                // boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' 
                                                                                             }} alt="chatbot" />
                                                                                         </Stack>
                                                                                         <Stack sx=
@@ -3072,10 +3073,11 @@ const Chatbot = () => {
                                 {loaded ?
                                     (<><Stack direction='row' spacing={0.5} p={0.5} mr={5}>
 
-                                        <Stack style={{paddingLeft:"6px"}}>
-                                            <img src={customerLogo ? customerLogo : customerFace} style={{ height: '35px', width: '35px', borderRadius: "50%",
-                                            //  boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)'
-                                              }} alt="chatbot" />
+                                        <Stack style={{ paddingLeft: "6px" }}>
+                                            <img src={customerLogo ? customerLogo : customerFace} style={{
+                                                height: '35px', width: '35px', borderRadius: "50%",
+                                                //  boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)'
+                                            }} alt="chatbot" />
                                         </Stack>
                                         <Stack sx=
                                             {{

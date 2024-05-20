@@ -96,7 +96,7 @@ class ApiService {
     }
 
     getClientIdByShortName(shortName: any) {
-        return axios.get(`https://api.curately.ai/QADemoCurately/byShortName/${shortName}`)
+        return axios.get(`https://api.curately.ai/QADemoCurately/getByShortName/${shortName}`)
     }
 
 }

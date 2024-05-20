@@ -55,6 +55,7 @@ import { formatDate } from "./utills/helper";
 import bmslogo from '../bms-logo/Bristol Myers Squibb_id0t67LYTA_1 1.png'
 import bmsMainLogo from '../bms-logo/woman-svgrepo-com 1.jpg'
 import bmsChildLogo from '../bms-logo/woman-svgrepo-com 1@2x.svg'
+import { REACT_APP_AMAZON_S3_PATH } from "./utills/helper";
 import './Chatbot.css'
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -428,7 +429,7 @@ const Chatbot = () => {
                         restartDataToPass.metadata.client_id = clientIdtoString;
                     }
                     if (resp.data.chatLogo) {
-                        setCustomerLogo(resp.data.chatLogo);
+                        setCustomerLogo(`${REACT_APP_AMAZON_S3_PATH}${resp.data.chatLogo}`);
                     }
                     getLocation()
                 }
@@ -1783,15 +1784,15 @@ const Chatbot = () => {
 
     const textWithLineBreaks = (props: any) => {
         console.log(props);
-        const textWithBreaks = props?.split('\n').map((text:any, index:any) => (
-          <React.Fragment key={index}>
-            {text}
-            <br />
-          </React.Fragment>
+        const textWithBreaks = props?.split('\n').map((text: any, index: any) => (
+            <React.Fragment key={index}>
+                {text}
+                <br />
+            </React.Fragment>
         ));
-      
+
         return <div>{textWithBreaks}</div>;
-      }
+    }
 
     const removeTags = (text: any) => {
         return text;

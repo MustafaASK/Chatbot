@@ -130,3 +130,5 @@ export const formatDate = (value: any) => {
     let curDate = new Date(value * 1000);
     return moment(curDate.toDateString()).format("MM-DD-YYYY")
 }
+
+export const REACT_APP_AMAZON_S3_PATH = "https://ova-qatest.s3.us-west-2.amazonaws.com/curately/"

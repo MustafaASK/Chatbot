@@ -52,7 +52,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import CheckIcon from '@mui/icons-material/Check';
 import { formatDate } from "./utills/helper";
-
+import { REACT_APP_AMAZON_S3_PATH } from "./utills/helper";
 import './Chatbot.css'
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -405,7 +405,7 @@ const Chatbot = () => {
                         restartDataToPass.metadata.client_id = clientIdtoString;
                     }
                     if (resp.data.chatLogo) {
-                        setCustomerLogo(`https://ova-qatest.s3.us-west-2.amazonaws.com/curately/${resp.data.chatLogo}`);
+                        setCustomerLogo(`${REACT_APP_AMAZON_S3_PATH}${resp.data.chatLogo}`);
                     }
 
                     getLocation()

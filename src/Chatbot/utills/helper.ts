@@ -131,4 +131,4 @@ export const formatDate = (value: any) => {
     return moment(curDate.toDateString()).format("MM-DD-YYYY")
 }
 
-export const REACT_APP_AMAZON_S3_PATH = "https://ova-qatest.s3.us-west-2.amazonaws.com/curately/"
+export const REACT_APP_AMAZON_S3_PATH = "https://ovastorage.s3.us-west-2.amazonaws.com/curately/"

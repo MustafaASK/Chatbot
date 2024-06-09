@@ -180,6 +180,17 @@ type CustomObj = {
     titles: any[],
     type: string
 }
+type PayloadObj = {
+    sender: string,
+    message: string,
+    metadata: {
+        chatbot_type: string,
+        job_location: string,
+        ip_address: string,
+        client_id: string,
+        user_id : null | string
+    }
+};
 
 
 const Chatbot = () => {
@@ -252,8 +263,8 @@ const Chatbot = () => {
 
     // const isBms = clientIdfromParent === '2' ? true : false
 
-    console.log('sssssssss', clientIdfromParent)
-    console.log('isBms', isBms)
+    // console.log('sssssssss', clientIdfromParent)
+    // console.log('isBms', isBms)
 
     const [seek, setSeek] = useState<any>([
     ]);
@@ -406,7 +417,7 @@ const Chatbot = () => {
 
 
         let locationHref = window.parent.location.href;
-        console.log(locationHref, 'locationHref')
+        // console.log(locationHref, 'locationHref')
         const getClientDetails = async (shortName: any) => {
             // shortName = "qademo";
             try {
@@ -417,8 +428,8 @@ const Chatbot = () => {
                     setClientId(clientIdtoString);
                     let isbmspage = locationHref.indexOf("bms");
                     let checkbms = (isbmspage !== -1) ? true : false;
-                    console.log("checkbms");
-                    console.log(checkbms);
+                    // console.log("checkbms");
+                    // console.log(checkbms);
                     setIsBms(checkbms)
                     // setIsBms(clientIdtoString === '2' ? true : false)
 
@@ -544,20 +555,25 @@ const Chatbot = () => {
     //     )
     // }
     const submitFile = async () => {
+        dataToPass.metadata.user_id = null;
         let formData = new FormData()
         formData.append("resume", fileInputData)
         formData.set("sender", `${randStr}`);
-        formData.set("metaData", JSON.stringify(dataToPass.metadata));
+        formData.set("metadata", JSON.stringify(dataToPass.metadata));
         setLoaded(true);
         try {
             let response = await apiService.uploadFile(formData)
-            if (response.data.success) {
+            if (response.data.Success) {
                 setLoaded(false);
                 let filter_messages = messagesList.filter((message) => {
                     return message.custom?.ui_component !== "resume_upload"
                 })
                 setMessagesList([...filter_messages]);
-                sendValue(null, `candid ${response.data.candidate_id}`)
+                dataToPass.metadata.user_id = response?.data?.userId.toString();
+                sendValue(null, `candid ${response.data.userId}`)
+                localStorage.setItem("userId", response.data.userId)
+                localStorage.setItem("userData", JSON.stringify(response.data))
+                sendLoggedDataToParent(response.data)
             } else {
                 setLoaded(false);
                 setSeverity("error");
@@ -648,7 +664,8 @@ const Chatbot = () => {
             setMessagesList(prevArray => [...prevArray, obj]);
             value = (value.search("candid") !== -1) ? value.split(" ")[1] : value;
             dataToPass.message = `/${intentType}{"${entityType}": "${value}"}`
-            dataToPass.metadata.job_location = ipLocation;
+            dataToPass.metadata.job_location = ipLocation;            
+            dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null
             setFileData(null)
             // dataToPass.message = type === "input_job_title" ? `/${type}{"job_title": "${value}"}` : `/${type}{"job_location": "${value}"}`;
             getTableData();
@@ -661,7 +678,29 @@ const Chatbot = () => {
 
     const sendToParent = (message: any) => {
         // let sendVar = message ? message : false;
+        // window.parent.postMessage(message, "*");
+        let obj = {
+            "bool": message,
+            "data":null
+        }
+        manageDatatoParant(obj)
+    }
+
+    const manageDatatoParant = (message: any) => {
+        // let sendVar = message ? message : false;
         window.parent.postMessage(message, "*");
+    }
+
+    
+
+    const sendLoggedDataToParent = (message: any) => {
+        // let sendVar = message ? message : false;
+        // window.parent.postMessage(message, "*");
+        let obj = {
+            "bool": true,
+            "data":localStorage.getItem("userData")
+        }
+        manageDatatoParant(obj)
     }
 
 
@@ -755,6 +794,7 @@ const Chatbot = () => {
         setMessagesList(prevArray => [...prevArray, obj]);
         dataToPass.message = `/input_select_job{"select_job": "${jobData.jobId}"}`
         dataToPass.metadata.job_location = ipLocation;
+        dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null
         // dataToPass.message = type === "input_job_title" ? `/${type}{"job_title": "${value}"}` : `/${type}{"job_location": "${value}"}`;
         getTableData();
 
@@ -810,6 +850,7 @@ const Chatbot = () => {
                 "job_location": ipLocation,
                 "ip_address": ipAddress ? ipAddress : "",
                 "client_id": clientIdfromParent,
+                "user_id" : localStorage.getItem("userId") ? localStorage.getItem("userId") : null
             }
         };
         dataToPass.metadata.job_location = ipLocation;
@@ -1299,6 +1340,7 @@ const Chatbot = () => {
         );
         dataToPass.message = msg.payload;
         dataToPass.metadata.job_location = ipLocation;
+        dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null
         getTableData();
 
         // dataToPass.message = `/${intentType}{"${entityType}": "${formattedeKyValue}"}`
@@ -1333,6 +1375,7 @@ const Chatbot = () => {
         );
         dataToPass.message = msg;
         dataToPass.metadata.job_location = ipLocation;
+        dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null
         getTableData();
 
     }
@@ -1387,6 +1430,7 @@ const Chatbot = () => {
                 // dataToPass.message = event.target.value;
                 // console.log(event.target.value);
                 dataToPass.metadata.job_location = ipLocation;
+                dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null
 
                 getTableData();
             }
@@ -1396,7 +1440,7 @@ const Chatbot = () => {
     //send text as input 
 
     const [ipAddress, setIpAddress] = useState('')
-    console.log('ipAddress', ipAddress)
+    // console.log('ipAddress', ipAddress)
 
     const getDateFormat = (date: string) => {
         if (date) {
@@ -1435,6 +1479,7 @@ const Chatbot = () => {
                 dataToPass.message = inputValue;
             }
             dataToPass.metadata.job_location = ipLocation;
+            dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null
 
 
             getTableData();
@@ -1445,7 +1490,7 @@ const Chatbot = () => {
 
 
 
-    let dataToPass = {
+    let dataToPass: PayloadObj = {
         "sender": `${randStr}`,
         "message": "/greet",
         "metadata": {
@@ -1453,6 +1498,7 @@ const Chatbot = () => {
             "job_location": "",
             "ip_address": ipAddress ? ipAddress : "",
             "client_id": clientIdfromParent,
+            "user_id" : null
         }
     };
 
@@ -1465,6 +1511,7 @@ const Chatbot = () => {
             "job_location": "",
             "ip_address": ipAddress ? ipAddress : "",
             "client_id": clientIdfromParent,
+            "user_id" : localStorage.getItem("userId") ? localStorage.getItem("userId") : null
         }
     };
 
@@ -1473,6 +1520,11 @@ const Chatbot = () => {
     const restartData = () => {
         apiService.sendMessage(restartDataToPass).then((response: any) => {
             setRestart(false)
+        })
+    }
+    const restartData1 = () => {
+        apiService.sendMessage(restartDataToPass).then((response: any) => {
+            getTableData();
         })
     }
 
@@ -1498,6 +1550,7 @@ const Chatbot = () => {
                 "job_location": ipLocation,
                 "ip_address": ipAddress ? ipAddress : "",
                 "client_id": clientIdfromParent,
+                "user_id" : localStorage.getItem("userId") ? localStorage.getItem("userId") : null
             }
         };
         setFileData(null)
@@ -1510,6 +1563,67 @@ const Chatbot = () => {
     useEffect(() => {
         sessionStorage.setItem("isLoadedFirsttime", 'true')
     }, [])
+
+    useEffect(() => {
+        const receiveMessage = (event:any) => {
+          // Ensure the message is from the expected origin
+        //   if (event.origin !== 'URL_OF_PARENT') {
+        //     return;
+        //   }
+        setMessagesList([]);        
+        setRestart(false)
+        if(event.data?.data == 'remove'){
+            console.log('Message received from parent:', event.data.data);
+            dataToPass.metadata.user_id = event.data.data;
+            // localStorage.setItem("userId");
+            localStorage.removeItem("uuid");
+            localStorage.removeItem("userId");
+            restartDataToPass.metadata.user_id = null;
+            dataToPass.metadata.user_id = null;            
+            dataToPass.message = "/greet";
+            generateNum = generateRandomNumber();
+
+            
+            generateNum = generateNum.toString();
+            restartDataToPass.sender = generateNum ? generateNum.toString() : "";
+            dataToPass.sender = generateNum ? generateNum.toString() : "";
+            setRandStr(generateNum);
+
+            restartData1();  
+
+        } else if (event.data?.data) {
+            console.log('Message received from parent:', event.data.data);
+            dataToPass.metadata.user_id = event.data.data;
+            // localStorage.setItem("userId");
+            localStorage.removeItem("uuid");
+            localStorage.setItem("userId", event.data.data);
+            restartDataToPass.metadata.user_id = event.data.data.toString();
+            dataToPass.metadata.user_id = event.data.data.toString();            
+            dataToPass.message = "/greet";
+            generateNum = generateRandomNumber();
+
+            
+            generateNum = generateNum.toString();
+            restartDataToPass.sender = generateNum ? generateNum.toString() : "";
+            dataToPass.sender = generateNum ? generateNum.toString() : "";
+            setRandStr(generateNum);
+
+            restartData1();            
+            // getTableData();
+
+            // getTableData();
+            // Handle the data from the parent here
+          }
+        };
+    
+        // Add event listener for message events
+        window.addEventListener('message', receiveMessage, false);
+    
+        // Cleanup event listener on component unmount
+        return () => {
+          window.removeEventListener('message', receiveMessage, false);
+        };
+      }, []);
 
 
 
@@ -1681,6 +1795,7 @@ const Chatbot = () => {
                         //         "job_location": ""
                         //     }
                         // };
+                        dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null
 
                         getTableData();
                     }
@@ -1783,7 +1898,7 @@ const Chatbot = () => {
     // console.log('messagesListssssssss', messagesList)
 
     const textWithLineBreaks = (props: any) => {
-        console.log(props);
+        // console.log(props);
         const textWithBreaks = props?.split('\n').map((text: any, index: any) => (
             <React.Fragment key={index}>
                 {text}
@@ -1850,12 +1965,12 @@ const Chatbot = () => {
 
         selectedSeekBtns.forEach((job: any) => {
             // job.isRealJob = true
-            console.log(job);
+            // console.log(job);
             let filterArr = seek.filter((data: any) => data.value == job)
             if (filterArr && filterArr.length) {
                 formatValues.push(filterArr[0].key);
             }
-            console.log(filterArr);
+            // console.log(filterArr);
             // seek.
             // formatValues.push()
         })
@@ -1886,6 +2001,7 @@ const Chatbot = () => {
         } else {
             dataToPass.message = `${formattedeKyValue}`;
         }
+        dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null
         msgObj['show'] = false;
 
         setMessagesList(prevArray => [...prevArray, obj]);

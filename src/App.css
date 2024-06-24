@@ -152,7 +152,7 @@
   }
 
   .main_cls .chat-width {
-    border-radius: 0px !important;
+    border-radius: 10px 10px 0 0 !important;
     margin-bottom: 0px !important;
     height: 100% !important;
   }

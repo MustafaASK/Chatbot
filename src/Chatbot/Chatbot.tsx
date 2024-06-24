@@ -52,9 +52,9 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import CheckIcon from '@mui/icons-material/Check';
 import { formatDate } from "./utills/helper";
-import bmslogo from '../bms-logo/Bristol Myers Squibb_id0t67LYTA_1 1.png'
-import bmsMainLogo from '../bms-logo/woman-svgrepo-com 1.jpg'
-import bmsChildLogo from '../bms-logo/woman-svgrepo-com 1@2x.svg'
+import bmslogo from '../bms-logo/bms-logo-svg.svg'
+import bmsMainLogo from '../bms-logo/Robin-avatar.png'
+import bmsChildLogo from '../bms-logo/Robin-avatar.png'
 import { REACT_APP_AMAZON_S3_PATH } from "./utills/helper";
 import './Chatbot.css'
 
@@ -247,6 +247,7 @@ const Chatbot = () => {
     const [isReload, setIsReload] = useState(false);
     const [onlyImage, setOnlyImage] = useState(false);
     const [apiLoaded, setApiLoaded] = useState(false);
+    const [clientDetailsLoaded, setClientDetailsLoaded] = useState(false);
     const [clientIdfromParent, setClientId] = useState<any>(null);
     const [jobTypesList, setJobTypesList] = useState<any>({
         "1": "Full Time",
@@ -419,7 +420,7 @@ const Chatbot = () => {
         let locationHref = window.parent.location.href;
         // console.log(locationHref, 'locationHref')
         const getClientDetails = async (shortName: any) => {
-            // shortName = "qademo";
+            shortName = "qademo";
             try {
                 const resp = await apiService.getClientIdByShortName(shortName)
                 setApiLoaded(true)
@@ -442,7 +443,8 @@ const Chatbot = () => {
                     if (resp.data.chatLogo) {
                         setCustomerLogo(`${REACT_APP_AMAZON_S3_PATH}${resp.data.chatLogo}`);
                     }
-                    getLocation()
+                    getLocation();
+                    setClientDetailsLoaded(true);
                 }
             }
             catch (e) {
@@ -451,7 +453,7 @@ const Chatbot = () => {
             }
         }
         if (locationHref) {
-            let shortName = locationHref.split('/').slice(-2)[0]
+            let shortName = locationHref.split('/').slice(-2)[1]
             getClientDetails(shortName)
         }
 
@@ -682,6 +684,17 @@ const Chatbot = () => {
         let obj = {
             "bool": message,
             "data":null
+        }
+        manageDatatoParant(obj)
+    }
+
+    const sendToParentNewTab = (message: any) => {
+        // let sendVar = message ? message : false;
+        // window.parent.postMessage(message, "*");
+        let obj = {
+            "bool": false,
+            "data":null,
+            "iframeLoad":message
         }
         manageDatatoParant(obj)
     }
@@ -1565,65 +1578,68 @@ const Chatbot = () => {
     }, [])
 
     useEffect(() => {
-        const receiveMessage = (event:any) => {
-          // Ensure the message is from the expected origin
-        //   if (event.origin !== 'URL_OF_PARENT') {
-        //     return;
-        //   }
-        setMessagesList([]);        
-        setRestart(false)
-        if(event.data?.data == 'remove'){
-            console.log('Message received from parent:', event.data.data);
-            dataToPass.metadata.user_id = event.data.data;
-            // localStorage.setItem("userId");
-            localStorage.removeItem("uuid");
-            localStorage.removeItem("userId");
-            restartDataToPass.metadata.user_id = null;
-            dataToPass.metadata.user_id = null;            
-            dataToPass.message = "/greet";
-            generateNum = generateRandomNumber();
+        if(clientDetailsLoaded){
 
-            
-            generateNum = generateNum.toString();
-            restartDataToPass.sender = generateNum ? generateNum.toString() : "";
-            dataToPass.sender = generateNum ? generateNum.toString() : "";
-            setRandStr(generateNum);
-
-            restartData1();  
-
-        } else if (event.data?.data) {
-            console.log('Message received from parent:', event.data.data);
-            dataToPass.metadata.user_id = event.data.data;
-            // localStorage.setItem("userId");
-            localStorage.removeItem("uuid");
-            localStorage.setItem("userId", event.data.data);
-            restartDataToPass.metadata.user_id = event.data.data.toString();
-            dataToPass.metadata.user_id = event.data.data.toString();            
-            dataToPass.message = "/greet";
-            generateNum = generateRandomNumber();
-
-            
-            generateNum = generateNum.toString();
-            restartDataToPass.sender = generateNum ? generateNum.toString() : "";
-            dataToPass.sender = generateNum ? generateNum.toString() : "";
-            setRandStr(generateNum);
-
-            restartData1();            
-            // getTableData();
-
-            // getTableData();
-            // Handle the data from the parent here
-          }
-        };
-    
-        // Add event listener for message events
-        window.addEventListener('message', receiveMessage, false);
-    
-        // Cleanup event listener on component unmount
-        return () => {
-          window.removeEventListener('message', receiveMessage, false);
-        };
-      }, []);
+            const receiveMessage = (event:any) => {
+                // Ensure the message is from the expected origin
+              //   if (event.origin !== 'URL_OF_PARENT') {
+              //     return;
+              //   }
+              setMessagesList([]);        
+              setRestart(false)
+              if(event.data?.data == 'remove'){
+                  console.log('Message received from parent:', event.data.data);
+                  dataToPass.metadata.user_id = event.data.data;
+                  // localStorage.setItem("userId");
+                  localStorage.removeItem("uuid");
+                  localStorage.removeItem("userId");
+                  restartDataToPass.metadata.user_id = null;
+                  dataToPass.metadata.user_id = null;            
+                  dataToPass.message = "/greet";
+                  generateNum = generateRandomNumber();
+      
+                  
+                  generateNum = generateNum.toString();
+                  restartDataToPass.sender = generateNum ? generateNum.toString() : "";
+                  dataToPass.sender = generateNum ? generateNum.toString() : "";
+                  setRandStr(generateNum);
+      
+                  restartData1();  
+      
+              } else if (event.data?.data) {
+                  console.log('Message received from parent:', event.data.data);
+                  dataToPass.metadata.user_id = event.data.data;
+                  // localStorage.setItem("userId");
+                  localStorage.removeItem("uuid");
+                  localStorage.setItem("userId", event.data.data);
+                  restartDataToPass.metadata.user_id = event.data.data.toString();
+                  dataToPass.metadata.user_id = event.data.data.toString();            
+                  dataToPass.message = "/greet";
+                  generateNum = generateRandomNumber();
+      
+                  
+                  generateNum = generateNum.toString();
+                  restartDataToPass.sender = generateNum ? generateNum.toString() : "";
+                  dataToPass.sender = generateNum ? generateNum.toString() : "";
+                  setRandStr(generateNum);
+      
+                  restartData1();            
+                  // getTableData();
+      
+                  // getTableData();
+                  // Handle the data from the parent here
+                }
+              };
+          
+              // Add event listener for message events
+              window.addEventListener('message', receiveMessage, false);
+          
+              // Cleanup event listener on component unmount
+              return () => {
+                window.removeEventListener('message', receiveMessage, false);
+              };
+        }
+      }, [clientDetailsLoaded]);
 
 
 
@@ -1690,6 +1706,10 @@ const Chatbot = () => {
                                         newObject.show = true;
                                         setSeek(obj.custom.options);
                                         setseekEmployementSubmt(false)
+                                    }
+
+                                    if (obj.custom?.ui_component && obj.custom.ui_component === "workflow" && obj.custom.workflow_url != '') {
+                                        sendToParentNewTab(obj.custom.workflow_url);
                                     }
 
                                     if (obj.custom?.ui_component && obj.custom.ui_component === "job_location") {
@@ -2176,7 +2196,7 @@ const Chatbot = () => {
                                         src={bmsChildLogo}
                                         alt='avatar'
                                         style={{
-                                            height: '32px',
+                                            height: '40px',
                                             width: '40px',
                                             borderRadius: '50%',
 
@@ -2196,10 +2216,10 @@ const Chatbot = () => {
                                 }
                             </Box>
                             <Typography
-                                sx={{ color: isBms ? '#111111' : '#ffffff', fontSize: '17px', fontWeight: 500 }}
+                                sx={{ color: isBms ? '#333333' : '#ffffff', fontSize: '17px', fontWeight: 500, marginLeft:'8px' }}
                             >
                                 {/* CXninja <Box component='span' sx={{ fontWeight: 400 }}>SmartBot</Box> */}
-                                {isBms ? 'Bimsy' : 'Ripley'}
+                                {isBms ? 'Robin' : 'Ripley'}
                             </Typography>
                         </Stack>
 
@@ -2223,7 +2243,7 @@ const Chatbot = () => {
                             </Stack>
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                                 <div >
-                                    {isBms ? <img src={bmslogo} alt="" style={{ height: '20px', marginRight: '10px' }} /> : ""}
+                                    {isBms ? <img src={bmslogo} alt="" style={{ height: '20px',width:'110px', marginRight: '10px' }} /> : ""}
                                 </div>
                                 <Box component='div' onClick={handleExitChatbot} >
                                     <CloseSharpIcon sx={{ color: isBms ? '#333333' : '#ffffff', fontSize: '18px', cursor: 'pointer' }} />

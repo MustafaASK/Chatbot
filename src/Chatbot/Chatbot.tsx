@@ -248,7 +248,7 @@ const Chatbot = () => {
     const [isReload, setIsReload] = useState(false);
     const [onlyImage, setOnlyImage] = useState(false);
     const [apiLoaded, setApiLoaded] = useState(false);
-    const [clientDetailsLoaded, setClientDetailsLoaded] = useState(false);
+    // const [clientDetailsLoaded, setClientDetailsLoaded] = useState(false);
     const [clientIdfromParent, setClientId] = useState<any>(null);
     const [jobTypesList, setJobTypesList] = useState<any>({
         "1": "Full Time",

@@ -188,10 +188,11 @@ type PayloadObj = {
         job_location: string,
         ip_address: string,
         client_id: string,
-        user_id : null | string
+        user_id: null | string
     }
 };
 
+const test = ['Available Now', 'Available Soon', 'Passively Looking', 'Not Looking']
 
 const Chatbot = () => {
 
@@ -259,7 +260,7 @@ const Chatbot = () => {
 
     });
     const [isBms, setIsBms] = useState(false);
-
+    const [clientDetailsLoaded, setClientDetailsLoaded] = useState(false);
 
     // const isBms = clientIdfromParent === '2' ? true : false
 
@@ -419,7 +420,7 @@ const Chatbot = () => {
         let locationHref = window.parent.location.href;
         // console.log(locationHref, 'locationHref')
         const getClientDetails = async (shortName: any) => {
-            // shortName = "qademo";
+            shortName = "qademo";
             try {
                 const resp = await apiService.getClientIdByShortName(shortName)
                 setApiLoaded(true)
@@ -443,6 +444,7 @@ const Chatbot = () => {
                         setCustomerLogo(`${REACT_APP_AMAZON_S3_PATH}${resp.data.chatLogo}`);
                     }
                     getLocation()
+                    setClientDetailsLoaded(true)
                 }
             }
             catch (e) {
@@ -563,7 +565,7 @@ const Chatbot = () => {
         setLoaded(true);
         try {
             let response = await apiService.uploadFile(formData)
-            if (response.data.Success) {
+            if (response.data.Success || response.data.success) {
                 setLoaded(false);
                 let filter_messages = messagesList.filter((message) => {
                     return message.custom?.ui_component !== "resume_upload"
@@ -664,7 +666,7 @@ const Chatbot = () => {
             setMessagesList(prevArray => [...prevArray, obj]);
             value = (value.search("candid") !== -1) ? value.split(" ")[1] : value;
             dataToPass.message = `/${intentType}{"${entityType}": "${value}"}`
-            dataToPass.metadata.job_location = ipLocation;            
+            dataToPass.metadata.job_location = ipLocation;
             dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null
             setFileData(null)
             // dataToPass.message = type === "input_job_title" ? `/${type}{"job_title": "${value}"}` : `/${type}{"job_location": "${value}"}`;
@@ -681,7 +683,7 @@ const Chatbot = () => {
         // window.parent.postMessage(message, "*");
         let obj = {
             "bool": message,
-            "data":null
+            "data": null
         }
         manageDatatoParant(obj)
     }
@@ -691,14 +693,14 @@ const Chatbot = () => {
         window.parent.postMessage(message, "*");
     }
 
-    
+
 
     const sendLoggedDataToParent = (message: any) => {
         // let sendVar = message ? message : false;
         // window.parent.postMessage(message, "*");
         let obj = {
             "bool": true,
-            "data":localStorage.getItem("userData")
+            "data": localStorage.getItem("userData")
         }
         manageDatatoParant(obj)
     }
@@ -850,409 +852,14 @@ const Chatbot = () => {
                 "job_location": ipLocation,
                 "ip_address": ipAddress ? ipAddress : "",
                 "client_id": clientIdfromParent,
-                "user_id" : localStorage.getItem("userId") ? localStorage.getItem("userId") : null
+                "user_id": localStorage.getItem("userId") ? localStorage.getItem("userId") : null
             }
         };
         dataToPass.metadata.job_location = ipLocation;
         getTableData();
     }
 
-    const makeJobsCourousal = (rowObj: any) => {
-        rowObj.jobs.forEach((job: any) => {
-            const jobObj = {
-                "container": (
 
-                    <Stack sx={{ minHeight: '300px', minWidth: '300px' }}>
-                        <Stack sx={{
-                            backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
-                            boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)', height: '10px',
-                        }}>
-                            <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)' }}>
-                                {/* <Box sx={{ p: 1 }}>
-                                        <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>Sales</Typography>
-                                    </Box> */}
-
-                                <Stack sx={{ p: '10px' }} direction='column' spacing={2}>
-
-                                    <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{job.jobTitle}</Typography>
-                                    <Box sx={{ display: 'flex', flexDirection: 'row', }}>
-                                        <Box>
-                                            <LocationOnOutlinedIcon sx={{ fontSize: '20px' }} />
-                                        </Box>
-                                        <Box sx={{ pl: '10px' }}>
-                                            <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>{job.workCity + ', ' + job.workState}</Typography>
-                                            {/* <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography> */}
-                                        </Box>
-                                    </Box>
-
-                                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', ml: 2 }}>
-                                        <Box>
-                                            <CalendarTodayIcon sx={{ fontSize: '15px' }} />
-                                        </Box>
-                                        <Box sx={{ pl: '10px' }}>
-
-                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted on {getDateFormat(job.createDate)}</Typography>
-                                        </Box>
-                                    </Box>
-
-                                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                                        <Box>
-                                            <AccessTimeIcon sx={{ fontSize: '15px' }} />
-                                        </Box>
-                                        <Box sx={{ pl: '10px' }}>
-                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{jobTypesList[job.jobType]}</Typography>
-                                        </Box>
-                                    </Box>
-
-                                </Stack>
-
-                                <Box >
-                                    <Button
-                                        disableRipple
-                                        onClick={() => handleReadMore(job, '')}
-                                        endIcon={<KeyboardArrowRightIcon />}
-                                        sx={{
-                                            textTransform: 'capitalize',
-                                            '& .MuiButton-endIcon': {
-                                                mr: 0,
-                                                ml: '-5px'
-                                            },
-                                            '& .MuiButton-endIcon>*:nth-of-type(1)': {
-                                                fontSize: '25px'
-                                            },
-                                            '&:hover': {
-                                                backgroundColor: '#ffffff'
-                                            }
-
-                                        }}
-
-                                    >
-                                        Read More
-                                    </Button>
-                                </Box>
-
-                                <Box sx={{ textAlign: 'center', pb: 3, pl: 1, pr: 1 }}>
-                                    <Button
-                                        variant="contained"
-                                        onClick={() => sendJobValue(job)}
-                                        sx={{
-                                            borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0, width: '100%',
-                                            '&:hover': {
-                                                backgroundColor: '#146EF6',
-                                                boxShadow: 0
-                                            }
-                                        }}
-                                        disabled={rowObj.isDisabled}
-                                    >
-                                        {rowObj.isDisabled}---
-                                        I'm Interested
-                                    </Button>
-                                </Box>
-                            </Stack>
-
-                        </Stack>
-                    </Stack>
-
-                ),
-            };
-            rowObj.newJobs.push(jobObj);
-
-
-
-            // setNewSteps((prevSearchData: any) => ({
-            //     ...prevSearchData,jobObj
-            //   }));
-        })
-
-        let refineJobSearch = {
-            "container": (
-                <Stack sx={{ minHeight: '300px', minWidth: '300px' }}>
-                    <Stack sx={{
-                        backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
-                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', height: '10px',
-                    }}>
-                        <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', textAlign: 'center', p: 2 }}>
-
-                            <Stack sx={{ mt: 1 }}>
-                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                </Stack>
-
-                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                    <SearchIcon sx={{ fontSize: '50px' }} />
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                </Stack>
-
-                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                </Stack>
-
-                            </Stack>
-
-                            <Typography sx={{ mt: 1, mb: 1, fontSize: '16px', fontWeight: 600 }}>Here's what you can do.</Typography>
-
-                            <Box sx={{ mr: 1, ml: 1 }}>
-
-                                <Button variant="contained"
-                                    disableRipple
-                                    sx={{
-                                        width: '100%', mb: 1, backgroundColor: '#146EF6', boxShadow: 0,
-                                        fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
-                                        '&:hover': {
-                                            backgroundColor: '#146EF6',
-                                            boxShadow: 0
-                                        }
-                                    }}
-
-                                    onClick={() => refineSearchJob(rowObj)}
-                                    disabled={rowObj.disabled}
-                                >
-                                    Refine Job Search
-                                </Button>
-                            </Box>
-                        </Stack>
-
-                    </Stack>
-                </Stack>
-            ),
-        }
-        rowObj.newJobs.push(refineJobSearch);
-
-
-    }
-
-
-    const steps = [
-        {
-            container: (
-                <Stack sx={{ minHeight: '300px', minWidth: '300px' }}>
-                    <Stack sx={{
-                        backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
-                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', height: '10px',
-                    }}>
-                        <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', textAlign: 'center', p: 2 }}>
-
-                            <Stack sx={{ mt: 1 }}>
-                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                </Stack>
-
-                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                    <SearchIcon sx={{ fontSize: '50px' }} />
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                </Stack>
-
-                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                </Stack>
-
-                            </Stack>
-
-                            <Typography sx={{ mt: 1, mb: 1, fontSize: '16px', fontWeight: 600 }}>Here's what you can do.</Typography>
-
-                            <Box sx={{ mr: 1, ml: 1 }}>
-                                <Button variant="outlined"
-                                    disableRipple
-                                    sx={{
-                                        width: '100%', mb: 1, borderColor: '#146EF6', boxShadow: 0,
-                                        fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
-                                        '&:hover': {
-                                            backgroundColor: '#146EF6',
-                                            boxShadow: 0,
-                                            color: '#ffffff'
-                                        }
-                                    }}
-                                >
-                                    Set Job Alert
-                                </Button>
-                                <Button variant="contained"
-                                    disableRipple
-                                    sx={{
-                                        width: '100%', mb: 1, backgroundColor: '#146EF6', boxShadow: 0,
-                                        fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
-                                        '&:hover': {
-                                            backgroundColor: '#146EF6',
-                                            boxShadow: 0
-                                        }
-                                    }}
-                                >
-                                    Refine Job Search
-                                </Button>
-                            </Box>
-                        </Stack>
-
-                    </Stack>
-                </Stack>
-            ),
-        },
-        {
-            container: (
-                <Stack sx={{ minHeight: '300px', minWidth: '300px' }}>
-                    <Stack sx={{
-                        backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
-                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)', height: '10px',
-                    }}>
-                        <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)' }}>
-                            <Box sx={{ p: 1 }}>
-                                <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>Sales</Typography>
-                            </Box>
-
-                            <Stack sx={{ p: '10px' }} direction='column' spacing={2}>
-
-                                <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Manager, Manufacturing Sales</Typography>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', }}>
-                                    <Box>
-                                        <LocationOnOutlinedIcon sx={{ fontSize: '20px' }} />
-                                    </Box>
-                                    <Box sx={{ pl: '10px' }}>
-                                        <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>Philadelphia, PA, United States of America</Typography>
-                                        <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography>
-                                    </Box>
-                                </Box>
-
-                                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', ml: 2 }}>
-                                    <Box>
-                                        <CalendarTodayIcon sx={{ fontSize: '15px' }} />
-                                    </Box>
-                                    <Box sx={{ pl: '10px' }}>
-                                        <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted 6days ago</Typography>
-                                    </Box>
-                                </Box>
-
-                                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                                    <Box>
-                                        <AccessTimeIcon sx={{ fontSize: '15px' }} />
-                                    </Box>
-                                    <Box sx={{ pl: '10px' }}>
-                                        <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Full Time</Typography>
-                                    </Box>
-                                </Box>
-
-                            </Stack>
-
-                            <Box>
-                                <Button
-                                    disableRipple
-                                    // onClick={handleReadMore}
-                                    endIcon={<KeyboardArrowRightIcon />}
-                                    sx={{
-                                        textTransform: 'capitalize',
-                                        '& .MuiButton-endIcon': {
-                                            mr: 0,
-                                            ml: '-5px'
-                                        },
-                                        '& .MuiButton-endIcon>*:nth-of-type(1)': {
-                                            fontSize: '25px'
-                                        },
-                                        '&:hover': {
-                                            backgroundColor: '#ffffff'
-                                        }
-
-                                    }}
-                                >
-                                    Read More
-                                </Button>
-                            </Box>
-
-                            <Box sx={{ textAlign: 'center', pb: 3, pl: 1, pr: 1 }}>
-                                <Button
-                                    variant="contained"
-                                    disableRipple
-                                    sx={{
-                                        borderRadius: '5px', textTransform: 'capitalize', backgroundColor: '#146EF6', color: '#ffffff', fontWeight: 400, fontSize: '16px', height: '34px', boxShadow: 0, width: '100%',
-                                        '&:hover': {
-                                            backgroundColor: '#146EF6',
-                                            boxShadow: 0
-                                        }
-                                    }}
-                                >
-                                    I'm Interested
-                                </Button>
-                            </Box>
-                        </Stack>
-
-                    </Stack>
-                </Stack>
-            ),
-        },
-        {
-            container: (
-                <Stack sx={{ minHeight: '300px', minWidth: '300px' }}>
-                    <Stack sx={{
-                        backgroundColor: '#146EF6', borderTopLeftRadius: '10px', borderTopRightRadius: '10px',
-                        boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', height: '10px',
-                    }}>
-                        <Stack sx={{ backgroundColor: '#ffffff', mt: 1, borderRadius: '2px', height: '350px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)', textAlign: 'center', p: 2 }}>
-
-                            <Stack sx={{ mt: 1 }}>
-                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                </Stack>
-
-                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                    <SearchIcon sx={{ fontSize: '50px' }} />
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                </Stack>
-
-                                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} direction='row' spacing={2}>
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                    <BusinessCenterTwoToneIcon sx={{ fontSize: '40px' }} />
-                                </Stack>
-
-                            </Stack>
-
-                            <Typography sx={{ mt: 1, mb: 1, fontSize: '16px', fontWeight: 600 }}>Here's what you can do.</Typography>
-
-                            <Box sx={{ mr: 1, ml: 1 }}>
-                                <Button variant="outlined"
-                                    disableRipple
-                                    sx={{
-                                        width: '100%', mb: 1, borderColor: '#146EF6', boxShadow: 0,
-                                        fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
-                                        '&:hover': {
-                                            backgroundColor: '#146EF6',
-                                            boxShadow: 0,
-                                            color: '#ffffff'
-                                        }
-                                    }}
-                                >
-                                    Set Job Alert
-                                </Button>
-                                <Button variant="contained"
-                                    disableRipple
-                                    sx={{
-                                        width: '100%', mb: 1, backgroundColor: '#146EF6', boxShadow: 0,
-                                        fontSize: '14px', fontWeight: 400, textTransform: 'capitalize',
-                                        '&:hover': {
-                                            backgroundColor: '#146EF6',
-                                            boxShadow: 0
-                                        }
-                                    }}
-                                >
-                                    Refine Job Search
-                                </Button>
-                            </Box>
-                        </Stack>
-
-                    </Stack>
-                </Stack>
-            ),
-        },
-    ];
 
 
     const theme = useTheme();
@@ -1314,6 +921,9 @@ const Chatbot = () => {
 
 
     const sendMessage = (msg: any, msgObj: any) => {
+        console.log('tit', msg.title)
+        console.log('obj', msgObj)
+
         // debugger
         let obj = {
             "text": msg.title,
@@ -1498,7 +1108,7 @@ const Chatbot = () => {
             "job_location": "",
             "ip_address": ipAddress ? ipAddress : "",
             "client_id": clientIdfromParent,
-            "user_id" : null
+            "user_id": null
         }
     };
 
@@ -1511,7 +1121,7 @@ const Chatbot = () => {
             "job_location": "",
             "ip_address": ipAddress ? ipAddress : "",
             "client_id": clientIdfromParent,
-            "user_id" : localStorage.getItem("userId") ? localStorage.getItem("userId") : null
+            "user_id": localStorage.getItem("userId") ? localStorage.getItem("userId") : null
         }
     };
 
@@ -1550,7 +1160,7 @@ const Chatbot = () => {
                 "job_location": ipLocation,
                 "ip_address": ipAddress ? ipAddress : "",
                 "client_id": clientIdfromParent,
-                "user_id" : localStorage.getItem("userId") ? localStorage.getItem("userId") : null
+                "user_id": localStorage.getItem("userId") ? localStorage.getItem("userId") : null
             }
         };
         setFileData(null)
@@ -1565,65 +1175,69 @@ const Chatbot = () => {
     }, [])
 
     useEffect(() => {
-        const receiveMessage = (event:any) => {
-          // Ensure the message is from the expected origin
-        //   if (event.origin !== 'URL_OF_PARENT') {
-        //     return;
-        //   }
-        setMessagesList([]);        
-        setRestart(false)
-        if(event.data?.data == 'remove'){
-            console.log('Message received from parent:', event.data.data);
-            dataToPass.metadata.user_id = event.data.data;
-            // localStorage.setItem("userId");
-            localStorage.removeItem("uuid");
-            localStorage.removeItem("userId");
-            restartDataToPass.metadata.user_id = null;
-            dataToPass.metadata.user_id = null;            
-            dataToPass.message = "/greet";
-            generateNum = generateRandomNumber();
+        if (clientDetailsLoaded) {
+            const receiveMessage = (event: any) => {
+                // Ensure the message is from the expected origin
+                //   if (event.origin !== 'URL_OF_PARENT') {
+                //     return;
+                //   }
+                setMessagesList([]);
+                setRestart(false)
+                if (event.data?.data == 'remove') {
+                    console.log('Message received from parent:', event.data.data);
+                    dataToPass.metadata.user_id = event.data.data;
+                    // localStorage.setItem("userId");
+                    localStorage.removeItem("uuid");
+                    localStorage.removeItem("userId");
+                    restartDataToPass.metadata.user_id = null;
+                    dataToPass.metadata.user_id = null;
+                    dataToPass.message = "/greet";
+                    generateNum = generateRandomNumber();
 
-            
-            generateNum = generateNum.toString();
-            restartDataToPass.sender = generateNum ? generateNum.toString() : "";
-            dataToPass.sender = generateNum ? generateNum.toString() : "";
-            setRandStr(generateNum);
 
-            restartData1();  
+                    generateNum = generateNum.toString();
+                    restartDataToPass.sender = generateNum ? generateNum.toString() : "";
+                    dataToPass.sender = generateNum ? generateNum.toString() : "";
+                    setRandStr(generateNum);
 
-        } else if (event.data?.data) {
-            console.log('Message received from parent:', event.data.data);
-            dataToPass.metadata.user_id = event.data.data;
-            // localStorage.setItem("userId");
-            localStorage.removeItem("uuid");
-            localStorage.setItem("userId", event.data.data);
-            restartDataToPass.metadata.user_id = event.data.data.toString();
-            dataToPass.metadata.user_id = event.data.data.toString();            
-            dataToPass.message = "/greet";
-            generateNum = generateRandomNumber();
+                    restartData1();
 
-            
-            generateNum = generateNum.toString();
-            restartDataToPass.sender = generateNum ? generateNum.toString() : "";
-            dataToPass.sender = generateNum ? generateNum.toString() : "";
-            setRandStr(generateNum);
+                } else if (event.data?.data) {
+                    console.log('Message received from parent:', event.data.data);
+                    dataToPass.metadata.user_id = event.data.data;
+                    // localStorage.setItem("userId");
+                    localStorage.removeItem("uuid");
+                    localStorage.setItem("userId", event.data.data);
+                    restartDataToPass.metadata.user_id = event.data.data.toString();
+                    dataToPass.metadata.user_id = event.data.data.toString();
+                    dataToPass.message = "/greet";
+                    generateNum = generateRandomNumber();
 
-            restartData1();            
-            // getTableData();
 
-            // getTableData();
-            // Handle the data from the parent here
-          }
-        };
-    
-        // Add event listener for message events
-        window.addEventListener('message', receiveMessage, false);
-    
-        // Cleanup event listener on component unmount
-        return () => {
-          window.removeEventListener('message', receiveMessage, false);
-        };
-      }, []);
+                    generateNum = generateNum.toString();
+                    restartDataToPass.sender = generateNum ? generateNum.toString() : "";
+                    dataToPass.sender = generateNum ? generateNum.toString() : "";
+                    setRandStr(generateNum);
+
+                    restartData1();
+                    // getTableData();
+
+                    // getTableData();
+                    // Handle the data from the parent here
+                }
+            };
+
+            // Add event listener for message events
+            window.addEventListener('message', receiveMessage, false);
+
+            // Cleanup event listener on component unmount
+            return () => {
+                window.removeEventListener('message', receiveMessage, false);
+            };
+
+        }
+
+    }, [clientDetailsLoaded]);
 
 
 
@@ -2010,6 +1624,22 @@ const Chatbot = () => {
         setSelectedAnyBtn([])
         getTableData();
         setseekEmployementSubmt(true)
+    }
+
+    const [single, setSingle] = useState('')
+    const [singleObj, setSingleObj] = useState()
+    const [singleSelected, setSingleSelected] = useState('')
+
+    const handleSingleSelect = (item: any) => {
+        if (item) {
+            setSingle(item.title);
+            setSingleObj(item)
+            console.log('Selected:', item);
+        }
+    };
+
+    const handleSingleSubmit = (msgObj: any) => {
+        setSingleSelected(msgObj.title)
     }
 
     return (
@@ -2702,9 +2332,23 @@ const Chatbot = () => {
                                                                         </div>
                                                                     </>
                                                                     :
-                                                                    <><Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
-                                                                        {msgObj.text}
-                                                                    </Typography></>
+
+                                                                    <>
+                                                                        {singleSelected ? (
+                                                                            <div className="single-para-con">
+                                                                                <CheckIcon className="seek-check-icon" />
+                                                                                <p className="seek-emply-text">
+                                                                                    {single}
+                                                                                </p>
+                                                                            </div>
+
+                                                                        ) : (
+                                                                            <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
+                                                                                {msgObj.text}
+                                                                            </Typography>
+                                                                        )}
+                                                                    </>
+
                                                             }
 
 
@@ -3239,7 +2883,7 @@ const Chatbot = () => {
                                                                             </>
 
                                                                             <>
-                                                                                {(msgObj.buttons && msgObj.buttons.length && !msgObj.hideBtns) ?
+                                                                                {(msgObj.buttons && msgObj.buttons.length && !msgObj.hideBtns && msgObj.text !== 'Availability Status') ?
                                                                                     (
                                                                                         <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} sx={{ ml: '40px', mr: '20px' }}>
                                                                                             {msgObj.buttons.map((btnObj: any) => (
@@ -3255,6 +2899,46 @@ const Chatbot = () => {
                                                                                                     {btnObj.title}
                                                                                                 </Button>
                                                                                             ))}
+                                                                                        </Stack>
+                                                                                    ) :
+                                                                                    (<></>)}
+                                                                            </>
+
+                                                                            <>
+                                                                                {(msgObj.buttons && msgObj.buttons.length && !msgObj.hideBtns && msgObj.text === 'Availability Status') ?
+                                                                                    (
+                                                                                        <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} sx={{ ml: '40px', mr: '20px' }}>
+                                                                                            {msgObj.buttons.map((btnObj: any) => (
+                                                                                                <Button
+                                                                                                    disableRipple
+                                                                                                    key={btnObj.title}
+                                                                                                    variant={single === btnObj.title ? 'contained' : 'outlined'}
+                                                                                                    className={single === btnObj.title ? 'seek-btn-select not-bms-seek-btn-select' : 'seek-btn-unselect not-bms-seek-btn-unselect'}
+                                                                                                    startIcon={single === btnObj.title ? <CheckCircleIcon /> : <CircleOutlinedIcon />}
+                                                                                                    style={{ boxShadow: 'none' }}
+                                                                                                    onClick={() => handleSingleSelect(btnObj)}
+                                                                                                    data-item={btnObj.title}
+                                                                                                >
+                                                                                                    {btnObj.title}
+                                                                                                </Button>
+                                                                                            ))}
+
+                                                                                            <Button
+                                                                                                variant="contained"
+                                                                                                disableRipple
+                                                                                                className="seek-submit-btn seek-btns"
+                                                                                                style={{
+                                                                                                    boxShadow: 'none',
+                                                                                                    opacity: single ? 1 : 0.5,
+                                                                                                    pointerEvents: single ? 'auto' : 'none'
+                                                                                                }}
+                                                                                                onClick={() => {
+                                                                                                    sendMessage(singleObj, msgObj)
+                                                                                                    handleSingleSubmit(singleObj)
+                                                                                                }}
+                                                                                            >
+                                                                                                Submit
+                                                                                            </Button>
                                                                                         </Stack>
                                                                                     ) :
                                                                                     (<></>)}
@@ -3300,48 +2984,6 @@ const Chatbot = () => {
                                 }
                             </div>
 
-                            {/* Latest Employment design  Updated */}
-
-
-                            <div className="submtd-emply-main-con" style={{ display: 'none' }}>
-                                {seekEmployementSubmt &&
-
-                                    <div className="submtd-emply-con">
-
-                                        {selectedSeekBtns.map((employment: any) => (
-                                            <div
-                                                key={employment}
-                                                className="seek-emply-para-con"
-                                            >
-                                                <CheckIcon className="seek-check-icon" />
-                                                <p
-                                                    className="seek-emply-text"
-                                                >
-                                                    {employment}
-                                                </p>
-                                            </div>
-                                        ))}
-
-                                    </div>
-                                }
-                            </div>
-
-                            <div className="seek-main-con" style={{ display: 'none' }}>
-                                {seekEmployementSubmt &&
-                                    <>
-                                        <div>
-                                            <img src={profileIcon} style={{ height: '30px', width: '30px', marginTop: '12px', marginRight: '4px' }} alt="chatbot" />
-                                        </div>
-
-
-                                        <div className="seek-text-con">
-                                            <p className="seek-para-text">Sounds Good!</p>
-                                        </div>
-
-
-                                    </>
-                                }
-                            </div>
                         </ReactScrolableFeed>
                     </Stack>
                     {/* :

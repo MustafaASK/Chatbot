@@ -299,3 +299,13 @@
     text-align: left;
     color: #ffffff;
 }
+
+.single-para-con {
+    /* background-color: #146EF6; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    width: max-content;
+    /* border-radius: 20px 0px 20px 0px; */
+}

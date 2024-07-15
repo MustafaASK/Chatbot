@@ -421,7 +421,7 @@ const Chatbot = () => {
         let locationHref = window.parent.location.href;
         // console.log(locationHref, 'locationHref')
         const getClientDetails = async (shortName: any) => {
-            shortName = "qademo";
+            // shortName = "qademo";
             try {
                 const resp = await apiService.getClientIdByShortName(shortName)
                 setApiLoaded(true)
@@ -558,7 +558,7 @@ const Chatbot = () => {
     //     )
     // }
     const submitFile = async () => {
-        dataToPass.metadata.user_id = null;
+        dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null; 
         let formData = new FormData()
         formData.append("resume", fileInputData)
         formData.set("sender", `${randStr}`);
@@ -1066,7 +1066,7 @@ const Chatbot = () => {
 
     const getDateFormat = (date: string) => {
         if (date) {
-            return moment(date).format("MM-DD-YYYY")
+            return moment(date).format("MM/DD/YYYY")
             //   return new Date(date.replace(' ', 'T')).toISOString();
         } else {
             return date;
@@ -1193,9 +1193,11 @@ const Chatbot = () => {
                 //   if (event.origin !== 'URL_OF_PARENT') {
                 //     return;
                 //   }
-                setMessagesList([]);
-                setRestart(false)
+
+                
                 if (event.data?.data == 'remove') {
+                    setMessagesList([]);
+                    setRestart(false)
                     console.log('Message received from parent:', event.data.data);
                     dataToPass.metadata.user_id = event.data.data;
                     // localStorage.setItem("userId");
@@ -1215,6 +1217,8 @@ const Chatbot = () => {
                     restartData1();
 
                 } else if (event.data?.data) {
+                    setMessagesList([]);
+                    setRestart(false)
                     console.log('Message received from parent:', event.data.data);
                     dataToPass.metadata.user_id = event.data.data;
                     // localStorage.setItem("userId");
@@ -1277,6 +1281,7 @@ const Chatbot = () => {
                     // console.log('aaaaaaaaaaaa', response.data)
 
                 } else {
+                    setSingle('');
                     if (response.data && response.data.length) {
                         response.data.map((obj: any, i: any) => {
                             setTimeout(function () {
@@ -1832,7 +1837,7 @@ const Chatbot = () => {
                                         src={customerLogo ? customerLogo : customerFace}
                                         alt='avatar'
                                         style={{
-                                            boxShadow: '0px 5px 10px 0px rgba(255, 255, 255, 0.5)',
+                                            // boxShadow: '0px 5px 10px 0px rgba(255, 255, 255, 0.5)',
                                             height: '32px',
                                             width: '32px',
                                             borderRadius: '50%',
@@ -2620,12 +2625,11 @@ const Chatbot = () => {
                                                                                                                         <LocationOnOutlinedIcon className="carousel-card-loc-icon" />
                                                                                                                     </Box>
                                                                                                                     <Box className='carousel-card-details-con'>
-                                                                                                                        <Typography className="carousel-card-loc-details-text">{job.workCity + ', ' + job.workState}</Typography>
+                                                                                                                        <Typography className="carousel-card-loc-details-text">{job.workCity + ', ' + job.workState + (job.workZipcode ? ', ' + job.workZipcode : '')}</Typography>
 
                                                                                                                         {/* <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography> */}
                                                                                                                     </Box>
                                                                                                                 </Box>
-
                                                                                                                 <Box className="carousel-card-calender-details-con">
                                                                                                                     <Box>
                                                                                                                         <CalendarTodayIcon className="carousel-card-calender-icon" />
@@ -2899,11 +2903,16 @@ const Chatbot = () => {
                                                                             </>
 
                                                                             <>
-                                                                                {(msgObj.buttons && msgObj.buttons.length && !msgObj.hideBtns && msgObj.text !== 'Availability Status') ?
+                                                                                {(msgObj.buttons && msgObj.buttons.length && !msgObj.hideBtns) ?
                                                                                     (
                                                                                         <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} sx={{ ml: '40px', mr: '20px' }}>
                                                                                             {msgObj.buttons.map((btnObj: any) => (
-                                                                                                <Button variant="outlined" onClick={() => sendMessage(btnObj, msgObj)} sx={{
+                                                                                                <Button variant="outlined" 
+                                                                                                onClick={() => {
+                                                                                                    sendMessage(btnObj, msgObj)
+                                                                                                    handleSingleSubmit({title:""})
+                                                                                                }}
+                                                                                                 sx={{
                                                                                                     borderRadius: '20px', p: '5px 8px', textTransform: 'capitalize', borderColor: isBms ? '#AD3EB2' : '#146EF6', color: isBms ? '#AD3EB2' : '#146EF6', fontWeight: 400, fontSize: '13px', width: 'auto', outline: "1px solid transparent",
                                                                                                     '&:hover': {
                                                                                                         borderColor: isBms ? '#AD3EB2' : '#146EF6',
@@ -2921,15 +2930,17 @@ const Chatbot = () => {
                                                                             </>
 
                                                                             <>
-                                                                                {(msgObj.buttons && msgObj.buttons.length && !msgObj.hideBtns && msgObj.text === 'Availability Status') ?
+                                                                                {(msgObj.buttons && msgObj.buttons.length && !msgObj.hideBtns && msgObj.text === 'Availability Status123') ?
                                                                                     (
-                                                                                        <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} sx={{ ml: '40px', mr: '20px' }}>
+                                                                                        <Stack direction="column" useFlexGap flexWrap="wrap" spacing={0.2} mt={0.4} sx={{ ml: '40px', mr: '20px' }}>
                                                                                             {msgObj.buttons.map((btnObj: any) => (
                                                                                                 <Button
                                                                                                     disableRipple
                                                                                                     key={btnObj.title}
                                                                                                     variant={single === btnObj.title ? 'contained' : 'outlined'}
-                                                                                                    className={single === btnObj.title ? 'seek-btn-select not-bms-seek-btn-select' : 'seek-btn-unselect not-bms-seek-btn-unselect'}
+                                                                                                    // className={single === btnObj.title ? 'seek-btn-select not-bms-seek-btn-select' : 'seek-btn-unselect not-bms-seek-btn-unselect'}
+                                                                                                    // className={single === btnObj.title ? (isBms ? 'seek-btn-select isBms-seek-btn-select' : 'seek-btn-select not-bms-seek-btn-unselect') : (isBms ? 'seek-btn-unselect isBms-seek-btn-unselect' : 'seek-btn-unselect not-bms-seek-btn-unselect')}
+                                                                                                    className={single === btnObj.title ? (isBms ? 'seek-btn-select isBms-seek-btn-select' : 'seek-btn-select not-bms-seek-btn-select') : (isBms ? 'seek-btn-unselect isBms-seek-btn-unselect' : 'seek-btn-unselect not-bms-seek-btn-unselect')}
                                                                                                     startIcon={single === btnObj.title ? <CheckCircleIcon /> : <CircleOutlinedIcon />}
                                                                                                     style={{ boxShadow: 'none' }}
                                                                                                     onClick={() => handleSingleSelect(btnObj)}
@@ -2942,7 +2953,8 @@ const Chatbot = () => {
                                                                                             <Button
                                                                                                 variant="contained"
                                                                                                 disableRipple
-                                                                                                className="seek-submit-btn seek-btns"
+                                                                                                // className="seek-submit-btn seek-btns"
+                                                                                                className={isBms ? "isBms-seek-submit-btn seek-btns" : "seek-submit-btn seek-btns"}
                                                                                                 style={{
                                                                                                     boxShadow: 'none',
                                                                                                     opacity: single ? 1 : 0.5,
@@ -3539,6 +3551,16 @@ const Chatbot = () => {
 
                             <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{selectedJobData[0]?.jobTitle}</Typography>
 
+                            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                <Box>
+                                    <LocationOnOutlinedIcon  sx={{ fontSize: '18px' }} />
+                                </Box>
+                                <Box sx={{ pl: '10px' }}>
+                                    <Typography  sx={{ fontSize: '12px', fontWeight: 400 }}>{selectedJobData[0]?.workCity + ', ' + selectedJobData[0]?.workState + (selectedJobData[0]?.workZipcode ? ', ' + selectedJobData[0]?.workZipcode : '')}</Typography>
+
+                                    {/* <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography> */}
+                                </Box>
+                            </Box>
 
                             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                                 <Box>

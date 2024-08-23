@@ -15,6 +15,7 @@ root.render(
   // basename='cxninja-bot'
   //basename='cxninja-bot-demo'
   //careers-bot
+  //careers-bot-bms
   <BrowserRouter basename='careers-bot-jobs'>
     <App />
   </BrowserRouter>

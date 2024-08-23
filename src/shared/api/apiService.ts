@@ -96,11 +96,12 @@ class ApiService {
     }
 
     getClientIdByShortName(shortName: any) {
-        return axios.get(`https://api.curately.ai/QADemoCurately/getByShortName/${shortName}`)
+        return axios.get(`
+https://api.curately.ai/QADemoCurately/getByShortName/${shortName}`)
     }
 
 }
-
+//https://api.curately.ai/QADemoCurately/getByShortName/${shortName}
 // [Yesterday 16:42] Anil Kunde https://www4.accuick.com/ChatBot/jobTitleSearch.jsp?search=Angular
 
 export default new ApiService();

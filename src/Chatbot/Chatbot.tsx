@@ -30,6 +30,9 @@ import Divider from '@mui/material/Divider';
 import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
 import CancelIcon from '@mui/icons-material/Cancel';
+import WorkIcon from '@mui/icons-material/Work';
+import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
+import HeightIcon from '@mui/icons-material/Height';
 import WestRoundedIcon from '@mui/icons-material/WestRounded';
 import Link from '@mui/material/Link'
 import moment from 'moment';
@@ -250,10 +253,18 @@ const Chatbot = () => {
     const [apiLoaded, setApiLoaded] = useState(false);
     // const [clientDetailsLoaded, setClientDetailsLoaded] = useState(false);
     const [clientIdfromParent, setClientId] = useState<any>(null);
-    const [jobTypesList, setJobTypesList] = useState<any>({
+    const [jobHours, setJobHours] = useState<any>({
         "1": "Full Time",
-        "2": "Part Time",
+        "2": "Part Time", 
     });
+    const [jobTypesList, setJobTypesList] = useState<any>({
+        "1": "Permanent",
+        "2": "Contract/Temp",
+        "3": "Contract to Perm",
+        "4": "Freelance",
+    });
+
+
     const [workTypesList, setWorkTypesList] = useState<any>({
         "1": "Remote",
         "2": "Hybrid",
@@ -421,7 +432,7 @@ const Chatbot = () => {
         let locationHref = window.parent.location.href;
         // console.log(locationHref, 'locationHref')
         const getClientDetails = async (shortName: any) => {
-            // shortName = "qademo";
+            // shortName = "bms";
             try {
                 const resp = await apiService.getClientIdByShortName(shortName)
                 setApiLoaded(true)
@@ -2639,13 +2650,25 @@ const Chatbot = () => {
                                                                                                                         <Typography className="carousel-card-calender-details-text">Posted on {getDateFormat(job.createDate)}</Typography>
                                                                                                                     </Box>
                                                                                                                 </Box>
-                                                                                                                {job.jobType ?
+                                                                                                                {/* HeightIcon */}
+                                                                                                                {job.jobType ? 
                                                                                                                     (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingLeft: '29px', marginTop: '5px' }}>
                                                                                                                         <Box>
-                                                                                                                            <AccessTimeIcon sx={{ fontSize: '15px' }} />
+                                                                                                                            <WorkOutlineIcon sx={{ fontSize: '16px' }} /> 
                                                                                                                         </Box>
                                                                                                                         <Box sx={{ pl: '10px' }}>
                                                                                                                             <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{jobTypesList[job.jobType]}</Typography>
+                                                                                                                        </Box>
+                                                                                                                    </Box>) :
+                                                                                                                    (<></>)
+                                                                                                                }
+                                                                                                                {job.jobHours ? 
+                                                                                                                    (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingLeft: '29px', marginTop: '5px' }}>
+                                                                                                                        <Box>
+                                                                                                                            <HeightIcon sx={{ fontSize: '16px',rotate: '90deg' }} /> 
+                                                                                                                        </Box>
+                                                                                                                        <Box sx={{ pl: '10px' }}>
+                                                                                                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{jobHours[job.jobHours]}</Typography>
                                                                                                                         </Box>
                                                                                                                     </Box>) :
                                                                                                                     (<></>)
@@ -3550,7 +3573,8 @@ const Chatbot = () => {
                         <Stack sx={{ pb: '15px', borderBottom: '1px solid lightgrey' }} direction='column' spacing={2}>
 
                             <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{selectedJobData[0]?.jobTitle}</Typography>
-
+                            {(selectedJobData[0]?.workCity || selectedJobData[0]?.workState) ? 
+                            <>
                             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                                 <Box>
                                     <LocationOnOutlinedIcon  sx={{ fontSize: '18px' }} />
@@ -3560,7 +3584,8 @@ const Chatbot = () => {
 
                                     {/* <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography> */}
                                 </Box>
-                            </Box>
+                            </Box></> :
+                             <></>}
 
                             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                                 <Box>
@@ -3569,14 +3594,26 @@ const Chatbot = () => {
                                 <Box sx={{ pl: '10px' }}>
                                     <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted {getDateFormat(selectedJobData[0]?.createDate)}</Typography>
                                 </Box>
-                            </Box>
+                            </Box>                             
                             {selectedJobData[0]?.jobType ?
                                 (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                                     <Box>
-                                        <AccessTimeIcon sx={{ fontSize: '15px' }} />
+                                        <WorkOutlineIcon sx={{ fontSize: '16px' }} />
                                     </Box>
                                     <Box sx={{ pl: '10px' }}>
                                         <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{jobTypesList[selectedJobData[0]?.jobType]}</Typography>
+                                    </Box>
+                                </Box>)
+                                : (<></>)
+
+                            }
+                            {selectedJobData[0]?.jobHours ?
+                                (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                    <Box>
+                                    <HeightIcon sx={{ fontSize: '16px',rotate: '90deg' }} />
+                                    </Box>
+                                    <Box sx={{ pl: '10px' }}>
+                                        <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{jobHours[selectedJobData[0]?.jobHours]}</Typography>
                                     </Box>
                                 </Box>)
                                 : (<></>)

@@ -56,8 +56,8 @@ import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import CheckIcon from '@mui/icons-material/Check';
 import { formatDate } from "./utills/helper";
 import bmslogo from '../bms-logo/bms-logo-svg.svg'
-import bmsMainLogo from '../bms-logo/Robin-avatar.png'
-import bmsChildLogo from '../bms-logo/Robin-avatar.png'
+import bmsMainLogo from '../bms-logo/bmslatest.png'
+import bmsChildLogo from '../bms-logo/bmslatestchild.png'
 import { REACT_APP_AMAZON_S3_PATH } from "./utills/helper";
 import './Chatbot.css'
 
@@ -569,7 +569,7 @@ const Chatbot = () => {
     //     )
     // }
     const submitFile = async () => {
-        dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null; 
+        dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null;
         let formData = new FormData()
         formData.append("resume", fileInputData)
         formData.set("sender", `${randStr}`);
@@ -705,8 +705,8 @@ const Chatbot = () => {
         // window.parent.postMessage(message, "*");
         let obj = {
             "bool": false,
-            "data":null,
-            "iframeLoad":message
+            "data": null,
+            "iframeLoad": message
         }
         manageDatatoParant(obj)
     }
@@ -1205,7 +1205,7 @@ const Chatbot = () => {
                 //     return;
                 //   }
 
-                
+
                 if (event.data?.data == 'remove') {
                     setMessagesList([]);
                     setRestart(false)
@@ -1858,10 +1858,10 @@ const Chatbot = () => {
                                 }
                             </Box>
                             <Typography
-                                sx={{ color: isBms ? '#333333' : '#ffffff', fontSize: '17px', fontWeight: 500, marginLeft:'8px' }}
+                                sx={{ color: isBms ? '#333333' : '#ffffff', fontSize: '17px', fontWeight: 500, marginLeft: '8px' }}
                             >
                                 {/* CXninja <Box component='span' sx={{ fontWeight: 400 }}>SmartBot</Box> */}
-                                {isBms ? 'Robin' : 'Ripley'}
+                                {isBms ? 'Vivian' : 'Ripley'}
                             </Typography>
                         </Stack>
 
@@ -1885,7 +1885,7 @@ const Chatbot = () => {
                             </Stack>
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                                 <div >
-                                    {isBms ? <img src={bmslogo} alt="" style={{ height: '20px',width:'110px', marginRight: '10px' }} /> : ""}
+                                    {isBms ? <img src={bmslogo} alt="" style={{ height: '20px', width: '110px', marginRight: '10px' }} /> : ""}
                                 </div>
                                 <Box component='div' onClick={handleExitChatbot} >
                                     <CloseSharpIcon sx={{ color: isBms ? '#333333' : '#ffffff', fontSize: '18px', cursor: 'pointer' }} />
@@ -2930,20 +2930,20 @@ const Chatbot = () => {
                                                                                     (
                                                                                         <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} mt={1} sx={{ ml: '40px', mr: '20px' }}>
                                                                                             {msgObj.buttons.map((btnObj: any) => (
-                                                                                                <Button variant="outlined" 
-                                                                                                onClick={() => {
-                                                                                                    sendMessage(btnObj, msgObj)
-                                                                                                    handleSingleSubmit({title:""})
-                                                                                                }}
-                                                                                                 sx={{
-                                                                                                    borderRadius: '20px', p: '5px 8px', textTransform: 'capitalize', borderColor: isBms ? '#AD3EB2' : '#146EF6', color: isBms ? '#AD3EB2' : '#146EF6', fontWeight: 400, fontSize: '13px', width: 'auto', outline: "1px solid transparent",
-                                                                                                    '&:hover': {
-                                                                                                        borderColor: isBms ? '#AD3EB2' : '#146EF6',
-                                                                                                        color: isBms ? '#AD3EB2' : '#146EF6',
-                                                                                                        backgroundColor: 'transparent',
-                                                                                                        boxShadow: 0
-                                                                                                    }
-                                                                                                }}>
+                                                                                                <Button variant="outlined"
+                                                                                                    onClick={() => {
+                                                                                                        sendMessage(btnObj, msgObj)
+                                                                                                        handleSingleSubmit({ title: "" })
+                                                                                                    }}
+                                                                                                    sx={{
+                                                                                                        borderRadius: '20px', p: '5px 8px', textTransform: 'capitalize', borderColor: isBms ? '#AD3EB2' : '#146EF6', color: isBms ? '#AD3EB2' : '#146EF6', fontWeight: 400, fontSize: '13px', width: 'auto', outline: "1px solid transparent",
+                                                                                                        '&:hover': {
+                                                                                                            borderColor: isBms ? '#AD3EB2' : '#146EF6',
+                                                                                                            color: isBms ? '#AD3EB2' : '#146EF6',
+                                                                                                            backgroundColor: 'transparent',
+                                                                                                            boxShadow: 0
+                                                                                                        }
+                                                                                                    }}>
                                                                                                     {btnObj.title}
                                                                                                 </Button>
                                                                                             ))}
@@ -3577,10 +3577,10 @@ const Chatbot = () => {
                             <>
                             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                                 <Box>
-                                    <LocationOnOutlinedIcon  sx={{ fontSize: '18px' }} />
+                                    <LocationOnOutlinedIcon sx={{ fontSize: '18px' }} />
                                 </Box>
                                 <Box sx={{ pl: '10px' }}>
-                                    <Typography  sx={{ fontSize: '12px', fontWeight: 400 }}>{selectedJobData[0]?.workCity + ', ' + selectedJobData[0]?.workState + (selectedJobData[0]?.workZipcode ? ', ' + selectedJobData[0]?.workZipcode : '')}</Typography>
+                                    <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{selectedJobData[0]?.workCity + ', ' + selectedJobData[0]?.workState + (selectedJobData[0]?.workZipcode ? ', ' + selectedJobData[0]?.workZipcode : '')}</Typography>
 
                                     {/* <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography> */}
                                 </Box>

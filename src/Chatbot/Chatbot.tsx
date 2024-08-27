@@ -221,6 +221,7 @@ const Chatbot = () => {
     const [entityType, setEntityType] = useState('');
     const [placeHolderText, setPlaceHolderText] = useState('Type your message');
     const [enableAuto, setEnableAuto] = useState(false);
+    const [isSSN, setIsSSN] = useState(false);
     const [newSteps, setNewSteps] = React.useState<any[] | never[]>([]);
     const [isReadmore, setIsReadMore] = useState(false)
     const [selectedJobData, setSelectedJobData] = React.useState<any[] | never[]>([]);
@@ -251,6 +252,7 @@ const Chatbot = () => {
     const [isReload, setIsReload] = useState(false);
     const [onlyImage, setOnlyImage] = useState(false);
     const [apiLoaded, setApiLoaded] = useState(false);
+    const [maskedData, setMaskedData] = useState("");
     // const [clientDetailsLoaded, setClientDetailsLoaded] = useState(false);
     const [clientIdfromParent, setClientId] = useState<any>(null);
     const [jobHours, setJobHours] = useState<any>({
@@ -432,7 +434,7 @@ const Chatbot = () => {
         let locationHref = window.parent.location.href;
         // console.log(locationHref, 'locationHref')
         const getClientDetails = async (shortName: any) => {
-            // shortName = "bms";
+            // shortName = "qademo";
             try {
                 const resp = await apiService.getClientIdByShortName(shortName)
                 setApiLoaded(true)
@@ -585,7 +587,7 @@ const Chatbot = () => {
                 setMessagesList([...filter_messages]);
                 dataToPass.metadata.user_id = response?.data?.userId.toString();
                 sendValue(null, `candid ${response.data.userId}`)
-                localStorage.setItem("userId", response.data.userId)
+                localStorage.setItem("userId", response.data.userId) 
                 localStorage.setItem("userData", JSON.stringify(response.data))
                 sendLoggedDataToParent(response.data)
             } else {
@@ -817,6 +819,7 @@ const Chatbot = () => {
         }
 
         setMessagesList(prevArray => [...prevArray, obj]);
+        // ${jobData.jobId}
         dataToPass.message = `/input_select_job{"select_job": "${jobData.jobId}"}`
         dataToPass.metadata.job_location = ipLocation;
         dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null
@@ -1025,6 +1028,8 @@ const Chatbot = () => {
     }
 
     const handleKeyDown = (event: any) => {
+        console.log(event.keyCode);
+        console.log(event);
         if (event.key === 'Enter') {
             setIsReload((prevState) => !prevState)
             // 👇 Get input value
@@ -1197,74 +1202,74 @@ const Chatbot = () => {
         sessionStorage.setItem("isLoadedFirsttime", 'true')
     }, [])
 
-    useEffect(() => {
-        if (clientDetailsLoaded) {
-            const receiveMessage = (event: any) => {
-                // Ensure the message is from the expected origin
-                //   if (event.origin !== 'URL_OF_PARENT') {
-                //     return;
-                //   }
+    // useEffect(() => {
+    //     if (clientDetailsLoaded) {
+    //         const receiveMessage = (event: any) => {
+    //             // Ensure the message is from the expected origin
+    //             //   if (event.origin !== 'URL_OF_PARENT') {
+    //             //     return;
+    //             //   }
 
 
-                if (event.data?.data == 'remove') {
-                    setMessagesList([]);
-                    setRestart(false)
-                    console.log('Message received from parent:', event.data.data);
-                    dataToPass.metadata.user_id = event.data.data;
-                    // localStorage.setItem("userId");
-                    localStorage.removeItem("uuid");
-                    localStorage.removeItem("userId");
-                    restartDataToPass.metadata.user_id = null;
-                    dataToPass.metadata.user_id = null;
-                    dataToPass.message = "/greet";
-                    generateNum = generateRandomNumber();
+    //             if (event.data?.data == 'remove') {
+    //                 setMessagesList([]);
+    //                 setRestart(false)
+    //                 console.log('Message received from parent:', event.data.data);
+    //                 dataToPass.metadata.user_id = event.data.data;
+    //                 // localStorage.setItem("userId");
+    //                 localStorage.removeItem("uuid");
+    //                 localStorage.removeItem("userId");
+    //                 restartDataToPass.metadata.user_id = null;
+    //                 dataToPass.metadata.user_id = null;
+    //                 dataToPass.message = "/greet";
+    //                 generateNum = generateRandomNumber();
 
 
-                    generateNum = generateNum.toString();
-                    restartDataToPass.sender = generateNum ? generateNum.toString() : "";
-                    dataToPass.sender = generateNum ? generateNum.toString() : "";
-                    setRandStr(generateNum);
+    //                 generateNum = generateNum.toString();
+    //                 restartDataToPass.sender = generateNum ? generateNum.toString() : "";
+    //                 dataToPass.sender = generateNum ? generateNum.toString() : "";
+    //                 setRandStr(generateNum);
 
-                    restartData1();
+    //                 restartData1();
 
-                } else if (event.data?.data) {
-                    setMessagesList([]);
-                    setRestart(false)
-                    console.log('Message received from parent:', event.data.data);
-                    dataToPass.metadata.user_id = event.data.data;
-                    // localStorage.setItem("userId");
-                    localStorage.removeItem("uuid");
-                    localStorage.setItem("userId", event.data.data);
-                    restartDataToPass.metadata.user_id = event.data.data.toString();
-                    dataToPass.metadata.user_id = event.data.data.toString();
-                    dataToPass.message = "/greet";
-                    generateNum = generateRandomNumber();
+    //             } else if (event.data?.data) {
+    //                 setMessagesList([]);
+    //                 setRestart(false)
+    //                 console.log('Message received from parent:', event.data.data);
+    //                 dataToPass.metadata.user_id = event.data.data;
+    //                 // localStorage.setItem("userId");
+    //                 localStorage.removeItem("uuid");
+    //                 localStorage.setItem("userId", event.data.data);
+    //                 restartDataToPass.metadata.user_id = event.data.data.toString();
+    //                 dataToPass.metadata.user_id = event.data.data.toString();
+    //                 dataToPass.message = "/greet";
+    //                 generateNum = generateRandomNumber();
 
 
-                    generateNum = generateNum.toString();
-                    restartDataToPass.sender = generateNum ? generateNum.toString() : "";
-                    dataToPass.sender = generateNum ? generateNum.toString() : "";
-                    setRandStr(generateNum);
+    //                 generateNum = generateNum.toString();
+    //                 restartDataToPass.sender = generateNum ? generateNum.toString() : "";
+    //                 dataToPass.sender = generateNum ? generateNum.toString() : "";
+    //                 setRandStr(generateNum);
 
-                    restartData1();
-                    // getTableData();
+    //                 restartData1();
+    //                 // getTableData();
 
-                    // getTableData();
-                    // Handle the data from the parent here
-                }
-            };
+    //                 // getTableData();
+    //                 // Handle the data from the parent here
+    //             }
+    //         };
 
-            // Add event listener for message events
-            window.addEventListener('message', receiveMessage, false);
+    //         // Add event listener for message events
+    //         window.addEventListener('message', receiveMessage, false);
 
-            // Cleanup event listener on component unmount
-            return () => {
-                window.removeEventListener('message', receiveMessage, false);
-            };
+    //         // Cleanup event listener on component unmount
+    //         return () => {
+    //             window.removeEventListener('message', receiveMessage, false);
+    //         };
 
-        }
+    //     }
 
-    }, [clientDetailsLoaded]);
+    // }, [clientDetailsLoaded]);
 
 
 
@@ -1298,6 +1303,7 @@ const Chatbot = () => {
                             setTimeout(function () {
                                 const newObject = obj;
                                 newObject.sent = false;
+                                setIsSSN(false)
                                 newObject.jobs = [];
                                 newObject.hideBtns = (newObject.buttons && newObject.buttons.length) ? false : true
                                 if (obj.custom && Object.keys(obj.custom).length) {
@@ -1372,6 +1378,12 @@ const Chatbot = () => {
                                         // }
 
                                         console.log(newObject, 'newObject')
+                                    }
+                                    if (obj.custom?.ui_component && obj.custom.ui_component === "ssn"){
+                                        setIsSSN(true)
+                                    } else {
+                                        setIsSSN(false)
+
                                     }
                                     sessionStorage.setItem("isLoadedFirsttime", 'false')
 
@@ -1602,6 +1614,54 @@ const Chatbot = () => {
         }
 
     }, [JSON.stringify(selectedAnyBtn)])
+
+    var actVal = "";
+    function checkSSN(event:any) {
+        if (event?.target?.value.length == 9) {
+            return false
+        }
+        var key = event?.keyCode || event?.charCode;
+        if (event?.target?.value.length) {
+            if (key == 8 || key == 46) {
+                //actVal = event?.target?.value;
+                return false;
+            }
+            actVal += event?.key;
+            setTimeout(() => {
+                var starVal = actVal.replace(/\d/g, "*")
+                event.target.value = starVal
+            }, 500)
+            console.log(actVal, "is coming")
+        }
+    }
+
+    var actualSSN = '';
+    var pattern = /^[0-9]+$/;
+    const converToSSN = (event:any) => {
+        const enteredkey = event.key;
+        const keyCode = event.keyCode;
+        const matched = enteredkey.match(pattern);
+        console.log(matched);
+        if(keyCode !== 8 && keyCode !== 32 && keyCode !== 13 && matched && inputValue.length < 9){
+            
+            actualSSN = inputValue + enteredkey;
+            const semiMask = maskedData + enteredkey;
+            setMaskedData(semiMask);
+            setInputValue(actualSSN);
+            setTimeout(function () {
+                const stars = actualSSN.replace(/./g, '*');
+                setMaskedData(stars);
+            }, 500);
+
+        }
+        if(keyCode === 8){
+            const delSubstr = inputValue.substring(0, inputValue.length - 1);
+            setInputValue(delSubstr);
+            const stars = delSubstr.replace(/./g, '*');
+            setMaskedData(stars);
+        }
+
+    }
 
     const seekSubmit = (msgObj: any, text: String) => {
         // setseekEmployementSubmt(true) 
@@ -3431,13 +3491,55 @@ const Chatbot = () => {
                                 />
 
                                 :
+                                isSSN ? 
+
+                                <TextField
+                                    placeholder={placeHolderText}
+                                    // disabled={isTermAccept ? false : true}
+                                    onKeyDown={converToSSN}
+                                    // onKeyDown={handleKeyDown}
+                                    fullWidth
+                                    disabled={disableBtn}
+                                    // value={inputValue}
+                                    value={maskedData}
+                                    // onChange={handleInputChange}
+                                    // onChange={converToSSN}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <TelegramIcon sx={{ cursor: 'pointer', color: isBms ? '#BC2BB8' : '#919191' }} onClick={sendTextMessage} />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+
+                                    sx={{
+                                        '& .MuiInputBase-input.MuiOutlinedInput-input': {
+                                            padding: '5px 10px',
+                                            fontSize: '14px',
+                                            height: '20px'
+                                        },
+                                        '& .MuiInputBase-root.MuiOutlinedInput-root ': {
+                                            borderRadius: '15px',
+                                            backgroundColor: '#fff'
+                                        },
+                                        '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+                                            borderColor: '#E6E6E6',
+
+                                        },
+                                        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                            borderColor: '#E6E6E6',
+                                            borderWidth: '1px'
+
+                                        },
+                                    }}
+                                /> :
+                                
 
                                 <TextField
                                     placeholder={placeHolderText}
                                     // disabled={isTermAccept ? false : true}
                                     onKeyDown={handleKeyDown}
                                     fullWidth
-                                    disabled={disableBtn}
                                     value={inputValue}
                                     onChange={handleInputChange}
                                     InputProps={{

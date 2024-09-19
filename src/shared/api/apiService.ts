@@ -15,9 +15,9 @@ import axios from 'axios';
 const Url171 = (process.env.NODE_ENV === "development" || window.location.protocol === 'http:') ? "https://chatbotqa.curately.ai/webhooks/rest/" : "https://chatbotqa.curately.ai/webhooks/rest/";
 const fileUploadUrl = (process.env.NODE_ENV === "development" || window.location.protocol === 'http:') ? "https://chatbotqa.curately.ai/" : "https://chatbotqa.curately.ai/";
 
-//chatbotqa
+//qa: chatbotqa
 
-//chatbot1
+//prod: chatbot1
 
 // const jobSearchUrl = (process.env.NODE_ENV === "development" || window.location.protocol === 'http:') ? "http://52.40.49.193/" : "https://www4.accuick.com/";
 // const Url233 = (process.env.NODE_ENV === "development") ? "http://35.155.228.233:41088/Sequence/api/v1/" : "https://resume.accuick.com/Sequence/api/v1/";

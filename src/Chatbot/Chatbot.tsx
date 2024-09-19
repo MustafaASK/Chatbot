@@ -33,6 +33,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import WorkIcon from '@mui/icons-material/Work';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import HeightIcon from '@mui/icons-material/Height';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import WestRoundedIcon from '@mui/icons-material/WestRounded';
 import Link from '@mui/material/Link'
 import moment from 'moment';
@@ -1094,7 +1095,7 @@ const Chatbot = () => {
         setActiveStep((prevState) => [...prevState])
         if (inputValue !== "" && inputValue.trim() !== "") {
             let obj = {
-                "text": inputValue,
+                "text": maskedData ? maskedData : inputValue,
                 "payload": '',
                 "sent": true,
                 "metadata": {
@@ -1119,7 +1120,7 @@ const Chatbot = () => {
             dataToPass.metadata.job_location = ipLocation;
             dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null
 
-
+            setMaskedData("")
             getTableData();
         }
 
@@ -1202,74 +1203,74 @@ const Chatbot = () => {
         sessionStorage.setItem("isLoadedFirsttime", 'true')
     }, [])
 
-    // useEffect(() => {
-    //     if (clientDetailsLoaded) {
-    //         const receiveMessage = (event: any) => {
-    //             // Ensure the message is from the expected origin
-    //             //   if (event.origin !== 'URL_OF_PARENT') {
-    //             //     return;
-    //             //   }
+    useEffect(() => {
+        if (clientDetailsLoaded) {
+            const receiveMessage = (event: any) => {
+                // Ensure the message is from the expected origin
+                //   if (event.origin !== 'URL_OF_PARENT') {
+                //     return;
+                //   }
 
 
-    //             if (event.data?.data == 'remove') {
-    //                 setMessagesList([]);
-    //                 setRestart(false)
-    //                 console.log('Message received from parent:', event.data.data);
-    //                 dataToPass.metadata.user_id = event.data.data;
-    //                 // localStorage.setItem("userId");
-    //                 localStorage.removeItem("uuid");
-    //                 localStorage.removeItem("userId");
-    //                 restartDataToPass.metadata.user_id = null;
-    //                 dataToPass.metadata.user_id = null;
-    //                 dataToPass.message = "/greet";
-    //                 generateNum = generateRandomNumber();
+                if (event.data?.data == 'remove') {
+                    setMessagesList([]);
+                    setRestart(false)
+                    console.log('Message received from parent:', event.data.data);
+                    dataToPass.metadata.user_id = event.data.data;
+                    // localStorage.setItem("userId");
+                    localStorage.removeItem("uuid");
+                    localStorage.removeItem("userId");
+                    restartDataToPass.metadata.user_id = null;
+                    dataToPass.metadata.user_id = null;
+                    dataToPass.message = "/greet";
+                    generateNum = generateRandomNumber();
 
 
-    //                 generateNum = generateNum.toString();
-    //                 restartDataToPass.sender = generateNum ? generateNum.toString() : "";
-    //                 dataToPass.sender = generateNum ? generateNum.toString() : "";
-    //                 setRandStr(generateNum);
+                    generateNum = generateNum.toString();
+                    restartDataToPass.sender = generateNum ? generateNum.toString() : "";
+                    dataToPass.sender = generateNum ? generateNum.toString() : "";
+                    setRandStr(generateNum);
 
-    //                 restartData1();
+                    restartData1();
 
-    //             } else if (event.data?.data) {
-    //                 setMessagesList([]);
-    //                 setRestart(false)
-    //                 console.log('Message received from parent:', event.data.data);
-    //                 dataToPass.metadata.user_id = event.data.data;
-    //                 // localStorage.setItem("userId");
-    //                 localStorage.removeItem("uuid");
-    //                 localStorage.setItem("userId", event.data.data);
-    //                 restartDataToPass.metadata.user_id = event.data.data.toString();
-    //                 dataToPass.metadata.user_id = event.data.data.toString();
-    //                 dataToPass.message = "/greet";
-    //                 generateNum = generateRandomNumber();
+                } else if (event.data?.data) {
+                    setMessagesList([]);
+                    setRestart(false)
+                    console.log('Message received from parent:', event.data.data);
+                    dataToPass.metadata.user_id = event.data.data;
+                    // localStorage.setItem("userId");
+                    localStorage.removeItem("uuid");
+                    localStorage.setItem("userId", event.data.data);
+                    restartDataToPass.metadata.user_id = event.data.data.toString();
+                    dataToPass.metadata.user_id = event.data.data.toString();
+                    dataToPass.message = "/greet";
+                    generateNum = generateRandomNumber();
 
 
-    //                 generateNum = generateNum.toString();
-    //                 restartDataToPass.sender = generateNum ? generateNum.toString() : "";
-    //                 dataToPass.sender = generateNum ? generateNum.toString() : "";
-    //                 setRandStr(generateNum);
+                    generateNum = generateNum.toString();
+                    restartDataToPass.sender = generateNum ? generateNum.toString() : "";
+                    dataToPass.sender = generateNum ? generateNum.toString() : "";
+                    setRandStr(generateNum);
 
-    //                 restartData1();
-    //                 // getTableData();
+                    restartData1();
+                    // getTableData();
 
-    //                 // getTableData();
-    //                 // Handle the data from the parent here
-    //             }
-    //         };
+                    // getTableData();
+                    // Handle the data from the parent here
+                }
+            };
 
-    //         // Add event listener for message events
-    //         window.addEventListener('message', receiveMessage, false);
+            // Add event listener for message events
+            window.addEventListener('message', receiveMessage, false);
 
-    //         // Cleanup event listener on component unmount
-    //         return () => {
-    //             window.removeEventListener('message', receiveMessage, false);
-    //         };
+            // Cleanup event listener on component unmount
+            return () => {
+                window.removeEventListener('message', receiveMessage, false);
+            };
 
-    //     }
+        }
 
-    // }, [clientDetailsLoaded]);
+    }, [clientDetailsLoaded]);
 
 
 
@@ -2733,6 +2734,23 @@ const Chatbot = () => {
                                                                                                                     </Box>) :
                                                                                                                     (<></>)
                                                                                                                 }
+                                                                                                                {job.payrateMax ? 
+                                                                                                                    (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingLeft: '29px', marginTop: '5px' }}>
+                                                                                                                        <Box>
+                                                                                                                        <AttachMoneyIcon sx={{ fontSize: '16px' }} />
+                                                                                                                        </Box>
+                                                                                                                        <Box>
+                                                                                                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{job.payrateMin} -</Typography>
+                                                                                                                        </Box>
+                                                                                                                        <Box>
+                                                                                                                        <AttachMoneyIcon sx={{ fontSize: '16px' }} />
+                                                                                                                        </Box>
+                                                                                                                        <Box>
+                                                                                                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{job.payrateMax}</Typography>
+                                                                                                                        </Box>
+                                                                                                                    </Box>) :
+                                                                                                                    (<></>)
+                                                                                                                }
 
                                                                                                             </Stack>
 
@@ -3720,6 +3738,23 @@ const Chatbot = () => {
                                 </Box>)
                                 : (<></>)
 
+                            }
+                            {selectedJobData[0]?.payrateMax ? 
+                                (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingLeft: '29px', marginTop: '5px' }}>
+                                    <Box>
+                                    <AttachMoneyIcon sx={{ fontSize: '16px' }} />
+                                    </Box>
+                                    <Box>
+                                        <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{selectedJobData[0].payrateMin} -</Typography>
+                                    </Box>
+                                    <Box>
+                                    <AttachMoneyIcon sx={{ fontSize: '16px' }} />
+                                    </Box>
+                                    <Box>
+                                        <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{selectedJobData[0].payrateMax}</Typography>
+                                    </Box>
+                                </Box>) :
+                                (<></>)
                             }
 
                         </Stack>

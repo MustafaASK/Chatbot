@@ -2616,7 +2616,7 @@ const Chatbot = () => {
                                                             (<>
                                                                 {msgObj.jobs && msgObj.jobs.length ?
                                                                     (<>
-                                                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', overflow: (msgObj.jobs[0].isRealJob ? "hidden" : ''), height: (msgObj.jobs[0].isRealJob ? "300px" : '100px'), position: 'relative', mr: 1, ml: 1 }}>
+                                                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', overflow: (msgObj.jobs[0].isRealJob ? "hidden" : ''), height: (msgObj.jobs[0].isRealJob ? "340px" : '100px'), position: 'relative', mr: 1, ml: 1 }}>
                                                                             {/* , overflow: 'hidden' */}
 
                                                                             <Stack
@@ -2675,8 +2675,7 @@ const Chatbot = () => {
                                                                                                     bgcolor: 'background.default',
                                                                                                     position: 'relative',
                                                                                                     zIndex: 1,
-                                                                                                    overflowY: "auto",
-                                                                                                    scrollbarWidth: "none"
+
                                                                                                     // transition: 'transform 0.5s ease-in-out',
                                                                                                     // transform: `translateX(-${activeStep * (100 / steps.length)}%)`,
 

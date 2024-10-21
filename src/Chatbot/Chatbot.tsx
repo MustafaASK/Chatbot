@@ -59,6 +59,7 @@ import { formatDate } from "./utills/helper";
 import bmslogo from '../bms-logo/bms-logo-svg.svg'
 import bmsMainLogo from '../bms-logo/bmslatest.png'
 import bmsChildLogo from '../bms-logo/bmslatestchild.png'
+import askBmsLogo from '../bms-logo/ask-bms-logo.png'
 import { REACT_APP_AMAZON_S3_PATH } from "./utills/helper";
 import './Chatbot.css'
 
@@ -435,7 +436,7 @@ const Chatbot = () => {
         let locationHref = window.parent.location.href;
         // console.log(locationHref, 'locationHref')
         const getClientDetails = async (shortName: any) => {
-            // shortName = "qademo";
+            // shortName = "bms";
             try {
                 const resp = await apiService.getClientIdByShortName(shortName)
                 setApiLoaded(true)
@@ -1946,7 +1947,7 @@ const Chatbot = () => {
                             </Stack>
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                                 <div >
-                                    {isBms ? <img src={bmslogo} alt="" style={{ height: '20px', width: '110px', marginRight: '10px' }} /> : ""}
+                                    {isBms ? <img src={askBmsLogo} alt="" style={{ height: '25px', width: '55px', marginRight: '10px' }} /> : ""}
                                 </div>
                                 <Box component='div' onClick={handleExitChatbot} >
                                     <CloseSharpIcon sx={{ color: isBms ? '#333333' : '#ffffff', fontSize: '18px', cursor: 'pointer' }} />

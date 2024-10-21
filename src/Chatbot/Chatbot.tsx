@@ -259,7 +259,7 @@ const Chatbot = () => {
     const [clientIdfromParent, setClientId] = useState<any>(null);
     const [jobHours, setJobHours] = useState<any>({
         "1": "Full Time",
-        "2": "Part Time", 
+        "2": "Part Time",
     });
     const [jobTypesList, setJobTypesList] = useState<any>({
         "1": "Permanent",
@@ -589,7 +589,7 @@ const Chatbot = () => {
                 setMessagesList([...filter_messages]);
                 dataToPass.metadata.user_id = response?.data?.userId.toString();
                 sendValue(null, `candid ${response.data.userId}`)
-                localStorage.setItem("userId", response.data.userId) 
+                localStorage.setItem("userId", response.data.userId)
                 localStorage.setItem("userData", JSON.stringify(response.data))
                 sendLoggedDataToParent(response.data)
             } else {
@@ -1381,7 +1381,7 @@ const Chatbot = () => {
 
                                         console.log(newObject, 'newObject')
                                     }
-                                    if (obj.custom?.ui_component && obj.custom.ui_component === "ssn"){
+                                    if (obj.custom?.ui_component && obj.custom.ui_component === "ssn") {
                                         setIsSSN(true)
                                     } else {
                                         setIsSSN(false)
@@ -1618,7 +1618,7 @@ const Chatbot = () => {
     }, [JSON.stringify(selectedAnyBtn)])
 
     var actVal = "";
-    function checkSSN(event:any) {
+    function checkSSN(event: any) {
         if (event?.target?.value.length == 9) {
             return false
         }
@@ -1639,13 +1639,13 @@ const Chatbot = () => {
 
     var actualSSN = '';
     var pattern = /^[0-9]+$/;
-    const converToSSN = (event:any) => {
+    const converToSSN = (event: any) => {
         const enteredkey = event.key;
         const keyCode = event.keyCode;
         const matched = enteredkey.match(pattern);
         console.log(matched);
-        if(keyCode !== 8 && keyCode !== 32 && keyCode !== 13 && matched && inputValue.length < 9){
-            
+        if (keyCode !== 8 && keyCode !== 32 && keyCode !== 13 && matched && inputValue.length < 9) {
+
             actualSSN = inputValue + enteredkey;
             const semiMask = maskedData + enteredkey;
             setMaskedData(semiMask);
@@ -1656,7 +1656,7 @@ const Chatbot = () => {
             }, 500);
 
         }
-        if(keyCode === 8){
+        if (keyCode === 8) {
             const delSubstr = inputValue.substring(0, inputValue.length - 1);
             setInputValue(delSubstr);
             const stars = delSubstr.replace(/./g, '*');
@@ -2617,7 +2617,7 @@ const Chatbot = () => {
                                                             (<>
                                                                 {msgObj.jobs && msgObj.jobs.length ?
                                                                     (<>
-                                                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', overflow: (msgObj.jobs[0].isRealJob ? "hidden" : ''), height: (msgObj.jobs[0].isRealJob ? "300px" : '100px'), position: 'relative', mr: 1, ml: 1 }}>
+                                                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', overflow: (msgObj.jobs[0].isRealJob ? "hidden" : ''), height: (msgObj.jobs[0].isRealJob ? "340px" : '100px'), position: 'relative', mr: 1, ml: 1 }}>
                                                                             {/* , overflow: 'hidden' */}
 
                                                                             <Stack
@@ -2676,6 +2676,7 @@ const Chatbot = () => {
                                                                                                     bgcolor: 'background.default',
                                                                                                     position: 'relative',
                                                                                                     zIndex: 1,
+
                                                                                                     // transition: 'transform 0.5s ease-in-out',
                                                                                                     // transform: `translateX(-${activeStep * (100 / steps.length)}%)`,
 
@@ -2713,10 +2714,10 @@ const Chatbot = () => {
                                                                                                                     </Box>
                                                                                                                 </Box>
                                                                                                                 {/* HeightIcon */}
-                                                                                                                {job.jobType ? 
+                                                                                                                {job.jobType ?
                                                                                                                     (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingLeft: '29px', marginTop: '5px' }}>
                                                                                                                         <Box>
-                                                                                                                            <WorkOutlineIcon sx={{ fontSize: '16px' }} /> 
+                                                                                                                            <WorkOutlineIcon sx={{ fontSize: '16px' }} />
                                                                                                                         </Box>
                                                                                                                         <Box sx={{ pl: '10px' }}>
                                                                                                                             <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{jobTypesList[job.jobType]}</Typography>
@@ -2724,10 +2725,10 @@ const Chatbot = () => {
                                                                                                                     </Box>) :
                                                                                                                     (<></>)
                                                                                                                 }
-                                                                                                                {job.jobHours ? 
+                                                                                                                {job.jobHours ?
                                                                                                                     (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingLeft: '29px', marginTop: '5px' }}>
                                                                                                                         <Box>
-                                                                                                                            <HeightIcon sx={{ fontSize: '16px',rotate: '90deg' }} /> 
+                                                                                                                            <HeightIcon sx={{ fontSize: '16px', rotate: '90deg' }} />
                                                                                                                         </Box>
                                                                                                                         <Box sx={{ pl: '10px' }}>
                                                                                                                             <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{jobHours[job.jobHours]}</Typography>
@@ -2735,16 +2736,16 @@ const Chatbot = () => {
                                                                                                                     </Box>) :
                                                                                                                     (<></>)
                                                                                                                 }
-                                                                                                                {job.payrateMax ? 
+                                                                                                                {job.payrateMax ?
                                                                                                                     (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingLeft: '29px', marginTop: '5px' }}>
                                                                                                                         <Box>
-                                                                                                                        <AttachMoneyIcon sx={{ fontSize: '16px' }} />
+                                                                                                                            <AttachMoneyIcon sx={{ fontSize: '16px' }} />
                                                                                                                         </Box>
                                                                                                                         <Box>
                                                                                                                             <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{job.payrateMin} -</Typography>
                                                                                                                         </Box>
                                                                                                                         <Box>
-                                                                                                                        <AttachMoneyIcon sx={{ fontSize: '16px' }} />
+                                                                                                                            <AttachMoneyIcon sx={{ fontSize: '16px' }} />
                                                                                                                         </Box>
                                                                                                                         <Box>
                                                                                                                             <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{job.payrateMax}</Typography>
@@ -3510,86 +3511,86 @@ const Chatbot = () => {
                                 />
 
                                 :
-                                isSSN ? 
+                                isSSN ?
 
-                                <TextField
-                                    placeholder={placeHolderText}
-                                    // disabled={isTermAccept ? false : true}
-                                    onKeyDown={converToSSN}
-                                    // onKeyDown={handleKeyDown}
-                                    fullWidth
-                                    disabled={disableBtn}
-                                    // value={inputValue}
-                                    value={maskedData}
-                                    // onChange={handleInputChange}
-                                    // onChange={converToSSN}
-                                    InputProps={{
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <TelegramIcon sx={{ cursor: 'pointer', color: isBms ? '#BC2BB8' : '#919191' }} onClick={sendTextMessage} />
-                                            </InputAdornment>
-                                        ),
-                                    }}
+                                    <TextField
+                                        placeholder={placeHolderText}
+                                        // disabled={isTermAccept ? false : true}
+                                        onKeyDown={converToSSN}
+                                        // onKeyDown={handleKeyDown}
+                                        fullWidth
+                                        disabled={disableBtn}
+                                        // value={inputValue}
+                                        value={maskedData}
+                                        // onChange={handleInputChange}
+                                        // onChange={converToSSN}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <TelegramIcon sx={{ cursor: 'pointer', color: isBms ? '#BC2BB8' : '#919191' }} onClick={sendTextMessage} />
+                                                </InputAdornment>
+                                            ),
+                                        }}
 
-                                    sx={{
-                                        '& .MuiInputBase-input.MuiOutlinedInput-input': {
-                                            padding: '5px 10px',
-                                            fontSize: '14px',
-                                            height: '20px'
-                                        },
-                                        '& .MuiInputBase-root.MuiOutlinedInput-root ': {
-                                            borderRadius: '15px',
-                                            backgroundColor: '#fff'
-                                        },
-                                        '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-                                            borderColor: '#E6E6E6',
+                                        sx={{
+                                            '& .MuiInputBase-input.MuiOutlinedInput-input': {
+                                                padding: '5px 10px',
+                                                fontSize: '14px',
+                                                height: '20px'
+                                            },
+                                            '& .MuiInputBase-root.MuiOutlinedInput-root ': {
+                                                borderRadius: '15px',
+                                                backgroundColor: '#fff'
+                                            },
+                                            '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: '#E6E6E6',
 
-                                        },
-                                        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                            borderColor: '#E6E6E6',
-                                            borderWidth: '1px'
+                                            },
+                                            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: '#E6E6E6',
+                                                borderWidth: '1px'
 
-                                        },
-                                    }}
-                                /> :
-                                
+                                            },
+                                        }}
+                                    /> :
 
-                                <TextField
-                                    placeholder={placeHolderText}
-                                    // disabled={isTermAccept ? false : true}
-                                    onKeyDown={handleKeyDown}
-                                    fullWidth
-                                    value={inputValue}
-                                    onChange={handleInputChange}
-                                    InputProps={{
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <TelegramIcon sx={{ cursor: 'pointer', color: isBms ? '#BC2BB8' : '#919191' }} onClick={sendTextMessage} />
-                                            </InputAdornment>
-                                        ),
-                                    }}
 
-                                    sx={{
-                                        '& .MuiInputBase-input.MuiOutlinedInput-input': {
-                                            padding: '5px 10px',
-                                            fontSize: '14px',
-                                            height: '20px'
-                                        },
-                                        '& .MuiInputBase-root.MuiOutlinedInput-root ': {
-                                            borderRadius: '15px',
-                                            backgroundColor: '#fff'
-                                        },
-                                        '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-                                            borderColor: '#E6E6E6',
+                                    <TextField
+                                        placeholder={placeHolderText}
+                                        // disabled={isTermAccept ? false : true}
+                                        onKeyDown={handleKeyDown}
+                                        fullWidth
+                                        value={inputValue}
+                                        onChange={handleInputChange}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <TelegramIcon sx={{ cursor: 'pointer', color: isBms ? '#BC2BB8' : '#919191' }} onClick={sendTextMessage} />
+                                                </InputAdornment>
+                                            ),
+                                        }}
 
-                                        },
-                                        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                            borderColor: '#E6E6E6',
-                                            borderWidth: '1px'
+                                        sx={{
+                                            '& .MuiInputBase-input.MuiOutlinedInput-input': {
+                                                padding: '5px 10px',
+                                                fontSize: '14px',
+                                                height: '20px'
+                                            },
+                                            '& .MuiInputBase-root.MuiOutlinedInput-root ': {
+                                                borderRadius: '15px',
+                                                backgroundColor: '#fff'
+                                            },
+                                            '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: '#E6E6E6',
 
-                                        },
-                                    }}
-                                />
+                                            },
+                                            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: '#E6E6E6',
+                                                borderWidth: '1px'
+
+                                            },
+                                        }}
+                                    />
                         }
 
 
@@ -3694,19 +3695,19 @@ const Chatbot = () => {
                         <Stack sx={{ pb: '15px', borderBottom: '1px solid lightgrey' }} direction='column' spacing={2}>
 
                             <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{selectedJobData[0]?.jobTitle}</Typography>
-                            {(selectedJobData[0]?.workCity || selectedJobData[0]?.workState) ? 
-                            <>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                                <Box>
-                                    <LocationOnOutlinedIcon sx={{ fontSize: '18px' }} />
-                                </Box>
-                                <Box sx={{ pl: '10px' }}>
-                                    <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{selectedJobData[0]?.workCity + ', ' + selectedJobData[0]?.workState + (selectedJobData[0]?.workZipcode ? ', ' + selectedJobData[0]?.workZipcode : '')}</Typography>
+                            {(selectedJobData[0]?.workCity || selectedJobData[0]?.workState) ?
+                                <>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                        <Box>
+                                            <LocationOnOutlinedIcon sx={{ fontSize: '18px' }} />
+                                        </Box>
+                                        <Box sx={{ pl: '10px' }}>
+                                            <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{selectedJobData[0]?.workCity + ', ' + selectedJobData[0]?.workState + (selectedJobData[0]?.workZipcode ? ', ' + selectedJobData[0]?.workZipcode : '')}</Typography>
 
-                                    {/* <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography> */}
-                                </Box>
-                            </Box></> :
-                             <></>}
+                                            {/* <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>+11 locations</Typography> */}
+                                        </Box>
+                                    </Box></> :
+                                <></>}
 
                             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                                 <Box>
@@ -3715,7 +3716,7 @@ const Chatbot = () => {
                                 <Box sx={{ pl: '10px' }}>
                                     <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>Posted {getDateFormat(selectedJobData[0]?.createDate)}</Typography>
                                 </Box>
-                            </Box>                             
+                            </Box>
                             {selectedJobData[0]?.jobType ?
                                 (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                                     <Box>
@@ -3731,7 +3732,7 @@ const Chatbot = () => {
                             {selectedJobData[0]?.jobHours ?
                                 (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                                     <Box>
-                                    <HeightIcon sx={{ fontSize: '16px',rotate: '90deg' }} />
+                                        <HeightIcon sx={{ fontSize: '16px', rotate: '90deg' }} />
                                     </Box>
                                     <Box sx={{ pl: '10px' }}>
                                         <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{jobHours[selectedJobData[0]?.jobHours]}</Typography>
@@ -3740,16 +3741,16 @@ const Chatbot = () => {
                                 : (<></>)
 
                             }
-                            {selectedJobData[0]?.payrateMax ? 
+                            {selectedJobData[0]?.payrateMax ?
                                 (<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingLeft: '29px', marginTop: '5px' }}>
                                     <Box>
-                                    <AttachMoneyIcon sx={{ fontSize: '16px' }} />
+                                        <AttachMoneyIcon sx={{ fontSize: '16px' }} />
                                     </Box>
                                     <Box>
                                         <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{selectedJobData[0].payrateMin} -</Typography>
                                     </Box>
                                     <Box>
-                                    <AttachMoneyIcon sx={{ fontSize: '16px' }} />
+                                        <AttachMoneyIcon sx={{ fontSize: '16px' }} />
                                     </Box>
                                     <Box>
                                         <Typography sx={{ fontSize: '12px', fontWeight: 400 }}>{selectedJobData[0].payrateMax}</Typography>

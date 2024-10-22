@@ -61,6 +61,7 @@ import bmsMainLogo from '../bms-logo/bmslatest.png'
 import bmsChildLogo from '../bms-logo/bmslatestchild.png'
 import askBmsLogo from '../bms-logo/ask-bms-logo.png'
 import { REACT_APP_AMAZON_S3_PATH } from "./utills/helper";
+import FormFields from "./FormFields";
 import './Chatbot.css'
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -436,7 +437,7 @@ const Chatbot = () => {
         let locationHref = window.parent.location.href;
         // console.log(locationHref, 'locationHref')
         const getClientDetails = async (shortName: any) => {
-            // shortName = "bms";
+            // shortName = "qademo";
             try {
                 const resp = await apiService.getClientIdByShortName(shortName)
                 setApiLoaded(true)
@@ -3114,6 +3115,39 @@ const Chatbot = () => {
                                     : (<></>)
                                 }
                             </div>
+
+                            {/* Surendra */}
+
+                            {/* <Stack direction='row' spacing={0.5} p={0.5} mr={5}>
+
+                                <Stack sx={{ pl: '6px' }}>
+                                    {isBms ?
+                                        (<img src={bmsChildLogo} style={{
+                                            height: '35px', width: '35px',
+                                            borderRadius: "50%",
+                                            // boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' 
+                                        }} alt="chatbot" />)
+                                        :
+                                        (
+                                            <img src={customerLogo ? customerLogo : customerFace} style={{
+                                                height: '35px', width: '35px',
+                                                borderRadius: "50%",
+                                                // boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.5)' 
+                                            }} alt="chatbot" />
+                                        )}
+
+                                </Stack>
+                                <Stack sx=
+                                    {{
+                                        backgroundColor: isBms ? '#F9F2F2' : '#eaeeed', borderRadius: '24px', p: 0.5, borderBottomLeftRadius: "5px", outline: "1px solid transparent", boxShadow: isBms ? '0px 2px 3px 0px #0000001F' : '',
+                                    }}
+                                >
+                                    <Typography component='p' sx={{ color: 'black', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
+                                        Please enter your details:
+                                    </Typography>
+                                </Stack>
+                            </Stack> */}
+                            <FormFields />
 
                         </ReactScrolableFeed>
                     </Stack>

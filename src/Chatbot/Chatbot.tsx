@@ -215,7 +215,8 @@ const Chatbot = () => {
     const location = useLocation();
     let checkUseEffectLoad = false;
     const params = new URLSearchParams(location.search);
-    const queryParam = params.get('2820');
+    // const queryParam = params.get('2820');
+    const queryParam = params.get('job_id');
     let tempchatbotType = null;
     const chatbotType = localStorage.getItem("chatbotType");//params.get('type');
     //   alert(chatbotType);
@@ -834,8 +835,8 @@ const Chatbot = () => {
         }
 
         setMessagesList(prevArray => [...prevArray, obj]);
-        // ${jobData.jobId}
-        dataToPass.message = `/input_select_job{"select_job": "2820"}`
+        // dataToPass.message = `/input_select_job{"select_job": "2820"}`
+        dataToPass.message = `/input_select_job{"select_job": "${jobData.jobId}"}`
         dataToPass.metadata.job_location = ipLocation;
         dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null
         // dataToPass.message = type === "input_job_title" ? `/${type}{"job_title": "${value}"}` : `/${type}{"job_location": "${value}"}`;

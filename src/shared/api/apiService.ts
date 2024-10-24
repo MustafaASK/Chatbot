@@ -12,8 +12,8 @@ import axios from 'axios';
 // const Url171 = (process.env.NODE_ENV === "development" || window.location.protocol === 'http:') ? "http://52.40.250.118:8888/webhooks/rest/" : "https://chatbot.curately.ai/webhooks/rest/";
 // const fileUploadUrl = (process.env.NODE_ENV === "development" || window.location.protocol === 'http:') ? "http://52.40.250.118:8888/" : "https://chatbot.curately.ai/";
 
-const Url171 = (process.env.NODE_ENV === "development" || window.location.protocol === 'http:') ? "https://chatbot1.curately.ai/webhooks/rest/" : "https://chatbot1.curately.ai/webhooks/rest/";
-const fileUploadUrl = (process.env.NODE_ENV === "development" || window.location.protocol === 'http:') ? "https://chatbot1.curately.ai/" : "https://chatbot1.curately.ai/";
+const Url171 = (process.env.NODE_ENV === "development" || window.location.protocol === 'http:') ? "https://chatbotqa.curately.ai/webhooks/rest/" : "https://chatbotqa.curately.ai/webhooks/rest/";
+const fileUploadUrl = (process.env.NODE_ENV === "development" || window.location.protocol === 'http:') ? "https://chatbotqa.curately.ai/" : "https://chatbotqa.curately.ai/";
 
 //qa: chatbotqa
 

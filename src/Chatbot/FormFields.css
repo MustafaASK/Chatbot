@@ -154,7 +154,7 @@
 }
 
 .nps-container {
-    padding: 10px 19px;
+    padding: 10px 50px;
     /* width: 100%; */
     margin-bottom: 20px;
 }
@@ -277,7 +277,7 @@
 
 
 .rating-form-container {
-    padding: 10px 19px;
+    padding: 10px 50px;
     margin-bottom: 20px;
 }
 
@@ -303,7 +303,8 @@
 
 .custom-rating-stars {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    width: fit-content;
     color: #007bff;
 }
 
@@ -322,7 +323,7 @@
 
 
 .ranking-form-container {
-    padding: 10px 19px;
+    padding: 10px 50px;
     margin-bottom: 20px;
 }
 

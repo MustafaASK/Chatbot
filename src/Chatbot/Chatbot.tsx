@@ -62,6 +62,9 @@ import bmsChildLogo from '../bms-logo/bmslatestchild.png'
 import askBmsLogo from '../bms-logo/ask-bms-logo.png'
 import { REACT_APP_AMAZON_S3_PATH } from "./utills/helper";
 import FormFields from "./FormFields";
+import GoogleAutocomplete from "./GoogleAutocomplete";
+import DatePickerField from "./DatePicker";
+import dayjs, { Dayjs } from 'dayjs';
 import './Chatbot.css'
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -200,12 +203,19 @@ type PayloadObj = {
 
 const test = ['Available Now', 'Available Soon', 'Passively Looking', 'Not Looking']
 
+const formFields = [
+    "netprometer",
+    "opinionscale",
+    "rating",
+    "ranking",
+]
+
 const Chatbot = () => {
 
     const location = useLocation();
     let checkUseEffectLoad = false;
     const params = new URLSearchParams(location.search);
-    const queryParam = params.get('job_id');
+    const queryParam = params.get('2820');
     let tempchatbotType = null;
     const chatbotType = localStorage.getItem("chatbotType");//params.get('type');
     //   alert(chatbotType);
@@ -225,6 +235,8 @@ const Chatbot = () => {
     const [placeHolderText, setPlaceHolderText] = useState('Type your message');
     const [enableAuto, setEnableAuto] = useState(false);
     const [isSSN, setIsSSN] = useState(false);
+    const [isAddress, setIsAddress] = useState(false);
+    const [isDate, setIsDate] = useState(false);
     const [newSteps, setNewSteps] = React.useState<any[] | never[]>([]);
     const [isReadmore, setIsReadMore] = useState(false)
     const [selectedJobData, setSelectedJobData] = React.useState<any[] | never[]>([]);
@@ -823,7 +835,7 @@ const Chatbot = () => {
 
         setMessagesList(prevArray => [...prevArray, obj]);
         // ${jobData.jobId}
-        dataToPass.message = `/input_select_job{"select_job": "${jobData.jobId}"}`
+        dataToPass.message = `/input_select_job{"select_job": "2820"}`
         dataToPass.metadata.job_location = ipLocation;
         dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null
         // dataToPass.message = type === "input_job_title" ? `/${type}{"job_title": "${value}"}` : `/${type}{"job_location": "${value}"}`;
@@ -1031,8 +1043,8 @@ const Chatbot = () => {
     }
 
     const handleKeyDown = (event: any) => {
-        console.log(event.keyCode);
-        console.log(event);
+        // console.log(event.keyCode);
+        // console.log(event);
         if (event.key === 'Enter') {
             setIsReload((prevState) => !prevState)
             // 👇 Get input value
@@ -1275,7 +1287,9 @@ const Chatbot = () => {
     }, [clientDetailsLoaded]);
 
 
-
+    const [rankOptions, setRankOptions] = useState<any>([])
+    const [netprometerOptions, setNetprometerOptions] = useState<any>([])
+    const [opinionOptions, setopinionOptions] = useState<any>([])
     const getTableData = () => {
         // alert(randStr);
         setInputValue('');
@@ -1307,6 +1321,8 @@ const Chatbot = () => {
                                 const newObject = obj;
                                 newObject.sent = false;
                                 setIsSSN(false)
+                                setIsAddress(false)
+                                setIsDate(false)
                                 newObject.jobs = [];
                                 newObject.hideBtns = (newObject.buttons && newObject.buttons.length) ? false : true
                                 if (obj.custom && Object.keys(obj.custom).length) {
@@ -1341,6 +1357,17 @@ const Chatbot = () => {
                                         newObject.show = true;
                                         setSeek(obj.custom.options);
                                         setseekEmployementSubmt(false)
+                                    }
+                                    if (obj.custom?.ui_component && obj.custom.ui_component === "ranking") {
+                                        setRankOptions(obj.custom.ranks);
+
+                                    }
+
+                                    if (obj.custom?.ui_component && obj.custom.ui_component === "netprometer") {
+                                        setNetprometerOptions(obj.custom.choices)
+                                    }
+                                    if (obj.custom?.ui_component && obj.custom.ui_component === "opinionscale") {
+                                        setopinionOptions(obj.custom.choices)
                                     }
 
                                     if (obj.custom?.ui_component && obj.custom.ui_component === "workflow" && obj.custom.workflow_url != '') {
@@ -1384,9 +1411,20 @@ const Chatbot = () => {
                                     }
                                     if (obj.custom?.ui_component && obj.custom.ui_component === "ssn") {
                                         setIsSSN(true)
+                                        setIsAddress(false)
+                                        setIsDate(false)
+                                    } else if (obj.custom?.ui_component && obj.custom.ui_component === "address") {
+                                        setIsAddress(true)
+                                        setIsSSN(false)
+                                        setIsDate(false)
+                                    } else if (obj.custom?.ui_component && obj.custom.ui_component === "datepicker") {
+                                        setIsDate(true)
+                                        setIsSSN(false)
+                                        setIsAddress(false)
                                     } else {
                                         setIsSSN(false)
-
+                                        setIsAddress(false)
+                                        setIsDate(false)
                                     }
                                     sessionStorage.setItem("isLoadedFirsttime", 'false')
 
@@ -1737,6 +1775,136 @@ const Chatbot = () => {
         setSingleSelected(msgObj.title)
     }
 
+    // Function to handle rating update
+    const handleRatingUpdate = (newRating: any, msgObj: any) => {
+
+        let obj = {
+            "text": newRating,
+            "rating": newRating,
+            "payload": "",
+            "sent": true,
+            "metadata": {
+                "job_id": (queryParam ? queryParam : "1")
+            }
+        }
+        // Log the rating and message object
+        // sendMessage({title: newRating}, obj)
+        dataToPass.message = `${newRating}`;
+        dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null
+        dataToPass.metadata.job_location = ipLocation;
+        setMessagesList(prevArray => [...prevArray, obj]);
+        getTableData()
+    };
+
+    const handleRankingUpdate = (Ranks: any) => {
+        console.log('Ranks', Ranks)
+        const rankingText = Ranks.map((item: any) => item.value).join(", ");
+        let obj = {
+            "text": rankingText,
+            "ranking": Ranks,
+            "payload": "",
+            "sent": true,
+            "metadata": {
+                "job_id": (queryParam ? queryParam : "1")
+            }
+        }
+        // Log the rating and message object
+        // sendMessage({title: newRating}, obj)
+        dataToPass.message = rankingText;
+        dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null
+        dataToPass.metadata.job_location = ipLocation;
+        setMessagesList(prevArray => [...prevArray, obj]);
+        getTableData()
+    };
+
+    const [address, setAddress] = useState<any>({}); // Holds selected address details
+
+    const handlePlaceSelected = (place: any) => {
+        setAddress(place); // Update the state with selected place details
+
+        let obj = {
+            "text": place.text,
+            "address": place,
+            "payload": "",
+            "sent": true,
+            "metadata": {
+                "job_id": (queryParam ? queryParam : "1")
+            }
+        }
+        // Log the rating and message object
+        // sendMessage({title: newRating}, obj)
+        dataToPass.message = place.text;
+        dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null
+        dataToPass.metadata.job_location = ipLocation;
+        setMessagesList(prevArray => [...prevArray, obj]);
+        getTableData()
+    };
+
+    const handleInputClear = () => {
+        setAddress({}); // Clear the address when input is cleared
+    };
+
+    const handleDateSubmit = (date: Dayjs | null) => {
+        if (date) {
+            console.log("Selected Date:", date.format('MM-DD-YYYY'));
+
+            let obj = {
+                "text": `${date.format('MM-DD-YYYY')}`,
+                "datepicker": date,
+                "payload": "",
+                "sent": true,
+                "metadata": {
+                    "job_id": (queryParam ? queryParam : "1")
+                }
+            }
+
+            dataToPass.message = `${date.format('MM-DD-YYYY')}`;
+            dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null
+            dataToPass.metadata.job_location = ipLocation;
+            setMessagesList(prevArray => [...prevArray, obj]);
+            getTableData()
+        }
+    };
+
+
+    const handleNetPrometer = (score: any) => {
+
+        let obj = {
+            "text": `${score}`,
+            "netprometer": score,
+            "payload": "",
+            "sent": true,
+            "metadata": {
+                "job_id": (queryParam ? queryParam : "1")
+            }
+        }
+
+        dataToPass.message = `${score}`;
+        dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null
+        dataToPass.metadata.job_location = ipLocation;
+        setMessagesList(prevArray => [...prevArray, obj]);
+        getTableData()
+    }
+
+    const handleOpinionScaleUpdate = (score: any) => {
+
+        let obj = {
+            "text": `${score}`,
+            "opinionscale": score,
+            "payload": "",
+            "sent": true,
+            "metadata": {
+                "job_id": (queryParam ? queryParam : "1")
+            }
+        }
+
+        dataToPass.message = `${score}`;
+        dataToPass.metadata.user_id = localStorage.getItem("userId") ? localStorage.getItem("userId") : null
+        dataToPass.metadata.job_location = ipLocation;
+        setMessagesList(prevArray => [...prevArray, obj]);
+        getTableData()
+    }
+
     return (
         <Stack sx={{
             display: (apiLoaded ? 'flex' : 'none'), flexDirection: 'row', justifyContent: 'flex-end',
@@ -1957,7 +2125,7 @@ const Chatbot = () => {
                         </Stack>
                     </Stack>
 
-                    {/* {isTermAccept ? */}
+                    {/* {center container */}
                     <Stack ref={scrollRef}
                         id='content-container'
                         sx={{
@@ -2439,7 +2607,7 @@ const Chatbot = () => {
 
                                                                         ) : (
                                                                             <Typography component='p' sx={{ color: '#ffffff', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
-                                                                                {msgObj.text}
+                                                                                {msgObj.text} {/* all text */}
                                                                             </Typography>
                                                                         )}
                                                                     </>
@@ -2998,6 +3166,7 @@ const Chatbot = () => {
                                                                                             }}
                                                                                         >
                                                                                             <Typography component='p' sx={{ color: 'black', padding: '5px', textAlign: 'left', fontSize: "13px" }}>
+                                                                                                {/*left side All Question text display*/}
                                                                                                 {textWithLineBreaks(msgObj.text)}
                                                                                             </Typography>
                                                                                         </Stack>
@@ -3085,6 +3254,22 @@ const Chatbot = () => {
                                                     </>)
                                                 }
 
+                                                {formFields.includes(msgObj.custom?.ui_component) &&
+                                                    <>
+                                                        <FormFields
+                                                            msgObj={msgObj}
+                                                            onRatingChange={handleRatingUpdate}
+                                                            rankOptions={rankOptions}
+                                                            netprometerOptions={netprometerOptions}
+                                                            opinionOptions={opinionOptions}
+                                                            onRankingChange={handleRankingUpdate}
+                                                            isBms={isBms}
+                                                            onNetprometerUpdate={handleNetPrometer}
+                                                            onOpinionScaleUpdate={handleOpinionScaleUpdate}
+                                                        />
+                                                    </>
+                                                }
+
                                             </>)}
                                     </>
                                 ))}
@@ -3147,7 +3332,6 @@ const Chatbot = () => {
                                     </Typography>
                                 </Stack>
                             </Stack> */}
-                            <FormFields />
 
                         </ReactScrolableFeed>
                     </Stack>
@@ -3268,7 +3452,7 @@ const Chatbot = () => {
                     {/* </>
                     } */}
                     <Stack
-                        id='send-container'
+                        id='send-container'  //Bottom Container
                         direction="row" alignItems="center" pt='2%' mr={1} ml={1} pb='2%'
                         sx={{ borderTop: '1px solid lightgrey', bottom: '0px' }}
                         spacing={1}
@@ -3545,86 +3729,106 @@ const Chatbot = () => {
                                 />
 
                                 :
-                                isSSN ?
+                                <>
+                                    {isSSN &&
+                                        <TextField
+                                            placeholder={placeHolderText}
+                                            // disabled={isTermAccept ? false : true}
+                                            onKeyDown={converToSSN}
+                                            // onKeyDown={handleKeyDown}
+                                            fullWidth
+                                            disabled={disableBtn}
+                                            // value={inputValue}
+                                            value={maskedData}
+                                            // onChange={handleInputChange}
+                                            // onChange={converToSSN}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <TelegramIcon sx={{ cursor: 'pointer', color: isBms ? '#BC2BB8' : '#919191' }} onClick={sendTextMessage} />
+                                                    </InputAdornment>
+                                                ),
+                                            }}
 
-                                    <TextField
-                                        placeholder={placeHolderText}
-                                        // disabled={isTermAccept ? false : true}
-                                        onKeyDown={converToSSN}
-                                        // onKeyDown={handleKeyDown}
-                                        fullWidth
-                                        disabled={disableBtn}
-                                        // value={inputValue}
-                                        value={maskedData}
-                                        // onChange={handleInputChange}
-                                        // onChange={converToSSN}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <TelegramIcon sx={{ cursor: 'pointer', color: isBms ? '#BC2BB8' : '#919191' }} onClick={sendTextMessage} />
-                                                </InputAdornment>
-                                            ),
-                                        }}
+                                            sx={{
+                                                '& .MuiInputBase-input.MuiOutlinedInput-input': {
+                                                    padding: '5px 10px',
+                                                    fontSize: '14px',
+                                                    height: '20px'
+                                                },
+                                                '& .MuiInputBase-root.MuiOutlinedInput-root ': {
+                                                    borderRadius: '15px',
+                                                    backgroundColor: '#fff'
+                                                },
+                                                '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#E6E6E6',
 
-                                        sx={{
-                                            '& .MuiInputBase-input.MuiOutlinedInput-input': {
-                                                padding: '5px 10px',
-                                                fontSize: '14px',
-                                                height: '20px'
-                                            },
-                                            '& .MuiInputBase-root.MuiOutlinedInput-root ': {
-                                                borderRadius: '15px',
-                                                backgroundColor: '#fff'
-                                            },
-                                            '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-                                                borderColor: '#E6E6E6',
+                                                },
+                                                '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#E6E6E6',
+                                                    borderWidth: '1px'
 
-                                            },
-                                            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                                borderColor: '#E6E6E6',
-                                                borderWidth: '1px'
+                                                },
+                                            }}
+                                        />
+                                    }
 
-                                            },
-                                        }}
-                                    /> :
+                                    {isAddress &&
+                                        <>
+                                            <GoogleAutocomplete
+                                                onPlaceSelected={handlePlaceSelected}
+                                                onInputClear={handleInputClear}
+                                                value={address?.text || ""}
+                                            />
+                                        </>}
 
+                                    {isDate &&
+                                        <>
+                                            <DatePickerField
+                                                onDateSubmit={handleDateSubmit}
+                                            />
+                                        </>}
 
-                                    <TextField
-                                        placeholder={placeHolderText}
-                                        // disabled={isTermAccept ? false : true}
-                                        onKeyDown={handleKeyDown}
-                                        fullWidth
-                                        value={inputValue}
-                                        onChange={handleInputChange}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <TelegramIcon sx={{ cursor: 'pointer', color: isBms ? '#BC2BB8' : '#919191' }} onClick={sendTextMessage} />
-                                                </InputAdornment>
-                                            ),
-                                        }}
+                                    {!isSSN && !isDate && !isAddress &&
+                                        <TextField
+                                            placeholder={placeHolderText}
+                                            // disabled={isTermAccept ? false : true}
+                                            onKeyDown={handleKeyDown}
+                                            fullWidth
+                                            value={inputValue}
+                                            onChange={handleInputChange}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <TelegramIcon sx={{ cursor: 'pointer', color: isBms ? '#BC2BB8' : '#919191' }} onClick={sendTextMessage} />
+                                                    </InputAdornment>
+                                                ),
+                                            }}
 
-                                        sx={{
-                                            '& .MuiInputBase-input.MuiOutlinedInput-input': {
-                                                padding: '5px 10px',
-                                                fontSize: '14px',
-                                                height: '20px'
-                                            },
-                                            '& .MuiInputBase-root.MuiOutlinedInput-root ': {
-                                                borderRadius: '15px',
-                                                backgroundColor: '#fff'
-                                            },
-                                            '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-                                                borderColor: '#E6E6E6',
+                                            sx={{
+                                                '& .MuiInputBase-input.MuiOutlinedInput-input': {
+                                                    padding: '5px 10px',
+                                                    fontSize: '14px',
+                                                    height: '20px'
+                                                },
+                                                '& .MuiInputBase-root.MuiOutlinedInput-root ': {
+                                                    borderRadius: '15px',
+                                                    backgroundColor: '#fff'
+                                                },
+                                                '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#E6E6E6',
 
-                                            },
-                                            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                                borderColor: '#E6E6E6',
-                                                borderWidth: '1px'
+                                                },
+                                                '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#E6E6E6',
+                                                    borderWidth: '1px'
 
-                                            },
-                                        }}
-                                    />
+                                                },
+                                            }}
+                                        />
+                                    }
+
+                                </>
                         }
 
 
